@@ -1,0 +1,6 @@
+Sem vlož screenshoty portfoliových projektů:
+- kavarna.jpg    → screenshot z https://kav-rna-sv.vercel.app
+- aufgehts.jpg   → screenshot z https://auf-gehts-cz-56ly.vercel.app
+- hairdeluxe.jpg → screenshot z https://hair-deluxe-jo.vercel.app
+
+Doporučené rozměry: 1440×900 px, JPG kvalita 85

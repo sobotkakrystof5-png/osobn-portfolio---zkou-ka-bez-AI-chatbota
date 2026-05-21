@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── VIZEON Design Tokens ─────────────────────────── */
+:root {
+  --bg-primary:    #080808;
+  --bg-secondary:  #0e0e0e;
+  --bg-card:       #111111;
+  --bg-elevated:   #161616;
+  --accent:        #c9a84c;
+  --accent-hover:  #d4b968;
+  --accent-dim:    rgba(201,168,76,0.12);
+  --text-primary:  #f0ece6;
+  --text-secondary:#8a8070;
+  --text-muted:    #3d3830;
+  --border:        rgba(255,255,255,0.06);
+  --border-accent: rgba(201,168,76,0.2);
+  --glow:          0 0 40px rgba(201,168,76,0.08);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #080808; }
+::-webkit-scrollbar-thumb { background: #2a2520; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #c9a84c; }
+
+/* ─── Skip to content ───────────────────────────────── */
+.skip-to-content {
+  position: absolute; top: -100%; left: 1rem; z-index: 9999;
+  background: var(--accent); color: #080808;
+  padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 500;
+  border-radius: 2px; transition: top 0.2s ease;
+}
+.skip-to-content:focus { top: 1rem; }
+
+/* ─── Scroll snap (mobile testimonials) ─────────────── */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-snap-start { scroll-snap-align: start; }
+
+/* ─── Animace: scroll linka ─────────────────────────── */
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+.scroll-line { animation: scrollLine 2s ease-in-out infinite; }
+
+/* ─── FAQ linka ──────────────────────────────────────── */
+@keyframes expandLine { from { width: 0; } to { width: 100%; } }
+.faq-line-expand { animation: expandLine 0.4s ease-out forwards; }
+
+/* ─── Golden shimmer na textu ───────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, #c9a84c 0%, #f0d98a 40%, #c9a84c 60%, #d4b968 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ─── Glow pulse ─────────────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(201,168,76,0.1); }
+  50%       { box-shadow: 0 0 40px rgba(201,168,76,0.25); }
+}
+.glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+
+/* ─── Counter slot machine effect ───────────────────── */
+@keyframes countUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.counter-animate { animation: countUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* ─── Grain texture overlay ──────────────────────────── */
+.grain::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .font-cormorant { font-family: var(--font-cormorant), Georgia, serif; }
+  .font-inter { font-family: var(--font-inter), system-ui, sans-serif; }
+}
+
+/* ─── shadcn CSS variables (used by carousel etc.) ──── */
+:root {
+  --background: #080808;
+  --foreground: #f0ece6;
+  --card: #111111;
+  --card-foreground: #f0ece6;
+  --popover: #111111;
+  --popover-foreground: #f0ece6;
+  --primary: #c9a84c;
+  --primary-foreground: #080808;
+  --secondary: #111111;
+  --secondary-foreground: #f0ece6;
+  --muted: #111111;
+  --muted-foreground: #8a8070;
+  --destructive: #ef4444;
+  --destructive-foreground: #f0ece6;
+  --input: rgba(255,255,255,0.08);
+  --ring: rgba(201,168,76,0.4);
+  --radius: 2px;
+}
