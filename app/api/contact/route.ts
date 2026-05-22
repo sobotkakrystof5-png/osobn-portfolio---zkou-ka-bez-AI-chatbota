@@ -94,8 +94,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[Contact API] Resend error:", err);
+    const message = err instanceof Error ? err.message : JSON.stringify(err);
     return NextResponse.json(
-      { error: "Odeslání se nezdařilo. Zkuste to prosím znovu." },
+      { error: `Resend: ${message}` },
       { status: 500 }
     );
   }
