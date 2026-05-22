@@ -367,10 +367,13 @@ export default function BookingModal({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({})) as { error?: string };
+        throw new Error(j.error ?? `HTTP ${res.status}`);
+      }
       setStep('success');
-    } catch {
-      toast.error('Něco se pokazilo. Zkuste to znovu.');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Něco se pokazilo. Zkuste to znovu.');
     } finally {
       setLoading(false);
     }

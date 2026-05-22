@@ -89,6 +89,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('[Booking] CHYBA při odesílání emailu:', JSON.stringify(error, null, 2));
-    return NextResponse.json({ error: 'Email send failed' }, { status: 500 });
+    const message = error instanceof Error ? error.message : JSON.stringify(error);
+    return NextResponse.json({ error: `Resend: ${message}` }, { status: 500 });
   }
 }
