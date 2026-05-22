@@ -1,3 +1,4 @@
+import IntroAnimation from "@/components/IntroAnimation";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
@@ -15,6 +16,7 @@ import CookieBanner from "@/components/CookieBanner";
 export default function Home() {
   return (
     <>
+      <IntroAnimation />
       <Navbar />
       <main id="main-content">
         <Hero />
