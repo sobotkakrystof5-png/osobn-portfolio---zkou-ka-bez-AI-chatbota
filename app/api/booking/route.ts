@@ -42,9 +42,12 @@ export async function POST(req: NextRequest) {
   const dateFormatted = `${parseInt(d)}. ${parseInt(m)}. ${y}`;
   const timeStart = slot.split('–')[0].trim();
 
+  // Resend v3+ vrací { data, error } — nevyhazuje výjimky
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
+
+    // Email mně
+    const { error: err1 } = await resend.emails.send({
       from: 'VIZEON Booking <onboarding@resend.dev>',
       to: 'sobotkakrystof5@gmail.com',
       subject: `Nová rezervace — ${service} — ${dateFormatted}`,
@@ -65,7 +68,13 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    await resend.emails.send({
+    if (err1) {
+      console.error('[Booking] Resend chyba (email mně):', err1);
+      return NextResponse.json({ error: `Resend: ${err1.message}` }, { status: 500 });
+    }
+
+    // Potvrzovací email klientovi
+    const { error: err2 } = await resend.emails.send({
       from: 'Kryštof Sobotka — VIZEON <onboarding@resend.dev>',
       to: email,
       subject: `Potvrzení konzultace — ${dateFormatted} v ${timeStart}`,
@@ -79,16 +88,22 @@ export async function POST(req: NextRequest) {
             <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Služba:</span> ${subService ?? service}</p>
             <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Termín:</span> ${dateFormatted} · ${slot}</p>
           </div>
-          <p style="color: #666; font-size: 13px; line-height: 1.7;">Pokud potřebujete termín změnit, ozvěte se na <a href="mailto:info@vizeon.cz" style="color:#c9a84c;">info@vizeon.cz</a>.</p>
+          <p style="color: #666; font-size: 13px; line-height: 1.7;">Pokud potřebujete termín změnit, ozvěte se na <a href="mailto:sobotkakrystof5@gmail.com" style="color:#c9a84c;">sobotkakrystof5@gmail.com</a>.</p>
           <p style="margin-top: 32px; color: #444; font-size: 12px;">VIZEON · Kryštof Sobotka · vizeon.cz</p>
         </div>
       `,
     });
 
+    if (err2) {
+      // Hlavní email prošel — potvrzení klientovi selhalo, ale to není kritické
+      console.warn('[Booking] Potvrzení klientovi selhalo:', err2);
+    }
+
     return NextResponse.json({ success: true });
+
   } catch (error) {
-    console.error('[Booking] CHYBA při odesílání emailu:', JSON.stringify(error, null, 2));
+    console.error('[Booking] Neočekávaná chyba:', error);
     const message = error instanceof Error ? error.message : JSON.stringify(error);
-    return NextResponse.json({ error: `Resend: ${message}` }, { status: 500 });
+    return NextResponse.json({ error: `Chyba: ${message}` }, { status: 500 });
   }
 }

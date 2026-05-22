@@ -5,7 +5,7 @@ import { z } from "zod";
 // Stejná validace jako na frontendu
 const schema = z.object({
   name: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   phone: z.string().optional(),
   message: z.string().min(10),
 });
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
+    const { error: sendError } = await resend.emails.send({
       // Z adresy: musí být na ověřené doméně v Resend
       // Do doby ověření domény používej: onboarding@resend.dev
       from: "VIZEON Kontakt <onboarding@resend.dev>",
@@ -89,6 +89,11 @@ export async function POST(req: NextRequest) {
       // Textová verze pro emailové klienty bez HTML
       text: `Nová zpráva z webu VIZEON\n\nJméno: ${name}\nEmail: ${email}${phone ? `\nTelefon: ${phone}` : ""}\n\nZpráva:\n${message}`,
     });
+
+    if (sendError) {
+      console.error("[Contact API] Resend error:", sendError);
+      return NextResponse.json({ error: `Resend: ${sendError.message}` }, { status: 500 });
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
