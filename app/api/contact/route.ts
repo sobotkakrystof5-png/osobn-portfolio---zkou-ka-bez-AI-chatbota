@@ -10,10 +10,11 @@ const schema = z.object({
   message: z.string().min(10),
 });
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const TO_EMAIL = process.env.CONTACT_EMAIL ?? "sobotkakrystof5@gmail.com";
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   // Ochrana: pouze JSON
   const contentType = req.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {

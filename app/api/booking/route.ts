@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const bookingSchema = z.object({
   service:    z.string().min(1, 'Chybí služba'),
   subService: z.string().optional(),
@@ -15,6 +13,8 @@ const bookingSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   // Ochrana: pouze JSON
   const contentType = req.headers.get('content-type') ?? '';
   if (!contentType.includes('application/json')) {
