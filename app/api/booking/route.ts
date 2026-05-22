@@ -13,8 +13,6 @@ const bookingSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
   // Ochrana: pouze JSON
   const contentType = req.headers.get('content-type') ?? '';
   if (!contentType.includes('application/json')) {
@@ -45,6 +43,7 @@ export async function POST(req: NextRequest) {
   const timeStart = slot.split('–')[0].trim();
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: 'VIZEON Booking <onboarding@resend.dev>',
       to: 'sobotkakrystof5@gmail.com',

@@ -13,8 +13,6 @@ const schema = z.object({
 const TO_EMAIL = process.env.CONTACT_EMAIL ?? "sobotkakrystof5@gmail.com";
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
   // Ochrana: pouze JSON
   const contentType = req.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
@@ -40,6 +38,7 @@ export async function POST(req: NextRequest) {
   const { name, email, phone, message } = parsed.data;
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       // Z adresy: musí být na ověřené doméně v Resend
       // Do doby ověření domény používej: onboarding@resend.dev
