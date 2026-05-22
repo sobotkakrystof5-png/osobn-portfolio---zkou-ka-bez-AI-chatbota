@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { staggerFast, fadeIn, fadeUp } from "@/lib/animations";
+import { CTAButton } from "@/components/CTAButton";
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -55,15 +56,35 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" aria-hidden="true" />
+      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" aria-hidden="true" />
 
-      {/* Velký zlatý gradient blob */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%)" }}
+      {/* Mřížka v pozadí */}
+      <div className="grid-overlay z-0" aria-hidden="true" />
+
+      {/* FloatGlow orb — zlatý vlevo */}
+      <motion.div
+        className="glow-orb absolute -left-40 top-1/3 w-[480px] h-[480px] rounded-full bg-[#c9a84c] z-0"
+        animate={{ y: [0, -14, 0], opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden="true"
+      />
+
+      {/* FloatGlow orb — teplý vpravo */}
+      <motion.div
+        className="glow-orb absolute -right-48 bottom-[10%] w-[420px] h-[420px] rounded-full z-0"
+        style={{ background: "#6b4f1a" }}
+        animate={{ y: [0, 14, 0], opacity: [0.25, 0.42, 0.25], scale: [1, 1.04, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        aria-hidden="true"
+      />
+
+      {/* Velký středový glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none z-0"
+        style={{ background: "radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 65%)" }}
         aria-hidden="true" />
 
       {/* Tenká zlatá linka dole */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px]"
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] z-0"
         style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }}
         aria-hidden="true" />
 
@@ -91,10 +112,9 @@ export default function Hero() {
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-          <a href="#kontakt" onClick={go("#kontakt")}
-            className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
+          <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
-          </a>
+          </CTAButton>
           <a href="#sluzby" onClick={go("#sluzby")}
             className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#f0ece6] border border-white/10 px-8 py-4 hover:border-white/20 hover:bg-white/5 transition-all duration-300 w-full sm:w-auto text-center">
             Zobrazit služby

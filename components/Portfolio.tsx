@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { CTAButton } from "@/components/CTAButton";
 import { fadeUp, stagger, viewport } from "@/lib/animations";
 import { ArrowUpRight } from "lucide-react";
 
@@ -57,10 +58,9 @@ export default function Portfolio() {
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mt-20 text-center">
           <p className="font-cormorant font-light text-[28px] md:text-[40px] text-[#f0ece6] mb-2">Váš projekt může být dalším.</p>
           <p className="font-inter font-light text-[13px] text-[#8a8070] mb-8">Bez čekání. Bez agentury. Přímo se mnou.</p>
-          <a href="#kontakt" onClick={(e) => { e.preventDefault(); document.querySelector("#kontakt")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
+          <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
             Začněme →
-          </a>
+          </CTAButton>
         </motion.div>
       </div>
     </section>

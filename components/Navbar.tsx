@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { stagger, fadeIn } from "@/lib/animations";
+import { CTAButton } from "@/components/CTAButton";
 
 const navLinks = [
   { label: "O mně",     href: "#o-mne" },
@@ -53,10 +54,9 @@ export default function Navbar() {
           </nav>
 
           {/* CTA */}
-          <a href="#kontakt" onClick={(e) => { e.preventDefault(); go("#kontakt"); }}
-            className="hidden md:inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-5 py-2.5 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
+          <CTAButton className="hidden md:inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-5 py-2.5 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
             Konzultace zdarma
-          </a>
+          </CTAButton>
 
           {/* Hamburger */}
           <button className="md:hidden flex flex-col gap-[5px] p-2 -mr-2" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Zavřít" : "Menu"} aria-expanded={menuOpen}>
@@ -82,11 +82,11 @@ export default function Navbar() {
                   {l.label}
                 </motion.a>
               ))}
-              <motion.a href="#kontakt" variants={fadeIn}
-                onClick={(e) => { e.preventDefault(); go("#kontakt"); }}
-                className="mt-6 font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-8 py-3 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
-                Konzultace zdarma
-              </motion.a>
+              <motion.div variants={fadeIn} className="mt-6">
+                <CTAButton className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-8 py-3 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
+                  Konzultace zdarma
+                </CTAButton>
+              </motion.div>
             </motion.nav>
           </motion.div>
         )}

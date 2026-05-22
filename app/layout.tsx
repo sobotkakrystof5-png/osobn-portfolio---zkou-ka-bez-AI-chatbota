@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+import { BookingProvider } from "@/context/BookingContext";
+import { Toaster } from "react-hot-toast";
+
+const BookingModalWrapper = dynamic(() => import("@/components/BookingModalWrapper"), {
+  ssr: false,
+});
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -115,10 +122,23 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <a href="#main-content" className="skip-to-content">
-          Přejít na obsah
-        </a>
-        {children}
+        <BookingProvider>
+          <a href="#main-content" className="skip-to-content">
+            Přejít na obsah
+          </a>
+          {children}
+          <BookingModalWrapper />
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              style: {
+                background: "#1a1a1a",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,0.1)",
+              },
+            }}
+          />
+        </BookingProvider>
       </body>
     </html>
   );

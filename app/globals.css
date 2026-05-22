@@ -94,6 +94,71 @@ body {
 }
 .counter-animate { animation: countUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
 
+/* ─── Glass panel (inspirace AufGehts) ─────────────── */
+.glass-panel {
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.05) inset,
+    0 24px 80px -32px rgba(0,0,0,0.85);
+}
+
+.glass-panel-hover {
+  transition: border-color 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(201,168,76,0.3) !important;
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.1) inset,
+    0 0 55px -12px rgba(201,168,76,0.2),
+    0 32px 90px -40px rgba(0,0,0,0.9);
+}
+
+/* ─── Glow orb (plovoucí blob) ──────────────────────── */
+.glow-orb {
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ─── Mřížka v pozadí ───────────────────────────────── */
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.45) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.45) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.028;
+}
+
+/* ─── Badge pulse ───────────────────────────────────── */
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.6); }
+  50%       { box-shadow: 0 0 0 5px rgba(201,168,76,0); }
+}
+.badge-pulse { animation: badgePulse 2.5s ease-in-out infinite; }
+
+/* ─── Badge outline gentle glow ─────────────────────── */
+@keyframes badgeOutlineGlow {
+  0%, 100% { border-color: rgba(201,168,76,0.35); }
+  50%       { border-color: rgba(201,168,76,0.7); }
+}
+.badge-outline-glow { animation: badgeOutlineGlow 2.5s ease-in-out infinite; }
+
+/* ─── Card top shimmer line ──────────────────────────── */
+.card-shimmer-line {
+  background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.7) 50%, transparent 100%);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .card-shimmer-line { transform: scaleX(1); }
+
 /* ─── Grain texture overlay ──────────────────────────── */
 .grain::before {
   content: "";

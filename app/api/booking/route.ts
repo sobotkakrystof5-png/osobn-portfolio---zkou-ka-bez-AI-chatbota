@@ -1,0 +1,65 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(req: NextRequest) {
+  const data = await req.json();
+  const { service, subService, phone, email, note, date, slot } = data;
+
+  const [y, m, d] = date.split('-');
+  const dateFormatted = `${parseInt(d)}. ${parseInt(m)}. ${y}`;
+  const timeStart = slot.split('–')[0].trim();
+
+  console.log('[Booking] API key přítomen:', !!process.env.RESEND_API_KEY);
+  console.log('[Booking] Odesílám na:', 'sobotkakrystof5@gmail.com', '+ klient:', email);
+
+  try {
+    await resend.emails.send({
+      from: 'VIZEON Booking <onboarding@resend.dev>',
+      to: 'sobotkakrystof5@gmail.com',
+      subject: `Nová rezervace — ${service} — ${dateFormatted}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="border-bottom: 1px solid #eee; padding-bottom: 12px;">Nová rezervace konzultace</h2>
+          <table style="width:100%; border-collapse:collapse;">
+            <tr><td style="padding:8px 0; color:#666; width:140px;">Služba</td><td style="padding:8px 0; font-weight:500;">${service}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Typ projektu</td><td style="padding:8px 0;">${subService || '—'}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Telefon</td><td style="padding:8px 0;">${phone}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">E-mail</td><td style="padding:8px 0;">${email}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Poznámka</td><td style="padding:8px 0;">${note || '—'}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Datum</strong></td><td style="padding:8px; font-weight:700;">${dateFormatted}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Čas</strong></td><td style="padding:8px; font-weight:700;">${slot}</td></tr>
+          </table>
+          <p style="margin-top:20px; color:#999; font-size:13px;">Odesláno přes VIZEON rezervační systém</p>
+        </div>
+      `,
+    });
+
+    await resend.emails.send({
+      from: 'Kryštof Sobotka — VIZEON <onboarding@resend.dev>',
+      to: email,
+      subject: `Potvrzení konzultace — ${dateFormatted} v ${timeStart}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #fff; padding: 40px; border-radius: 12px;">
+          <h1 style="font-size: 24px; font-weight: 300; margin-bottom: 8px;">Budu s vámi počítat.</h1>
+          <p style="color: #c9a84c; font-size: 14px; margin-bottom: 32px;">VIZEON — Kryštof Sobotka</p>
+          <p style="color: #aaa; line-height: 1.7;">V <strong style="color:#fff">${dateFormatted} v ${timeStart}</strong> vás kontaktuji na čísle <strong style="color:#fff">${phone}</strong>. Domluvíme se na detailech a vy mi popíšete vizi vašeho projektu.</p>
+          <div style="background: #1a1a1a; border-radius: 8px; padding: 20px; margin: 24px 0;">
+            <p style="color:#888; font-size:13px; margin:0 0 8px;">Shrnutí rezervace</p>
+            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Služba:</span> ${subService || service}</p>
+            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Termín:</span> ${dateFormatted} · ${slot}</p>
+          </div>
+          <p style="color: #666; font-size: 13px; line-height: 1.7;">Pokud potřebujete termín změnit, ozvěte se na <a href="mailto:info@vizeon.cz" style="color:#c9a84c;">info@vizeon.cz</a>.</p>
+          <p style="margin-top: 32px; color: #444; font-size: 12px;">VIZEON · Kryštof Sobotka · vizeon.cz</p>
+        </div>
+      `,
+    });
+
+    console.log('[Booking] Oba emaily odeslány úspěšně ✓');
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('[Booking] CHYBA při odesílání emailu:', JSON.stringify(error, null, 2));
+    return NextResponse.json({ error: 'Email send failed' }, { status: 500 });
+  }
+}
