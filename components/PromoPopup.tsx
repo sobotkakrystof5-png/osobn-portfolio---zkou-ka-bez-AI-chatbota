@@ -17,6 +17,7 @@ function useCountdown(seconds: number) {
   };
 }
 
+// Tři cenové kotvy — Jobs style: tržní cena → naše cena → exkluzivní dnes
 const serviceCategories = [
   {
     key: "weby",
@@ -24,10 +25,10 @@ const serviceCategories = [
     label: "Weby",
     count: "4 typy",
     items: [
-      { name: "Online Vizitka",      subtitle: "Jednostránkový web",       original: "14 999 Kč",     promo: "7 499 Kč" },
-      { name: "Promo Page",          subtitle: "Landing page",              original: "19 999 Kč",     promo: "9 999 Kč" },
-      { name: "Pro Web",             subtitle: "Více stránek na míru",      original: "29 999 Kč",     promo: "14 999 Kč" },
-      { name: "Web Care",            subtitle: "Správa webu / měsíčně",     original: "1 999 Kč/měs",  promo: "999 Kč/měs" },
+      { name: "Online Vizitka",      subtitle: "Jednostránkový web",       original: "14 999 Kč",     mid: "7 499 Kč",    promo: "3 749 Kč" },
+      { name: "Promo Page",          subtitle: "Landing page",              original: "19 999 Kč",     mid: "9 999 Kč",    promo: "4 999 Kč" },
+      { name: "Pro Web",             subtitle: "Více stránek na míru",      original: "29 999 Kč",     mid: "14 999 Kč",   promo: "7 499 Kč" },
+      { name: "Web Care",            subtitle: "Správa webu / měsíčně",     original: "1 999 Kč/měs",  mid: "999 Kč/měs",  promo: "499 Kč/měs" },
     ],
   },
   {
@@ -36,10 +37,10 @@ const serviceCategories = [
     label: "Design",
     count: "4 typy",
     items: [
-      { name: "Brand Logo",          subtitle: "Originální logo",           original: "1 499 Kč",      promo: "699 Kč" },
-      { name: "Business Card",       subtitle: "Vizitka na míru",           original: "599 Kč",        promo: "299 Kč" },
-      { name: "Social Visual",       subtitle: "Post nebo story",           original: "599 Kč/ks",     promo: "299 Kč/ks" },
-      { name: "Print Design",        subtitle: "Leták, plakát, banner",     original: "1 499 Kč",      promo: "699 Kč" },
+      { name: "Brand Logo",          subtitle: "Originální logo",           original: "1 499 Kč",      mid: "699 Kč",      promo: "349 Kč" },
+      { name: "Business Card",       subtitle: "Vizitka na míru",           original: "599 Kč",        mid: "299 Kč",      promo: "149 Kč" },
+      { name: "Social Visual",       subtitle: "Post nebo story",           original: "599 Kč/ks",     mid: "299 Kč/ks",   promo: "149 Kč/ks" },
+      { name: "Print Design",        subtitle: "Leták, plakát, banner",     original: "1 499 Kč",      mid: "699 Kč",      promo: "349 Kč" },
     ],
   },
   {
@@ -48,8 +49,8 @@ const serviceCategories = [
     label: "Prezentace",
     count: "2 typy",
     items: [
-      { name: "Slide Deck Standard", subtitle: "Do 15 slidů",               original: "2 199 Kč",      promo: "1 099 Kč" },
-      { name: "Slide Deck Premium",  subtitle: "Bez limitu + animace",      original: "6 999 Kč",      promo: "3 499 Kč" },
+      { name: "Slide Deck Standard", subtitle: "Do 15 slidů",               original: "2 199 Kč",      mid: "1 099 Kč",    promo: "549 Kč" },
+      { name: "Slide Deck Premium",  subtitle: "Bez limitu + animace",      original: "6 999 Kč",      mid: "3 499 Kč",    promo: "1 749 Kč" },
     ],
   },
   {
@@ -58,9 +59,9 @@ const serviceCategories = [
     label: "Sociální sítě",
     count: "3 typy",
     items: [
-      { name: "Social Starter",      subtitle: "8 příspěvků / měs",         original: "9 999 Kč/měs",  promo: "4 999 Kč/měs" },
-      { name: "Social Pro",          subtitle: "Kompletní správa sítí",     original: "14 999 Kč/měs", promo: "7 499 Kč/měs" },
-      { name: "Content Blueprint",   subtitle: "Jednorázový content plán",  original: "999 Kč",        promo: "499 Kč" },
+      { name: "Social Starter",      subtitle: "8 příspěvků / měs",         original: "9 999 Kč/měs",  mid: "4 999 Kč/měs", promo: "2 499 Kč/měs" },
+      { name: "Social Pro",          subtitle: "Kompletní správa sítí",     original: "14 999 Kč/měs", mid: "7 499 Kč/měs", promo: "3 749 Kč/měs" },
+      { name: "Content Blueprint",   subtitle: "Jednorázový content plán",  original: "999 Kč",        mid: "499 Kč",       promo: "249 Kč" },
     ],
   },
 ];
@@ -71,6 +72,7 @@ interface ServiceItem {
   name: string;
   subtitle: string;
   original: string;
+  mid: string;
   promo: string;
 }
 
@@ -81,6 +83,15 @@ interface ServiceCategory {
   count: string;
   items: ServiceItem[];
 }
+
+// Reveal fáze — Jobs 3-tier anchor:
+// 0 → tržní cena se objeví (ihned)
+// 1 → červená čára přeškrtne tržní cenu (800 ms)
+// 2 → tržní cena PADÁ dolů, naše cena stoupá (1 500 ms)
+// 3 → červená čára přeškrtne naši cenu (2 300 ms)
+// 4 → naše cena PADÁ, promo cena stoupá se zlatým glowem (2 900 ms)
+// 5 → "Teď pouze pro vás." (3 700 ms)
+// 6 → CTA tlačítko (4 300 ms)
 
 export default function PromoPopup() {
   const [visible, setVisible]         = useState(false);
@@ -109,21 +120,15 @@ export default function PromoPopup() {
     return () => obs.disconnect();
   }, []);
 
-  // Cenový reveal — 6 fází
-  // 0 → původní cena (okamžitě)
-  // 1 → červená přeškrtnutí čára (900 ms)
-  // 2 → badge "−50% sleva" (1 800 ms)
-  // 3 → nová cena (2 700 ms)
-  // 4 → "Teď pouze pro vás." (3 400 ms)
-  // 5 → CTA tlačítko (4 100 ms)
   useEffect(() => {
     if (step !== "reveal") { setRevealPhase(0); return; }
-    const t1 = setTimeout(() => setRevealPhase(1), 900);
-    const t2 = setTimeout(() => setRevealPhase(2), 1800);
-    const t3 = setTimeout(() => setRevealPhase(3), 2700);
-    const t4 = setTimeout(() => setRevealPhase(4), 3400);
-    const t5 = setTimeout(() => setRevealPhase(5), 4100);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
+    const t1 = setTimeout(() => setRevealPhase(1), 800);
+    const t2 = setTimeout(() => setRevealPhase(2), 1500);
+    const t3 = setTimeout(() => setRevealPhase(3), 2300);
+    const t4 = setTimeout(() => setRevealPhase(4), 2900);
+    const t5 = setTimeout(() => setRevealPhase(5), 3700);
+    const t6 = setTimeout(() => setRevealPhase(6), 4300);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6); };
   }, [step]);
 
   const handleClose = useCallback(() => {
@@ -138,9 +143,9 @@ export default function PromoPopup() {
   }, [openBooking, handleClose]);
 
   const handleBack = useCallback(() => {
-    if (step === "reveal")   { setStep("service"); }
-    else if (step === "service")  { setStep("category"); }
-    else if (step === "category") { setStep("offer"); }
+    if (step === "reveal")        setStep("service");
+    else if (step === "service")  setStep("category");
+    else if (step === "category") setStep("offer");
   }, [step]);
 
   if (!mounted || dismissed) return null;
@@ -160,7 +165,7 @@ export default function PromoPopup() {
             aria-hidden="true"
           />
 
-          {/* Modal wrapper */}
+          {/* Modal */}
           <motion.div
             key="modal"
             role="dialog" aria-modal="true"
@@ -205,7 +210,7 @@ export default function PromoPopup() {
                   />
                 ))}
 
-                {/* ← Zpět (kroky 2–4) */}
+                {/* ← Zpět */}
                 {step !== "offer" && (
                   <button onClick={handleBack} aria-label="Zpět"
                     className="absolute top-4 left-4 z-20 w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-[#6b5e50] hover:text-[#f0ece6] hover:border-white/25 hover:bg-white/5 transition-all duration-200 text-[12px]">
@@ -228,7 +233,6 @@ export default function PromoPopup() {
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -24 }}
                         transition={{ duration: 0.28 }}
                       >
-                        {/* Badges */}
                         <div className="flex flex-wrap items-center gap-2 mb-6">
                           <motion.span
                             className="inline-flex items-center gap-[6px] px-3 py-[5px] font-inter text-[9px] uppercase tracking-[0.22em] text-[#c9a84c] border border-[#c9a84c]/35"
@@ -239,7 +243,6 @@ export default function PromoPopup() {
                               animate={{ opacity:[1,0.15,1], scale:[1,1.4,1] }} transition={{ duration: 1.2, repeat: Infinity }} />
                             Zbývají 2 poslední místa
                           </motion.span>
-
                           <motion.span
                             className="inline-flex items-center gap-2 px-3 py-[5px] font-inter text-[9px] uppercase tracking-[0.15em] text-red-400 border border-red-500/25"
                             style={{ background: "rgba(239,68,68,0.06)" }}
@@ -250,7 +253,6 @@ export default function PromoPopup() {
                           </motion.span>
                         </div>
 
-                        {/* Velké číslo */}
                         <motion.span
                           className="font-cormorant font-semibold leading-none select-none block mb-3"
                           style={{
@@ -264,7 +266,6 @@ export default function PromoPopup() {
                           −50%
                         </motion.span>
 
-                        {/* Heslo */}
                         <motion.div
                           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
                           className="mb-5"
@@ -277,11 +278,9 @@ export default function PromoPopup() {
                           </p>
                         </motion.div>
 
-                        {/* Divider */}
                         <div className="w-full h-[1px] mb-5"
                           style={{ background: "linear-gradient(90deg, rgba(201,168,76,0.4), transparent)" }} />
 
-                        {/* Vizuální progress míst */}
                         <motion.div
                           className="flex items-center gap-4 p-4 mb-6 border border-white/[0.06]"
                           style={{ background: "rgba(255,255,255,0.025)" }}
@@ -310,7 +309,6 @@ export default function PromoPopup() {
                           </div>
                         </motion.div>
 
-                        {/* CTA */}
                         <motion.div
                           className="mb-5"
                           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}
@@ -326,7 +324,6 @@ export default function PromoPopup() {
                           </motion.button>
                         </motion.div>
 
-                        {/* Varování */}
                         <motion.p
                           className="font-inter text-[10px] text-center"
                           style={{ color: "rgba(201,168,76,0.5)" }}
@@ -345,15 +342,11 @@ export default function PromoPopup() {
                         initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -28 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <p className="font-inter text-[9px] uppercase tracking-[0.22em] text-[#c9a84c] mb-3">
-                          Krok 1 ze 2
-                        </p>
+                        <p className="font-inter text-[9px] uppercase tracking-[0.22em] text-[#c9a84c] mb-3">Krok 1 ze 2</p>
                         <h2 className="font-cormorant font-light text-[24px] sm:text-[30px] text-[#f0ece6] mb-1 leading-[1.2]">
                           Jakou službu hledáte?
                         </h2>
-                        <p className="font-inter font-light text-[12px] text-[#8a8070] mb-6">
-                          Vyberte oblast — ukážeme vám cenu.
-                        </p>
+                        <p className="font-inter font-light text-[12px] text-[#8a8070] mb-6">Vyberte oblast — ukážeme vám cenu.</p>
 
                         <div className="grid grid-cols-2 gap-3">
                           {serviceCategories.map((cat, i) => (
@@ -381,15 +374,11 @@ export default function PromoPopup() {
                         initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -28 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <p className="font-inter text-[9px] uppercase tracking-[0.22em] text-[#c9a84c] mb-3">
-                          Krok 2 ze 2
-                        </p>
+                        <p className="font-inter text-[9px] uppercase tracking-[0.22em] text-[#c9a84c] mb-3">Krok 2 ze 2</p>
                         <h2 className="font-cormorant font-light text-[24px] sm:text-[30px] text-[#f0ece6] mb-1 leading-[1.2]">
                           {selectedCat.emoji} {selectedCat.label}
                         </h2>
-                        <p className="font-inter font-light text-[12px] text-[#8a8070] mb-5">
-                          Vyberte typ — odhalíme vaši cenu.
-                        </p>
+                        <p className="font-inter font-light text-[12px] text-[#8a8070] mb-5">Vyberte typ — odhalíme vaši cenu.</p>
 
                         <div className="flex flex-col gap-2">
                           {selectedCat.items.map((item, i) => (
@@ -406,16 +395,14 @@ export default function PromoPopup() {
                                 <p className="font-inter font-semibold text-[13px] text-[#f0ece6]">{item.name}</p>
                                 <p className="font-inter font-light text-[10px] text-[#6b5e50] mt-[2px]">{item.subtitle}</p>
                               </div>
-                              <span className="font-inter font-light text-[12px] text-[#c9a84c] opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
-                                →
-                              </span>
+                              <span className="font-inter font-light text-[12px] text-[#c9a84c] opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">→</span>
                             </motion.button>
                           ))}
                         </div>
                       </motion.div>
                     )}
 
-                    {/* ══ KROK 4: ANIMOVANÝ CENOVÝ REVEAL ══════════════════ */}
+                    {/* ══ KROK 4: JOBS-STYLE CENOVÝ REVEAL ════════════════ */}
                     {step === "reveal" && selectedSvc && (
                       <motion.div key="reveal"
                         initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -28 }}
@@ -424,102 +411,136 @@ export default function PromoPopup() {
                         <p className="font-inter text-[9px] uppercase tracking-[0.22em] text-[#c9a84c] mb-1">
                           {selectedSvc.name}
                         </p>
-                        <h2 className="font-cormorant font-light text-[22px] sm:text-[26px] text-[#f0ece6] mb-6 leading-[1.2]">
-                          Vaše exkluzivní cena.
+                        <h2 className="font-cormorant font-light text-[20px] sm:text-[24px] text-[#f0ece6] mb-6 leading-[1.2]">
+                          Co byste čekali zaplatit.
                         </h2>
 
-                        {/* Původní cena + přeškrtnutí */}
-                        <div className="relative inline-block mb-5">
-                          <motion.p
-                            className="font-cormorant font-light leading-none"
-                            style={{
-                              fontSize: "clamp(2.4rem, 9vw, 3.8rem)",
-                              color: "rgba(240,236,230,0.45)",
-                            }}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.45 }}
-                          >
-                            {selectedSvc.original}
-                          </motion.p>
+                        {/* ─── Cenová scéna ─────────────────────────────────── */}
+                        <div className="relative min-h-[160px]">
 
-                          {/* Animovaná červená přeškrtnutí čára */}
+                          {/* KOTVA 1 — Tržní cena (padá pryč při fázi 2) */}
                           <AnimatePresence>
-                            {revealPhase >= 1 && (
+                            {revealPhase < 2 && (
                               <motion.div
-                                className="absolute left-0 right-0 h-[2.5px] bg-red-500 origin-left"
-                                style={{ top: "52%" }}
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
+                                key="price-original"
+                                className="absolute inset-x-0 top-0"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 40, scale: 0.92 }}
+                                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                              >
+                                <p className="font-inter font-light text-[9px] uppercase tracking-[0.2em] text-[#4a4035] mb-1">
+                                  Tržní cena
+                                </p>
+                                <div className="relative inline-block">
+                                  <span
+                                    className="font-cormorant font-light leading-none"
+                                    style={{
+                                      fontSize: "clamp(2.8rem, 10vw, 4.2rem)",
+                                      color: "rgba(240,236,230,0.35)",
+                                    }}
+                                  >
+                                    {selectedSvc.original}
+                                  </span>
+                                  {/* Přeškrtnutí tržní ceny */}
+                                  <AnimatePresence>
+                                    {revealPhase >= 1 && (
+                                      <motion.div
+                                        className="absolute left-0 right-0 h-[3px] bg-red-500 origin-left"
+                                        style={{ top: "50%" }}
+                                        initial={{ scaleX: 0 }}
+                                        animate={{ scaleX: 1 }}
+                                        exit={{}}
+                                        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                                      />
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+
+                          {/* KOTVA 2 — Naše cena (stoupá → pak padá pryč při fázi 4) */}
+                          <AnimatePresence>
+                            {revealPhase >= 2 && revealPhase < 4 && (
+                              <motion.div
+                                key="price-mid"
+                                className="absolute inset-x-0 top-0"
+                                initial={{ opacity: 0, y: -28 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 40, scale: 0.92 }}
+                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                              >
+                                <p className="font-inter font-light text-[9px] uppercase tracking-[0.2em] text-[#c9a84c]/50 mb-1">
+                                  Naše standardní cena
+                                </p>
+                                <div className="relative inline-block">
+                                  <span
+                                    className="font-cormorant font-light leading-none"
+                                    style={{
+                                      fontSize: "clamp(2.8rem, 10vw, 4.2rem)",
+                                      color: "rgba(240,236,230,0.55)",
+                                    }}
+                                  >
+                                    {selectedSvc.mid}
+                                  </span>
+                                  {/* Přeškrtnutí naší ceny */}
+                                  <AnimatePresence>
+                                    {revealPhase >= 3 && (
+                                      <motion.div
+                                        className="absolute left-0 right-0 h-[3px] bg-red-500 origin-left"
+                                        style={{ top: "50%" }}
+                                        initial={{ scaleX: 0 }}
+                                        animate={{ scaleX: 1 }}
+                                        exit={{}}
+                                        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                                      />
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+
+                          {/* KOTVA 3 — Promo cena — ZLATÝ TRIUMF (stoupá ze spodu) */}
+                          <AnimatePresence>
+                            {revealPhase >= 4 && (
+                              <motion.div
+                                key="price-promo"
+                                className="absolute inset-x-0 top-0"
+                                initial={{ opacity: 0, y: -36, scale: 0.88 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{}}
-                                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-                              />
+                                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                              >
+                                <p className="font-inter font-light text-[9px] uppercase tracking-[0.2em] text-[#c9a84c] mb-1">
+                                  Jen dnes · Exkluzivně pro vás
+                                </p>
+                                <motion.span
+                                  className="font-cormorant font-semibold leading-none block"
+                                  style={{
+                                    fontSize: "clamp(3.2rem, 13vw, 5.5rem)",
+                                    background: "linear-gradient(135deg, #b8943e 0%, #f7e48a 45%, #c9a84c 75%, #e8c96a 100%)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    backgroundClip: "text",
+                                  }}
+                                  animate={{ filter: ["drop-shadow(0 0 10px rgba(201,168,76,0.2))","drop-shadow(0 0 40px rgba(201,168,76,0.8))","drop-shadow(0 0 10px rgba(201,168,76,0.2))"] }}
+                                  transition={{ duration: 2, repeat: Infinity }}
+                                >
+                                  {selectedSvc.promo}
+                                </motion.span>
+                              </motion.div>
                             )}
                           </AnimatePresence>
                         </div>
+                        {/* ─── konec cenové scény ───────────────────────────── */}
 
-                        {/* Badge −50% sleva */}
+                        {/* "Teď pouze pro vás." */}
                         <AnimatePresence>
-                          {revealPhase >= 2 && (
-                            <motion.div
-                              className="flex items-center gap-3 mb-5"
-                              initial={{ opacity: 0, x: 24, scale: 0.85 }}
-                              animate={{ opacity: 1, x: 0, scale: 1 }}
-                              exit={{}}
-                              transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                              <motion.span
-                                className="font-inter font-bold text-[12px] uppercase tracking-[0.1em] px-3 py-[6px]"
-                                style={{
-                                  background: "rgba(201,168,76,0.12)",
-                                  border: "1px solid rgba(201,168,76,0.45)",
-                                  color: "#c9a84c",
-                                }}
-                                animate={{ boxShadow: ["0 0 0px rgba(201,168,76,0)","0 0 22px rgba(201,168,76,0.55)","0 0 0px rgba(201,168,76,0)"] }}
-                                transition={{ duration: 1.4, repeat: Infinity }}
-                              >
-                                −50% sleva
-                              </motion.span>
-                              <span className="font-inter font-light text-[11px] text-[#8a8070]">
-                                dodatečná exkluzivní sleva
-                              </span>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-
-                        {/* Nová zlatá cena */}
-                        <AnimatePresence>
-                          {revealPhase >= 3 && (
-                            <motion.div
-                              className="mb-4"
-                              initial={{ opacity: 0, y: 18 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{}}
-                              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                              <motion.span
-                                className="font-cormorant font-semibold leading-none block"
-                                style={{
-                                  fontSize: "clamp(3.2rem, 13vw, 5.2rem)",
-                                  background: "linear-gradient(135deg, #b8943e 0%, #f7e48a 45%, #c9a84c 75%, #e8c96a 100%)",
-                                  WebkitBackgroundClip: "text",
-                                  WebkitTextFillColor: "transparent",
-                                  backgroundClip: "text",
-                                }}
-                                animate={{ filter: ["drop-shadow(0 0 12px rgba(201,168,76,0.25))","drop-shadow(0 0 38px rgba(201,168,76,0.75))","drop-shadow(0 0 12px rgba(201,168,76,0.25))"] }}
-                                transition={{ duration: 2, repeat: Infinity }}
-                              >
-                                {selectedSvc.promo}
-                              </motion.span>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-
-                        {/* „Teď pouze pro vás." */}
-                        <AnimatePresence>
-                          {revealPhase >= 4 && (
+                          {revealPhase >= 5 && (
                             <motion.p
-                              className="font-inter font-medium text-[14px] text-[#f0ece6] mb-6"
+                              className="font-inter font-medium text-[14px] text-[#f0ece6] mt-5 mb-5"
                               initial={{ opacity: 0, y: 6 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{}}
@@ -537,9 +558,9 @@ export default function PromoPopup() {
                           )}
                         </AnimatePresence>
 
-                        {/* CTA tlačítko */}
+                        {/* CTA */}
                         <AnimatePresence>
-                          {revealPhase >= 5 && (
+                          {revealPhase >= 6 && (
                             <motion.div
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
