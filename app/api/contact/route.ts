@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
-// Stejná validace jako na frontendu
 const schema = z.object({
   name: z.string().min(2),
   email: z.email(),
@@ -10,10 +9,7 @@ const schema = z.object({
   message: z.string().min(10),
 });
 
-const TO_EMAIL = process.env.CONTACT_EMAIL ?? "sobotkakrystof5@gmail.com";
-
 export async function POST(req: NextRequest) {
-  // Ochrana: pouze JSON
   const contentType = req.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
     return NextResponse.json({ error: "Invalid content type" }, { status: 400 });
@@ -26,7 +22,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  // Validace dat
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
@@ -37,14 +32,20 @@ export async function POST(req: NextRequest) {
 
   const { name, email, phone, message } = parsed.data;
 
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[Contact API] RESEND_API_KEY chybí v environment variables");
+    return NextResponse.json({ error: "Konfigurace serveru je neúplná." }, { status: 500 });
+  }
+
+  const toEmail = process.env.CONTACT_EMAIL ?? "sobotkakrystof5@gmail.com";
+
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(apiKey);
     const { error: sendError } = await resend.emails.send({
-      // Z adresy: musí být na ověřené doméně v Resend
-      // Do doby ověření domény používej: onboarding@resend.dev
       from: "VIZEON Kontakt <onboarding@resend.dev>",
-      to: [TO_EMAIL],
-      replyTo: email,               // kliknutím na Reply odpovíš přímo klientovi
+      to: [toEmail],
+      replyTo: email,
       subject: `Nová zpráva od ${name} — VIZEON`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #0a0a0a; color: #f5f5f5; border-radius: 4px;">
@@ -86,27 +87,24 @@ export async function POST(req: NextRequest) {
           </p>
         </div>
       `,
-      // Textová verze pro emailové klienty bez HTML
       text: `Nová zpráva z webu VIZEON\n\nJméno: ${name}\nEmail: ${email}${phone ? `\nTelefon: ${phone}` : ""}\n\nZpráva:\n${message}`,
     });
 
     if (sendError) {
-      console.error("[Contact API] Resend error:", sendError);
+      console.error("[Contact API] Resend chyba:", JSON.stringify(sendError));
       return NextResponse.json({ error: `Resend: ${sendError.message}` }, { status: 500 });
     }
 
+    console.log(`[Contact API] Zpráva od ${name} (${email}) úspěšně odeslána`);
     return NextResponse.json({ ok: true });
+
   } catch (err) {
-    console.error("[Contact API] Resend error:", err);
+    console.error("[Contact API] Neočekávaná chyba:", err);
     const message = err instanceof Error ? err.message : JSON.stringify(err);
-    return NextResponse.json(
-      { error: `Resend: ${message}` },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: `Resend: ${message}` }, { status: 500 });
   }
 }
 
-// Jednoduchá ochrana proti XSS v HTML emailu
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, "&amp;")

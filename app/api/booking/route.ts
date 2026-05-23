@@ -13,13 +13,11 @@ const bookingSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  // Ochrana: pouze JSON
   const contentType = req.headers.get('content-type') ?? '';
   if (!contentType.includes('application/json')) {
     return NextResponse.json({ error: 'Invalid content type' }, { status: 400 });
   }
 
-  // Bezpečný parse JSON
   let body: unknown;
   try {
     body = await req.json();
@@ -27,7 +25,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
-  // Validace Zodem
   const parsed = bookingSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
@@ -42,11 +39,16 @@ export async function POST(req: NextRequest) {
   const dateFormatted = `${parseInt(d)}. ${parseInt(m)}. ${y}`;
   const timeStart = slot.split('–')[0].trim();
 
-  // Resend v3+ vrací { data, error } — nevyhazuje výjimky
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('[Booking] RESEND_API_KEY chybí v environment variables');
+    return NextResponse.json({ error: 'Konfigurace serveru je neúplná.' }, { status: 500 });
+  }
 
-    // Email mně
+  try {
+    const resend = new Resend(apiKey);
+
+    // Email mně — notifikace o nové rezervaci
     const { error: err1 } = await resend.emails.send({
       from: 'VIZEON Booking <onboarding@resend.dev>',
       to: 'sobotkakrystof5@gmail.com',
@@ -69,8 +71,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (err1) {
-      console.error('[Booking] Resend chyba (email mně):', err1);
-      return NextResponse.json({ error: `Resend: ${err1.message}` }, { status: 500 });
+      console.error('[Booking] Resend chyba (notifikace mně):', JSON.stringify(err1));
+      return NextResponse.json({ error: `Nepodařilo se odeslat email: ${err1.message}` }, { status: 500 });
     }
 
     // Potvrzovací email klientovi
@@ -95,10 +97,11 @@ export async function POST(req: NextRequest) {
     });
 
     if (err2) {
-      // Hlavní email prošel — potvrzení klientovi selhalo, ale to není kritické
-      console.warn('[Booking] Potvrzení klientovi selhalo:', err2);
+      console.warn('[Booking] Potvrzení klientovi selhalo:', JSON.stringify(err2));
+      // Hlavní notifikace prošla — pokračujeme, klient uvidí success
     }
 
+    console.log(`[Booking] Rezervace úspěšně odeslána: ${service} ${dateFormatted} ${slot}`);
     return NextResponse.json({ success: true });
 
   } catch (error) {
