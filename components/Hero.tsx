@@ -89,11 +89,6 @@ export default function Hero() {
         aria-hidden="true" />
 
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pb-28">
-        <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
-          className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-10">
-          Web. Design. Výsledky.
-        </motion.p>
-
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
           className="font-cormorant font-light leading-[1.0] text-[48px] md:text-[84px] lg:text-[100px] text-[#f0ece6] mb-8"
           aria-label="Weby, které přivádějí zákazníky – ne jen návštěvníky.">
