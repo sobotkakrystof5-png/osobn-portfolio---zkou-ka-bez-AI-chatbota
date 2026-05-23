@@ -115,12 +115,21 @@ export default function Footer() {
           <p className="font-inter font-light text-[12px] text-[#3d3830]">
             © 2026 VIZEON — Kryštof Sobotka. Všechna práva vyhrazena.
           </p>
-          <a
-            href="/gdpr"
-            className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
-          >
-            Ochrana osobních údajů
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="/gdpr"
+              className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
+            >
+              Ochrana osobních údajů
+            </a>
+            <span className="font-inter font-light text-[12px] text-[#2a2520]" aria-hidden="true">·</span>
+            <a
+              href="/podminky"
+              className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
+            >
+              Obchodní podmínky
+            </a>
+          </div>
         </div>
       </div>
     </footer>

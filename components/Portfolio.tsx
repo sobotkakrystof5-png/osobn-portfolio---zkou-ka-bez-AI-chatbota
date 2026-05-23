@@ -41,6 +41,10 @@ export default function Portfolio() {
               <div className="absolute inset-0 md:hidden" style={{ background: "linear-gradient(to top, rgba(8,8,8,0.92) 55%, transparent)" }} aria-hidden="true" />
               {/* Zlatá linka nahoře při hoveru */}
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-[#c9a84c]/0 group-hover:bg-[#c9a84c]/40 transition-colors duration-500" aria-hidden="true" />
+              {/* Demo badge */}
+              <span className="absolute top-4 right-4 z-10 font-inter font-normal text-[10px] uppercase tracking-[0.12em] text-[#8a8070] border border-white/[0.1] bg-[#080808]/80 px-2.5 py-1 backdrop-blur-sm">
+                Ukázkový projekt
+              </span>
 
               <div className="absolute bottom-0 left-0 p-7 md:p-10">
                 <span className="absolute top-3 left-3 md:top-6 md:left-6 font-cormorant font-light text-[80px] md:text-[110px] leading-none text-white/[0.04] select-none" aria-hidden="true">{p.number}</span>
@@ -55,7 +59,17 @@ export default function Portfolio() {
           ))}
         </motion.div>
 
-        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mt-20 text-center">
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="font-inter font-light text-[12px] text-[#3d3830] text-center mt-8"
+        >
+          Ukázkové projekty — skutečné weby pro klienty dostupné na vyžádání.
+        </motion.p>
+
+        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mt-14 text-center">
           <p className="font-cormorant font-light text-[28px] md:text-[40px] text-[#f0ece6] mb-2">Váš projekt může být dalším.</p>
           <p className="font-inter font-light text-[13px] text-[#8a8070] mb-8">Bez čekání. Bez agentury. Přímo se mnou.</p>
           <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
