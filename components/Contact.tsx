@@ -69,7 +69,7 @@ export default function Contact() {
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-start gap-4">
                 <CheckCircle size={40} className="text-[#c9a84c]" />
                 <h3 className="font-cormorant font-light text-[32px] text-[#f0ece6]">Zpráva odeslána!</h3>
-                <p className="font-inter font-light text-[15px] text-[#8a8070]">Ozvu se vám do hodiny. Děkuji za důvěru.</p>
+                <p className="font-inter font-light text-[15px] text-[#8a8070]">Ozvu se vám do 24 hodin. Děkuji za důvěru.</p>
                 <button onClick={() => setSubmitted(false)} className="mt-2 font-inter font-medium text-[13px] text-[#c9a84c] underline underline-offset-4 hover:no-underline transition-all">
                   Odeslat další zprávu
                 </button>
@@ -131,7 +131,7 @@ export default function Contact() {
               </a>
               <div className="pt-4">
                 <p className="font-cormorant font-light text-[30px] leading-[1.25]">
-                  <span className="text-shimmer">Odpovídám do 1 hodiny.</span>
+                  <span className="text-shimmer">Odpovídám do 24 hodin.</span>
                   <br />
                   <span className="text-[#8a8070]">Každý den.</span>
                 </p>
@@ -147,7 +147,7 @@ export default function Contact() {
             transition={{ duration: 0.3 }}
             className="fixed top-6 left-1/2 z-50 bg-[#c9a84c] text-[#080808] font-inter font-medium text-[13px] px-6 py-3 shadow-xl"
             role="status" aria-live="polite">
-            ✓ Děkuji! Ozvu se do hodiny.
+            ✓ Děkuji! Ozvu se do 24 hodin.
           </motion.div>
         )}
       </AnimatePresence>

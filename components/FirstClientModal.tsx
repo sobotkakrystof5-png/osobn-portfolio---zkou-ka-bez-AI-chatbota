@@ -145,7 +145,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                     <CheckCircle size={44} className="text-[#c9a84c]" />
                     <h2 className="font-cormorant font-light text-[36px] text-[#f0ece6]">Žádost odeslána!</h2>
                     <p className="font-inter font-light text-[15px] text-[#8a8070] max-w-sm leading-[1.75]">
-                      Ozvu se ti do hodiny. Těším se na spolupráci — a na tvou referenci&nbsp;😊
+                      Ozvu se ti do 24 hodin. Těším se na spolupráci — a na tvou referenci&nbsp;😊
                     </p>
                     <button
                       onClick={handleClose}
