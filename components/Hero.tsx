@@ -88,10 +88,10 @@ export default function Hero() {
         style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }}
         aria-hidden="true" />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pb-28">
         <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
           className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-10">
-          — VIZEON Digital Agency
+          Web. Design. Výsledky.
         </motion.p>
 
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
@@ -123,13 +123,13 @@ export default function Hero() {
 
         <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
           className="font-inter font-light text-[11px] tracking-[0.15em] text-[#3d3830] uppercase">
-          Bez závazků · Bez skrytých poplatků · Jen výsledky
+          Bez závazků · Transparentní ceník · Jen výsledky
         </motion.p>
       </div>
 
       {/* Scroll */}
       <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" aria-hidden="true">
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" aria-hidden="true">
         <span className="font-inter font-light text-[10px] tracking-[0.25em] text-[#3d3830] uppercase">Scroll</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-[#c9a84c]/60 to-transparent origin-top scroll-line" />
       </motion.div>

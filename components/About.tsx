@@ -27,7 +27,7 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#c9a84c]/10 to-transparent pointer-events-none" />
               </div>
             </div>
-            <p className="mt-4 font-inter font-light text-[10px] tracking-[0.15em] text-[#3d3830] uppercase">
+            <p className="mt-4 font-inter font-medium text-[10px] tracking-[0.15em] text-[#c9a84c] uppercase">
               Kryštof Sobotka · VIZEON · Česká republika
             </p>
           </motion.div>

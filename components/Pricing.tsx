@@ -336,7 +336,7 @@ export default function Pricing() {
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-inter font-light text-[14px] text-[#8a8070] mb-12"
         >
-          Víte přesně co dostanete a za kolik. Žádné skryté poplatky.
+          Víte přesně co dostanete a za kolik — cena dle dohodnuté nabídky.
         </motion.p>
 
         <motion.div
@@ -425,7 +425,7 @@ export default function Pricing() {
           {[
             "Nezávazná konzultace zdarma",
             "Záloha 30 % · doplatek 70 % po dokončení",
-            "Žádné skryté poplatky",
+            "Cena dle dohodnuté nabídky",
           ].map((item, i) => (
             <span key={i} className="font-inter font-light text-[11px] tracking-[0.05em] text-[#3d3830] flex items-center gap-2">
               <span className="text-[#c9a84c]/25 text-[8px]">◆</span>

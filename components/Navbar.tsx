@@ -40,7 +40,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="flex flex-col leading-none group" aria-label="VIZEON">
             <span className="font-cormorant font-light text-[22px] tracking-widest text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">VIZEON</span>
-            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#3d3830]">Web. Design. Výsledky.</span>
+            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#8a8070]">Web. Design. Výsledky.</span>
           </a>
 
           {/* Desktop nav */}

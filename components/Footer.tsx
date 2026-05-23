@@ -46,7 +46,7 @@ export default function Footer() {
               <span className="font-cormorant font-light text-[28px] text-[#f0ece6] tracking-[0.12em] group-hover:text-[#c9a84c] transition-colors duration-300">
                 VIZEON
               </span>
-              <span className="font-inter font-light text-[10px] uppercase tracking-[0.25em] text-[#3d3830] mt-0.5">
+              <span className="font-inter font-light text-[10px] uppercase tracking-[0.25em] text-[#8a8070] mt-0.5">
                 Web. Design. Výsledky.
               </span>
             </a>
