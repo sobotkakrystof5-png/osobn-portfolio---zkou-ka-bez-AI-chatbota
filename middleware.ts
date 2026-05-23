@@ -37,20 +37,16 @@ function isRateLimited(ip: string, maxRequests: number, windowMs: number): boole
 }
 
 /* ─── Povolené originy ──────────────────────────────────────────────────── */
-const STATIC_ORIGINS = [
+const ALLOWED_ORIGINS = [
   'https://vizeon.cz',
   'https://www.vizeon.cz',
 ];
 
 function isAllowedOrigin(origin: string | null): boolean {
-  if (!origin) return false;
-  // Statické domény
-  if (STATIC_ORIGINS.includes(origin)) return true;
-  // Jakýkoliv Vercel deployment tohoto projektu
+  if (!origin) return true; // same-origin requesty nemají Origin header → pustit
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
   if (/^https:\/\/.+\.vercel\.app$/.test(origin)) return true;
-  // Vercel automaticky nastavuje VERCEL_URL pro aktuální deployment
-  const vercelUrl = process.env.VERCEL_URL;
-  if (vercelUrl && origin === `https://${vercelUrl}`) return true;
+  if (origin.startsWith('http://localhost')) return true;
   return false;
 }
 
