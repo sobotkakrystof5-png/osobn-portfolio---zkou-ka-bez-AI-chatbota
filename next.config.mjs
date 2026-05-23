@@ -5,12 +5,77 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // ── Dev server (Turbopack) ───────────────────────────────────────────────
   turbopack: {
     root: __dirname,
   },
+
+  // ── Produkční základy ────────────────────────────────────────────────────
+  poweredByHeader: false,      // neposílat "X-Powered-By: Next.js"
+  reactStrictMode: true,       // odhaluje potenciální problémy za vývoje
+  compress: true,              // gzip/brotli pro non-Vercel prostředí
+
+  // ── Optimalizace obrázků ─────────────────────────────────────────────────
   images: {
     remotePatterns: [],
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30,          // 30 dní na Vercel CDN
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+
+  // ── HTTP hlavičky ────────────────────────────────────────────────────────
+  async headers() {
+    return [
+      // Bezpečnostní hlavičky na všech routách
+      {
+        source: "/(.*)",
+        headers: [
+          // Zabraňuje vložení stránky do <iframe> (clickjacking)
+          { key: "X-Frame-Options", value: "DENY" },
+          // Zabraňuje MIME sniffingu
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          // Referrer pouze na stejný origin a HTTPS
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // Zakázat nevyužité browser features
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+          },
+          // HSTS — vynutit HTTPS na 2 roky (doporučeno pro preload list)
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          // Pomáhá s výkonem: prefetch DNS pro Google Fonts
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+        ],
+      },
+
+      // Statické assety Next.js — cache 1 rok (obsah má hash v názvu)
+      {
+        source: "/_next/static/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+
+      // Portfolio obrázky — cache 1 rok
+      {
+        source: "/portfolio/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+
+      // Ostatní statické soubory (favicon, profilová foto)
+      {
+        source: "/(favicon\\.ico|profil\\.jpg)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
+    ];
   },
 };
 

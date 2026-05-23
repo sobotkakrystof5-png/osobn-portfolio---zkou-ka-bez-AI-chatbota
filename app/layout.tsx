@@ -68,11 +68,6 @@ const jsonLd = {
       areaServed: "CZ",
       description:
         "Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí.",
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "5",
-        reviewCount: "10",
-      },
     },
     {
       "@type": "Person",
