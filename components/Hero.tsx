@@ -88,7 +88,7 @@ export default function Hero() {
         style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }}
         aria-hidden="true" />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pb-28">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-16 md:pt-20 pb-28">
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
           className="font-cormorant font-light leading-[1.0] text-[48px] md:text-[84px] lg:text-[100px] text-[#f0ece6] mb-8"
           aria-label="Weby, které přivádějí zákazníky – ne jen návštěvníky.">
