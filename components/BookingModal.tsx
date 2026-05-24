@@ -487,9 +487,11 @@ export default function BookingModal({
   if (isOpen !== prevIsOpenRef.current) {
     prevIsOpenRef.current = isOpen;
     if (isOpen) {
-      setStep('compact');
+      // S prefillem (z PromoPopupu) → compact formulář rovnou
+      // Bez prefill (běžná CTA tlačítka) → krok 1: výběr služby
+      setStep(prefill ? 'compact' : 1);
       setData({
-        service: prefill?.service ?? 'individualni',
+        service: prefill?.service ?? null,
         serviceName: prefill?.serviceName ?? '',
         subService: prefill?.subService ?? null,
         name: '',
