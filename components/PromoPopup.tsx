@@ -115,7 +115,7 @@ export default function PromoPopup() {
 
   useEffect(() => {
     setMounted(true);
-    if (typeof window !== "undefined" && sessionStorage.getItem("vizeon_promo_v3")) {
+    if (typeof window !== "undefined" && sessionStorage.getItem("vizeon_promo_v4")) {
       setDismissed(true);
       return;
     }
@@ -143,7 +143,7 @@ export default function PromoPopup() {
   const handleClose = useCallback(() => {
     setVisible(false);
     setTimeout(() => setDismissed(true), 600);
-    if (typeof window !== "undefined") sessionStorage.setItem("vizeon_promo_v3", "1");
+    if (typeof window !== "undefined") sessionStorage.setItem("vizeon_promo_v4", "1");
   }, []);
 
   const handleCTA = useCallback(() => {
