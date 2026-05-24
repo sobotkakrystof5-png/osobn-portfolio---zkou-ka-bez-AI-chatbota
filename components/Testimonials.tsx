@@ -2,23 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { fadeUp, stagger, viewport } from "@/lib/animations";
+import { fadeUp, viewport } from "@/lib/animations";
 import FirstClientModal from "@/components/FirstClientModal";
-
-const placeholders = [
-  {
-    label: "Vaše zkušenost zde",
-    desc: "Buďte první, kdo sdílí svůj příběh spolupráce.",
-  },
-  {
-    label: "Vaše zkušenost zde",
-    desc: "Společně vytvoříme web, který vám přivede zákazníky.",
-  },
-  {
-    label: "Vaše zkušenost zde",
-    desc: "Přímá komunikace, výsledky na míru vašemu oboru.",
-  },
-];
 
 export default function Testimonials() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,7 +23,7 @@ export default function Testimonials() {
             viewport={viewport}
             className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4"
           >
-            — Co říkají klienti
+            — Upřímně
           </motion.p>
 
           <motion.h2
@@ -46,9 +31,9 @@ export default function Testimonials() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-6 max-w-2xl"
+            className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-8 max-w-2xl"
           >
-            Klienti, kteří to <span className="text-shimmer">zažili</span>.
+            Upřímně o <span className="text-shimmer">referencích</span>.
           </motion.h2>
 
           <motion.p
@@ -56,69 +41,27 @@ export default function Testimonials() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="font-inter font-light text-[15px] md:text-[17px] text-[#8a8070] max-w-xl mb-16 leading-[1.8]"
+            className="font-inter font-light text-[16px] md:text-[18px] text-[#8a8070] max-w-2xl mb-12 leading-[1.9]"
           >
-            Teprve začínám budovat portfolio referencí. Buď mezi prvními&nbsp;—
-            a získej výhodné podmínky.
+            Teprve stavím své portfolio referencí. To pro vás znamená jedno:{" "}
+            <span className="text-[#f0ece6]">
+              věnuji vašemu projektu plnou pozornost
+            </span>
+            , férové ceny a dokazuji kvalitu prací, ne slovy.
           </motion.p>
 
-          {/* Placeholder cards */}
           <motion.div
-            variants={stagger}
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="grid grid-cols-1 md:grid-cols-3 gap-5"
           >
-            {placeholders.map((item, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="group h-full bg-[#111111] border border-dashed border-white/[0.07] p-7 flex flex-col gap-5 hover:border-[rgba(201,168,76,0.2)] transition-all duration-300 relative overflow-hidden"
-              >
-                {/* Corner glow on hover */}
-                <div
-                  className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background:
-                      "radial-gradient(circle at top right, rgba(201,168,76,0.07), transparent 70%)",
-                  }}
-                  aria-hidden="true"
-                />
-
-                {/* Avatar placeholder */}
-                <div
-                  className="w-9 h-9 rounded-full bg-white/[0.03] border border-dashed border-white/[0.07]"
-                  aria-hidden="true"
-                />
-
-                {/* Text skeleton lines */}
-                <div className="flex flex-col gap-2 flex-1" aria-hidden="true">
-                  <div className="h-[2px] w-2/3 bg-white/[0.05] rounded" />
-                  <div className="h-[2px] w-full bg-white/[0.04] rounded" />
-                  <div className="h-[2px] w-4/5 bg-white/[0.04] rounded" />
-                  <div className="h-[2px] w-3/5 bg-white/[0.03] rounded" />
-                </div>
-
-                {/* Label & desc */}
-                <div>
-                  <p className="font-inter font-medium text-[13px] text-[#3d3830] mb-1">
-                    {item.label}
-                  </p>
-                  <p className="font-inter font-light text-[12px] text-[#2a2520] leading-[1.7]">
-                    {item.desc}
-                  </p>
-                </div>
-
-                {/* CTA */}
-                <button
-                  onClick={() => setModalOpen(true)}
-                  className="inline-flex font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#c9a84c] border border-[rgba(201,168,76,0.3)] px-4 py-2 hover:bg-[rgba(201,168,76,0.06)] hover:border-[rgba(201,168,76,0.5)] transition-all duration-300 mt-auto w-fit"
-                >
-                  Stát se prvním klientem →
-                </button>
-              </motion.div>
-            ))}
+            <button
+              onClick={() => setModalOpen(true)}
+              className="inline-flex items-center font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(201,168,76,0.3)]"
+            >
+              Získat výhodné podmínky prvního klienta →
+            </button>
           </motion.div>
         </div>
       </section>

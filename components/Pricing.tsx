@@ -334,10 +334,37 @@ export default function Pricing() {
         </motion.h2>
         <motion.p
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-light text-[14px] text-[#8a8070] mb-12"
+          className="font-inter font-light text-[14px] text-[#8a8070] mb-8"
         >
           Víte přesně co dostanete a za kolik — cena dle dohodnuté nabídky.
         </motion.p>
+
+        {/* ── Zakládací nabídka banner ── */}
+        <motion.div
+          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+          className="mb-12 relative overflow-hidden border border-[rgba(201,168,76,0.35)] bg-[rgba(201,168,76,0.04)] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center gap-3"
+          role="note"
+          aria-label="Zakládací nabídka"
+        >
+          {/* Levá zlatá linka */}
+          <div
+            className="absolute left-0 top-0 bottom-0 w-[3px] pointer-events-none"
+            style={{ background: "linear-gradient(180deg, transparent, #c9a84c, transparent)" }}
+            aria-hidden="true"
+          />
+          <span className="text-[22px] shrink-0" aria-hidden="true">🎁</span>
+          <div>
+            <p className="font-inter font-semibold text-[13px] text-[#c9a84c] mb-0.5 tracking-[0.03em]">
+              Zakládací nabídka
+            </p>
+            <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7]">
+              První klienti získávají{" "}
+              <span className="text-[#f0ece6] font-medium">všechny ceny se slevou 50 %</span>{" "}
+              výměnou za referenci a zpětnou vazbu.
+              Přeškrtnuté ceny jsou běžné sazby — vy platíte polovinu.
+            </p>
+          </div>
+        </motion.div>
 
         <motion.div
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
