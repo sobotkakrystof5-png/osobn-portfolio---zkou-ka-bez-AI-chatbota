@@ -157,13 +157,9 @@ export default function PromoPopup() {
     setTimeout(() => openBooking(prefill), 350);
   }, [openBooking, handleClose, selectedCat, selectedSvc]);
 
-  // "Chci to" → přeskočí výběr kategorie/druhu, rovnou Jobs reveal s výchozí službou
+  // "Chci to" → výběr kategorie → výběr služby → Jobs reveal → booking formulář
   const handleDirectBooking = useCallback(() => {
-    const defaultCat = serviceCategories[0];          // Weby
-    const defaultSvc = serviceCategories[0].items[1]; // Promo Page
-    setSelectedCat(defaultCat);
-    setSelectedSvc(defaultSvc);
-    setStep("reveal");
+    setStep("category");
   }, []);
 
   const handleBack = useCallback(() => {
