@@ -119,13 +119,27 @@ export default function PromoPopup() {
       setDismissed(true);
       return;
     }
-    const hero = document.getElementById("hero");
-    if (!hero) return;
+    // Zobrazíme popup až poté, co klient projde celým ceníkem.
+    // Sledujeme #cenik — jakmile ho uživatel plně přescrolluje (zmizí nahoře),
+    // počkáme 700 ms a zobrazíme nabídku.
+    const pricing = document.getElementById("cenik");
+    if (!pricing) return;
+
+    let hasSeen = false;
     const obs = new IntersectionObserver(
-      ([e]) => { if (!e.isIntersecting) { setTimeout(() => setVisible(true), 500); obs.disconnect(); } },
-      { threshold: 0.05 }
+      ([e]) => {
+        if (e.isIntersecting) {
+          // uživatel vidí ceník → zaznamenáme
+          hasSeen = true;
+        } else if (hasSeen && e.boundingClientRect.top < 0) {
+          // uživatel přescrolloval ceník → zobrazíme popup
+          setTimeout(() => setVisible(true), 700);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.25 }
     );
-    obs.observe(hero);
+    obs.observe(pricing);
     return () => obs.disconnect();
   }, []);
 
