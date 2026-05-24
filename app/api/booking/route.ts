@@ -3,8 +3,10 @@ import { Resend } from 'resend';
 import { z } from 'zod';
 
 const bookingSchema = z.object({
-  service:    z.string().min(1, 'Chybí služba'),
-  subService: z.string().optional(),
+  service:     z.string().optional().default('individualni'),
+  serviceName: z.string().optional().default(''),
+  subService:  z.string().optional(),
+  name:       z.string().trim().min(2, 'Chybí jméno').max(120),
   phone:      z.string().min(9,  'Neplatné telefonní číslo'),
   email:      z.email(),
   note:       z.string().optional(),
@@ -33,7 +35,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { service, subService, phone, email, note, date, slot } = parsed.data;
+  const { service, serviceName, subService, name, phone, email, note, date, slot } = parsed.data;
+  const firstName = name.split(/\s+/)[0];
+
+  const escapeHtml = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
   const [y, m, d] = date.split('-');
   const dateFormatted = `${parseInt(d)}. ${parseInt(m)}. ${y}`;
@@ -52,18 +58,20 @@ export async function POST(req: NextRequest) {
     const { error: err1 } = await resend.emails.send({
       from: 'VIZEON Booking <onboarding@resend.dev>',
       to: 'sobotkakrystof5@gmail.com',
-      subject: `Nová rezervace — ${service} — ${dateFormatted}`,
+      replyTo: email,
+      subject: `Nová rezervace — ${escapeHtml(name)} — ${dateFormatted}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="border-bottom: 1px solid #eee; padding-bottom: 12px;">Nová rezervace konzultace</h2>
           <table style="width:100%; border-collapse:collapse;">
-            <tr><td style="padding:8px 0; color:#666; width:140px;">Služba</td><td style="padding:8px 0; font-weight:500;">${service}</td></tr>
-            <tr><td style="padding:8px 0; color:#666;">Typ projektu</td><td style="padding:8px 0;">${subService ?? '—'}</td></tr>
-            <tr><td style="padding:8px 0; color:#666;">Telefon</td><td style="padding:8px 0;">${phone}</td></tr>
-            <tr><td style="padding:8px 0; color:#666;">E-mail</td><td style="padding:8px 0;">${email}</td></tr>
-            <tr><td style="padding:8px 0; color:#666;">Poznámka</td><td style="padding:8px 0;">${note ?? '—'}</td></tr>
+            <tr><td style="padding:8px 0; color:#666; width:140px;">Jméno</td><td style="padding:8px 0; font-weight:600;">${escapeHtml(name)}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Služba</td><td style="padding:8px 0; font-weight:500;">${escapeHtml(serviceName || service || '—')}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Typ projektu</td><td style="padding:8px 0;">${subService ? escapeHtml(subService) : '—'}</td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Telefon</td><td style="padding:8px 0;"><a href="tel:${encodeURIComponent(phone)}" style="color:#111; text-decoration:none;">${escapeHtml(phone)}</a></td></tr>
+            <tr><td style="padding:8px 0; color:#666;">E-mail</td><td style="padding:8px 0;"><a href="mailto:${encodeURIComponent(email)}" style="color:#111; text-decoration:none;">${escapeHtml(email)}</a></td></tr>
+            <tr><td style="padding:8px 0; color:#666;">Poznámka</td><td style="padding:8px 0;">${note ? escapeHtml(note) : '—'}</td></tr>
             <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Datum</strong></td><td style="padding:8px; font-weight:700;">${dateFormatted}</td></tr>
-            <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Čas</strong></td><td style="padding:8px; font-weight:700;">${slot}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Čas</strong></td><td style="padding:8px; font-weight:700;">${escapeHtml(slot)}</td></tr>
           </table>
           <p style="margin-top:20px; color:#999; font-size:13px;">Odesláno přes VIZEON rezervační systém</p>
         </div>
@@ -79,16 +87,18 @@ export async function POST(req: NextRequest) {
     const { error: err2 } = await resend.emails.send({
       from: 'Kryštof Sobotka — VIZEON <onboarding@resend.dev>',
       to: email,
+      replyTo: 'sobotkakrystof5@gmail.com',
       subject: `Potvrzení konzultace — ${dateFormatted} v ${timeStart}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #fff; padding: 40px; border-radius: 12px;">
-          <h1 style="font-size: 24px; font-weight: 300; margin-bottom: 8px;">Budu s vámi počítat.</h1>
+          <h1 style="font-size: 24px; font-weight: 300; margin-bottom: 8px;">Děkuji, ${escapeHtml(firstName)}.</h1>
           <p style="color: #c9a84c; font-size: 14px; margin-bottom: 32px;">VIZEON — Kryštof Sobotka</p>
-          <p style="color: #aaa; line-height: 1.7;">V <strong style="color:#fff">${dateFormatted} v ${timeStart}</strong> vás kontaktuji na čísle <strong style="color:#fff">${phone}</strong>. Domluvíme se na detailech a vy mi popíšete vizi vašeho projektu.</p>
+          <p style="color: #aaa; line-height: 1.7;">V <strong style="color:#fff">${dateFormatted} v ${timeStart}</strong> vás kontaktuji na čísle <strong style="color:#fff">${escapeHtml(phone)}</strong>. Domluvíme se na detailech a vy mi popíšete vizi vašeho projektu.</p>
           <div style="background: #1a1a1a; border-radius: 8px; padding: 20px; margin: 24px 0;">
             <p style="color:#888; font-size:13px; margin:0 0 8px;">Shrnutí rezervace</p>
-            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Služba:</span> ${subService ?? service}</p>
-            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Termín:</span> ${dateFormatted} · ${slot}</p>
+            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Jméno:</span> ${escapeHtml(name)}</p>
+            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Služba:</span> ${escapeHtml(subService ?? serviceName ?? service ?? '—')}</p>
+            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Termín:</span> ${dateFormatted} · ${escapeHtml(slot)}</p>
           </div>
           <p style="color: #666; font-size: 13px; line-height: 1.7;">Pokud potřebujete termín změnit, ozvěte se na <a href="mailto:sobotkakrystof5@gmail.com" style="color:#c9a84c;">sobotkakrystof5@gmail.com</a>.</p>
           <p style="margin-top: 32px; color: #444; font-size: 12px;">VIZEON · Kryštof Sobotka · vizeon.cz</p>
@@ -101,7 +111,7 @@ export async function POST(req: NextRequest) {
       // Hlavní notifikace prošla — pokračujeme, klient uvidí success
     }
 
-    console.log(`[Booking] Rezervace úspěšně odeslána: ${service} ${dateFormatted} ${slot}`);
+    console.log(`[Booking] Rezervace úspěšně odeslána: ${subService ?? serviceName ?? service} ${dateFormatted} ${slot}`);
     return NextResponse.json({ success: true });
 
   } catch (error) {

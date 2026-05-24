@@ -3,6 +3,15 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBooking } from "@/context/BookingContext";
+import type { ServiceKey } from "@/types/booking";
+
+// Mapování PromoPopup klíčů kategorií → BookingModal SERVICES klíče
+const CATEGORY_KEY_MAP: Record<string, { key: ServiceKey; name: string }> = {
+  weby:       { key: "weby",       name: "Weby" },
+  design:     { key: "grafika",    name: "Grafický design" },
+  prezentace: { key: "prezentace", name: "Prezentace" },
+  social:     { key: "socialni",   name: "Sociální sítě" },
+};
 
 function useCountdown(seconds: number) {
   const [left, setLeft] = useState(seconds);
@@ -138,6 +147,18 @@ export default function PromoPopup() {
   }, []);
 
   const handleCTA = useCallback(() => {
+    handleClose();
+    // Předáme vybranou službu — BookingModal díky tomu přeskočí krok výběru
+    // a klient jde rovnou na Kontakt → Termín → Souhrn.
+    const mapped = selectedCat ? CATEGORY_KEY_MAP[selectedCat.key] : null;
+    const prefill = (mapped && selectedSvc)
+      ? { service: mapped.key, serviceName: mapped.name, subService: selectedSvc.name }
+      : undefined;
+    setTimeout(() => openBooking(prefill), 350);
+  }, [openBooking, handleClose, selectedCat, selectedSvc]);
+
+  // Přímý přechod na booking formulář bez výběru kategorie/druhu
+  const handleDirectBooking = useCallback(() => {
     handleClose();
     setTimeout(() => openBooking(), 350);
   }, [openBooking, handleClose]);
@@ -314,13 +335,13 @@ export default function PromoPopup() {
                           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}
                         >
                           <motion.button
-                            onClick={() => setStep("category")}
+                            onClick={handleDirectBooking}
                             className="w-full font-inter font-semibold text-[12px] tracking-[0.14em] uppercase text-[#080808] px-6 py-[15px] text-center"
                             style={{ background: "linear-gradient(90deg, #b8943e, #f0d070, #c9a84c)", boxShadow: "0 0 40px rgba(201,168,76,0.4), 0 4px 20px rgba(0,0,0,0.4)" }}
                             whileHover={{ scale: 1.02, boxShadow: "0 0 60px rgba(201,168,76,0.6)" }}
                             whileTap={{ scale: 0.97 }}
                           >
-                            Chci 50% slevu →
+                            Chci to →
                           </motion.button>
                         </motion.div>
 

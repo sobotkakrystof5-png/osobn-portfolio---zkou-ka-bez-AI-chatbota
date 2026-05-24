@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -19,6 +19,7 @@ import {
 import toast from 'react-hot-toast';
 import { SERVICES, WORKING_HOURS } from '@/lib/booking-config';
 import type { BookingData, ServiceKey } from '@/types/booking';
+import type { BookingPrefill } from '@/context/BookingContext';
 import type { LucideIcon } from 'lucide-react';
 
 /* ─── Promo price map ───────────────────────────────────── */
@@ -170,7 +171,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 /* ─── Types ─────────────────────────────────────────────── */
-type Step = 1 | 2 | 3 | 4 | 'success';
+type Step = 1 | 2 | 3 | 4 | 'compact' | 'success';
 
 const STEP_LABELS = ['Služba', 'Kontakt', 'Termín', 'Souhrn'];
 
@@ -253,12 +254,15 @@ function downloadICS(data: BookingData) {
 }
 
 /* ─── Step indicator ────────────────────────────────────── */
-function StepIndicator({ current }: { current: Step }) {
-  const active = current === 'success' ? 4 : (current as number);
+function StepIndicator({ current, skipService = false }: { current: Step; skipService?: boolean }) {
+  // S prefillem (z PromoPopupu) ukážeme jen Kontakt → Termín → Souhrn (číslováno 1–3)
+  const labels = skipService ? STEP_LABELS.slice(1) : STEP_LABELS;
+  const rawActive = current === 'success' ? 4 : (current as number);
+  const active = skipService ? rawActive - 1 : rawActive;
 
   return (
     <div className="flex items-center justify-center gap-0 mb-8">
-      {STEP_LABELS.map((label, i) => {
+      {labels.map((label, i) => {
         const stepNum = i + 1;
         const isDone = active > stepNum;
         const isActive = active === stepNum;
@@ -446,15 +450,18 @@ function Calendar({
 export default function BookingModal({
   isOpen,
   onClose,
+  prefill,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  prefill?: BookingPrefill | null;
 }) {
   const [step, setStep] = useState<Step>(1);
   const [data, setData] = useState<BookingData>({
     service: null,
     serviceName: '',
     subService: null,
+    name: '',
     phone: '',
     email: '',
     note: '',
@@ -469,14 +476,23 @@ export default function BookingModal({
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  // Reset when modal opens
-  useEffect(() => {
+  // S prefillem (z PromoPopupu) přeskočíme výběr služby a startujeme rovnou na kontaktu
+  const hasPrefill = !!prefill;
+
+  // Reset SYNCHRONNĚ při otevření, jinak by se chvilkově vyrenderoval krok 1
+  // (useState má initial = 1) a AnimatePresence by ho animoval ven → klient by
+  // viděl "blesk" výběru služby. setState během renderu s ref-guardem zajistí,
+  // že se rovnou rendruje správný krok bez efektového zpoždění.
+  const prevIsOpenRef = useRef(false);
+  if (isOpen !== prevIsOpenRef.current) {
+    prevIsOpenRef.current = isOpen;
     if (isOpen) {
-      setStep(1);
+      setStep('compact');
       setData({
-        service: null,
-        serviceName: '',
-        subService: null,
+        service: prefill?.service ?? 'individualni',
+        serviceName: prefill?.serviceName ?? '',
+        subService: prefill?.subService ?? null,
+        name: '',
         phone: '',
         email: '',
         note: '',
@@ -489,7 +505,7 @@ export default function BookingModal({
       setCurrentMonth(d);
       setSelectedDate(null);
     }
-  }, [isOpen]);
+  }
 
   // Lock body scroll
   useEffect(() => {
@@ -517,6 +533,7 @@ export default function BookingModal({
     }
   };
 
+  const isNameValid = data.name.trim().length >= 2;
   const isPhoneValid = data.phone.replace(/\s/g, '').length >= 9;
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
 
@@ -646,10 +663,24 @@ export default function BookingModal({
       <div className="space-y-4">
         <div>
           <label className="block font-inter text-xs uppercase tracking-[0.1em] text-white/40 mb-2">
+            Jméno a příjmení *
+          </label>
+          <input
+            type="text"
+            autoComplete="name"
+            placeholder="Jan Novák"
+            value={data.name}
+            onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+          />
+        </div>
+        <div>
+          <label className="block font-inter text-xs uppercase tracking-[0.1em] text-white/40 mb-2">
             Telefon *
           </label>
           <input
             type="tel"
+            autoComplete="tel"
             placeholder="+420 xxx xxx xxx"
             value={data.phone}
             onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
@@ -685,9 +716,9 @@ export default function BookingModal({
       </div>
 
       <NavButtons
-        onBack={() => setStep(1)}
+        onBack={hasPrefill ? undefined : () => setStep(1)}
         onNext={() => setStep(3)}
-        nextDisabled={!isPhoneValid || !isEmailValid}
+        nextDisabled={!isNameValid || !isPhoneValid || !isEmailValid}
       />
     </div>
   );
@@ -782,6 +813,7 @@ export default function BookingModal({
     const rows = [
       { label: 'Služba', value: data.serviceName },
       { label: 'Typ projektu', value: data.subService },
+      { label: 'Jméno', value: data.name },
       { label: 'Telefon', value: data.phone },
       { label: 'E-mail', value: data.email },
       { label: 'Poznámka', value: data.note || '—' },
@@ -823,21 +855,188 @@ export default function BookingModal({
     );
   };
 
+  /* ── Render compact (po nabídce z PromoPopupu — vše v jednom formuláři) ── */
+  const renderCompact = () => {
+    const dateLabel = selectedDate
+      ? (() => {
+          const dayIdx = selectedDate.getDay();
+          const dayName = CZ_DAYS_LONG[dayIdx === 0 ? 6 : dayIdx - 1];
+          return `${dayName.charAt(0).toUpperCase() + dayName.slice(1)} ${selectedDate.getDate()}. ${selectedDate.getMonth() + 1}.`;
+        })()
+      : null;
+
+    const canSubmit = isNameValid && isPhoneValid && isEmailValid && !!data.date && !!data.slot;
+
+    return (
+      <div>
+        {(data.subService || data.serviceName) && (
+          <p className="font-inter text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-2">
+            {data.subService || data.serviceName}
+          </p>
+        )}
+        <h2 className="font-cormorant font-light text-2xl md:text-3xl text-[#f0ece6] mb-2">
+          Rezervujte si nezávaznou konzultaci
+        </h2>
+        <p className="font-inter font-light text-sm text-white/50 mb-6">
+          Vyplňte kontakt a vyberte termín — ozvu se vám telefonicky.
+        </p>
+
+        {/* Kontaktní údaje */}
+        <div className="space-y-3 mb-6">
+          <div>
+            <label className="block font-inter text-[11px] uppercase tracking-[0.1em] text-white/40 mb-1.5">
+              Jméno a příjmení *
+            </label>
+            <input
+              type="text"
+              autoComplete="name"
+              placeholder="Jan Novák"
+              value={data.name}
+              onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block font-inter text-[11px] uppercase tracking-[0.1em] text-white/40 mb-1.5">
+                Telefon *
+              </label>
+              <input
+                type="tel"
+                autoComplete="tel"
+                placeholder="+420 xxx xxx xxx"
+                value={data.phone}
+                onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+              />
+            </div>
+            <div>
+              <label className="block font-inter text-[11px] uppercase tracking-[0.1em] text-white/40 mb-1.5">
+                E-mail *
+              </label>
+              <input
+                type="email"
+                autoComplete="email"
+                placeholder="vas@email.cz"
+                value={data.email}
+                onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Termín + čas */}
+        <div className="border-t border-white/10 pt-6 mb-2">
+          <label className="block font-inter text-[11px] uppercase tracking-[0.1em] text-white/40 mb-3">
+            Vyberte termín *
+          </label>
+          <Calendar
+            currentMonth={currentMonth}
+            onPrev={() => {
+              const d = new Date(currentMonth);
+              d.setMonth(d.getMonth() - 1);
+              setCurrentMonth(d);
+            }}
+            onNext={() => {
+              const d = new Date(currentMonth);
+              d.setMonth(d.getMonth() + 1);
+              setCurrentMonth(d);
+            }}
+            selectedDate={selectedDate}
+            onSelectDate={(d) => {
+              setSelectedDate(d);
+              const y = d.getFullYear();
+              const m = String(d.getMonth() + 1).padStart(2, '0');
+              const day = String(d.getDate()).padStart(2, '0');
+              setData((prev) => ({ ...prev, date: `${y}-${m}-${day}`, slot: null }));
+            }}
+          />
+
+          <AnimatePresence>
+            {selectedDate && slots.length > 0 && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ overflow: 'hidden' }}
+              >
+                <div className="mt-4">
+                  <p className="font-inter text-[11px] text-white/40 mb-2 uppercase tracking-[0.05em]">
+                    Dostupné časy — {dateLabel}
+                  </p>
+                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
+                    {slots.map((slot) => (
+                      <button
+                        key={slot}
+                        onClick={() => setData((prev) => ({ ...prev, slot }))}
+                        className={`border rounded-lg px-2 py-1.5 text-sm text-center cursor-pointer transition-all duration-200 font-inter ${
+                          data.slot === slot
+                            ? 'border-[#c9a84c] bg-[#c9a84c]/10 text-[#c9a84c]'
+                            : 'border-white/10 text-white/60 hover:border-[#c9a84c]/50 hover:text-white/80'
+                        }`}
+                      >
+                        {slot.split('–')[0].trim()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Submit */}
+        <div className="flex justify-end items-center mt-6 pt-5 border-t border-white/10">
+          <button
+            onClick={handleSubmit}
+            disabled={!canSubmit || loading}
+            className={`border border-[#c9a84c] bg-[#c9a84c]/10 text-[#c9a84c] hover:bg-[#c9a84c]/20 px-6 py-3 rounded-xl text-sm transition-colors font-medium flex items-center gap-2 ${
+              !canSubmit || loading ? 'opacity-40 cursor-not-allowed pointer-events-none' : ''
+            }`}
+          >
+            {loading && <Loader2 size={14} className="animate-spin" />}
+            {loading ? 'Odesílám...' : 'Odeslat žádost →'}
+          </button>
+        </div>
+
+        <p className="font-inter text-[10px] text-white/30 text-center mt-3">
+          Po odeslání dostanete potvrzení e-mailem s možností přidat termín do kalendáře.
+        </p>
+      </div>
+    );
+  };
+
   /* ── Render success ── */
   const renderSuccess = () => {
     const timeStart = data.slot ? data.slot.split('–')[0].trim() : '';
     const dateFormatted = data.date ? formatDateCz(data.date) : '';
     const calData = data.date && data.slot ? formatForCalendar(data.date, data.slot) : null;
 
+    // ISO datetime pro Outlook (YYYY-MM-DDTHH:MM:SS)
+    const toIso = (s: string) => `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}T${s.slice(9, 11)}:${s.slice(11, 13)}:${s.slice(13, 15)}`;
+
+    const title = 'Konzultace VIZEON';
+    const details = `Telefonická konzultace — ${data.subService || data.serviceName}. Kryštof Sobotka bude volat na ${data.phone}.`;
+
     const gcUrl = calData
-      ? `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Konzultace+VIZEON&dates=${calData.dateClean}T${calData.startStr}/${calData.dateClean}T${calData.endStr}&details=Telefonická+konzultace+VIZEON`
+      ? `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${calData.dateClean}T${calData.startStr}/${calData.dateClean}T${calData.endStr}&details=${encodeURIComponent(details)}`
+      : '#';
+
+    const outlookLiveUrl = calData
+      ? `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(title)}&body=${encodeURIComponent(details)}&startdt=${toIso(`${calData.dateClean}T${calData.startStr}`)}&enddt=${toIso(`${calData.dateClean}T${calData.endStr}`)}`
+      : '#';
+
+    const outlookOfficeUrl = calData
+      ? `https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(title)}&body=${encodeURIComponent(details)}&startdt=${toIso(`${calData.dateClean}T${calData.startStr}`)}&enddt=${toIso(`${calData.dateClean}T${calData.endStr}`)}`
       : '#';
 
     return (
       <div className="text-center py-4">
         <CheckCircle size={52} className="text-[#c9a84c] mx-auto mb-4" />
         <h2 className="font-cormorant font-light text-2xl text-[#f0ece6] mb-3">
-          Budu s vámi počítat.
+          {data.name ? `Děkuji, ${data.name.split(' ')[0]}.` : 'Budu s vámi počítat.'}
         </h2>
         <p className="font-inter font-light text-sm text-white/60 leading-relaxed max-w-md mx-auto">
           V{' '}
@@ -845,9 +1044,8 @@ export default function BookingModal({
             {dateFormatted} v {timeStart}
           </span>{' '}
           vás kontaktuji na čísle{' '}
-          <span className="text-white font-medium">{data.phone}</span>. Domluvíme se na detailech
-          — popíšete mi vizi vašeho projektu a já vám navrhnu nejlepší postup. Těším se na
-          spolupráci.
+          <span className="text-white font-medium">{data.phone}</span>. Potvrzení dorazí na{' '}
+          <span className="text-white font-medium">{data.email}</span>.
         </p>
 
         {/* Calendar section */}
@@ -871,11 +1069,27 @@ export default function BookingModal({
             >
               🍎 Apple Calendar
             </button>
+            <a
+              href={outlookLiveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-white/10 text-white/70 hover:border-[#c9a84c]/50 hover:text-white px-4 py-2 rounded-lg text-xs font-inter transition-colors"
+            >
+              📧 Outlook.com
+            </a>
+            <a
+              href={outlookOfficeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-white/10 text-white/70 hover:border-[#c9a84c]/50 hover:text-white px-4 py-2 rounded-lg text-xs font-inter transition-colors"
+            >
+              💼 Outlook 365
+            </a>
             <button
               onClick={() => downloadICS(data)}
               className="border border-white/10 text-white/70 hover:border-[#c9a84c]/50 hover:text-white px-4 py-2 rounded-lg text-xs font-inter transition-colors"
             >
-              📧 Outlook
+              📥 .ics soubor
             </button>
           </div>
         </div>
@@ -901,6 +1115,8 @@ export default function BookingModal({
         return renderStep3();
       case 4:
         return renderStep4();
+      case 'compact':
+        return renderCompact();
       case 'success':
         return renderSuccess();
     }
@@ -930,8 +1146,10 @@ export default function BookingModal({
             </button>
 
             <div className="p-6 md:p-8">
-              {/* Step indicator — hidden on success */}
-              {step !== 'success' && <StepIndicator current={step} />}
+              {/* Step indicator — hidden on success a v compact módu (jeden formulář) */}
+              {step !== 'success' && step !== 'compact' && (
+                <StepIndicator current={step} skipService={hasPrefill} />
+              )}
 
               {/* Step content with animation */}
               <AnimatePresence mode="wait">
