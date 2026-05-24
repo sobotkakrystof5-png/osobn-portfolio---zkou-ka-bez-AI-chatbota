@@ -216,7 +216,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                               výměnou za referenci
                             </p>
                             <p className="font-inter font-light text-[13px] text-[#8a8070] mt-1">
-                              Sleva platí na veškeré tvorby. Správa webu (hosting) za běžnou cenu.
+                              Sleva platí na veškeré tvorby <span className="text-[#3d3830]">(kromě Web Care)</span>. Správa webu za běžnou cenu.
                             </p>
                           </div>
                         </div>
@@ -275,7 +275,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                       </button>
 
                       <p className="font-inter font-light text-[11px] text-[#3d3830] text-center mt-4 leading-[1.6]">
-                        Sleva platí výměnou za upřímnou referenci po dokončení projektu.
+                        Sleva platí výměnou za upřímnou referenci po dokončení projektu (kromě Web Care).
                         Dle{" "}
                         <a href="/podminky" target="_blank" className="hover:text-[#8a8070] transition-colors underline underline-offset-2">
                           obchodních podmínek
@@ -440,7 +440,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                         </button>
 
                         <p className="font-inter font-light text-[11px] text-[#3d3830] text-center mt-4 leading-[1.6]">
-                          Sleva platí výměnou za upřímnou referenci po dokončení projektu.
+                          Sleva platí výměnou za upřímnou referenci po dokončení projektu (kromě Web Care).
                           Dle{" "}
                           <a href="/podminky" target="_blank" className="hover:text-[#8a8070] transition-colors underline underline-offset-2">
                             obchodních podmínek
