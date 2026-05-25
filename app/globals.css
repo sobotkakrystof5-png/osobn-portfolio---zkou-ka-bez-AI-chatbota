@@ -124,6 +124,13 @@ body {
   pointer-events: none;
 }
 
+@media (max-width: 767px) {
+  .glow-orb {
+    filter: blur(50px);
+    opacity: 0.22;
+  }
+}
+
 /* ─── Mřížka v pozadí ───────────────────────────────── */
 .grid-overlay {
   position: absolute;

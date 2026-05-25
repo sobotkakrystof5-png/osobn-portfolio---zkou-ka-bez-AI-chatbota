@@ -63,7 +63,7 @@ export default function Hero() {
 
       {/* FloatGlow orb — zlatý vlevo */}
       <motion.div
-        className="glow-orb absolute -left-40 top-1/3 w-[480px] h-[480px] rounded-full bg-[#c9a84c] z-0"
+        className="glow-orb absolute -left-16 md:-left-40 top-1/3 w-[200px] h-[200px] md:w-[480px] md:h-[480px] rounded-full bg-[#c9a84c] z-0"
         animate={{ y: [0, -14, 0], opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
         aria-hidden="true"
@@ -71,7 +71,7 @@ export default function Hero() {
 
       {/* FloatGlow orb — teplý vpravo */}
       <motion.div
-        className="glow-orb absolute -right-48 bottom-[10%] w-[420px] h-[420px] rounded-full z-0"
+        className="glow-orb absolute -right-16 md:-right-48 bottom-[10%] w-[180px] h-[180px] md:w-[420px] md:h-[420px] rounded-full z-0"
         style={{ background: "#6b4f1a" }}
         animate={{ y: [0, 14, 0], opacity: [0.25, 0.42, 0.25], scale: [1, 1.04, 1] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
@@ -79,7 +79,7 @@ export default function Hero() {
       />
 
       {/* Velký středový glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none z-0"
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[700px] md:h-[700px] rounded-full pointer-events-none z-0"
         style={{ background: "radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 65%)" }}
         aria-hidden="true" />
 
