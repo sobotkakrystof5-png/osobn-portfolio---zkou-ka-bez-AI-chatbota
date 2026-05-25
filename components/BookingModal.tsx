@@ -208,7 +208,7 @@ function generateSlots(date: Date): string[] {
     const h2 = Math.floor((mins + 30) / 60);
     const m2 = (mins + 30) % 60;
     slots.push(
-      `${String(h1).padStart(2, '0')}:${String(m1).padStart(2, '0')} – ${String(h2).padStart(2, '0')}:${String(m2).padStart(2, '0')}`
+      `${String(h1).padStart(2, '0')}:${String(m1).padStart(2, '0')} - ${String(h2).padStart(2, '0')}:${String(m2).padStart(2, '0')}`
     );
   }
   return slots;
@@ -221,7 +221,7 @@ function formatDateCz(dateStr: string) {
 
 function formatForCalendar(date: string, slot: string) {
   const dateClean = date.replace(/-/g, '');
-  const startTime = slot.split('–')[0].trim();
+  const startTime = slot.split(/\s*[-–]\s*/)[0].trim();
   const [h, min] = startTime.split(':').map(Number);
   const endH = h + 1;
   const startStr = `${String(h).padStart(2, '0')}${String(min).padStart(2, '0')}00`;
@@ -792,7 +792,7 @@ export default function BookingModal({
                           : 'border-white/10 text-white/60 hover:border-[#c9a84c]/50 hover:text-white/80'
                       }`}
                     >
-                      {slot.split('–')[0].trim()}
+                      {slot.split(/\s*[-–]\s*/)[0].trim()}
                     </button>
                   ))}
                 </div>
@@ -979,7 +979,7 @@ export default function BookingModal({
                             : 'border-white/10 text-white/60 hover:border-[#c9a84c]/50 hover:text-white/80'
                         }`}
                       >
-                        {slot.split('–')[0].trim()}
+                        {slot.split(/\s*[-–]\s*/)[0].trim()}
                       </button>
                     ))}
                   </div>
@@ -1012,7 +1012,7 @@ export default function BookingModal({
 
   /* ── Render success ── */
   const renderSuccess = () => {
-    const timeStart = data.slot ? data.slot.split('–')[0].trim() : '';
+    const timeStart = data.slot ? data.slot.split(/\s*[-–]\s*/)[0].trim() : '';
     const dateFormatted = data.date ? formatDateCz(data.date) : '';
     const calData = data.date && data.slot ? formatForCalendar(data.date, data.slot) : null;
 

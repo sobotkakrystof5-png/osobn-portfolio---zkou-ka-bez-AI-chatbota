@@ -7,7 +7,7 @@ const bookingSchema = z.object({
   serviceName: z.string().optional().default(''),
   subService:  z.string().optional(),
   name:       z.string().trim().min(2, 'Chybí jméno').max(120),
-  phone:      z.string().min(9,  'Neplatné telefonní číslo'),
+  phone:      z.string().min(9,  'Neplatny format telefonu (min. 9 znaku)'),
   email:      z.email(),
   note:       z.string().optional(),
   date:       z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Neplatný formát data (YYYY-MM-DD)'),
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
   const [y, m, d] = date.split('-');
   const dateFormatted = `${parseInt(d)}. ${parseInt(m)}. ${y}`;
-  const timeStart = slot.split('–')[0].trim();
+  const timeStart = slot.split(/\s*[-–]\s*/)[0].trim();
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       from: 'VIZEON Booking <onboarding@resend.dev>',
       to: 'sobotkakrystof5@gmail.com',
       replyTo: email,
-      subject: `Nová rezervace — ${escapeHtml(name)} — ${dateFormatted}`,
+      subject: `Nova rezervace - ${escapeHtml(name)} - ${dateFormatted}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="border-bottom: 1px solid #eee; padding-bottom: 12px;">Nová rezervace konzultace</h2>
@@ -85,10 +85,10 @@ export async function POST(req: NextRequest) {
 
     // Potvrzovací email klientovi
     const { error: err2 } = await resend.emails.send({
-      from: 'Kryštof Sobotka — VIZEON <onboarding@resend.dev>',
+      from: 'Krystof Sobotka - VIZEON <onboarding@resend.dev>',
       to: email,
       replyTo: 'sobotkakrystof5@gmail.com',
-      subject: `Potvrzení konzultace — ${dateFormatted} v ${timeStart}`,
+      subject: `Potvrzeni konzultace - ${dateFormatted} v ${timeStart}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #fff; padding: 40px; border-radius: 12px;">
           <h1 style="font-size: 24px; font-weight: 300; margin-bottom: 8px;">Děkuji, ${escapeHtml(firstName)}.</h1>

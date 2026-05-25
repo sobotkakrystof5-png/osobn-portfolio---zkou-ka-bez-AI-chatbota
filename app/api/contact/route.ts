@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       from: "VIZEON Kontakt <onboarding@resend.dev>",
       to: [toEmail],
       replyTo: email,
-      subject: `Nová zpráva od ${name} — VIZEON`,
+      subject: `Nova zprava od ${name} - VIZEON`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #0a0a0a; color: #f5f5f5; border-radius: 4px;">
           <h2 style="margin: 0 0 24px; font-weight: 300; font-size: 28px; color: #c9a84c;">
