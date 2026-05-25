@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
+import { asciiSafe, bookingNotificationFrom, bookingConfirmationFrom } from '@/lib/email';
 
 const bookingSchema = z.object({
   service:     z.string().optional().default('individualni'),
@@ -56,10 +57,10 @@ export async function POST(req: NextRequest) {
 
     // Email mně — notifikace o nové rezervaci
     const { error: err1 } = await resend.emails.send({
-      from: 'VIZEON Booking <onboarding@resend.dev>',
+      from: bookingNotificationFrom(),
       to: 'sobotkakrystof5@gmail.com',
       replyTo: email,
-      subject: `Nova rezervace - ${escapeHtml(name)} - ${dateFormatted}`,
+      subject: asciiSafe(`Nova rezervace - ${name} - ${dateFormatted}`),
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="border-bottom: 1px solid #eee; padding-bottom: 12px;">Nová rezervace konzultace</h2>
@@ -85,10 +86,10 @@ export async function POST(req: NextRequest) {
 
     // Potvrzovací email klientovi
     const { error: err2 } = await resend.emails.send({
-      from: 'Krystof Sobotka - VIZEON <onboarding@resend.dev>',
+      from: bookingConfirmationFrom(),
       to: email,
       replyTo: 'sobotkakrystof5@gmail.com',
-      subject: `Potvrzeni konzultace - ${dateFormatted} v ${timeStart}`,
+      subject: asciiSafe(`Potvrzeni konzultace - ${dateFormatted} v ${timeStart}`),
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #fff; padding: 40px; border-radius: 12px;">
           <h1 style="font-size: 24px; font-weight: 300; margin-bottom: 8px;">Děkuji, ${escapeHtml(firstName)}.</h1>

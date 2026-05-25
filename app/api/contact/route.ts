@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { asciiSafe, contactFrom } from "@/lib/email";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -43,10 +44,10 @@ export async function POST(req: NextRequest) {
   try {
     const resend = new Resend(apiKey);
     const { error: sendError } = await resend.emails.send({
-      from: "VIZEON Kontakt <onboarding@resend.dev>",
+      from: contactFrom(),
       to: [toEmail],
       replyTo: email,
-      subject: `Nova zprava od ${name} - VIZEON`,
+      subject: asciiSafe(`Nova zprava od ${name} - VIZEON`),
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #0a0a0a; color: #f5f5f5; border-radius: 4px;">
           <h2 style="margin: 0 0 24px; font-weight: 300; font-size: 28px; color: #c9a84c;">
