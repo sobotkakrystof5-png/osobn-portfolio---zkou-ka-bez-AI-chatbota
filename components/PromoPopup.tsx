@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBooking } from "@/context/BookingContext";
 import type { ServiceKey } from "@/types/booking";
@@ -102,45 +102,81 @@ interface ServiceCategory {
 // 5 → "Teď pouze pro vás." (3 700 ms)
 // 6 → CTA tlačítko (4 300 ms)
 
+// Klíče sessionStorage pro každý trigger zvlášť
+const PROMO_HERO_KEY  = "vizeon_promo_hero_v5";
+const PROMO_CENIK_KEY = "vizeon_promo_cenik_v5";
+
 export default function PromoPopup() {
-  const [visible, setVisible]         = useState(false);
-  const [dismissed, setDismissed]     = useState(false);
-  const [mounted, setMounted]         = useState(false);
-  const [step, setStep]               = useState<Step>("offer");
-  const [selectedCat, setSelectedCat] = useState<ServiceCategory | null>(null);
-  const [selectedSvc, setSelectedSvc] = useState<ServiceItem | null>(null);
-  const [revealPhase, setRevealPhase] = useState(0);
-  const { openBooking }               = useBooking();
-  const { m, s }                      = useCountdown(11 * 60 + 23);
+  const [visible, setVisible]             = useState(false);
+  const visibleRef                        = useRef(false);
+  const [mounted, setMounted]             = useState(false);
+  const [step, setStep]                   = useState<Step>("offer");
+  const [selectedCat, setSelectedCat]     = useState<ServiceCategory | null>(null);
+  const [selectedSvc, setSelectedSvc]     = useState<ServiceItem | null>(null);
+  const [revealPhase, setRevealPhase]     = useState(0);
+  // Který trigger popup právě vyvolal ("hero" | "cenik" | null)
+  const [activeTrigger, setActiveTrigger] = useState<"hero" | "cenik" | null>(null);
+  const { openBooking }                   = useBooking();
+  const { m, s }                          = useCountdown(11 * 60 + 23);
+
+  // Zobrazí popup pro daný trigger — jen pokud ho uživatel ještě neviděl
+  // a popup právě není otevřený
+  const tryShow = useCallback((trigger: "hero" | "cenik") => {
+    const key = trigger === "hero" ? PROMO_HERO_KEY : PROMO_CENIK_KEY;
+    if (typeof window !== "undefined" && sessionStorage.getItem(key)) return;
+    if (visibleRef.current) return; // popup je otevřený → nespouštěj druhý
+    visibleRef.current = true;
+    setActiveTrigger(trigger);
+    setStep("offer");
+    setSelectedCat(null);
+    setSelectedSvc(null);
+    setVisible(true);
+  }, [visibleRef]);
 
   useEffect(() => {
     setMounted(true);
-    if (typeof window !== "undefined" && sessionStorage.getItem("vizeon_promo_v4")) {
-      setDismissed(true);
-      return;
-    }
-    // Zobrazíme popup až poté, co klient projde celým ceníkem.
-    // Sledujeme #cenik — jakmile ho uživatel plně přescrolluje (zmizí nahoře),
-    // počkáme 700 ms a zobrazíme nabídku.
-    const pricing = document.getElementById("cenik");
-    if (!pricing) return;
+    if (typeof window === "undefined") return;
 
-    let hasSeen = false;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          // uživatel vidí ceník → zaznamenáme
-          hasSeen = true;
-        } else if (hasSeen && e.boundingClientRect.top < 0) {
-          // uživatel přescrolloval ceník → zobrazíme popup
-          setTimeout(() => setVisible(true), 700);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.25 }
-    );
-    obs.observe(pricing);
-    return () => obs.disconnect();
+    // ── TRIGGER 1: Hero sekce scrollována mimo viewport ────────────────────
+    // Zobrazíme popup jakmile klient přejede přes hero (po úvodní animaci).
+    if (!sessionStorage.getItem(PROMO_HERO_KEY)) {
+      const hero = document.getElementById("hero");
+      if (hero) {
+        let heroWasVisible = false;
+        const heroObs = new IntersectionObserver(
+          ([e]) => {
+            if (e.isIntersecting) {
+              heroWasVisible = true;
+            } else if (heroWasVisible && e.boundingClientRect.top < 0) {
+              // Hero přejel nahoru → klient je pod hero sekcí
+              heroObs.disconnect();
+              setTimeout(() => tryShow("hero"), 400);
+            }
+          },
+          { threshold: 0.15 }
+        );
+        heroObs.observe(hero);
+      }
+    }
+
+    // ── TRIGGER 2: Ceník přijde do view ────────────────────────────────────
+    // Zobrazíme popup jakmile klient dorazí k ceníku (ne až ho přescrolluje).
+    if (!sessionStorage.getItem(PROMO_CENIK_KEY)) {
+      const pricing = document.getElementById("cenik");
+      if (pricing) {
+        const cenikObs = new IntersectionObserver(
+          ([e]) => {
+            if (e.isIntersecting) {
+              cenikObs.disconnect();
+              setTimeout(() => tryShow("cenik"), 300);
+            }
+          },
+          { threshold: 0.2 }
+        );
+        cenikObs.observe(pricing);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -156,9 +192,13 @@ export default function PromoPopup() {
 
   const handleClose = useCallback(() => {
     setVisible(false);
-    setTimeout(() => setDismissed(true), 600);
-    if (typeof window !== "undefined") sessionStorage.setItem("vizeon_promo_v4", "1");
-  }, []);
+    visibleRef.current = false;
+    if (typeof window !== "undefined" && activeTrigger) {
+      const key = activeTrigger === "hero" ? PROMO_HERO_KEY : PROMO_CENIK_KEY;
+      sessionStorage.setItem(key, "1");
+    }
+    setTimeout(() => setActiveTrigger(null), 600);
+  }, [activeTrigger, visibleRef]);
 
   const handleCTA = useCallback(() => {
     handleClose();
@@ -182,7 +222,7 @@ export default function PromoPopup() {
     else if (step === "category") setStep("offer");
   }, [step]);
 
-  if (!mounted || dismissed) return null;
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>
