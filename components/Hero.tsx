@@ -116,10 +116,35 @@ export default function Hero() {
           </a>
         </motion.div>
 
-        <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
-          className="font-inter font-light text-[11px] tracking-[0.15em] text-[#3d3830] uppercase">
-          Bez závazků · Transparentní ceník · Jen výsledky
-        </motion.p>
+        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
+          className="flex items-center justify-center flex-wrap gap-x-3 gap-y-2">
+          {[
+            { text: "Bez závazků", icon: "✓" },
+            { text: "Transparentní ceník", icon: "✓" },
+            { text: "Jen výsledky", icon: "✓" },
+          ].map((item, i) => (
+            <motion.span
+              key={i}
+              className="inline-flex items-center gap-[5px] px-3 py-[5px] font-inter font-medium text-[10px] uppercase tracking-[0.18em] border"
+              style={{
+                color: "#c9a84c",
+                borderColor: "rgba(201,168,76,0.25)",
+                background: "rgba(201,168,76,0.05)",
+              }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 + i * 0.12, duration: 0.4 }}
+              whileHover={{
+                borderColor: "rgba(201,168,76,0.55)",
+                background: "rgba(201,168,76,0.1)",
+                y: -1,
+              }}
+            >
+              <span style={{ color: "rgba(201,168,76,0.6)", fontSize: "9px" }}>{item.icon}</span>
+              {item.text}
+            </motion.span>
+          ))}
+        </motion.div>
       </div>
 
       {/* Scroll */}
