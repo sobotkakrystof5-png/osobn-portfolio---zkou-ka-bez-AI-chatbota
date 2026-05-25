@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
-import { asciiSafe, bookingNotificationFrom, bookingConfirmationFrom } from '@/lib/email';
+import { asciiSafe, bookingNotificationFrom, sendClientConfirmationEmail } from '@/lib/email';
 
 const bookingSchema = z.object({
   service:     z.string().optional().default('individualni'),
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
   try {
     const resend = new Resend(apiKey);
 
-    // Email mně — notifikace o nové rezervaci
+    // ── 1. Admin notifikace (Resend → sobotkakrystof5@gmail.com) ─────────────
     const { error: err1 } = await resend.emails.send({
       from: bookingNotificationFrom(),
       to: 'sobotkakrystof5@gmail.com',
@@ -84,35 +84,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Nepodařilo se odeslat email: ${err1.message}` }, { status: 500 });
     }
 
-    // Potvrzovací email klientovi
-    const { error: err2 } = await resend.emails.send({
-      from: bookingConfirmationFrom(),
-      to: email,
-      replyTo: 'sobotkakrystof5@gmail.com',
-      subject: asciiSafe(`Potvrzeni konzultace - ${dateFormatted} v ${timeStart}`),
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #fff; padding: 40px; border-radius: 12px;">
-          <h1 style="font-size: 24px; font-weight: 300; margin-bottom: 8px;">Děkuji, ${escapeHtml(firstName)}.</h1>
-          <p style="color: #c9a84c; font-size: 14px; margin-bottom: 32px;">VIZEON — Kryštof Sobotka</p>
-          <p style="color: #aaa; line-height: 1.7;">V <strong style="color:#fff">${dateFormatted} v ${timeStart}</strong> vás kontaktuji na čísle <strong style="color:#fff">${escapeHtml(phone)}</strong>. Domluvíme se na detailech a vy mi popíšete vizi vašeho projektu.</p>
-          <div style="background: #1a1a1a; border-radius: 8px; padding: 20px; margin: 24px 0;">
-            <p style="color:#888; font-size:13px; margin:0 0 8px;">Shrnutí rezervace</p>
-            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Jméno:</span> ${escapeHtml(name)}</p>
-            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Služba:</span> ${escapeHtml(subService ?? serviceName ?? service ?? '—')}</p>
-            <p style="margin:4px 0; font-size:14px;"><span style="color:#666;">Termín:</span> ${dateFormatted} · ${escapeHtml(slot)}</p>
-          </div>
-          <p style="color: #666; font-size: 13px; line-height: 1.7;">Pokud potřebujete termín změnit, ozvěte se na <a href="mailto:sobotkakrystof5@gmail.com" style="color:#c9a84c;">sobotkakrystof5@gmail.com</a>.</p>
-          <p style="margin-top: 32px; color: #444; font-size: 12px;">VIZEON · Kryštof Sobotka · vizeon.cz</p>
-        </div>
-      `,
-    });
-
-    if (err2) {
-      console.warn('[Booking] Potvrzení klientovi selhalo:', JSON.stringify(err2));
-      // Hlavní notifikace prošla — pokračujeme, klient uvidí success
+    // ── 2. Potvrzovací e-mail klientovi (Gmail SMTP přes Nodemailer) ──────────
+    // Gmail SMTP nemá omezení na příjemce — funguje pro jakýkoliv e-mail klienta
+    // bez nutnosti vlastní domény. Vyžaduje env: GMAIL_APP_PASSWORD.
+    // Selhání nezablokuje dokončení rezervace.
+    try {
+      await sendClientConfirmationEmail({
+        to:            email,
+        firstName,
+        name,
+        phone,
+        service:       subService ?? serviceName ?? service ?? '—',
+        dateFormatted,
+        slot,
+        timeStart,
+      });
+      console.log(`[Booking] Potvrzovací e-mail úspěšně odeslán klientovi: ${email}`);
+    } catch (emailErr) {
+      // Chyba se loguje, ale NEZABLOKUJE dokončení rezervace.
+      const msg = emailErr instanceof Error ? emailErr.message : JSON.stringify(emailErr);
+      console.error(`[Booking] Potvrzovací e-mail klientovi NEODESLÁN. Příjemce: ${email} | Chyba: ${msg}`);
     }
 
-    console.log(`[Booking] Rezervace úspěšně odeslána: ${subService ?? serviceName ?? service} ${dateFormatted} ${slot}`);
+    console.log(`[Booking] Rezervace úspěšně zpracována: ${subService ?? serviceName ?? service} ${dateFormatted} ${slot}`);
     return NextResponse.json({ success: true });
 
   } catch (error) {
