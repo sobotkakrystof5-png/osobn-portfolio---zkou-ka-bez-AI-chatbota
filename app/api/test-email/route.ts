@@ -1,69 +1,55 @@
 /**
- * TESTOVACÍ ENDPOINT — pouze pro ověření funkčnosti Resendu
- * Použití: GET /api/test-email
- * Po úspěšném otestování tento soubor SMAŽ nebo přidej auth ochranu.
+ * TESTOVACÍ ENDPOINT — ověření Resend + Gmail SMTP
+ * Použití: GET /api/test-email?to=email@example.com
+ * Po otestování SMAŽ nebo přidej auth ochranu.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { sendClientConfirmationEmail } from "@/lib/email";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const to = req.nextUrl.searchParams.get("to") ?? "sobotkakrystof5@gmail.com";
+  const results: Record<string, unknown> = {};
+
+  // ── 1. Test Resend (admin notifikace) ────────────────────────────────────
   const apiKey = process.env.RESEND_API_KEY;
-
-  // 1. Zkontroluj přítomnost klíče
   if (!apiKey) {
-    return NextResponse.json(
-      {
-        ok: false,
-        step: "env-check",
-        error: "RESEND_API_KEY není nastavený v Environment Variables na Vercelu.",
-      },
-      { status: 500 }
-    );
-  }
-
-  // 2. Zkus odeslat testovací email
-  try {
-    const resend = new Resend(apiKey);
-    const { data, error } = await resend.emails.send({
-      from: "VIZEON Test <onboarding@resend.dev>",
-      to: "sobotkakrystof5@gmail.com",
-      subject: "✅ Test — VIZEON email funguje!",
-      html: `
-        <div style="font-family: sans-serif; padding: 32px; max-width: 500px;">
-          <h2 style="color: #16a34a;">✅ Email funguje!</h2>
-          <p>Pokud vidíš tuto zprávu, Resend je správně nakonfigurovaný a emaily se odesílají.</p>
-          <p style="color: #666; font-size: 13px;">Odesláno: ${new Date().toLocaleString("cs-CZ", { timeZone: "Europe/Prague" })}</p>
-        </div>
-      `,
-    });
-
-    if (error) {
-      return NextResponse.json(
-        {
-          ok: false,
-          step: "send",
-          error: error.message,
-          detail: error,
-        },
-        { status: 500 }
-      );
+    results.resend = { ok: false, error: "RESEND_API_KEY chybí" };
+  } else {
+    try {
+      const resend = new Resend(apiKey);
+      const { data, error } = await resend.emails.send({
+        from: "VIZEON Test <onboarding@resend.dev>",
+        to: "sobotkakrystof5@gmail.com",
+        subject: "✅ Test Resend — VIZEON",
+        html: `<p>Resend funguje. Odesláno: ${new Date().toLocaleString("cs-CZ", { timeZone: "Europe/Prague" })}</p>`,
+      });
+      results.resend = error
+        ? { ok: false, error: error.message }
+        : { ok: true, emailId: data?.id };
+    } catch (e) {
+      results.resend = { ok: false, error: e instanceof Error ? e.message : String(e) };
     }
-
-    return NextResponse.json({
-      ok: true,
-      message: "Testovací email odeslán na sobotkakrystof5@gmail.com — zkontroluj doručenou poštu (i spam).",
-      emailId: data?.id,
-    });
-
-  } catch (err) {
-    return NextResponse.json(
-      {
-        ok: false,
-        step: "exception",
-        error: err instanceof Error ? err.message : JSON.stringify(err),
-      },
-      { status: 500 }
-    );
   }
+
+  // ── 2. Test Gmail SMTP (klientské potvrzení) ─────────────────────────────
+  try {
+    await sendClientConfirmationEmail({
+      to,
+      firstName:     "Test",
+      name:          "Test Uživatel",
+      phone:         "+420 777 000 000",
+      service:       "Testovací rezervace",
+      dateFormatted: "25. 5. 2026",
+      slot:          "10:00 – 10:30",
+      timeStart:     "10:00",
+    });
+    results.gmail = { ok: true, sentTo: to };
+  } catch (e) {
+    results.gmail = { ok: false, error: e instanceof Error ? e.message : String(e) };
+  }
+
+  const allOk = Object.values(results).every((r) => (r as { ok: boolean }).ok);
+  return NextResponse.json({ allOk, results }, { status: allOk ? 200 : 500 });
 }
