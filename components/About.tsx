@@ -39,7 +39,7 @@ export default function About() {
               Jeden kontakt. Žádné přehazování. Výsledky.
             </h2>
             <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
-              Jsem designér žijící v Německu se zápalem pro věci, které mají smysl.
+              Jsem designér studující v Německu se zápalem pro věci, které mají smysl.
             </p>
             <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
               Zatímco velké agentury předají váš projekt juniorovi, kterého nikdy neuvidíte — vy komunikujete přímo se mnou. Od první zprávy až po spuštění.
