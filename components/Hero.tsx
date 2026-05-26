@@ -55,7 +55,7 @@ export default function Hero() {
   const words = ["Weby,", "které", "přivádějí", "zákazníky", "–", "ne", "jen", "návštěvníky."];
 
   return (
-    <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
+    <section id="hero" className="relative min-h-screen h-screen flex items-start md:items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" aria-hidden="true" />
 
       {/* Mřížka v pozadí */}
@@ -88,9 +88,9 @@ export default function Hero() {
         style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }}
         aria-hidden="true" />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-16 md:pt-20 pb-28">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24 sm:pt-28 md:pt-20 pb-16 sm:pb-20 md:pb-28">
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
-          className="font-cormorant font-light leading-[1.0] text-[48px] md:text-[84px] lg:text-[100px] text-[#f0ece6] mb-8"
+          className="font-cormorant font-light leading-[1.05] text-[38px] sm:text-[48px] md:text-[84px] lg:text-[100px] text-[#f0ece6] mb-6 md:mb-8"
           aria-label="Weby, které přivádějí zákazníky – ne jen návštěvníky.">
           {words.map((word, i) => (
             <motion.span key={i} variants={fadeUp}
