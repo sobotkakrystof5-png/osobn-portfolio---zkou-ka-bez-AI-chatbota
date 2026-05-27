@@ -9,28 +9,25 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
-const DEFAULT_SLOTS = [
-  '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00',
-  '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00',
-];
-
 export async function GET(req: NextRequest) {
   const date = req.nextUrl.searchParams.get('date');
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return NextResponse.json({ error: 'Neplatné datum' }, { status: 400 });
   }
 
-  const { data: taken } = await supabase
-    .from('bookings')
-    .select('time_slot')
-    .eq('date', date)
-    .neq('status', 'cancelled');
+  const [{ data: available }, { data: taken }] = await Promise.all([
+    supabase.from('available_slots').select('time_slot, capacity').eq('date', date).order('time_slot'),
+    supabase.from('bookings').select('time_slot').eq('date', date).neq('status', 'cancelled'),
+  ]);
 
-  const takenSet = new Set((taken ?? []).map((r: { time_slot: string }) => r.time_slot));
+  const bookedCount: Record<string, number> = {};
+  for (const b of taken ?? []) {
+    bookedCount[b.time_slot] = (bookedCount[b.time_slot] ?? 0) + 1;
+  }
 
-  const slots = DEFAULT_SLOTS.map(time_slot => ({
-    time_slot,
-    is_available: !takenSet.has(time_slot),
+  const slots = (available ?? []).map((s: { time_slot: string; capacity: number }) => ({
+    time_slot: s.time_slot,
+    is_available: (bookedCount[s.time_slot] ?? 0) < s.capacity,
   }));
 
   return NextResponse.json({ slots });
