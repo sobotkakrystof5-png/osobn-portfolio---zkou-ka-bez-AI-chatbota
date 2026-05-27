@@ -13,10 +13,12 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import PromoPopup from "@/components/PromoPopup";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export default function Home() {
   return (
     <>
+      <AnalyticsTracker page="/" />
       <IntroAnimation />
       <Navbar />
       <main id="main-content">
