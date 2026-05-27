@@ -2,17 +2,50 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { asciiSafe, bookingNotificationFrom, sendClientConfirmationEmail } from '@/lib/email';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
+
+const DEFAULT_SLOTS = [
+  '09:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00',
+  '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00',
+];
+
+export async function GET(req: NextRequest) {
+  const date = req.nextUrl.searchParams.get('date');
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return NextResponse.json({ error: 'Neplatné datum' }, { status: 400 });
+  }
+
+  const { data: taken } = await supabase
+    .from('bookings')
+    .select('time_slot')
+    .eq('date', date)
+    .neq('status', 'cancelled');
+
+  const takenSet = new Set((taken ?? []).map((r: { time_slot: string }) => r.time_slot));
+
+  const slots = DEFAULT_SLOTS.map(time_slot => ({
+    time_slot,
+    is_available: !takenSet.has(time_slot),
+  }));
+
+  return NextResponse.json({ slots });
+}
 
 const bookingSchema = z.object({
   service:     z.string().optional().default('individualni'),
   serviceName: z.string().optional().default(''),
   subService:  z.string().optional(),
   name:       z.string().trim().min(2, 'Chybí jméno').max(120),
-  phone:      z.string().min(9,  'Neplatny format telefonu (min. 9 znaku)'),
+  phone:      z.string().optional().default(''),
   email:      z.email(),
   note:       z.string().optional(),
   date:       z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Neplatný formát data (YYYY-MM-DD)'),
-  slot:       z.string().min(1, 'Chybí časový slot'),
+  time_slot:  z.string().min(1, 'Chybí časový slot'),
 });
 
 export async function POST(req: NextRequest) {
@@ -36,7 +69,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { service, serviceName, subService, name, phone, email, note, date, slot } = parsed.data;
+  const { service, serviceName, subService, name, phone, email, note, date, time_slot } = parsed.data;
   const firstName = name.split(/\s+/)[0];
 
   const escapeHtml = (s: string) =>
@@ -44,7 +77,7 @@ export async function POST(req: NextRequest) {
 
   const [y, m, d] = date.split('-');
   const dateFormatted = `${parseInt(d)}. ${parseInt(m)}. ${y}`;
-  const timeStart = slot.split(/\s*[-–]\s*/)[0].trim();
+  const timeStart = time_slot.split(/\s*[-–]\s*/)[0].trim();
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -72,7 +105,7 @@ export async function POST(req: NextRequest) {
             <tr><td style="padding:8px 0; color:#666;">E-mail</td><td style="padding:8px 0;"><a href="mailto:${encodeURIComponent(email)}" style="color:#111; text-decoration:none;">${escapeHtml(email)}</a></td></tr>
             <tr><td style="padding:8px 0; color:#666;">Poznámka</td><td style="padding:8px 0;">${note ? escapeHtml(note) : '—'}</td></tr>
             <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Datum</strong></td><td style="padding:8px; font-weight:700;">${dateFormatted}</td></tr>
-            <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Čas</strong></td><td style="padding:8px; font-weight:700;">${escapeHtml(slot)}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px; color:#666;"><strong>Čas</strong></td><td style="padding:8px; font-weight:700;">${escapeHtml(time_slot)}</td></tr>
           </table>
           <p style="margin-top:20px; color:#999; font-size:13px;">Odesláno přes VIZEON rezervační systém</p>
         </div>
@@ -96,7 +129,7 @@ export async function POST(req: NextRequest) {
         phone,
         service:       subService ?? serviceName ?? service ?? '—',
         dateFormatted,
-        slot,
+        slot: time_slot,
         timeStart,
       });
       console.log(`[Booking] Potvrzovací e-mail úspěšně odeslán klientovi: ${email}`);
@@ -106,7 +139,7 @@ export async function POST(req: NextRequest) {
       console.error(`[Booking] Potvrzovací e-mail klientovi NEODESLÁN. Příjemce: ${email} | Chyba: ${msg}`);
     }
 
-    console.log(`[Booking] Rezervace úspěšně zpracována: ${subService ?? serviceName ?? service} ${dateFormatted} ${slot}`);
+    console.log(`[Booking] Rezervace úspěšně zpracována: ${subService ?? serviceName ?? service} ${dateFormatted} ${time_slot}`);
     return NextResponse.json({ success: true });
 
   } catch (error) {
