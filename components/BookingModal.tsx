@@ -521,11 +521,22 @@ export default function BookingModal({
       const res = await fetch('/api/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          service: data.service ?? undefined,
+          serviceName: data.serviceName,
+          subService: data.subService ?? undefined,
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          note: data.note,
+          date: data.date ?? '',
+          time_slot: data.slot ?? '',
+        }),
       });
       if (!res.ok) {
-        const j = await res.json().catch(() => ({})) as { error?: string };
-        throw new Error(j.error ?? `HTTP ${res.status}`);
+        const j = await res.json().catch(() => ({})) as { error?: string; issues?: { path: (string | number)[]; message: string }[] };
+        const detail = j.issues?.map(i => `${i.path.join('.')}: ${i.message}`).join(', ');
+        throw new Error(detail ? `${j.error} (${detail})` : (j.error ?? `HTTP ${res.status}`));
       }
       setStep('success');
     } catch (err) {
