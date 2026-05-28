@@ -144,7 +144,7 @@ export async function sendClientConfirmationEmail(data: ClientConfirmationData):
           <!-- Footer -->
           <div style="padding: 20px 40px; border-top: 1px solid #1a1a1a; text-align: center;">
             <p style="margin: 0; color: #3a3a3a; font-size: 11px; letter-spacing: 1px;">
-              VIZEON · Kryštof Sobotka · vizeon.vercel.app
+              VIZEON · Kryštof Sobotka · vizeon.cz
             </p>
           </div>
 
