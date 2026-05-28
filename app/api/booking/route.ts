@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
 
   const parsed = bookingSchema.safeParse(body);
   if (!parsed.success) {
+    console.error('[Booking] Validation failed:', JSON.stringify(parsed.error.issues), '| Body:', JSON.stringify(body));
     return NextResponse.json(
       { error: 'Neplatná data rezervace', issues: parsed.error.issues },
       { status: 422 },
