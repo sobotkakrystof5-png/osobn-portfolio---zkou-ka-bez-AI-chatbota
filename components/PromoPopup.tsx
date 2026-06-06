@@ -93,14 +93,12 @@ interface ServiceCategory {
   items: ServiceItem[];
 }
 
-// Reveal fáze — Jobs 3-tier anchor:
-// 0 → tržní cena se objeví (ihned)
-// 1 → červená čára přeškrtne tržní cenu (800 ms)
-// 2 → tržní cena PADÁ dolů, naše cena stoupá (1 500 ms)
-// 3 → červená čára přeškrtne naši cenu (2 300 ms)
-// 4 → naše cena PADÁ, promo cena stoupá se zlatým glowem (2 900 ms)
-// 5 → "Teď pouze pro vás." (3 700 ms)
-// 6 → CTA tlačítko (4 300 ms)
+// Reveal fáze:
+// 0 → původní cena se objeví (ihned)
+// 1 → červená čára přeškrtne původní cenu (800 ms)
+// 2 → původní cena PADÁ, promo cena stoupá se zlatým glowem (1 500 ms)
+// 3 → "Teď pouze pro vás." (2 300 ms)
+// 4 → CTA tlačítko (2 900 ms)
 
 // Klíče sessionStorage pro každý trigger zvlášť
 const PROMO_HERO_KEY  = "vizeon_promo_hero_v5";
@@ -185,9 +183,7 @@ export default function PromoPopup() {
     const t2 = setTimeout(() => setRevealPhase(2), 1500);
     const t3 = setTimeout(() => setRevealPhase(3), 2300);
     const t4 = setTimeout(() => setRevealPhase(4), 2900);
-    const t5 = setTimeout(() => setRevealPhase(5), 3700);
-    const t6 = setTimeout(() => setRevealPhase(6), 4300);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6); };
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
   }, [step]);
 
   const handleClose = useCallback(() => {
@@ -534,51 +530,9 @@ export default function PromoPopup() {
                             )}
                           </AnimatePresence>
 
-                          {/* KOTVA 2 — Naše cena (stoupá → pak padá pryč při fázi 4) */}
+                          {/* KOTVA 2 — Promo cena — ZLATÝ TRIUMF (stoupá ze spodu) */}
                           <AnimatePresence>
-                            {revealPhase >= 2 && revealPhase < 4 && (
-                              <motion.div
-                                key="price-mid"
-                                className="absolute inset-x-0 top-0"
-                                initial={{ opacity: 0, y: -28 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 40, scale: 0.92 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                              >
-                                <p className="font-inter font-light text-[9px] uppercase tracking-[0.2em] text-[#c9a84c]/50 mb-1">
-                                  Naše standardní cena
-                                </p>
-                                <div className="relative inline-block">
-                                  <span
-                                    className="font-cormorant font-light leading-none"
-                                    style={{
-                                      fontSize: "clamp(2.8rem, 10vw, 4.2rem)",
-                                      color: "rgba(240,236,230,0.55)",
-                                    }}
-                                  >
-                                    {selectedSvc.mid}
-                                  </span>
-                                  {/* Přeškrtnutí naší ceny */}
-                                  <AnimatePresence>
-                                    {revealPhase >= 3 && (
-                                      <motion.div
-                                        className="absolute left-0 right-0 h-[3px] bg-red-500 origin-left"
-                                        style={{ top: "50%" }}
-                                        initial={{ scaleX: 0 }}
-                                        animate={{ scaleX: 1 }}
-                                        exit={{}}
-                                        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-                                      />
-                                    )}
-                                  </AnimatePresence>
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-
-                          {/* KOTVA 3 — Promo cena — ZLATÝ TRIUMF (stoupá ze spodu) */}
-                          <AnimatePresence>
-                            {revealPhase >= 4 && (
+                            {revealPhase >= 2 && (
                               <motion.div
                                 key="price-promo"
                                 className="absolute inset-x-0 top-0"
@@ -602,7 +556,7 @@ export default function PromoPopup() {
                                   animate={{ filter: ["drop-shadow(0 0 10px rgba(201,168,76,0.2))","drop-shadow(0 0 40px rgba(201,168,76,0.8))","drop-shadow(0 0 10px rgba(201,168,76,0.2))"] }}
                                   transition={{ duration: 2, repeat: Infinity }}
                                 >
-                                  {selectedSvc.promo}
+                                  {selectedSvc.mid}
                                 </motion.span>
                               </motion.div>
                             )}
@@ -612,7 +566,7 @@ export default function PromoPopup() {
 
                         {/* "Teď pouze pro vás." */}
                         <AnimatePresence>
-                          {revealPhase >= 5 && (
+                          {revealPhase >= 3 && (
                             <motion.p
                               className="font-inter font-medium text-[14px] text-[#f0ece6] mt-5 mb-5"
                               initial={{ opacity: 0, y: 6 }}
@@ -634,7 +588,7 @@ export default function PromoPopup() {
 
                         {/* CTA */}
                         <AnimatePresence>
-                          {revealPhase >= 6 && (
+                          {revealPhase >= 4 && (
                             <motion.div
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
