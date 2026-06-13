@@ -101,8 +101,7 @@ interface ServiceCategory {
 // 4 → CTA tlačítko (2 900 ms)
 
 // Klíče sessionStorage pro každý trigger zvlášť
-const PROMO_HERO_KEY  = "vizeon_promo_hero_v5";
-const PROMO_CENIK_KEY = "vizeon_promo_cenik_v5";
+const PROMO_HERO_KEY = "vizeon_promo_hero_v5";
 
 export default function PromoPopup() {
   const [visible, setVisible]             = useState(false);
@@ -119,12 +118,11 @@ export default function PromoPopup() {
 
   // Zobrazí popup pro daný trigger — jen pokud ho uživatel ještě neviděl
   // a popup právě není otevřený
-  const tryShow = useCallback((trigger: "hero" | "cenik") => {
-    const key = trigger === "hero" ? PROMO_HERO_KEY : PROMO_CENIK_KEY;
-    if (typeof window !== "undefined" && sessionStorage.getItem(key)) return;
-    if (visibleRef.current) return; // popup je otevřený → nespouštěj druhý
+  const tryShow = useCallback(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem(PROMO_HERO_KEY)) return;
+    if (visibleRef.current) return;
     visibleRef.current = true;
-    setActiveTrigger(trigger);
+    setActiveTrigger("hero");
     setStep("offer");
     setSelectedCat(null);
     setSelectedSvc(null);
@@ -148,7 +146,7 @@ export default function PromoPopup() {
             } else if (heroWasVisible && e.boundingClientRect.top < 0) {
               // Hero přejel nahoru → klient je pod hero sekcí
               heroObs.disconnect();
-              setTimeout(() => tryShow("hero"), 400);
+              setTimeout(() => tryShow(), 400);
             }
           },
           { threshold: 0.15 }
@@ -157,23 +155,6 @@ export default function PromoPopup() {
       }
     }
 
-    // ── TRIGGER 2: Ceník přijde do view ────────────────────────────────────
-    // Zobrazíme popup jakmile klient dorazí k ceníku (ne až ho přescrolluje).
-    if (!sessionStorage.getItem(PROMO_CENIK_KEY)) {
-      const pricing = document.getElementById("cenik");
-      if (pricing) {
-        const cenikObs = new IntersectionObserver(
-          ([e]) => {
-            if (e.isIntersecting) {
-              cenikObs.disconnect();
-              setTimeout(() => tryShow("cenik"), 300);
-            }
-          },
-          { threshold: 0.2 }
-        );
-        cenikObs.observe(pricing);
-      }
-    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -189,9 +170,8 @@ export default function PromoPopup() {
   const handleClose = useCallback(() => {
     setVisible(false);
     visibleRef.current = false;
-    if (typeof window !== "undefined" && activeTrigger) {
-      const key = activeTrigger === "hero" ? PROMO_HERO_KEY : PROMO_CENIK_KEY;
-      sessionStorage.setItem(key, "1");
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(PROMO_HERO_KEY, "1");
     }
     setTimeout(() => setActiveTrigger(null), 600);
   }, [activeTrigger, visibleRef]);
