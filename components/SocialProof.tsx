@@ -7,7 +7,7 @@ import { stagger, fadeUp, viewport } from "@/lib/animations";
 const stats = [
   { prefix: "", value: 10, suffix: "+", label: "spokojených klientů", sublabel: "Každý ručně, žádné šablony" },
   { prefix: "+", value: 40, suffix: "%", label: "průměrný nárůst tržeb", sublabel: "Po spuštění nového webu" },
-  { prefix: "", value: 7, suffix: " dní", label: "web hotový", sublabel: "Zákazníci navždy" },
+  { prefix: "", value: 10, suffix: " dní", label: "web hotový", sublabel: "Zákazníci navždy" },
   { prefix: "", value: 100, suffix: "%", label: "spokojenost klientů", sublabel: "Opravy do úplné spokojenosti" },
 ];
 
