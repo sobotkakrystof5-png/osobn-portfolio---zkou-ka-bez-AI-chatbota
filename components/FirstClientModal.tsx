@@ -8,31 +8,31 @@ const services = [
   {
     group: "🌐 Weby",
     items: [
-      { id: "vizitka",  name: "Online Vizitka",       original: "7 499 Kč",     half: "3 749 Kč"         },
-      { id: "promo",    name: "Promo Page",            original: "9 999 Kč",     half: "4 999 Kč", featured: true },
-      { id: "proweb",   name: "Pro Web",               original: "14 999 Kč",    half: "7 499 Kč"         },
+      { id: "vizitka",  name: "Online Vizitka",      original: "14 999 Kč",    price: "7 499 Kč"         },
+      { id: "promo",    name: "Promo Page",           original: "19 999 Kč",    price: "9 999 Kč", featured: true },
+      { id: "proweb",   name: "Pro Web",              original: "29 999 Kč",    price: "14 999 Kč"        },
     ],
   },
   {
     group: "🎨 Design",
     items: [
-      { id: "logo",     name: "Brand Logo",            original: "699 Kč",       half: "349 Kč"           },
-      { id: "bcard",    name: "Business Card",         original: "299 Kč",       half: "149 Kč"           },
-      { id: "print",    name: "Print Design",          original: "699 Kč",       half: "349 Kč"           },
+      { id: "logo",     name: "Brand Logo",           original: "1 499 Kč",     price: "699 Kč"           },
+      { id: "bcard",    name: "Business Card",        original: "599 Kč",       price: "299 Kč"           },
+      { id: "print",    name: "Print Design",         original: "1 499 Kč",     price: "699 Kč"           },
     ],
   },
   {
     group: "📊 Prezentace",
     items: [
-      { id: "slides-s", name: "Slide Deck Standard",  original: "1 099 Kč",     half: "549 Kč"           },
-      { id: "slides-p", name: "Slide Deck Premium",   original: "3 499 Kč",     half: "1 749 Kč"         },
+      { id: "slides-s", name: "Slide Deck Standard", original: "2 199 Kč",     price: "1 099 Kč"         },
+      { id: "slides-p", name: "Slide Deck Premium",  original: "6 999 Kč",     price: "3 499 Kč"         },
     ],
   },
   {
     group: "📱 Správa sítí",
     items: [
-      { id: "soc-s",    name: "Social Starter",       original: "4 999 Kč/měs", half: "2 499 Kč/měs"    },
-      { id: "soc-p",    name: "Social Pro",           original: "7 499 Kč/měs", half: "3 749 Kč/měs"    },
+      { id: "soc-s",    name: "Social Starter",      original: "9 999 Kč/měs", price: "4 999 Kč/měs"    },
+      { id: "soc-p",    name: "Social Pro",          original: "14 999 Kč/měs",price: "7 499 Kč/měs"    },
     ],
   },
 ];
@@ -52,7 +52,6 @@ interface Props {
 }
 
 export default function FirstClientModal({ open, onClose }: Props) {
-  /* ── State ── */
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [name,  setName]  = useState("");
@@ -65,7 +64,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
 
   const selectedService = services.flatMap((g) => g.items).find((i) => i.id === selected);
 
-  /* ── Handlers ── */
   const handleContinue = () => {
     if (!selected) { setError("Vyber prosím službu, o kterou máš zájem."); return; }
     setError(null);
@@ -79,10 +77,9 @@ export default function FirstClientModal({ open, onClose }: Props) {
     setSending(true);
     try {
       const message =
-        `🎉 NABÍDKA PRO PRVNÍHO KLIENTA — 50 % sleva výměnou za referenci\n\n` +
-        `Vybraná služba: ${selectedService?.name} (${selectedService?.half} místo ${selectedService?.original})\n\n` +
-        (date ? `Preferovaný termín konzultace: ${date}${time ? ` v ${time}` : ""}\n\n` : "") +
-        `Klient souhlasí s poskytnutím reference po dokončení projektu.`;
+        `🚀 Nová poptávka — Vizeon\n\n` +
+        `Vybraná služba: ${selectedService?.name} (${selectedService?.price})\n\n` +
+        (date ? `Preferovaný termín konzultace: ${date}${time ? ` v ${time}` : ""}\n\n` : "");
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -124,12 +121,10 @@ export default function FirstClientModal({ open, onClose }: Props) {
     }, 400);
   };
 
-  /* ── Render ── */
   return (
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -141,12 +136,11 @@ export default function FirstClientModal({ open, onClose }: Props) {
             aria-hidden="true"
           />
 
-          {/* Modal */}
           <motion.div
             key="modal"
             role="dialog"
             aria-modal="true"
-            aria-label="Nabídka 50 % sleva pro prvního klienta"
+            aria-label="Poptávka služby"
             initial={{ opacity: 0, scale: 0.93, y: 32 }}
             animate={{ opacity: 1, scale: 1,    y: 0  }}
             exit={{   opacity: 0, scale: 0.95,  y: 16 }}
@@ -157,13 +151,11 @@ export default function FirstClientModal({ open, onClose }: Props) {
               className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#111111] border border-white/[0.08] pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Top golden line */}
               <div
                 className="h-[2px] w-full"
                 style={{ background: "linear-gradient(90deg, transparent, #c9a84c, transparent)" }}
               />
 
-              {/* Step indicator */}
               {step < 2 && (
                 <div className="absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-2" aria-hidden="true">
                   {[0, 1].map((s) => (
@@ -177,7 +169,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                 </div>
               )}
 
-              {/* Close */}
               <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[#8a8070] hover:text-[#f0ece6] hover:bg-white/[0.05] transition-all duration-200 z-10"
@@ -189,7 +180,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
               <div className="p-7 md:p-10 pt-12">
                 <AnimatePresence mode="wait">
 
-                  {/* ───────────── STEP 0: Promo + výběr služby ───────────── */}
+                  {/* ── STEP 0: výběr služby ── */}
                   {step === 0 && (
                     <motion.div
                       key="step-0"
@@ -199,32 +190,17 @@ export default function FirstClientModal({ open, onClose }: Props) {
                       exit="exit"
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {/* Header promo */}
                       <div className="mb-8">
-                        <span className="font-inter font-medium text-[10px] tracking-[0.2em] uppercase text-[#c9a84c] border border-[rgba(201,168,76,0.3)] px-3 py-1">
-                          Exkluzivní nabídka · Jen pro první klienty
-                        </span>
-                        <div className="mt-5 flex items-baseline gap-4 flex-wrap">
-                          <span
-                            className="font-cormorant font-light leading-none text-[#c9a84c]"
-                            style={{ fontSize: "clamp(56px, 10vw, 80px)" }}
-                          >
-                            –50 %
-                          </span>
-                          <div>
-                            <p className="font-cormorant font-light text-[22px] text-[#f0ece6] leading-tight">
-                              výměnou za referenci
-                            </p>
-                            <p className="font-inter font-light text-[13px] text-[#8a8070] mt-1">
-                              Sleva platí na veškeré tvorby <span className="text-[#3d3830]">(kromě Web Care)</span>. Správa webu za běžnou cenu.
-                            </p>
-                          </div>
-                        </div>
+                        <h2 className="font-cormorant font-light text-[36px] md:text-[44px] text-[#f0ece6] leading-tight mb-2">
+                          Pojďme do toho společně.
+                        </h2>
+                        <p className="font-inter font-light text-[14px] text-[#8a8070]">
+                          Vyberte si službu, o kterou máte zájem, a pošlete mi poptávku.
+                        </p>
                       </div>
 
-                      {/* Service picker */}
                       <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-[#8a8070] mb-4">
-                        Vyber službu, o kterou máš zájem
+                        Vyber službu
                       </p>
                       <div className="space-y-5 mb-8">
                         {services.map((group) => (
@@ -251,7 +227,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                                     )}
                                     <p className="font-inter font-medium text-[12px] text-[#f0ece6] mb-1">{item.name}</p>
                                     <p className="font-inter font-light text-[11px] text-[#3d3830] line-through">{item.original}</p>
-                                    <p className="font-inter font-medium text-[13px] text-[#c9a84c]">{item.half}</p>
+                                    <p className="font-inter font-medium text-[13px] text-[#c9a84c]">{item.price}</p>
                                   </button>
                                 );
                               })}
@@ -271,20 +247,12 @@ export default function FirstClientModal({ open, onClose }: Props) {
                         onClick={handleContinue}
                         className="w-full flex items-center justify-center gap-2 font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-4 hover:bg-[#d4b968] transition-all duration-300"
                       >
-                        Chci to <ArrowRight size={14} />
+                        Pokračovat <ArrowRight size={14} />
                       </button>
-
-                      <p className="font-inter font-light text-[11px] text-[#3d3830] text-center mt-4 leading-[1.6]">
-                        Sleva platí výměnou za upřímnou referenci po dokončení projektu (kromě Web Care).
-                        Dle{" "}
-                        <a href="/podminky" target="_blank" className="hover:text-[#8a8070] transition-colors underline underline-offset-2">
-                          obchodních podmínek
-                        </a>.
-                      </p>
                     </motion.div>
                   )}
 
-                  {/* ───────────── STEP 1: Formulář + shrnutí ───────────── */}
+                  {/* ── STEP 1: formulář ── */}
                   {step === 1 && (
                     <motion.div
                       key="step-1"
@@ -294,7 +262,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                       exit="exit"
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {/* Animované shrnutí vybrané služby */}
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -319,10 +286,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                               {selectedService?.original}
                             </span>
                             <span className="font-inter font-medium text-[14px] text-[#c9a84c]">
-                              {selectedService?.half}
-                            </span>
-                            <span className="font-inter font-medium text-[10px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-2 py-0.5">
-                              –50 %
+                              {selectedService?.price}
                             </span>
                           </div>
                         </div>
@@ -340,7 +304,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                           Kontaktní údaje &amp; termín konzultace
                         </p>
                         <div className="space-y-3 mb-6">
-                          {/* Datum + čas */}
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                               <label htmlFor="fc-date" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5 flex items-center gap-1.5">
@@ -370,7 +333,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                             </div>
                           </div>
 
-                          {/* Jméno + Email */}
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                               <label htmlFor="fc-name" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5">
@@ -404,7 +366,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                             </div>
                           </div>
 
-                          {/* Telefon */}
                           <div>
                             <label htmlFor="fc-phone" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5">
                               Telefon <span className="normal-case text-[#3d3830]">(volitelné)</span>
@@ -435,22 +396,14 @@ export default function FirstClientModal({ open, onClose }: Props) {
                           {sending ? (
                             <><Loader2 size={15} className="animate-spin" />Odesílám…</>
                           ) : (
-                            "Poslat žádost →"
+                            "Poslat poptávku →"
                           )}
                         </button>
-
-                        <p className="font-inter font-light text-[11px] text-[#3d3830] text-center mt-4 leading-[1.6]">
-                          Sleva platí výměnou za upřímnou referenci po dokončení projektu (kromě Web Care).
-                          Dle{" "}
-                          <a href="/podminky" target="_blank" className="hover:text-[#8a8070] transition-colors underline underline-offset-2">
-                            obchodních podmínek
-                          </a>.
-                        </p>
                       </form>
                     </motion.div>
                   )}
 
-                  {/* ───────────── STEP 2: Success ───────────── */}
+                  {/* ── STEP 2: success ── */}
                   {step === 2 && (
                     <motion.div
                       key="step-2"
@@ -467,13 +420,12 @@ export default function FirstClientModal({ open, onClose }: Props) {
                         <CheckCircle size={48} className="text-[#c9a84c]" />
                       </motion.div>
                       <h2 className="font-cormorant font-light text-[36px] text-[#f0ece6]">
-                        Žádost odeslána!
+                        Poptávka odeslána!
                       </h2>
 
-                      {/* Souhrn */}
                       <div className="w-full border border-white/[0.06] bg-[#0e0e0e] p-4 text-left">
                         <p className="font-inter font-normal text-[10px] uppercase tracking-[0.15em] text-[#8a8070] mb-3">
-                          Souhrn žádosti
+                          Souhrn poptávky
                         </p>
                         <div className="space-y-1.5">
                           <div className="flex justify-between">
@@ -481,8 +433,8 @@ export default function FirstClientModal({ open, onClose }: Props) {
                             <span className="font-inter font-medium text-[12px] text-[#f0ece6]">{selectedService?.name}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-inter font-light text-[12px] text-[#8a8070]">Cena se slevou</span>
-                            <span className="font-inter font-medium text-[12px] text-[#c9a84c]">{selectedService?.half}</span>
+                            <span className="font-inter font-light text-[12px] text-[#8a8070]">Cena</span>
+                            <span className="font-inter font-medium text-[12px] text-[#c9a84c]">{selectedService?.price}</span>
                           </div>
                           {date && (
                             <div className="flex justify-between">
@@ -498,8 +450,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                       </div>
 
                       <p className="font-inter font-light text-[15px] text-[#8a8070] max-w-sm leading-[1.75]">
-                        Ozvu se ti do <span className="text-[#f0ece6]">24 hodin</span>. Těším se na
-                        spolupráci — a na tvou referenci&nbsp;😊
+                        Ozvu se ti do <span className="text-[#f0ece6]">24 hodin</span>. Těším se na spolupráci.
                       </p>
 
                       <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">

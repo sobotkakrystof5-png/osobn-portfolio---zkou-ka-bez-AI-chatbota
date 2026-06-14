@@ -9,13 +9,14 @@ import { ArrowUpRight } from "lucide-react";
 const projects = [
   {
     number: "01",
-    title: "Kavárna Svěží",
-    category: "Pohostinství & Kavárna",
+    title: "U Cerhů",
+    category: "Svatby & Ubytování",
     tech: "Next.js · Tailwind · Vercel",
-    description: "Landing page pro pražskou kavárnu. Cíl: přivést zákazníky z Googlu a zvýšit rezervace.",
-    url: "https://kav-rna-sv.vercel.app",
-    image: "/portfolio/kavarna.jpg",
-    alt: "Screenshot webu Kavárna Svěží",
+    description: "Landing page pro statek v Kněžmostě. Cíl: získat více zakázek na svatby a ubytování v Českém ráji.",
+    url: "https://www.u-cerhu.cz",
+    image: "/portfolio/ucerhu.jpg",
+    alt: "Screenshot webu U Cerhů",
+    isReal: true,
   },
   {
     number: "02",
@@ -26,6 +27,7 @@ const projects = [
     url: "https://auf-gehts-cz-56ly.vercel.app",
     image: "/portfolio/aufgehts.jpg",
     alt: "Screenshot webu Auf Gehts",
+    isReal: false,
   },
   {
     number: "03",
@@ -36,6 +38,7 @@ const projects = [
     url: "https://hair-deluxe-jo.vercel.app",
     image: "/portfolio/hairdeluxe.jpg",
     alt: "Screenshot webu HairDeluxe",
+    isReal: false,
   },
 ];
 
@@ -59,18 +62,18 @@ export default function Portfolio() {
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="space-y-5">
           {projects.map((p, i) => (
             <motion.a key={i} variants={fadeUp} href={p.url} target="_blank" rel="noopener noreferrer"
-              className="group relative block h-[280px] md:h-[480px] overflow-hidden border border-white/[0.05] hover:border-[rgba(201,168,76,0.2)] transition-colors duration-500"
+              className="group relative block h-[240px] md:h-[560px] overflow-hidden border border-white/[0.05] hover:border-[rgba(201,168,76,0.2)] transition-colors duration-500"
               aria-label={`Zobrazit projekt ${p.title}`}>
-              <Image src={p.image} alt={p.alt} fill className="object-cover object-top group-hover:scale-[1.04] transition-transform duration-700 ease-out" sizes="90vw" />
+              <Image src={p.image} alt={p.alt} fill className="object-cover object-center group-hover:scale-[1.04] transition-transform duration-700 ease-out" sizes="90vw" />
               {/* Desktop overlay */}
               <div className="absolute inset-0 hidden md:block transition-opacity duration-500" style={{ background: "linear-gradient(to right, rgba(8,8,8,0.88) 38%, transparent)" }} aria-hidden="true" />
               {/* Mobile overlay */}
               <div className="absolute inset-0 md:hidden" style={{ background: "linear-gradient(to top, rgba(8,8,8,0.92) 55%, transparent)" }} aria-hidden="true" />
               {/* Zlatá linka nahoře při hoveru */}
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-[#c9a84c]/0 group-hover:bg-[#c9a84c]/40 transition-colors duration-500" aria-hidden="true" />
-              {/* Demo badge */}
-              <span className="absolute top-4 right-4 z-10 font-inter font-normal text-[10px] uppercase tracking-[0.12em] text-[#8a8070] border border-white/[0.1] bg-[#080808]/80 px-2.5 py-1 backdrop-blur-sm">
-                Ukázkový projekt
+              {/* Badge */}
+              <span className={`absolute top-4 right-4 z-10 font-inter font-normal text-[10px] uppercase tracking-[0.12em] border px-2.5 py-1 backdrop-blur-sm ${p.isReal ? "text-[#c9a84c] border-[#c9a84c]/30 bg-[#080808]/80" : "text-[#8a8070] border-white/[0.1] bg-[#080808]/80"}`}>
+                {p.isReal ? "Skutečný klient" : "Ukázkový projekt"}
               </span>
 
               <div className="absolute bottom-0 left-0 p-7 md:p-10">
@@ -94,7 +97,7 @@ export default function Portfolio() {
           viewport={viewport}
           className="font-inter font-light text-[12px] text-[#3d3830] text-center mt-8"
         >
-          Ukázkové projekty vytvořené pro demonstraci schopností a designového stylu — ne weby skutečných klientů.
+          Portfolio zahrnuje weby skutečných klientů i ukázkové projekty pro demonstraci designového stylu.
         </motion.p>
 
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mt-14 text-center">

@@ -8,8 +8,9 @@ import { CTAButton } from "@/components/CTAButton";
 const navLinks = [
   { label: "O mně",     href: "#o-mne" },
   { label: "Služby",    href: "#sluzby" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Ceník",     href: "#cenik" },
+  { label: "Portfolio",  href: "#portfolio" },
+  { label: "Reference",  href: "#reference" },
+  { label: "Ceník",      href: "#cenik" },
   { label: "Kontakt",   href: "#kontakt" },
 ];
 
