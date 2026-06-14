@@ -102,7 +102,7 @@ export default function Hero() {
 
         <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
           className="font-inter font-light text-[16px] md:text-[18px] leading-[1.8] text-[#8a8070] max-w-lg mx-auto mb-12">
-          Web za 7 dní. Zákazníci navždy.
+          Web za 10 dní. Zákazníci navždy.
         </motion.p>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
