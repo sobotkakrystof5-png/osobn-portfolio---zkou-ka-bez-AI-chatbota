@@ -475,6 +475,7 @@ export default function BookingModal({
     return d;
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // S prefillem (z PromoPopupu) přeskočíme výběr služby a startujeme rovnou na kontaktu
   const hasPrefill = !!prefill;
@@ -516,6 +517,11 @@ export default function BookingModal({
   }, [isOpen]);
 
   const handleSubmit = async () => {
+    if (loading) return;
+
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+
     setLoading(true);
     try {
       const res = await fetch('/api/booking', {
@@ -532,6 +538,7 @@ export default function BookingModal({
           date: data.date ?? '',
           time_slot: data.slot ?? '',
         }),
+        signal: abortControllerRef.current.signal,
       });
       if (!res.ok) {
         const j = await res.json().catch(() => ({})) as { error?: string; issues?: { path: (string | number)[]; message: string }[] };
@@ -540,6 +547,7 @@ export default function BookingModal({
       }
       setStep('success');
     } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') return;
       toast.error(err instanceof Error ? err.message : 'Něco se pokazilo. Zkuste to znovu.');
     } finally {
       setLoading(false);
