@@ -21,13 +21,13 @@ function cleanup() {
   }
 }
 
-function isRateLimited(ip: string, maxRequests: number, windowMs: number): boolean {
+function isRateLimited(key: string, maxRequests: number, windowMs: number): boolean {
   cleanup();
   const now = Date.now();
-  const entry = rateMap.get(ip);
+  const entry = rateMap.get(key);
 
   if (!entry || entry.resetAt < now) {
-    rateMap.set(ip, { count: 1, resetAt: now + windowMs });
+    rateMap.set(key, { count: 1, resetAt: now + windowMs });
     return false;
   }
 
@@ -72,13 +72,16 @@ export function middleware(req: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  // 3. Rate limiting — max 5 requestů za 10 minut per IP
+  // 3. Rate limiting — max 10 requestů za 10 minut per IP.
+  //    Počítadlo je oddělené pro booking a contact (scope v klíči), aby
+  //    odeslání jednoho formuláře nevyčerpávalo limit toho druhého.
   const ip =
     req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
     req.headers.get('x-real-ip') ??
     'unknown';
+  const scope = pathname.startsWith('/api/booking') ? 'booking' : 'contact';
 
-  if (isRateLimited(ip, 5, 10 * 60 * 1000)) {
+  if (isRateLimited(`${scope}:${ip}`, 10, 10 * 60 * 1000)) {
     return NextResponse.json(
       { error: 'Příliš mnoho požadavků. Zkuste to prosím za chvíli.' },
       {

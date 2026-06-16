@@ -475,7 +475,10 @@ export default function BookingModal({
     return d;
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
+  // Synchronní guard proti double-submitu. Ref (ne state) proto, že setLoading
+  // je asynchronní — dva rychlé clicky by jinak oba viděly loading === false
+  // a oba odeslaly POST → duplicitní rezervace v DB.
+  const submittingRef = useRef(false);
 
   // S prefillem (z PromoPopupu) přeskočíme výběr služby a startujeme rovnou na kontaktu
   const hasPrefill = !!prefill;
@@ -503,6 +506,7 @@ export default function BookingModal({
         slot: null,
       });
       setLoading(false);
+      submittingRef.current = false;
       const d = new Date();
       d.setDate(1);
       setCurrentMonth(d);
@@ -517,10 +521,11 @@ export default function BookingModal({
   }, [isOpen]);
 
   const handleSubmit = async () => {
-    if (loading) return;
-
-    abortControllerRef.current?.abort();
-    abortControllerRef.current = new AbortController();
+    // Synchronní guard — viz submittingRef. Nepoužívat AbortController:
+    // abort() zruší jen čekání klienta, ale request už mohl dorazit na server
+    // a uložit rezervaci → druhý pokus by vytvořil duplicitu v DB.
+    if (submittingRef.current) return;
+    submittingRef.current = true;
 
     setLoading(true);
     try {
@@ -538,7 +543,6 @@ export default function BookingModal({
           date: data.date ?? '',
           time_slot: data.slot ?? '',
         }),
-        signal: abortControllerRef.current.signal,
       });
       if (!res.ok) {
         const j = await res.json().catch(() => ({})) as { error?: string; issues?: { path: (string | number)[]; message: string }[] };
@@ -547,10 +551,10 @@ export default function BookingModal({
       }
       setStep('success');
     } catch (err) {
-      if (err instanceof Error && err.name === 'AbortError') return;
       toast.error(err instanceof Error ? err.message : 'Něco se pokazilo. Zkuste to znovu.');
     } finally {
       setLoading(false);
+      submittingRef.current = false;
     }
   };
 
