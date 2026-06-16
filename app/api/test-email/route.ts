@@ -1,53 +1,61 @@
 /**
- * TESTOVACÍ ENDPOINT — ověření Resend + Gmail SMTP
+ * TESTOVACÍ ENDPOINT — ověření Resend (admin notifikace + klientské potvrzení)
  * Použití: GET /api/test-email?to=email@example.com
  * Po otestování SMAŽ nebo přidej auth ochranu.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { sendClientConfirmationEmail } from "@/lib/email";
+import { bookingNotificationFrom, bookingConfirmationFrom, buildClientConfirmationHtml } from "@/lib/email";
 
 export async function GET(req: NextRequest) {
   const to = req.nextUrl.searchParams.get("to") ?? "sobotkakrystof5@gmail.com";
   const results: Record<string, unknown> = {};
 
-  // ── 1. Test Resend (admin notifikace) ────────────────────────────────────
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    results.resend = { ok: false, error: "RESEND_API_KEY chybí" };
-  } else {
-    try {
-      const resend = new Resend(apiKey);
-      const { data, error } = await resend.emails.send({
-        from: "VIZEON Test <onboarding@resend.dev>",
-        to: "sobotkakrystof5@gmail.com",
-        subject: "✅ Test Resend — VIZEON",
-        html: `<p>Resend funguje. Odesláno: ${new Date().toLocaleString("cs-CZ", { timeZone: "Europe/Prague" })}</p>`,
-      });
-      results.resend = error
-        ? { ok: false, error: error.message }
-        : { ok: true, emailId: data?.id };
-    } catch (e) {
-      results.resend = { ok: false, error: e instanceof Error ? e.message : String(e) };
-    }
+    return NextResponse.json({ allOk: false, error: "RESEND_API_KEY chybí" }, { status: 500 });
   }
 
-  // ── 2. Test Gmail SMTP (klientské potvrzení) ─────────────────────────────
+  const resend = new Resend(apiKey);
+
+  // ── 1. Test admin notifikace ─────────────────────────────────────────────
   try {
-    await sendClientConfirmationEmail({
-      to,
-      firstName:     "Test",
-      name:          "Test Uživatel",
-      phone:         "+420 777 000 000",
-      service:       "Testovací rezervace",
-      dateFormatted: "25. 5. 2026",
-      slot:          "10:00 – 10:30",
-      timeStart:     "10:00",
+    const { data, error } = await resend.emails.send({
+      from: bookingNotificationFrom(),
+      to: "sobotkakrystof5@gmail.com",
+      subject: "Test - Nova rezervace - Test Uzivatel - 25. 5. 2026",
+      html: `<p>Admin notifikace funguje. Odesláno: ${new Date().toLocaleString("cs-CZ", { timeZone: "Europe/Prague" })}</p>`,
     });
-    results.gmail = { ok: true, sentTo: to };
+    results.adminNotification = error
+      ? { ok: false, error: error.message }
+      : { ok: true, emailId: data?.id };
   } catch (e) {
-    results.gmail = { ok: false, error: e instanceof Error ? e.message : String(e) };
+    results.adminNotification = { ok: false, error: e instanceof Error ? e.message : String(e) };
+  }
+
+  // ── 2. Test klientského potvrzení (Resend) ───────────────────────────────
+  try {
+    const { data, error } = await resend.emails.send({
+      from: bookingConfirmationFrom(),
+      to,
+      replyTo: "sobotkakrystof5@gmail.com",
+      subject: "Test - Potvrzeni rezervace - 25. 5. 2026 v 10:00",
+      html: buildClientConfirmationHtml({
+        firstName:     "Test",
+        name:          "Test Uživatel",
+        service:       "Testovací rezervace",
+        dateFormatted: "25. 5. 2026",
+        slot:          "10:00 – 10:30",
+        timeStart:     "10:00",
+        replyEmail:    "sobotkakrystof5@gmail.com",
+      }),
+    });
+    results.clientConfirmation = error
+      ? { ok: false, error: error.message }
+      : { ok: true, emailId: data?.id, sentTo: to };
+  } catch (e) {
+    results.clientConfirmation = { ok: false, error: e instanceof Error ? e.message : String(e) };
   }
 
   const allOk = Object.values(results).every((r) => (r as { ok: boolean }).ok);
