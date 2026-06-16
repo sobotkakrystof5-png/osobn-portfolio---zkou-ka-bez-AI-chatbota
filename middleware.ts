@@ -59,8 +59,8 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // 1. Jen POST
-  if (req.method !== 'POST') {
+  // 1. Dovolí GET (pro dostupné sloty) a POST
+  if (req.method !== 'POST' && req.method !== 'GET') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
