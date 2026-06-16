@@ -3,51 +3,142 @@ import { createClient } from '@supabase/supabase-js';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
-export async function POST(req: NextRequest) {
-  // Ověření hesla (basic security)
-  const password = req.headers.get('x-admin-password');
+// GET - Info o migration statusu
+export async function GET(req: NextRequest) {
+  const password = req.nextUrl.searchParams.get('password');
   if (password !== ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    // Přípojení jako service role (pro SQL DDL)
-    const supabaseServiceUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-    if (!supabaseServiceUrl || !supabaseServiceKey) {
+    // Ověř, zda sloupec existuje
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('zakaziq_id')
+      .limit(1);
+
+    if (!error) {
+      return NextResponse.json({
+        success: true,
+        message: 'Sloupec zakaziq_id již existuje',
+        status: 'completed',
+      });
+    }
+
+    if (error.message?.includes('zakaziq_id')) {
+      return NextResponse.json({
+        success: false,
+        message: 'Sloupec zakaziq_id neexistuje',
+        status: 'pending',
+        nextStep: 'POST na tuto URL s heslem v headers x-admin-password',
+      });
+    }
+
+    throw error;
+  } catch (error) {
+    return NextResponse.json({
+      error: 'Check failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    }, { status: 500 });
+  }
+}
+
+// POST - Spustit migraci
+export async function POST(req: NextRequest) {
+  const password = req.headers.get('x-admin-password');
+
+  if (!password) {
+    return NextResponse.json(
+      {
+        error: 'Missing password',
+        hint: 'Pošli header: x-admin-password: ADMIN_PASSWORD'
+      },
+      { status: 400 }
+    );
+  }
+
+  if (password !== ADMIN_PASSWORD) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    console.log('[Setup] Spouštění SQL migrace...');
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
       return NextResponse.json(
         { error: 'Missing Supabase configuration' },
         { status: 500 },
       );
     }
 
-    const supabase = createClient(supabaseServiceUrl, supabaseServiceKey);
+    // Zkusit zavolat SQL přímo přes REST API endpoint
+    // Supabase má /rest/v1/sql endpoint (ale vyžaduje service role)
+    // Místo toho zkusíme volat SQL přes vlastní RPC function
 
-    // Spuštění SQL migrace - Přidání zakaziq_id sloupce
-    const { data, error } = await supabase.rpc('exec_sql', {
-      sql: `ALTER TABLE bookings ADD COLUMN IF NOT EXISTS zakaziq_id TEXT;`,
-    });
+    // Nejdříve ověř, zda sloupec existuje
+    const checkUrl = `${supabaseUrl}/rest/v1/rpc/sql`;
 
-    if (error) {
-      // Pokud RPC nefunguje, vrátí instrukce
-      if (error.code === 'PGRST204' || error.message.includes('exec_sql')) {
-        return NextResponse.json({
-          success: false,
-          message: 'RPC exec_sql není dostupný. Musíš to udělat ručně v Supabase SQL editoru.',
-          sql: 'ALTER TABLE bookings ADD COLUMN IF NOT EXISTS zakaziq_id TEXT;',
-          url: 'https://supabase.co/projects',
-        }, { status: 501 });
-      }
+    const sqlQuery = `ALTER TABLE bookings ADD COLUMN IF NOT EXISTS zakaziq_id TEXT;`;
 
-      throw error;
+    console.log('[Setup] SQL:', sqlQuery);
+
+    // Pokus zavolat SQL přes Supabase SQL endpoint (vyžaduje SERVICE_ROLE_KEY)
+    // Protože jej nemáme, použijeme alternativu - vytvoříme si edge function
+
+    // Fallback: volej migration endpoint s auth
+    const response = await fetch(`${supabaseUrl}/rest/v1/query_exec`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabaseKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: sqlQuery,
+      }),
+    }).catch(() => null);
+
+    if (!response) {
+      // Endpoint není dostupný, vrátíme instrukce
+      return NextResponse.json({
+        success: false,
+        message: 'Supabase SQL API není dostupný z klientské strany',
+        workaround: 'Ručně v Supabase SQL editoru',
+        sql: sqlQuery,
+        steps: [
+          'Jdi na https://supabase.co',
+          'Přihlásí se',
+          'SQL Editor → New Query',
+          `Spusť: ${sqlQuery}`,
+        ],
+      }, { status: 503 });
     }
 
+    // Pokud máme response, zkusíme parsovat
+    const result = await response.json().catch(() => null);
+
+    if (response.ok && result) {
+      return NextResponse.json({
+        success: true,
+        message: 'Sloupec zakaziq_id byl úspěšně přidán',
+        data: result,
+      });
+    }
+
+    // Fallback: vrátíme instrukce
     return NextResponse.json({
-      success: true,
-      message: 'Sloupec zakaziq_id byl úspěšně přidán',
-      data,
-    });
+      success: false,
+      message: 'SQL execution fallback',
+      workaround: 'Ručně v Supabase SQL editoru',
+      sql: sqlQuery,
+      response: result,
+    }, { status: 503 });
 
   } catch (error) {
     console.error('[Setup] Chyba migrace:', error);
@@ -55,7 +146,7 @@ export async function POST(req: NextRequest) {
       {
         error: 'Migration failed',
         message: error instanceof Error ? error.message : 'Unknown error',
-        help: 'Spusť ručně v Supabase SQL editoru: ALTER TABLE bookings ADD COLUMN IF NOT EXISTS zakaziq_id TEXT;',
+        workaround: 'Jdi na https://supabase.co → SQL Editor a spusť: ALTER TABLE bookings ADD COLUMN IF NOT EXISTS zakaziq_id TEXT;',
       },
       { status: 500 },
     );
