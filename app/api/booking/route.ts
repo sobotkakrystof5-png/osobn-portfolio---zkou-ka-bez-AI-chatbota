@@ -119,10 +119,11 @@ export async function POST(req: NextRequest) {
   const zakaziqKey = process.env.ZAKAZIQ_API_KEY;
   if (!zakaziqKey) {
     console.error('[Booking] ZAKAZIQ_API_KEY chybí v environment variables');
-    // Pokus o odstranění z Supabase pokud chybí konfigurace
-    await supabase.from('bookings').delete().eq('id', booking.id).catch(e =>
-      console.error('[Booking] Selhalo smazání booking z Supabase:', e)
-    );
+    try {
+      await supabase.from('bookings').delete().eq('id', booking.id);
+    } catch (e) {
+      console.error('[Booking] Selhalo smazání booking z Supabase:', e);
+    }
     return NextResponse.json({ error: 'Konfigurace serveru je neúplná.' }, { status: 500 });
   }
 
@@ -152,10 +153,11 @@ export async function POST(req: NextRequest) {
     if (!zakaziqRes.ok) {
       const detail = await zakaziqRes.text().catch(() => '');
       console.error(`[Booking] ZakazIQ vrátil chybu ${zakaziqRes.status}:`, detail);
-      // Pokus o odstranění z Supabase pokud se ZakazIQ nezdařilo
-      await supabase.from('bookings').delete().eq('id', booking.id).catch(e =>
-        console.error('[Booking] Selhalo smazání booking z Supabase:', e)
-      );
+      try {
+        await supabase.from('bookings').delete().eq('id', booking.id);
+      } catch (e) {
+        console.error('[Booking] Selhalo smazání booking z Supabase:', e);
+      }
       return NextResponse.json(
         { error: 'Rezervaci se nepodařilo uložit. Zkuste to prosím znovu.' },
         { status: 502 },
@@ -172,18 +174,22 @@ export async function POST(req: NextRequest) {
 
     // Aktualizovat booking s ZakazIQ ID pokud se podařilo získat
     if (zakaziqId) {
-      await supabase
-        .from('bookings')
-        .update({ zakaziq_id: zakaziqId })
-        .eq('id', booking.id)
-        .catch(e => console.warn('[Booking] Selhala aktualizace zakaziq_id:', e));
+      try {
+        await supabase
+          .from('bookings')
+          .update({ zakaziq_id: zakaziqId })
+          .eq('id', booking.id);
+      } catch (e) {
+        console.warn('[Booking] Selhala aktualizace zakaziq_id:', e);
+      }
     }
   } catch (err) {
     console.error('[Booking] Spojení se ZakazIQ se nezdařilo:', err);
-    // Pokus o odstranění z Supabase pokud se ZakazIQ nezdařilo
-    await supabase.from('bookings').delete().eq('id', booking.id).catch(e =>
-      console.error('[Booking] Selhalo smazání booking z Supabase:', e)
-    );
+    try {
+      await supabase.from('bookings').delete().eq('id', booking.id);
+    } catch (e) {
+      console.error('[Booking] Selhalo smazání booking z Supabase:', e);
+    }
     return NextResponse.json(
       { error: 'Spojení se nezdařilo. Zkuste to prosím znovu.' },
       { status: 502 },
