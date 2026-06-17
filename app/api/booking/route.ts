@@ -126,61 +126,44 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // ── 2. Předat do ZakazIQ ─────────────────────────────────────────────────
+  // ── 2. Předat do ZakazIQ (soft-fail — selhání neblokuje rezervaci) ──────
   const zakaziqKey = process.env.ZAKAZIQ_API_KEY;
-  if (!zakaziqKey) {
-    console.error('[Booking] ZAKAZIQ_API_KEY chybí v environment variables');
-    try { await supabase.from('bookings').delete().eq('id', bookingId); } catch { /* ignorovat */ }
-    return NextResponse.json({ error: 'Konfigurace serveru je neúplná.' }, { status: 500 });
-  }
-
-  const zakaziqMessage = [
-    serviceLabel !== service ? `Služba: ${serviceLabel}` : null,
-    phone ? `Telefon: ${phone}` : null,
-    note || null,
-  ].filter(Boolean).join('\n');
-
-  let zakaziqId: string | null = null;
-
-  try {
-    const zakaziqRes = await fetch(ZAKAZIQ_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': zakaziqKey },
-      body: JSON.stringify({
-        name,
-        email,
-        projectType: ZAKAZIQ_PROJECT_TYPE[service as ServiceKey] ?? 'Jiné',
-        date,
-        time: timeStart,
-        message: zakaziqMessage,
-      }),
-    });
-
-    if (!zakaziqRes.ok) {
-      const detail = await zakaziqRes.text().catch(() => '');
-      console.error(`[Booking] ZakazIQ vrátil chybu ${zakaziqRes.status}:`, detail);
-      try { await supabase.from('bookings').delete().eq('id', bookingId); } catch { /* ignorovat */ }
-      return NextResponse.json(
-        { error: 'Rezervaci se nepodařilo uložit. Zkuste to prosím znovu.' },
-        { status: 502 },
-      );
-    }
+  if (zakaziqKey) {
+    const zakaziqMessage = [
+      serviceLabel !== service ? `Služba: ${serviceLabel}` : null,
+      phone ? `Telefon: ${phone}` : null,
+      note || null,
+    ].filter(Boolean).join('\n');
 
     try {
-      const zakaziqData = await zakaziqRes.json();
-      zakaziqId = zakaziqData.id ?? zakaziqData.booking_id ?? null;
-    } catch { /* ignorovat parsing error */ }
+      const zakaziqRes = await fetch(ZAKAZIQ_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': zakaziqKey },
+        body: JSON.stringify({
+          name,
+          email,
+          projectType: ZAKAZIQ_PROJECT_TYPE[service as ServiceKey] ?? 'Jiné',
+          date,
+          time: timeStart,
+          message: zakaziqMessage,
+        }),
+      });
 
-    if (zakaziqId) {
-      try { await supabase.from('bookings').update({ zakaziq_id: zakaziqId }).eq('id', bookingId); } catch { /* ignorovat */ }
+      if (zakaziqRes.ok) {
+        try {
+          const zakaziqData = await zakaziqRes.json();
+          const zakaziqId = zakaziqData.id ?? zakaziqData.booking_id ?? null;
+          if (zakaziqId) {
+            try { await supabase.from('bookings').update({ zakaziq_id: zakaziqId }).eq('id', bookingId); } catch { /* ignorovat */ }
+          }
+        } catch { /* ignorovat parsing error */ }
+      } else {
+        const detail = await zakaziqRes.text().catch(() => '');
+        console.warn(`[Booking] ZakazIQ sync selhala (${zakaziqRes.status}): ${detail}`);
+      }
+    } catch (err) {
+      console.warn('[Booking] ZakazIQ nedostupný:', err instanceof Error ? err.message : err);
     }
-  } catch (err) {
-    console.error('[Booking] Spojení se ZakazIQ se nezdařilo:', err);
-    try { await supabase.from('bookings').delete().eq('id', bookingId); } catch { /* ignorovat */ }
-    return NextResponse.json(
-      { error: 'Spojení se nezdařilo. Zkuste to prosím znovu.' },
-      { status: 502 },
-    );
   }
 
   // ── 3. Odeslat emaily ────────────────────────────────────────────────────
