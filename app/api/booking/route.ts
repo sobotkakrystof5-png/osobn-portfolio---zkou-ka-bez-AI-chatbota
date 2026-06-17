@@ -1,23 +1,67 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
+import { createClient } from '@supabase/supabase-js';
 import {
   asciiSafe,
   bookingNotificationFrom,
   bookingConfirmationFrom,
   buildClientConfirmationHtml,
 } from '@/lib/email';
+import type { ServiceKey } from '@/types/booking';
 
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
+
+const ZAKAZIQ_ENDPOINT = 'https://project-iq-sigma.vercel.app/api/public/booking';
+
+const ZAKAZIQ_PROJECT_TYPE: Record<ServiceKey, string> = {
+  weby:        'Web na míru',
+  grafika:     'Grafický design',
+  prezentace:  'Firemní prezentace',
+  socialni:    'Správa sociálních sítí',
+  bundle:      'Jiné',
+  individualni: 'Jiné',
+};
+
+// ── GET — dostupné sloty pro datum ────────────────────────────────────────────
+export async function GET(req: NextRequest) {
+  const date = req.nextUrl.searchParams.get('date');
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return NextResponse.json({ error: 'Neplatné datum' }, { status: 400 });
+  }
+
+  const [{ data: available }, { data: taken }] = await Promise.all([
+    supabase.from('available_slots').select('time_slot, capacity').eq('date', date).order('time_slot'),
+    supabase.from('bookings').select('time_slot').eq('date', date).neq('status', 'cancelled'),
+  ]);
+
+  const bookedCount: Record<string, number> = {};
+  for (const b of taken ?? []) {
+    bookedCount[b.time_slot] = (bookedCount[b.time_slot] ?? 0) + 1;
+  }
+
+  const slots = (available ?? []).map((s: { time_slot: string; capacity: number }) => ({
+    time_slot:    s.time_slot,
+    is_available: (bookedCount[s.time_slot] ?? 0) < s.capacity,
+  }));
+
+  return NextResponse.json({ slots });
+}
+
+// ── POST — vytvoření rezervace ────────────────────────────────────────────────
 const bookingSchema = z.object({
   service:     z.string().optional().default('individualni'),
   serviceName: z.string().optional().default(''),
   subService:  z.string().optional(),
-  name:       z.string().trim().min(2, 'Chybí jméno').max(120),
-  phone:      z.string().optional().default(''),
-  email:      z.email(),
-  note:       z.string().optional(),
-  date:       z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Neplatný formát data (YYYY-MM-DD)'),
-  time_slot:  z.string().min(1, 'Chybí časový slot'),
+  name:        z.string().trim().min(2, 'Chybí jméno').max(120),
+  phone:       z.string().optional().default(''),
+  email:       z.email(),
+  note:        z.string().optional(),
+  date:        z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Neplatný formát data (YYYY-MM-DD)'),
+  time_slot:   z.string().min(1, 'Chybí časový slot'),
 });
 
 export async function POST(req: NextRequest) {
@@ -54,6 +98,88 @@ export async function POST(req: NextRequest) {
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+  // ── 1. Uložit do Supabase ─────────────────────────────────────────────────
+  const { data: booking, error: supabaseError } = await supabase
+    .from('bookings')
+    .insert({
+      name,
+      email,
+      phone: phone || null,
+      service: serviceName || service,
+      date,
+      time_slot,
+      note: note || null,
+      status: 'pending',
+    })
+    .select('id')
+    .single();
+
+  if (supabaseError || !booking) {
+    console.error('[Booking] Supabase insert error:', supabaseError);
+    return NextResponse.json(
+      { error: 'Nepodařilo se uložit rezervaci do databáze. Zkuste to prosím znovu.' },
+      { status: 500 },
+    );
+  }
+
+  // ── 2. Předat do ZakazIQ ─────────────────────────────────────────────────
+  const zakaziqKey = process.env.ZAKAZIQ_API_KEY;
+  if (!zakaziqKey) {
+    console.error('[Booking] ZAKAZIQ_API_KEY chybí v environment variables');
+    try { await supabase.from('bookings').delete().eq('id', booking.id); } catch { /* ignorovat */ }
+    return NextResponse.json({ error: 'Konfigurace serveru je neúplná.' }, { status: 500 });
+  }
+
+  const zakaziqMessage = [
+    serviceLabel !== service ? `Služba: ${serviceLabel}` : null,
+    phone ? `Telefon: ${phone}` : null,
+    note || null,
+  ].filter(Boolean).join('\n');
+
+  let zakaziqId: string | null = null;
+
+  try {
+    const zakaziqRes = await fetch(ZAKAZIQ_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': zakaziqKey },
+      body: JSON.stringify({
+        name,
+        email,
+        projectType: ZAKAZIQ_PROJECT_TYPE[service as ServiceKey] ?? 'Jiné',
+        date,
+        time: timeStart,
+        message: zakaziqMessage,
+      }),
+    });
+
+    if (!zakaziqRes.ok) {
+      const detail = await zakaziqRes.text().catch(() => '');
+      console.error(`[Booking] ZakazIQ vrátil chybu ${zakaziqRes.status}:`, detail);
+      try { await supabase.from('bookings').delete().eq('id', booking.id); } catch { /* ignorovat */ }
+      return NextResponse.json(
+        { error: 'Rezervaci se nepodařilo uložit. Zkuste to prosím znovu.' },
+        { status: 502 },
+      );
+    }
+
+    try {
+      const zakaziqData = await zakaziqRes.json();
+      zakaziqId = zakaziqData.id ?? zakaziqData.booking_id ?? null;
+    } catch { /* ignorovat parsing error */ }
+
+    if (zakaziqId) {
+      try { await supabase.from('bookings').update({ zakaziq_id: zakaziqId }).eq('id', booking.id); } catch { /* ignorovat */ }
+    }
+  } catch (err) {
+    console.error('[Booking] Spojení se ZakazIQ se nezdařilo:', err);
+    try { await supabase.from('bookings').delete().eq('id', booking.id); } catch { /* ignorovat */ }
+    return NextResponse.json(
+      { error: 'Spojení se nezdařilo. Zkuste to prosím znovu.' },
+      { status: 502 },
+    );
+  }
+
+  // ── 3. Odeslat emaily ────────────────────────────────────────────────────
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('[Booking] RESEND_API_KEY chybí v environment variables');
@@ -64,7 +190,6 @@ export async function POST(req: NextRequest) {
   const resend = new Resend(apiKey);
 
   try {
-    // ── 1. Admin notifikace ─────────────────────────────────────────────────────
     const { error: err1 } = await resend.emails.send({
       from: bookingNotificationFrom(),
       to: adminEmail,
@@ -93,7 +218,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Nepodařilo se odeslat email: ${err1.message}` }, { status: 500 });
     }
 
-    // ── 2. Potvrzovací e-mail klientovi (Resend) ────────────────────────────────
     const { error: err2 } = await resend.emails.send({
       from: bookingConfirmationFrom(),
       to: email,
