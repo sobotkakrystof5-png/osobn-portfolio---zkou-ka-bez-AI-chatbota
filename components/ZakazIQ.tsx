@@ -102,9 +102,9 @@ export default function ZakazIQ() {
 
         <motion.p
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-light text-[14px] text-[#8a8070] leading-[1.85] max-w-2xl mb-16"
+          className="font-inter font-light text-[15px] text-[#c4bdb4] leading-[1.75] max-w-2xl mb-16"
         >
-          ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce o vašem projektu.
+          ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce.
         </motion.p>
 
         {/* Feature cards */}
