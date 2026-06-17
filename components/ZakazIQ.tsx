@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { MessageCircle, Star, CalendarCheck, LayoutDashboard } from "lucide-react";
-import { fadeUp, fadeIn, stagger, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
+import { fadeUp, stagger, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
 
 const features = [
@@ -28,17 +29,34 @@ const features = [
   },
 ];
 
-function ZakazIQLogo() {
+function ZakazIQLogo({ size = "default" }: { size?: "default" | "hero" }) {
+  const svgSize = size === "hero" ? 96 : 44;
+  const rx = size === "hero" ? 20 : 10;
+  const scale = svgSize / 44;
   return (
-    <div className="flex items-center gap-3" aria-label="ZakazIQ logo">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect width="44" height="44" rx="10" fill="#1e3a6e" />
+    <div className={size === "hero" ? "flex flex-col items-center gap-5" : "flex items-center gap-3"} aria-label="ZakazIQ logo">
+      <svg
+        width={svgSize}
+        height={svgSize}
+        viewBox="0 0 44 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        style={size === "hero" ? { filter: "drop-shadow(0 0 32px rgba(30,58,110,0.7))" } : undefined}
+      >
+        <rect width="44" height="44" rx={rx / scale} fill="#1e3a6e" />
         <rect x="10" y="10" width="10" height="10" rx="2" fill="white" />
         <rect x="24" y="10" width="10" height="10" rx="2" fill="white" />
         <rect x="10" y="24" width="10" height="10" rx="2" fill="white" />
         <rect x="24" y="24" width="10" height="10" rx="2" fill="white" />
       </svg>
-      <span className="font-inter font-semibold text-[22px] tracking-tight text-[#f0ece6]">
+      <span
+        className={
+          size === "hero"
+            ? "font-inter font-semibold tracking-tight text-[#f0ece6] text-[52px] md:text-[72px] lg:text-[88px] leading-none"
+            : "font-inter font-semibold text-[22px] tracking-tight text-[#f0ece6]"
+        }
+      >
         ZakazIQ
       </span>
     </div>
@@ -62,47 +80,82 @@ export default function ZakazIQ() {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 
-        {/* Header */}
-        <motion.p
+        {/* Header — logo jako hlavní dominanta */}
+        <motion.div
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4"
+          className="flex flex-col items-center text-center mb-6"
         >
-          — Systém pro klienty
-        </motion.p>
+          <p className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-10">
+            — Systém pro klienty
+          </p>
 
-        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mb-8">
-          <ZakazIQLogo />
+          {/* Hlavní logo */}
+          <div className="relative mb-10">
+            {/* Ambient glow za logem */}
+            <div
+              className="absolute inset-0 -m-12 rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, rgba(30,58,110,0.25), transparent 70%)", filter: "blur(40px)" }}
+              aria-hidden="true"
+            />
+            <ZakazIQLogo size="hero" />
+          </div>
+
+          <p className="font-inter font-light text-[13px] uppercase tracking-[0.25em] text-[#8a8070] mb-2">
+            Komunikační a rezervační systém
+          </p>
         </motion.div>
 
-        {/* 3 velká hesla */}
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="mb-6">
-          {[
-            { text: "Komunikujte přímo.", accent: false },
-            { text: "Sdílejte zpětnou vazbu.", accent: false },
-            { text: "Mějte přehled.", accent: true },
-          ].map((line, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              className="flex items-baseline gap-5 border-b border-white/[0.04] py-4 first:pt-0 last:border-b-0 group"
-            >
-              <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h2
-                className={`font-cormorant font-light text-[38px] md:text-[72px] lg:text-[88px] leading-[1.0] tracking-tight ${
-                  line.accent ? "text-shimmer" : "text-[#f0ece6]"
-                } group-hover:translate-x-2 transition-transform duration-500`}
+        {/* 3 velká hesla + preview */}
+        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16 mb-6">
+          {/* Hesla */}
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="flex-1 min-w-0">
+            {[
+              { text: "Komunikujete přímo.", accent: false },
+              { text: "Sdílíte zpětnou vazbu.", accent: false },
+              { text: "Máte přehled.", accent: true },
+            ].map((line, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                className="flex items-baseline gap-5 border-b border-white/[0.04] py-4 first:pt-0 last:border-b-0 group"
               >
-                {line.text}
-              </h2>
-            </motion.div>
-          ))}
-        </motion.div>
+                <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h2
+                  className={`font-cormorant font-light text-[30px] md:text-[52px] lg:text-[64px] leading-[1.0] tracking-tight ${
+                    line.accent ? "text-shimmer" : "text-[#f0ece6]"
+                  } group-hover:translate-x-2 transition-transform duration-500`}
+                >
+                  {line.text}
+                </h2>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Preview screenshot */}
+          <motion.div
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+            className="lg:w-[280px] xl:w-[320px] shrink-0 flex flex-col items-center gap-3"
+          >
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06]" style={{ boxShadow: "0 0 60px rgba(30,58,110,0.2)" }}>
+              <Image
+                src="/zakaziq-preview.png"
+                alt="Ukázka klientského prostředí ZakazIQ"
+                width={320}
+                height={600}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <p className="font-inter font-light text-[11px] text-[#8a8070] tracking-[0.05em] text-center">
+              Ukázka vašeho klientského prostředí
+            </p>
+          </motion.div>
+        </div>
 
         <motion.p
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-light text-[15px] text-[#c4bdb4] leading-[1.75] max-w-2xl mb-16"
+          className="font-inter font-normal text-[18px] md:text-[20px] text-[#e8e3dc] leading-[1.7] max-w-2xl mb-16"
         >
           ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce.
         </motion.p>
