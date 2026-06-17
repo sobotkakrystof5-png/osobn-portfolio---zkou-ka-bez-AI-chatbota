@@ -129,12 +129,6 @@ export async function POST(req: NextRequest) {
   // ── 2. Předat do ZakazIQ (soft-fail — selhání neblokuje rezervaci) ──────
   const zakaziqKey = process.env.ZAKAZIQ_API_KEY;
   if (zakaziqKey) {
-    const zakaziqMessage = [
-      serviceLabel !== service ? `Služba: ${serviceLabel}` : null,
-      phone ? `Telefon: ${phone}` : null,
-      note || null,
-    ].filter(Boolean).join('\n');
-
     try {
       const zakaziqRes = await fetch(ZAKAZIQ_ENDPOINT, {
         method: 'POST',
@@ -142,10 +136,11 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           clientName: name,
           clientEmail: email,
+          clientPhone: phone || undefined,
           projectType: ZAKAZIQ_PROJECT_TYPE[service as ServiceKey] ?? 'Jiné',
           date,
           time: timeStart,
-          message: zakaziqMessage || undefined,
+          message: note || undefined,
           source: 'vizeon_web',
         }),
       });
