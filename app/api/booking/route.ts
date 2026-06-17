@@ -140,19 +140,20 @@ export async function POST(req: NextRequest) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': zakaziqKey },
         body: JSON.stringify({
-          name,
-          email,
+          clientName: name,
+          clientEmail: email,
           projectType: ZAKAZIQ_PROJECT_TYPE[service as ServiceKey] ?? 'Jiné',
           date,
           time: timeStart,
-          message: zakaziqMessage,
+          message: zakaziqMessage || undefined,
+          source: 'vizeon_web',
         }),
       });
 
       if (zakaziqRes.ok) {
         try {
           const zakaziqData = await zakaziqRes.json();
-          const zakaziqId = zakaziqData.id ?? zakaziqData.booking_id ?? null;
+          const zakaziqId = zakaziqData.bookingId ?? null;
           if (zakaziqId) {
             try { await supabase.from('bookings').update({ zakaziq_id: zakaziqId }).eq('id', bookingId); } catch { /* ignorovat */ }
           }
