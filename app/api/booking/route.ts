@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
+import { randomUUID } from 'crypto';
 import {
   asciiSafe,
   bookingNotificationFrom,
@@ -99,9 +100,14 @@ export async function POST(req: NextRequest) {
      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
   // ── 1. Uložit do Supabase ─────────────────────────────────────────────────
-  const { data: booking, error: supabaseError } = await supabase
+  // UUID generujeme sami — vyhýbáme se .select() po insertu, které selže
+  // na RLS anon role (INSERT policy existuje, SELECT pro anon ne).
+  const bookingId = randomUUID();
+
+  const { error: supabaseError } = await supabase
     .from('bookings')
     .insert({
+      id: bookingId,
       name,
       email,
       phone: phone || null,
@@ -110,11 +116,9 @@ export async function POST(req: NextRequest) {
       time_slot,
       note: note || null,
       status: 'pending',
-    })
-    .select('id')
-    .single();
+    });
 
-  if (supabaseError || !booking) {
+  if (supabaseError) {
     console.error('[Booking] Supabase insert error:', supabaseError);
     return NextResponse.json(
       { error: 'Nepodařilo se uložit rezervaci do databáze. Zkuste to prosím znovu.' },
@@ -126,7 +130,7 @@ export async function POST(req: NextRequest) {
   const zakaziqKey = process.env.ZAKAZIQ_API_KEY;
   if (!zakaziqKey) {
     console.error('[Booking] ZAKAZIQ_API_KEY chybí v environment variables');
-    try { await supabase.from('bookings').delete().eq('id', booking.id); } catch { /* ignorovat */ }
+    try { await supabase.from('bookings').delete().eq('id', bookingId); } catch { /* ignorovat */ }
     return NextResponse.json({ error: 'Konfigurace serveru je neúplná.' }, { status: 500 });
   }
 
@@ -155,7 +159,7 @@ export async function POST(req: NextRequest) {
     if (!zakaziqRes.ok) {
       const detail = await zakaziqRes.text().catch(() => '');
       console.error(`[Booking] ZakazIQ vrátil chybu ${zakaziqRes.status}:`, detail);
-      try { await supabase.from('bookings').delete().eq('id', booking.id); } catch { /* ignorovat */ }
+      try { await supabase.from('bookings').delete().eq('id', bookingId); } catch { /* ignorovat */ }
       return NextResponse.json(
         { error: 'Rezervaci se nepodařilo uložit. Zkuste to prosím znovu.' },
         { status: 502 },
@@ -168,11 +172,11 @@ export async function POST(req: NextRequest) {
     } catch { /* ignorovat parsing error */ }
 
     if (zakaziqId) {
-      try { await supabase.from('bookings').update({ zakaziq_id: zakaziqId }).eq('id', booking.id); } catch { /* ignorovat */ }
+      try { await supabase.from('bookings').update({ zakaziq_id: zakaziqId }).eq('id', bookingId); } catch { /* ignorovat */ }
     }
   } catch (err) {
     console.error('[Booking] Spojení se ZakazIQ se nezdařilo:', err);
-    try { await supabase.from('bookings').delete().eq('id', booking.id); } catch { /* ignorovat */ }
+    try { await supabase.from('bookings').delete().eq('id', bookingId); } catch { /* ignorovat */ }
     return NextResponse.json(
       { error: 'Spojení se nezdařilo. Zkuste to prosím znovu.' },
       { status: 502 },
