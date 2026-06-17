@@ -70,29 +70,42 @@ export default function ZakazIQ() {
           — Systém pro klienty
         </motion.p>
 
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-            <ZakazIQLogo />
-            <h2 className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mt-6 max-w-xl">
-              Váš projekt. Pod kontrolou.<br />
-              <span className="text-shimmer">Společně.</span>
-            </h2>
-          </motion.div>
+        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mb-8">
+          <ZakazIQLogo />
+        </motion.div>
 
-          <motion.p
-            variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-            className="font-inter font-light text-[14px] text-[#8a8070] leading-[1.85] max-w-md md:text-right"
-          >
-            ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce.
-          </motion.p>
-        </div>
+        {/* 3 velká hesla */}
+        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="mb-6">
+          {[
+            { text: "Komunikujte přímo.", accent: false },
+            { text: "Sdílejte zpětnou vazbu.", accent: false },
+            { text: "Mějte přehled.", accent: true },
+          ].map((line, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              className="flex items-baseline gap-5 border-b border-white/[0.04] py-4 first:pt-0 last:border-b-0 group"
+            >
+              <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h2
+                className={`font-cormorant font-light text-[38px] md:text-[72px] lg:text-[88px] leading-[1.0] tracking-tight ${
+                  line.accent ? "text-shimmer" : "text-[#f0ece6]"
+                } group-hover:translate-x-2 transition-transform duration-500`}
+              >
+                {line.text}
+              </h2>
+            </motion.div>
+          ))}
+        </motion.div>
 
-        {/* Divider */}
-        <motion.div
-          variants={fadeIn} initial="hidden" whileInView="visible" viewport={viewport}
-          className="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(201,168,76,0.2)] to-transparent mb-16"
-          aria-hidden="true"
-        />
+        <motion.p
+          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+          className="font-inter font-light text-[14px] text-[#8a8070] leading-[1.85] max-w-2xl mb-16"
+        >
+          ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce o vašem projektu.
+        </motion.p>
 
         {/* Feature cards */}
         <motion.div
