@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Portfolio",  href: "#portfolio" },
   { label: "Reference",  href: "#reference" },
   { label: "Ceník",      href: "#cenik" },
+  { label: "ZakazIQ",   href: "#zakaziq" },
   { label: "Kontakt",   href: "#kontakt" },
 ];
 
