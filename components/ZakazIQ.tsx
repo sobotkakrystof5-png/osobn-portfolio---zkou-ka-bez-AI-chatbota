@@ -106,59 +106,68 @@ export default function ZakazIQ() {
         </motion.div>
 
         {/* 3 velká hesla + preview */}
-        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16 mb-6">
-          {/* Hesla */}
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="flex-1 min-w-0">
-            {[
-              { text: "Komunikujete přímo.", accent: false },
-              { text: "Sdílíte zpětnou vazbu.", accent: false },
-              { text: "Máte přehled.", accent: true },
-            ].map((line, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="flex items-baseline gap-5 border-b border-white/[0.04] py-4 first:pt-0 last:border-b-0 group"
-              >
-                <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h2
-                  className={`font-cormorant font-light text-[30px] md:text-[52px] lg:text-[64px] leading-[1.0] tracking-tight ${
-                    line.accent ? "text-shimmer" : "text-[#f0ece6]"
-                  } group-hover:translate-x-2 transition-transform duration-500`}
-                >
-                  {line.text}
-                </h2>
-              </motion.div>
-            ))}
-          </motion.div>
+        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20 mb-16">
 
-          {/* Preview screenshot */}
+          {/* Levý sloupec — hesla + popis */}
+          <div className="flex-1 min-w-0">
+            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
+              {[
+                { text: "Komunikujete přímo.", accent: false },
+                { text: "Sdílíte zpětnou vazbu.", accent: false },
+                { text: "Máte přehled.", accent: true },
+              ].map((line, i) => (
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  className="flex items-baseline gap-5 border-b border-white/[0.04] py-5 first:pt-0 last:border-b-0 group"
+                >
+                  <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h2
+                    className={`font-cormorant font-light text-[42px] md:text-[64px] lg:text-[78px] leading-[1.0] tracking-tight ${
+                      line.accent ? "text-shimmer" : "text-[#f0ece6]"
+                    } group-hover:translate-x-2 transition-transform duration-500`}
+                  >
+                    {line.text}
+                  </h2>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <motion.p
+              variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+              className="font-inter font-normal text-[18px] md:text-[22px] text-[#e8e3dc] leading-[1.75] mt-10"
+            >
+              ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce.
+            </motion.p>
+          </div>
+
+          {/* Pravý sloupec — preview screenshot */}
           <motion.div
             variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-            className="lg:w-[280px] xl:w-[320px] shrink-0 flex flex-col items-center gap-3"
+            className="w-full lg:w-[400px] xl:w-[460px] shrink-0 self-center flex flex-col items-center gap-4"
           >
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06]" style={{ boxShadow: "0 0 60px rgba(30,58,110,0.2)" }}>
+            <div
+              className="relative w-full rounded-[32px] overflow-hidden border border-white/[0.08]"
+              style={{
+                boxShadow: "0 40px 100px rgba(0,0,0,0.55), 0 0 80px rgba(30,58,110,0.3), inset 0 1px 0 rgba(255,255,255,0.07)"
+              }}
+            >
               <Image
                 src="/zakaziq-preview.png"
                 alt="Ukázka klientského prostředí ZakazIQ"
-                width={320}
-                height={600}
+                width={460}
+                height={860}
                 className="w-full h-auto object-cover"
               />
             </div>
-            <p className="font-inter font-light text-[11px] text-[#8a8070] tracking-[0.05em] text-center">
+            <p className="font-inter font-light text-[11px] text-[#8a8070] tracking-[0.06em] text-center uppercase">
               Ukázka vašeho klientského prostředí
             </p>
           </motion.div>
-        </div>
 
-        <motion.p
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-normal text-[18px] md:text-[20px] text-[#e8e3dc] leading-[1.7] max-w-2xl mb-16"
-        >
-          ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce.
-        </motion.p>
+        </div>
 
         {/* Feature cards */}
         <motion.div
