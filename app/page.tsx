@@ -7,6 +7,7 @@ import Services from "@/components/Services";
 import HowItWorks from "@/components/HowItWorks";
 import Portfolio from "@/components/Portfolio";
 import Pricing from "@/components/Pricing";
+import ZakazIQ from "@/components/ZakazIQ";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
@@ -29,6 +30,7 @@ export default function Home() {
         <HowItWorks />
         <Portfolio />
         <Pricing />
+        <ZakazIQ />
         <Testimonials />
         <FAQ />
         <Contact />
