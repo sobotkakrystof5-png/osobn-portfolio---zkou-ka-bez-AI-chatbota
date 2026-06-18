@@ -224,7 +224,7 @@ ADMIN_PASSWORD=vizeon2026
 
 ---
 
-## Bezpečnost
+ ## Bezpečnost
 
 ### RLS (Row-Level Security)
 - Tabulka `bookings`: SELECT + INSERT veřejně, UPDATE/DELETE jen admin
