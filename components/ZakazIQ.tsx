@@ -112,9 +112,9 @@ export default function ZakazIQ() {
           <div className="flex-1 min-w-0">
             <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
               {[
-                { text: "Komunikujete přímo.", accent: false },
-                { text: "Sdílíte zpětnou vazbu.", accent: false },
-                { text: "Máte přehled.", accent: true },
+                { text: "Přímá komunikace", accent: false },
+                { text: "Zpětná vazba", accent: false },
+                { text: "Přehled", accent: true },
               ].map((line, i) => (
                 <motion.div
                   key={i}
