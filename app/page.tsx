@@ -30,8 +30,8 @@ export default function Home() {
         <HowItWorks />
         <Portfolio />
         <Pricing />
-        <ZakazIQ />
         <Testimonials />
+        <ZakazIQ />
         <FAQ />
         <Contact />
       </main>
