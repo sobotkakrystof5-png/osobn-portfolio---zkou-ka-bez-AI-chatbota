@@ -133,25 +133,20 @@ export default function PromoPopup() {
     setMounted(true);
     if (typeof window === "undefined") return;
 
-    // ── TRIGGER 1: Hero sekce scrollována mimo viewport ────────────────────
-    // Zobrazíme popup jakmile klient přejede přes hero (po úvodní animaci).
+    // Zobrazíme popup až když klient doscrolluje na footer — viděl celý web.
     if (!sessionStorage.getItem(PROMO_HERO_KEY)) {
-      const hero = document.getElementById("hero");
-      if (hero) {
-        let heroWasVisible = false;
-        const heroObs = new IntersectionObserver(
+      const footer = document.getElementById("footer");
+      if (footer) {
+        const footerObs = new IntersectionObserver(
           ([e]) => {
             if (e.isIntersecting) {
-              heroWasVisible = true;
-            } else if (heroWasVisible && e.boundingClientRect.top < 0) {
-              // Hero přejel nahoru → klient je pod hero sekcí
-              heroObs.disconnect();
+              footerObs.disconnect();
               setTimeout(() => tryShow(), 400);
             }
           },
-          { threshold: 0.15 }
+          { threshold: 0.1 }
         );
-        heroObs.observe(hero);
+        footerObs.observe(footer);
       }
     }
 

@@ -28,7 +28,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#080808] border-t border-white/[0.05]" aria-label="Patička">
+    <footer id="footer" className="bg-[#080808] border-t border-white/[0.05]" aria-label="Patička">
       {/* Top golden line */}
       <div className="h-[1px]" style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} aria-hidden="true" />
 
