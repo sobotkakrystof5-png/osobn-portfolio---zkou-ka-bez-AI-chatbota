@@ -22,18 +22,26 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "VIZEON | Tvorba webů, grafika a správa sítí — Kryštof Sobotka",
+    default: "VIZEON | Tvorba webů, grafika a správa sítí",
     template: "%s | VIZEON",
   },
   description:
-    "Weby, které přivádějí zákazníky. Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí pro živnostníky a malé firmy. Nezávazná konzultace zdarma.",
+    "Weby, které přivádějí zákazníky a zvyšují tržby. Tvorba webů na míru, grafický design a konverzní web, který prodává — pro živnostníky a malé firmy. Nezávazná konzultace zdarma.",
   keywords: [
-    "tvorba webů na míru",
+    "tvorba webů",
+    "tvorba webu na míru",
+    "weby na míru",
+    "levné weby na míru",
     "webový designer ČR",
+    "tvorba grafiky",
+    "grafika na míru",
     "grafický design živnostníci",
+    "konverzní web",
+    "web který zvyšuje tržby",
+    "zvýšení tržeb",
+    "zvýšení konverzí",
     "správa sociálních sítí malé firmy",
     "Next.js React web Česká republika",
-    "Kryštof Sobotka",
     "VIZEON",
   ],
   metadataBase: new URL("https://vizeon.cz"),
@@ -67,7 +75,15 @@ const jsonLd = {
       email: "sobotkakrystof5@gmail.com",
       areaServed: "CZ",
       description:
-        "Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí.",
+        "Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí. Weby a grafika, které zvyšují tržby a konverze.",
+      serviceType: [
+        "Tvorba webů na míru",
+        "Tvorba grafiky",
+        "Grafický design",
+        "Zvýšení tržeb a konverzí",
+        "Firemní prezentace",
+        "Správa sociálních sítí",
+      ],
     },
     {
       "@type": "Person",
@@ -83,15 +99,63 @@ const jsonLd = {
           name: "Jak dlouho trvá vytvoření webu?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Online Vizitka do 5 dní, Promo Page do 10 dní, Pro Web do 3 týdnů.",
+            text: "Záleží na rozsahu. Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení.",
           },
         },
         {
           "@type": "Question",
-          name: "Pracuješ s AI?",
+          name: "Jak probíhá naše spolupráce?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Ne. Vše dělám ručně, každý web je originál.",
+            text: "Konzultace → Návrh → Vaše zpětná vazba → Tvorba → Ukázka → Doladění → Předání. Průběžně komunikujeme a nic neschvaluje bez vašeho souhlasu.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Pracuješ s AI nebo je vše ručně?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Nástroje AI používám jako pomocníka — pro inspiraci, urychlení rutinních kroků nebo generování textu. Každý výsledek ale ručně přepracuji, doladím a přizpůsobím vašemu projektu. Finální dílo je vždy moje práce, ne AI výstup.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Co je zahrnuto v ceně?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Design, kód, mobilní verze, základní SEO, testování a předání. U webových balíčků také bonus dárky z ceníku. Žádné skryté poplatky, žádné dodatečné faktury.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Mohu web po předání spravovat sám?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Ano. Předám vám přístupy a krátký návod. Případně se postaráme o správu za 999 Kč/měsíc — vy se starejte o byznys, já o web.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Co když se mi výsledek nebude líbit?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "To se nestane — průběžně konzultujeme a upravujeme. Ale pokud by přesto nastal problém, opravím vše dokud nejste 100% spokojeni.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Pracuješ i mimo ČR?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Ano. Pracuji online pro klienty po celé ČR i zahraničí. Komunikace přes telefon, WhatsApp nebo video hovor — odkudkoliv.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Jak mi nový web nebo grafika pomůže zvýšit tržby?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Web navržený na míru pro vaše zákazníky, s jasnou strukturou a cestou k objednávce, přivádí víc poptávek než šablonový web, který jen 'existuje'. Stejně tak sjednocená grafika (logo, vizitky, sociální sítě) zvyšuje důvěru a tím i konverze — víc lidí, kteří web nebo profil navštíví, se promění v zákazníky.",
           },
         },
       ],

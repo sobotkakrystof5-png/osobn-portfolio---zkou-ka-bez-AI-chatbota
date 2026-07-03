@@ -12,6 +12,16 @@ function FacebookIcon({ size = 16 }: { size?: number }) {
   );
 }
 
+function InstagramIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 const navLinks = [
   { label: "O mně", href: "#o-mne" },
   { label: "Služby", href: "#sluzby" },
@@ -51,7 +61,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7] max-w-xs mt-4">
-              Weby které prodávají, ne jen existují. Jeden člověk, přímá komunikace, výsledky.
+              Tvorba webů na míru a grafika, které zvyšují tržby a konverze. Jeden člověk, přímá komunikace, výsledky.
             </p>
           </motion.div>
 
@@ -101,6 +111,18 @@ export default function Footer() {
                 <FacebookIcon size={13} />
                 <span className="font-inter font-light text-[13px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300">
                   Facebook
+                </span>
+              </a>
+              <a
+                href="https://www.instagram.com/vizeon_official/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 group"
+                aria-label="Instagram"
+              >
+                <InstagramIcon size={13} />
+                <span className="font-inter font-light text-[13px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300">
+                  Instagram
                 </span>
               </a>
             </div>

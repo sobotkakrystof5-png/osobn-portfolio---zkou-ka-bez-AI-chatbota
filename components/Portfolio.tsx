@@ -56,7 +56,7 @@ export default function Portfolio() {
         </motion.h2>
         <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-inter font-light text-[14px] text-[#8a8070] mb-16">
-          Každý projekt je ručně vytvořený. Každý má svůj příběh.
+          Weby a grafika, které zvyšují konverze a tržby. Každý projekt je ručně vytvořený, každý má svůj příběh.
         </motion.p>
 
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="space-y-5">

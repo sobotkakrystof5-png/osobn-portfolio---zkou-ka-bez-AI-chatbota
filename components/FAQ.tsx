@@ -13,6 +13,7 @@ const faqs = [
   { question: "Mohu web po předání spravovat sám?", answer: "Ano. Předám vám přístupy a krátký návod. Případně se postaráme o správu za 999 Kč/měsíc — vy se starejte o byznys, já o web." },
   { question: "Co když se mi výsledek nebude líbit?", answer: "To se nestane — průběžně konzultujeme a upravujeme. Ale pokud by přesto nastal problém, opravím vše dokud nejste 100% spokojeni." },
   { question: "Pracuješ i mimo ČR?", answer: "Ano. Pracuji online pro klienty po celé ČR i zahraničí. Komunikace přes telefon, WhatsApp nebo video hovor — odkudkoliv." },
+  { question: "Jak mi nový web nebo grafika pomůže zvýšit tržby?", answer: "Web navržený na míru pro vaše zákazníky, s jasnou strukturou a cestou k objednávce, přivádí víc poptávek než šablonový web, který jen 'existuje'. Stejně tak sjednocená grafika (logo, vizitky, sociální sítě) zvyšuje důvěru a tím i konverze — víc lidí, kteří web nebo profil navštíví, se promění v zákazníky." },
 ];
 
 function FAQItem({ faq, isOpen, onToggle, index }: { faq: typeof faqs[0]; isOpen: boolean; onToggle: () => void; index: number }) {
