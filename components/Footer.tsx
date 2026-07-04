@@ -135,7 +135,7 @@ export default function Footer() {
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-inter font-light text-[12px] text-[#3d3830]">
-            © 2026 VIZEON — Kryštof Sobotka. Všechna práva vyhrazena.
+            © 2026 VIZEON. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <a

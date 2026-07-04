@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "VIZEON",
   ],
   metadataBase: new URL("https://vizeon.cz"),
-  authors: [{ name: "Kryštof Sobotka", url: "https://vizeon.cz" }],
+  authors: [{ name: "VIZEON", url: "https://vizeon.cz" }],
   openGraph: {
     type: "website",
     locale: "cs_CZ",
@@ -84,12 +84,6 @@ const jsonLd = {
         "Firemní prezentace",
         "Správa sociálních sítí",
       ],
-    },
-    {
-      "@type": "Person",
-      name: "Kryštof Sobotka",
-      jobTitle: "Web Designer & Developer",
-      worksFor: { "@type": "Organization", name: "VIZEON" },
     },
     {
       "@type": "FAQPage",

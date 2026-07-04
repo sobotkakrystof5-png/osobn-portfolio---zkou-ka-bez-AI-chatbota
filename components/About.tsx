@@ -22,13 +22,13 @@ export default function About() {
           <motion.div variants={slideLeft} className="md:col-span-2">
             <div className="relative w-full max-w-sm" style={{ borderLeft: "1px solid rgba(201,168,76,0.4)", borderBottom: "1px solid rgba(201,168,76,0.4)" }}>
               <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image src="/profil.jpg" alt="Kryštof Sobotka — VIZEON" fill className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700" sizes="(max-width: 768px) 100vw, 40vw" priority />
+                <Image src="/profil.jpg" alt="Zakladatel VIZEON" fill className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700" sizes="(max-width: 768px) 100vw, 40vw" priority />
                 {/* Zlatý overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#c9a84c]/10 to-transparent pointer-events-none" />
               </div>
             </div>
             <p className="mt-4 font-inter font-medium text-[10px] tracking-[0.15em] text-[#c9a84c] uppercase">
-              Kryštof Sobotka · VIZEON · Česká republika
+              Zakladatel VIZEON · Česká republika
             </p>
           </motion.div>
 
