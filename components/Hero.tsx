@@ -52,7 +52,7 @@ export default function Hero() {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const words = ["Weby,", "které", "přivádějí", "zákazníky", "–", "ne", "jen", "návštěvníky."];
+  const words = ["Tvorba", "webů", "pro", "živnostníky,", "kteří", "chtějí", "zákazníky", "–", "ne", "jen", "návštěvníky."];
 
   return (
     <section id="hero" className="relative min-h-screen h-screen flex items-start md:items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
@@ -91,19 +91,19 @@ export default function Hero() {
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24 sm:pt-28 md:pt-20 pb-16 sm:pb-20 md:pb-28">
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
           className="font-cormorant font-light leading-[1.05] text-[38px] sm:text-[48px] md:text-[84px] lg:text-[100px] text-[#f0ece6] mb-6 md:mb-8"
-          aria-label="Weby, které přivádějí zákazníky – ne jen návštěvníky.">
+          aria-label="Tvorba webů pro živnostníky, kteří chtějí zákazníky – ne jen návštěvníky.">
           {words.map((word, i) => (
             <motion.span key={i} variants={fadeUp}
-              className={`inline-block mr-[0.2em] last:mr-0 ${i >= 4 ? "text-shimmer" : ""}`}>
+              className={`inline-block mr-[0.2em] last:mr-0 ${i >= 6 ? "text-shimmer" : ""}`}>
               {word}
             </motion.span>
           ))}
         </motion.h1>
 
-        <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
-          className="font-inter font-light text-[16px] md:text-[18px] leading-[1.8] text-[#8a8070] max-w-lg mx-auto mb-12">
-          Web za 10 dní. Zákazníci navždy.
-        </motion.p>
+        <motion.h2 variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
+          className="font-inter font-light text-[18px] md:text-[20px] leading-[1.8] text-[#8a8070] max-w-lg mx-auto mb-12">
+          Web na míru pro malé firmy. Bez šablon, hotovo za 10 dní.
+        </motion.h2>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
