@@ -23,9 +23,21 @@ export default function IntroAnimation() {
     // Zamkni scroll dokud intro běží
     document.body.style.overflow = "hidden";
 
-    const timer = setTimeout(() => setVisible(false), 2700);
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => setVisible(false), 2000);
+
+    // Escape přeskočí animaci okamžitě — zlepšuje INP pro netrpělivé uživatele
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setVisible(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
+
+  const handleSkip = () => setVisible(false);
 
   const handleExitComplete = () => {
     document.body.style.overflow = "";
@@ -42,10 +54,15 @@ export default function IntroAnimation() {
       {visible && (
         <motion.div
           key="intro"
-          className="fixed inset-0 z-[200] bg-[#080808] flex flex-col items-center justify-center select-none"
+          className="fixed inset-0 z-[200] bg-[#080808] flex flex-col items-center justify-center select-none cursor-pointer"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
+          onClick={handleSkip}
+          role="button"
+          tabIndex={0}
+          aria-label="Přeskočit úvodní animaci"
+          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleSkip()}
         >
           {/* ── Jemné zlaté světlo v pozadí ── */}
           <motion.div
@@ -73,8 +90,8 @@ export default function IntroAnimation() {
                 initial={{ opacity: 0, y: 55 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.7,
-                  delay: i * 0.075,
+                  duration: 0.52,
+                  delay: i * 0.056,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
@@ -88,7 +105,7 @@ export default function IntroAnimation() {
             className="h-[1px] bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent mt-5 mb-4"
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: "clamp(180px, 28vw, 380px)", opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.67, delay: 0.41, ease: [0.22, 1, 0.36, 1] }}
           />
 
           {/* ── Tagline ── */}
@@ -104,8 +121,8 @@ export default function IntroAnimation() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.55,
-                  delay: 0.5 + i * 0.1,
+                  duration: 0.41,
+                  delay: 0.37 + i * 0.074,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
@@ -119,14 +136,14 @@ export default function IntroAnimation() {
             className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.0, duration: 0.5 }}
+            transition={{ delay: 0.74, duration: 0.37 }}
           >
             <div className="w-[1px] h-6 bg-[#2a2520] overflow-hidden relative">
               <motion.div
                 className="absolute top-0 left-0 w-full bg-[#c9a84c]"
                 initial={{ height: "0%" }}
                 animate={{ height: "100%" }}
-                transition={{ duration: 1.5, delay: 1.0, ease: "linear" }}
+                transition={{ duration: 1.11, delay: 0.74, ease: "linear" }}
               />
             </div>
           </motion.div>
