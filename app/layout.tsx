@@ -65,6 +65,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Validace: vlož vyrenderovaný obsah tohoto <script type="application/ld+json">
+// (View Source na produkci) do https://validator.schema.org nebo do Google
+// Rich Results Test (https://search.google.com/test/rich-results).
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -74,7 +77,7 @@ const jsonLd = {
       url: "https://vizeon.cz",
       telephone: "+420604837333",
       email: "sobotkakrystof5@gmail.com",
-      areaServed: "CZ",
+      areaServed: { "@type": "Country", name: "Česká republika" },
       description:
         "Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí. Weby a grafika, které zvyšují tržby a konverze.",
       serviceType: [
