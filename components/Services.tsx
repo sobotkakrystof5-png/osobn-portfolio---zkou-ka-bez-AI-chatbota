@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { Globe, Zap, Palette, PresentationIcon, Megaphone, RefreshCw } from "lucide-react";
 import { fadeUp, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
 import { useRef } from "react";
@@ -160,10 +161,22 @@ export default function Services() {
         </motion.p>
         <motion.h2
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-16 max-w-2xl"
+          className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-6 max-w-2xl"
         >
           Ne co umím. Co z toho budete mít <span className="text-shimmer">vy</span>.
         </motion.h2>
+
+        <motion.p
+          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+          className="font-inter font-light text-[15px] md:text-[17px] text-[#8a8070] leading-[1.8] max-w-xl mb-16"
+        >
+          Ať potřebujete web pro řemeslníky, kadeřnictví nebo účetní kancelář, řeším ho na míru
+          vašemu oboru. Přečtěte si, jak přesně probíhá{" "}
+          <Link href="/tvorba-webu-pro-zivnostniky" className="text-[#c9a84c] hover:underline">
+            tvorba webu pro živnostníky
+          </Link>{" "}
+          krok za krokem.
+        </motion.p>
 
         <motion.div
           variants={staggerDramatic}
