@@ -9,7 +9,7 @@ const faqs = [
   { question: "Jak dlouho trvá vytvoření webu?", answer: "Záleží na rozsahu. Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení." },
   { question: "Jak probíhá naše spolupráce?", answer: "Konzultace → Návrh → Vaše zpětná vazba → Tvorba → Ukázka → Doladění → Předání. Průběžně komunikujeme a nic neschvaluje bez vašeho souhlasu." },
   { question: "Pracuješ s AI nebo je vše ručně?", answer: "Nástroje AI používám jako pomocníka — pro inspiraci, urychlení rutinních kroků nebo generování textu. Každý výsledek ale ručně přepracuji, doladím a přizpůsobím vašemu projektu. Finální dílo je vždy moje práce, ne AI výstup." },
-  { question: "Co je zahrnuto v ceně?", answer: "Design, kód, mobilní verze, základní SEO, testování a předání. U webových balíčků také bonus dárky z ceníku. Žádné skryté poplatky, žádné dodatečné faktury." },
+  { question: "Co je zahrnuto v ceně?", answer: "Design, kód, mobilní verze, základní SEO, testování a předání. Žádné skryté poplatky, žádné dodatečné faktury." },
   { question: "Mohu web po předání spravovat sám?", answer: "Ano. Předám vám přístupy a krátký návod. Případně se postaráme o správu za 999 Kč/měsíc — vy se starejte o byznys, já o web." },
   { question: "Co když se mi výsledek nebude líbit?", answer: "To se nestane — průběžně konzultujeme a upravujeme. Ale pokud by přesto nastal problém, opravím vše dokud nejste 100% spokojeni." },
   { question: "Pracuješ i mimo ČR?", answer: "Ano. Pracuji online pro klienty po celé ČR i zahraničí. Komunikace přes telefon, WhatsApp nebo video hovor — odkudkoliv." },

@@ -57,7 +57,13 @@ function ZakazIQLogo({ size = "default" }: { size?: "default" | "hero" }) {
             : "font-inter font-semibold text-[22px] tracking-tight text-[#f0ece6]"
         }
       >
-        ZakazIQ
+        Zakaz
+        <span
+          className="text-[#4a7fd4]"
+          style={{ textShadow: "0 0 20px rgba(74,127,212,0.8), 0 0 44px rgba(74,127,212,0.4)" }}
+        >
+          IQ
+        </span>
       </span>
     </div>
   );
@@ -100,7 +106,7 @@ export default function ZakazIQ() {
             <ZakazIQLogo size="hero" />
           </div>
 
-          <p className="font-inter font-light text-[13px] uppercase tracking-[0.25em] text-[#8a8070] mb-2">
+          <p className="font-inter font-semibold text-[17px] md:text-[19px] uppercase tracking-[0.25em] text-[#8a8070] mb-2">
             Komunikační a rezervační systém
           </p>
         </motion.div>

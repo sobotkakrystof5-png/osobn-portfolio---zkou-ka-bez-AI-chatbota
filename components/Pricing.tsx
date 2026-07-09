@@ -13,7 +13,6 @@ const services = [
         name: "Online Vizitka",
         subtitle: "Jednostránkový web — kontakty, portfolio, o mně",
         price: "7 499 Kč",
-        bonus: "🎁 1× Social Visual",
         featured: false,
         badge: "Nejlevnější",
       },
@@ -21,7 +20,6 @@ const services = [
         name: "Promo Page",
         subtitle: "Landing page — jedna stránka, maximální dojem",
         price: "9 999 Kč",
-        bonus: "🎁 Business Card + 3× Social Visual",
         featured: true,
         badge: "Nejoblíbenější",
       },
@@ -29,7 +27,6 @@ const services = [
         name: "Pro Web",
         subtitle: "Více stránek, pokročilé animace a systémy na míru",
         price: "14 999 Kč",
-        bonus: "🎁 Business Card + Brand Logo + 5× Social Visual",
         featured: false,
       },
       {
@@ -85,7 +82,6 @@ const services = [
         name: "Slide Deck Premium",
         subtitle: "Prémiová prezentace bez omezení — animace, interaktivita",
         price: "3 499 Kč",
-        bonus: "🎁 1× Social Visual",
         featured: false,
       },
     ],
@@ -97,14 +93,12 @@ const services = [
         name: "Social Starter",
         subtitle: "Instagram nebo Facebook — 8 příspěvků/měs + komentáře",
         price: "4 999 Kč/měs",
-        bonus: "🎁 Content Blueprint",
         featured: false,
       },
       {
         name: "Social Pro",
         subtitle: "Instagram + Facebook — grafiky, texty, publikování, DM",
         price: "7 499 Kč/měs",
-        bonus: "🎁 Zdarma 1. měsíc: Blueprint + 5× Social Visual (hod. 1 994 Kč)",
         featured: false,
       },
       {
@@ -312,12 +306,12 @@ export default function Pricing() {
           Víte přesně co dostanete a za kolik — cena dle dohodnuté nabídky.
         </motion.p>
 
-        {/* ── Dárky & bundly banner ── */}
+        {/* ── Bundly banner ── */}
         <motion.div
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="mb-12 relative overflow-hidden border border-[rgba(201,168,76,0.35)] bg-[rgba(201,168,76,0.04)] p-5 md:p-6 flex flex-col sm:flex-row sm:items-start gap-4"
+          className="mb-12 relative overflow-hidden border border-[rgba(201,168,76,0.35)] bg-[rgba(201,168,76,0.04)] p-5 md:p-6 flex items-start gap-3"
           role="note"
-          aria-label="Dárky a výhodné bundly"
+          aria-label="Výhodné bundly"
         >
           {/* Levá zlatá linka */}
           <div
@@ -325,33 +319,16 @@ export default function Pricing() {
             style={{ background: "linear-gradient(180deg, transparent, #c9a84c, transparent)" }}
             aria-hidden="true"
           />
-          <div className="flex flex-col sm:flex-row gap-6 w-full">
-            <div className="flex items-start gap-3 flex-1">
-              <span className="text-[20px] shrink-0 mt-0.5" aria-hidden="true">🎁</span>
-              <div>
-                <p className="font-inter font-semibold text-[13px] text-[#c9a84c] mb-0.5 tracking-[0.03em]">
-                  Dárky k vybraným službám
-                </p>
-                <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7]">
-                  K prémiům webům, prezentacím i správě sítí přidávám{" "}
-                  <span className="text-[#f0ece6] font-medium">grafické materiály zdarma</span>{" "}
-                  — social visuals, vizitky nebo content blueprint.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 flex-1">
-              <span className="text-[20px] shrink-0 mt-0.5" aria-hidden="true">💼</span>
-              <div>
-                <p className="font-inter font-semibold text-[13px] text-[#c9a84c] mb-0.5 tracking-[0.03em]">
-                  Výhodné bundly
-                </p>
-                <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7]">
-                  Kombinací služeb do balíčku ušetříte až{" "}
-                  <span className="text-[#f0ece6] font-medium">desítky tisíc korun</span>{" "}
-                  oproti jednotlivým cenám. Vše pod záložkou Výhodné bundly.
-                </p>
-              </div>
-            </div>
+          <span className="text-[20px] shrink-0 mt-0.5" aria-hidden="true">💼</span>
+          <div>
+            <p className="font-inter font-semibold text-[13px] text-[#c9a84c] mb-0.5 tracking-[0.03em]">
+              Výhodné bundly
+            </p>
+            <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7]">
+              Kombinací služeb do balíčku ušetříte až{" "}
+              <span className="text-[#f0ece6] font-medium">desítky tisíc korun</span>{" "}
+              oproti jednotlivým cenám. Vše pod záložkou Výhodné bundly.
+            </p>
           </div>
         </motion.div>
 

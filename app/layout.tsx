@@ -121,7 +121,7 @@ const jsonLd = {
           name: "Co je zahrnuto v ceně?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Design, kód, mobilní verze, základní SEO, testování a předání. U webových balíčků také bonus dárky z ceníku. Žádné skryté poplatky, žádné dodatečné faktury.",
+            text: "Design, kód, mobilní verze, základní SEO, testování a předání. Žádné skryté poplatky, žádné dodatečné faktury.",
           },
         },
         {
