@@ -15,7 +15,7 @@ const projects = [
     description: "Landing page pro statek v Kněžmostě. Cíl: získat více zakázek na svatby a ubytování v Českém ráji.",
     url: "https://www.u-cerhu.cz",
     image: "/portfolio/ucerhu.jpg",
-    alt: "Screenshot webu U Cerhů",
+    alt: "Web na míru pro statek U Cerhů — svatby a ubytování v Českém ráji",
     isReal: true,
   },
   {
@@ -26,7 +26,7 @@ const projects = [
     description: "Osobní brand web pro lektora němčiny. Zaměřeno na důvěru a první kontakt.",
     url: "https://auf-gehts-cz-56ly.vercel.app",
     image: "/portfolio/aufgehts.jpg",
-    alt: "Screenshot webu Auf Gehts",
+    alt: "Osobní web na míru pro lektora němčiny Auf Gehts — příklad webu pro živnostníka",
     isReal: false,
   },
   {
@@ -37,7 +37,7 @@ const projects = [
     description: "Web pro kadeřnický salon. Důraz na ukázku práce a online rezervace.",
     url: "https://hair-deluxe-jo.vercel.app",
     image: "/portfolio/hairdeluxe.jpg",
-    alt: "Screenshot webu HairDeluxe",
+    alt: "Web pro kadeřnický salon HairDeluxe — ukázka webu na míru pro kadeřnictví",
     isReal: false,
   },
 ];
@@ -55,7 +55,7 @@ export default function Portfolio() {
           Výsledky mluví za vše.
         </motion.h2>
         <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-light text-[14px] text-[#8a8070] mb-16">
+          className="font-inter font-light text-[16px] md:text-[19px] text-[#c8c0b4] leading-[1.7] max-w-xl mb-16">
           Weby a grafika, které zvyšují konverze a tržby. Každý projekt je ručně vytvořený, každý má svůj příběh.
         </motion.p>
 
