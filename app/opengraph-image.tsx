@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "VIZEON — Tvorba webů pro živnostníky, kteří chtějí zákazníky";
+export const alt = "VIZEON — Weby pro živnostníky, které přivádějí zákazníky";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -43,7 +43,7 @@ export default function Image() {
             maxWidth: 980,
           }}
         >
-          Tvorba webů pro živnostníky, kteří chtějí zákazníky
+          Weby pro živnostníky, které přivádějí zákazníky
         </div>
         <div
           style={{
