@@ -55,7 +55,7 @@ export default function Hero() {
   const words = ["Weby", "pro", "živnostníky,", "které", "přivádějí", "zákazníky", "–", "ne", "jen", "návštěvníky."];
 
   return (
-    <section id="hero" className="relative min-h-screen h-screen flex items-start md:items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" aria-hidden="true" />
 
       {/* Mřížka v pozadí */}
@@ -88,9 +88,14 @@ export default function Hero() {
         style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }}
         aria-hidden="true" />
 
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24 sm:pt-28 md:pt-20 pb-16 sm:pb-20 md:pb-28">
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-24 sm:pt-28 md:pt-24 pb-12 sm:pb-14 md:pb-20">
+        <motion.p variants={fadeIn} initial="hidden" animate="visible"
+          className="hidden sm:block font-inter font-normal text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-[#c9a84c] mb-4 md:mb-5">
+          — Web. Design. Výsledky.
+        </motion.p>
+
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
-          className="font-cormorant font-light leading-[1.05] text-[38px] sm:text-[48px] md:text-[84px] lg:text-[100px] text-[#f0ece6] mb-6 md:mb-8"
+          className="font-cormorant font-light leading-[1.12] text-[32px] sm:text-[40px] md:text-[52px] lg:text-[64px] text-[#f0ece6] mb-5 md:mb-6"
           aria-label="Weby pro živnostníky, které přivádějí zákazníky – ne jen návštěvníky.">
           {words.map((word, i) => (
             <motion.span key={i} variants={fadeUp}
@@ -101,12 +106,12 @@ export default function Hero() {
         </motion.h1>
 
         <motion.h2 variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
-          className="font-inter font-light text-[18px] md:text-[20px] leading-[1.8] text-[#8a8070] max-w-lg mx-auto mb-12">
-          Web na míru pro malé firmy. Bez šablon, hotovo za 10 dní.
+          className="font-inter font-light text-[15px] md:text-[17px] leading-[1.7] text-[#8a8070] max-w-lg mx-auto mb-8 md:mb-10">
+          Weby pro živnostníky a malé firmy v růstové fázi. Web za 10 dní, zákazníci navždy.
         </motion.h2>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
           </CTAButton>
@@ -149,7 +154,7 @@ export default function Hero() {
 
       {/* Scroll */}
       <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.8 }}
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" aria-hidden="true">
+        className="hidden md:flex absolute bottom-3 left-1/2 -translate-x-1/2 flex-col items-center gap-3" aria-hidden="true">
         <span className="font-inter font-light text-[10px] tracking-[0.25em] text-[#3d3830] uppercase">Scroll</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-[#c9a84c]/60 to-transparent origin-top scroll-line" />
       </motion.div>

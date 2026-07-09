@@ -13,7 +13,6 @@ import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
-import PromoPopup from "@/components/PromoPopup";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export default function Home() {
@@ -37,7 +36,6 @@ export default function Home() {
       </main>
       <Footer />
       <CookieBanner />
-      <PromoPopup />
     </>
   );
 }

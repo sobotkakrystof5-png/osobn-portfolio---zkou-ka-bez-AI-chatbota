@@ -12,7 +12,6 @@ const services = [
       {
         name: "Online Vizitka",
         subtitle: "Jednostránkový web — kontakty, portfolio, o mně",
-        originalPrice: "14 999 Kč",
         price: "7 499 Kč",
         bonus: "🎁 1× Social Visual",
         featured: false,
@@ -21,7 +20,6 @@ const services = [
       {
         name: "Promo Page",
         subtitle: "Landing page — jedna stránka, maximální dojem",
-        originalPrice: "19 999 Kč",
         price: "9 999 Kč",
         bonus: "🎁 Business Card + 3× Social Visual",
         featured: true,
@@ -30,7 +28,6 @@ const services = [
       {
         name: "Pro Web",
         subtitle: "Více stránek, pokročilé animace a systémy na míru",
-        originalPrice: "29 999 Kč",
         price: "14 999 Kč",
         bonus: "🎁 Business Card + Brand Logo + 5× Social Visual",
         featured: false,
@@ -38,7 +35,6 @@ const services = [
       {
         name: "Web Care",
         subtitle: "Správa webu — aktualizace, bezpečnost, obsah",
-        originalPrice: "1 999 Kč",
         price: "999 Kč/měs",
         featured: false,
       },
@@ -50,14 +46,12 @@ const services = [
       {
         name: "Brand Logo",
         subtitle: "Originální logo — SVG, PNG, PDF v každé velikosti",
-        originalPrice: "1 499 Kč",
         price: "699 Kč",
         featured: false,
       },
       {
         name: "Business Card",
         subtitle: "Vizitka na míru — digitální i tisková verze",
-        originalPrice: "599 Kč",
         price: "299 Kč",
         featured: false,
         badge: "Nejlevnější",
@@ -65,7 +59,6 @@ const services = [
       {
         name: "Social Visual",
         subtitle: "Grafický post nebo story pro sociální sítě",
-        originalPrice: "599 Kč",
         price: "299 Kč/ks",
         bonus: "balíček 5ks: 1 299 Kč",
         featured: false,
@@ -73,7 +66,6 @@ const services = [
       {
         name: "Print Design",
         subtitle: "Leták, plakát nebo banner — připraveno k tisku",
-        originalPrice: "1 499 Kč",
         price: "699 Kč",
         featured: false,
       },
@@ -85,7 +77,6 @@ const services = [
       {
         name: "Slide Deck Standard",
         subtitle: "Prezentace do 15 slidů — design, struktura, obsah",
-        originalPrice: "2 199 Kč",
         price: "1 099 Kč",
         featured: false,
         badge: "Nejlevnější",
@@ -93,7 +84,6 @@ const services = [
       {
         name: "Slide Deck Premium",
         subtitle: "Prémiová prezentace bez omezení — animace, interaktivita",
-        originalPrice: "6 999 Kč",
         price: "3 499 Kč",
         bonus: "🎁 1× Social Visual",
         featured: false,
@@ -106,7 +96,6 @@ const services = [
       {
         name: "Social Starter",
         subtitle: "Instagram nebo Facebook — 8 příspěvků/měs + komentáře",
-        originalPrice: "9 999 Kč",
         price: "4 999 Kč/měs",
         bonus: "🎁 Content Blueprint",
         featured: false,
@@ -114,7 +103,6 @@ const services = [
       {
         name: "Social Pro",
         subtitle: "Instagram + Facebook — grafiky, texty, publikování, DM",
-        originalPrice: "14 999 Kč",
         price: "7 499 Kč/měs",
         bonus: "🎁 Zdarma 1. měsíc: Blueprint + 5× Social Visual (hod. 1 994 Kč)",
         featured: false,
@@ -122,7 +110,6 @@ const services = [
       {
         name: "Content Blueprint",
         subtitle: "Jednorázový content plán — témata, strategie, harmonogram",
-        originalPrice: "999 Kč",
         price: "499 Kč",
         featured: false,
         badge: "Nejlevnější",
@@ -136,9 +123,7 @@ const bundles = [
     name: "💼 Small Bundle",
     tagline: "Starter Branding Pack",
     description: "Ideální pro živnostníky, kteří teprve začínají budovat značku",
-    originalPrice: "2 994 Kč",
     price: "2 499 Kč",
-    savings: "ušetříte 495 Kč",
     includes: [
       "Brand Logo (699 Kč)",
       "Business Card (299 Kč)",
@@ -150,9 +135,7 @@ const bundles = [
     name: "🌐 Small Bundle + Web",
     tagline: "Základ online prezence",
     description: "Starter Branding Pack + tvůj první profesionální web",
-    originalPrice: "17 493 Kč",
     price: "14 999 Kč",
-    savings: "ušetříte 2 494 Kč",
     includes: [
       "Online Vizitka (7 499 Kč)",
       "Brand Logo (699 Kč)",
@@ -165,9 +148,7 @@ const bundles = [
     name: "🚀 Middle Bundle",
     tagline: "Rostoucí značka",
     description: "Nejpopulárnější volba — web + sociální sítě na 2 měsíce",
-    originalPrice: "34 994 Kč",
     price: "29 999 Kč",
-    savings: "ušetříte 4 995 Kč",
     includes: [
       "Promo Page (9 999 Kč)",
       "Brand Logo (699 Kč)",
@@ -182,9 +163,7 @@ const bundles = [
     name: "💎 Mega Bundle",
     tagline: "Kompletní online prezence",
     description: "Vše co firma potřebuje na jednom místě",
-    originalPrice: "65 000 Kč",
     price: "49 999 Kč",
-    savings: "ušetříte 15 001 Kč",
     includes: [
       "Pro Web (14 999 Kč)",
       "Brand Logo (699 Kč)",
@@ -200,7 +179,6 @@ const bundles = [
 type ServiceItem = {
   name: string;
   subtitle?: string;
-  originalPrice: string;
   price: string;
   bonus?: string;
   featured: boolean;
@@ -256,7 +234,6 @@ function ServiceCard({ item }: { item: ServiceItem }) {
         </p>
       )}
 
-      <p className="font-inter font-light text-[12px] text-[#3d3830] line-through mb-1 relative z-10">{item.originalPrice}</p>
       <p className="font-cormorant font-normal text-[30px] text-[#f0ece6] leading-none mb-3 relative z-10">{item.price}</p>
       {item.bonus && (
         <p className="font-inter font-light text-[11px] text-[#c9a84c] relative z-10">{item.bonus}</p>
@@ -292,9 +269,6 @@ function BundleCard({ bundle }: { bundle: (typeof bundles)[0] }) {
       {/* Stručný popis */}
       <p className="font-inter font-light text-[12px] text-[#8a8070] mb-4 relative z-10">{bundle.description}</p>
 
-      {/* Úspora */}
-      <p className="font-inter font-medium text-[11px] tracking-[0.08em] uppercase text-[#c9a84c] mb-5 relative z-10">{bundle.savings}</p>
-
       {/* Co zahrnuje */}
       <ul className="space-y-2 mb-6 relative z-10">
         {bundle.includes.map((item, i) => (
@@ -305,9 +279,8 @@ function BundleCard({ bundle }: { bundle: (typeof bundles)[0] }) {
         ))}
       </ul>
 
-      {/* Ceny */}
+      {/* Cena */}
       <div className="relative z-10">
-        <p className="font-inter font-light text-[12px] text-[#3d3830] line-through mb-0.5">{bundle.originalPrice}</p>
         <p className="font-cormorant font-normal text-[38px] text-[#f0ece6] leading-none">{bundle.price}</p>
       </div>
     </motion.div>

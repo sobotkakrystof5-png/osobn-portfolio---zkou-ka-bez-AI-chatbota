@@ -33,7 +33,7 @@ export default function Testimonials() {
             viewport={viewport}
             className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-8 max-w-2xl"
           >
-            Upřímně o <span className="text-shimmer">referencích</span>.
+            Co o nás <span className="text-shimmer">řekli</span>.
           </motion.h2>
 
           <motion.p

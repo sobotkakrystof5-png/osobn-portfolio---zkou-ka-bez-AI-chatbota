@@ -8,31 +8,31 @@ const services = [
   {
     group: "🌐 Weby",
     items: [
-      { id: "vizitka",  name: "Online Vizitka",      original: "14 999 Kč",    price: "7 499 Kč"         },
-      { id: "promo",    name: "Promo Page",           original: "19 999 Kč",    price: "9 999 Kč", featured: true },
-      { id: "proweb",   name: "Pro Web",              original: "29 999 Kč",    price: "14 999 Kč"        },
+      { id: "vizitka",  name: "Online Vizitka",      price: "7 499 Kč"         },
+      { id: "promo",    name: "Promo Page",           price: "9 999 Kč", featured: true },
+      { id: "proweb",   name: "Pro Web",              price: "14 999 Kč"        },
     ],
   },
   {
     group: "🎨 Design",
     items: [
-      { id: "logo",     name: "Brand Logo",           original: "1 499 Kč",     price: "699 Kč"           },
-      { id: "bcard",    name: "Business Card",        original: "599 Kč",       price: "299 Kč"           },
-      { id: "print",    name: "Print Design",         original: "1 499 Kč",     price: "699 Kč"           },
+      { id: "logo",     name: "Brand Logo",           price: "699 Kč"           },
+      { id: "bcard",    name: "Business Card",        price: "299 Kč"           },
+      { id: "print",    name: "Print Design",         price: "699 Kč"           },
     ],
   },
   {
     group: "📊 Prezentace",
     items: [
-      { id: "slides-s", name: "Slide Deck Standard", original: "2 199 Kč",     price: "1 099 Kč"         },
-      { id: "slides-p", name: "Slide Deck Premium",  original: "6 999 Kč",     price: "3 499 Kč"         },
+      { id: "slides-s", name: "Slide Deck Standard", price: "1 099 Kč"         },
+      { id: "slides-p", name: "Slide Deck Premium",  price: "3 499 Kč"         },
     ],
   },
   {
     group: "📱 Správa sítí",
     items: [
-      { id: "soc-s",    name: "Social Starter",      original: "9 999 Kč/měs", price: "4 999 Kč/měs"    },
-      { id: "soc-p",    name: "Social Pro",          original: "14 999 Kč/měs",price: "7 499 Kč/měs"    },
+      { id: "soc-s",    name: "Social Starter",      price: "4 999 Kč/měs"    },
+      { id: "soc-p",    name: "Social Pro",          price: "7 499 Kč/měs"    },
     ],
   },
 ];
@@ -226,7 +226,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                                       <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#c9a84c]" aria-hidden="true" />
                                     )}
                                     <p className="font-inter font-medium text-[12px] text-[#f0ece6] mb-1">{item.name}</p>
-                                    <p className="font-inter font-light text-[11px] text-[#3d3830] line-through">{item.original}</p>
                                     <p className="font-inter font-medium text-[13px] text-[#c9a84c]">{item.price}</p>
                                   </button>
                                 );
@@ -282,9 +281,6 @@ export default function FirstClientModal({ open, onClose }: Props) {
                             {selectedService?.name}
                           </p>
                           <div className="flex items-center gap-3">
-                            <span className="font-inter font-light text-[12px] text-[#3d3830] line-through">
-                              {selectedService?.original}
-                            </span>
                             <span className="font-inter font-medium text-[14px] text-[#c9a84c]">
                               {selectedService?.price}
                             </span>

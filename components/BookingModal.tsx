@@ -22,140 +22,55 @@ import type { BookingData, ServiceKey } from '@/types/booking';
 import type { BookingPrefill } from '@/context/BookingContext';
 import type { LucideIcon } from 'lucide-react';
 
-/* ─── Promo price map ───────────────────────────────────── */
-const PROMO_PRICES: Record<string, { orig: string; disc: string }> = {
-  "Online Vizitka":      { orig: "14 999 Kč",     disc: "7 499 Kč"      },
-  "Promo Page":          { orig: "19 999 Kč",     disc: "9 999 Kč"      },
-  "Pro Web":             { orig: "29 999 Kč",     disc: "14 999 Kč"     },
-  "Web Care":            { orig: "1 999 Kč/měs",  disc: "999 Kč/měs"   },
-  "Brand Logo":          { orig: "1 499 Kč",      disc: "699 Kč"        },
-  "Business Card":       { orig: "599 Kč",        disc: "299 Kč"        },
-  "Social Visual":       { orig: "599 Kč/ks",     disc: "299 Kč/ks"    },
-  "Print Design":        { orig: "1 499 Kč",      disc: "699 Kč"        },
-  "Slide Deck Standard": { orig: "2 199 Kč",      disc: "1 099 Kč"     },
-  "Slide Deck Premium":  { orig: "6 999 Kč",      disc: "3 499 Kč"     },
-  "Content Blueprint":   { orig: "999 Kč",        disc: "499 Kč"       },
-  "Social Starter":      { orig: "9 999 Kč/měs",  disc: "4 999 Kč/měs" },
-  "Social Pro":          { orig: "14 999 Kč/měs", disc: "7 499 Kč/měs" },
-  "Small Bundle":        { orig: "2 994 Kč",      disc: "1 699 Kč"     },
-  "Small Bundle + Web":  { orig: "17 493 Kč",     disc: "9 999 Kč"     },
-  "Middle Bundle":       { orig: "34 994 Kč",     disc: "17 499 Kč"    },
-  "Mega Bundle":         { orig: "65 000 Kč",     disc: "29 999 Kč"    },
+/* ─── Service price map (shodné s Pricing.tsx / FirstClientModal.tsx) ── */
+const PRICES: Record<string, string> = {
+  "Online Vizitka":      "7 499 Kč",
+  "Promo Page":          "9 999 Kč",
+  "Pro Web":             "14 999 Kč",
+  "Web Care":            "999 Kč/měs",
+  "Brand Logo":          "699 Kč",
+  "Business Card":       "299 Kč",
+  "Social Visual":       "299 Kč/ks",
+  "Print Design":        "699 Kč",
+  "Slide Deck Standard": "1 099 Kč",
+  "Slide Deck Premium":  "3 499 Kč",
+  "Content Blueprint":   "499 Kč",
+  "Social Starter":      "4 999 Kč/měs",
+  "Social Pro":          "7 499 Kč/měs",
+  "Small Bundle":        "2 499 Kč",
+  "Small Bundle + Web":  "14 999 Kč",
+  "Middle Bundle":       "29 999 Kč",
+  "Mega Bundle":         "49 999 Kč",
 };
 
-/* ─── Price reveal animation ────────────────────────────── */
-function PriceReveal({ subName }: { subName: string }) {
-  const prices = PROMO_PRICES[subName];
-  const [phase, setPhase] = useState(0);
-
-  useEffect(() => {
-    setPhase(0);
-    const timers = [
-      setTimeout(() => setPhase(1), 120),   // orig price appears
-      setTimeout(() => setPhase(2), 950),   // strikethrough sweeps
-      setTimeout(() => setPhase(3), 1700),  // −50% badge pops
-      setTimeout(() => setPhase(4), 2350),  // new price slides up
-      setTimeout(() => setPhase(5), 3000),  // "Teď pouze pro vás"
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [subName]);
-
-  if (!prices) return null;
+/* ─── Price display ─────────────────────────────────────── */
+function PriceDisplay({ subName }: { subName: string }) {
+  const price = PRICES[subName];
+  if (!price) return null;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="mt-4 p-5 border border-[#c9a84c]/20 overflow-hidden"
+      transition={{ duration: 0.3 }}
+      className="mt-4 p-5 border border-[#c9a84c]/20"
       style={{ background: "rgba(201,168,76,0.04)" }}
     >
-      {/* Header label */}
-      <p className="font-inter text-[9px] uppercase tracking-[0.2em] text-[#6b5e50] mb-3">
-        Aktuální cena pro vás
+      <p className="font-inter text-[9px] uppercase tracking-[0.2em] text-[#6b5e50] mb-2">
+        Cena
       </p>
-
-      {/* Phase 1 — original price */}
-      <AnimatePresence>
-        {phase >= 1 && (
-          <motion.div
-            key="orig"
-            className="relative inline-flex items-center mb-2"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <span className="font-inter font-light text-[18px] text-white/45 tracking-wide">
-              {prices.orig}
-            </span>
-            {/* Phase 2 — strikethrough sweep */}
-            {phase >= 2 && (
-              <motion.div
-                className="absolute top-1/2 left-0 h-[1.5px] bg-red-500"
-                style={{ translateY: "-50%" }}
-                initial={{ width: "0%" }}
-                animate={{ width: "110%" }}
-                transition={{ duration: 0.42, ease: "easeInOut" }}
-              />
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Phase 3 — badge */}
-      {phase >= 3 && (
-        <motion.div
-          className="inline-flex items-center gap-2 mb-3"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 380, damping: 20 }}
-        >
-          <span
-            className="font-inter font-black text-[11px] uppercase tracking-[0.1em] text-[#080808] px-3 py-[5px]"
-            style={{ background: "linear-gradient(90deg, #c9a84c, #f0d070)" }}
-          >
-            −50 % SLEVA
-          </span>
-          <span className="font-inter text-[10px] uppercase tracking-[0.12em] text-[#c9a84c]/70">
-            pro vás
-          </span>
-        </motion.div>
-      )}
-
-      {/* Phase 4 — new discounted price */}
-      {phase >= 4 && (
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <span
-            className="font-cormorant font-semibold leading-none"
-            style={{
-              fontSize: "clamp(2.4rem, 8vw, 3.2rem)",
-              background: "linear-gradient(135deg, #b8943e 0%, #f7e48a 50%, #c9a84c 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              filter: "drop-shadow(0 0 16px rgba(201,168,76,0.45))",
-            }}
-          >
-            {prices.disc}
-          </span>
-        </motion.div>
-      )}
-
-      {/* Phase 5 — tagline */}
-      {phase >= 5 && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="font-inter font-light text-[10px] uppercase tracking-[0.18em] text-[#c9a84c]/60 mt-2"
-        >
-          ✦ Teď pouze pro vás — poslední 2 místa
-        </motion.p>
-      )}
+      <span
+        className="font-cormorant font-semibold leading-none"
+        style={{
+          fontSize: "clamp(2.2rem, 7vw, 2.8rem)",
+          background: "linear-gradient(135deg, #b8943e 0%, #f7e48a 50%, #c9a84c 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}
+      >
+        {price}
+      </span>
     </motion.div>
   );
 }
@@ -661,10 +576,10 @@ export default function BookingModal({
         )}
       </AnimatePresence>
 
-      {/* Price reveal — spustí se po výběru sub-služby */}
+      {/* Cena — zobrazí se ihned po výběru sub-služby */}
       <AnimatePresence mode="wait">
         {data.subService && (
-          <PriceReveal key={data.subService} subName={data.subService} />
+          <PriceDisplay key={data.subService} subName={data.subService} />
         )}
       </AnimatePresence>
 
