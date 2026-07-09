@@ -46,6 +46,7 @@ export const metadata: Metadata = {
     "VIZEON",
   ],
   metadataBase: new URL("https://vizeon.cz"),
+  alternates: { canonical: "https://vizeon.cz" },
   authors: [{ name: "VIZEON", url: "https://vizeon.cz" }],
   openGraph: {
     type: "website",

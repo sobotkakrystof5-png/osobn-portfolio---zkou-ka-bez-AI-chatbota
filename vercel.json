@@ -1,5 +1,13 @@
 {
   "regions": ["fra1"],
   "trailingSlash": false,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.vizeon.cz" }],
+      "destination": "https://vizeon.cz/:path*",
+      "permanent": true
+    }
+  ]
 }
