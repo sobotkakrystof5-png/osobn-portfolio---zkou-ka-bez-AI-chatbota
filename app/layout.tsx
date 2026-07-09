@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | VIZEON",
   },
   description:
-    "Weby, které přivádějí zákazníky a zvyšují tržby. Tvorba webů na míru, grafický design a konverzní web, který prodává — pro živnostníky a malé firmy. Nezávazná konzultace zdarma.",
+    "Tvorba webů na míru pro živnostníky a malé firmy. Bez šablon, hotovo za 10 dní — weby, které přivádějí zákazníky, ne jen návštěvníky.",
   keywords: [
     "tvorba webů",
     "tvorba webu na míru",
