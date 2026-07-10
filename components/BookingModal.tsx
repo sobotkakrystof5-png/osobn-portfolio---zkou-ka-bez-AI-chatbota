@@ -299,7 +299,7 @@ function Calendar({
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={onPrev}
-          className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors"
+          className="w-11 h-11 md:w-8 md:h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors"
         >
           <ChevronLeft size={15} />
         </button>
@@ -308,7 +308,7 @@ function Calendar({
         </span>
         <button
           onClick={onNext}
-          className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors"
+          className="w-11 h-11 md:w-8 md:h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors"
         >
           <ChevronRight size={15} />
         </button>
@@ -327,7 +327,7 @@ function Calendar({
       </div>
 
       {/* Days grid */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-2 md:gap-1">
         {cells.map((day, idx) => {
           if (!day) return <div key={idx} />;
 
@@ -345,7 +345,7 @@ function Calendar({
               key={idx}
               disabled={isPast}
               onClick={() => !isPast && onSelectDate(new Date(year, month, day))}
-              className={`h-8 rounded-lg text-sm font-inter font-light transition-all duration-200 ${
+              className={`h-11 md:h-8 rounded-lg text-sm font-inter font-light transition-all duration-200 ${
                 isPast
                   ? 'opacity-30 cursor-not-allowed text-white/50'
                   : isSelected
@@ -437,6 +437,28 @@ export default function BookingModal({
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  // Mobilní klávesnice zmenšuje visualViewport, ale ne layout viewport (100vh/100dvh) —
+  // fixed overlay by tak zůstal centrovaný mimo viditelnou oblast a spodní pole/tlačítko
+  // by se schovaly za klávesnicí. Na mobilu proto sledujeme visualViewport a dynamicky
+  // omezíme výšku overlaye/modalu na to, co je skutečně vidět.
+  const [mobileViewportHeight, setMobileViewportHeight] = useState<number | null>(null);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!isOpen || !vv) { setMobileViewportHeight(null); return; }
+
+    const handleResize = () => {
+      setMobileViewportHeight(window.innerWidth < 768 ? vv.height : null);
+    };
+    handleResize();
+    vv.addEventListener('resize', handleResize);
+    vv.addEventListener('scroll', handleResize);
+    return () => {
+      vv.removeEventListener('resize', handleResize);
+      vv.removeEventListener('scroll', handleResize);
+      setMobileViewportHeight(null);
+    };
   }, [isOpen]);
 
   const handleSubmit = async () => {
@@ -664,7 +686,7 @@ export default function BookingModal({
             placeholder="Jan Novák"
             value={data.name}
             onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-base md:text-sm"
           />
         </div>
         <div>
@@ -677,7 +699,7 @@ export default function BookingModal({
             placeholder="+420 xxx xxx xxx"
             value={data.phone}
             onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-base md:text-sm"
           />
         </div>
         <div>
@@ -689,7 +711,7 @@ export default function BookingModal({
             placeholder="vas@email.cz"
             value={data.email}
             onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-base md:text-sm"
           />
         </div>
         <div>
@@ -703,7 +725,7 @@ export default function BookingModal({
             onChange={(e) => setData((prev) => ({ ...prev, note: e.target.value }))}
             rows={4}
             style={{ minHeight: '100px' }}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors resize-none font-inter text-sm"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors resize-none font-inter text-base md:text-sm"
           />
         </div>
       </div>
@@ -886,7 +908,7 @@ export default function BookingModal({
               placeholder="Jan Novák"
               value={data.name}
               onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-base md:text-sm"
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -900,7 +922,7 @@ export default function BookingModal({
                 placeholder="+420 xxx xxx xxx"
                 value={data.phone}
                 onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-base md:text-sm"
               />
             </div>
             <div>
@@ -913,7 +935,7 @@ export default function BookingModal({
                 placeholder="vas@email.cz"
                 value={data.email}
                 onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-sm"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/30 focus:border-[#c9a84c] focus:outline-none transition-colors font-inter text-base md:text-sm"
               />
             </div>
           </div>
@@ -1120,6 +1142,7 @@ export default function BookingModal({
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          style={mobileViewportHeight ? { height: mobileViewportHeight } : undefined}
           onClick={(e) => e.target === e.currentTarget && onClose()}
         >
           <motion.div
@@ -1127,12 +1150,13 @@ export default function BookingModal({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90dvh] overflow-y-auto"
+            style={mobileViewportHeight ? { maxHeight: mobileViewportHeight - 32 } : undefined}
           >
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors"
+              className="absolute top-4 right-4 z-10 w-11 h-11 md:w-8 md:h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors"
               aria-label="Zavřít"
             >
               <X size={15} />

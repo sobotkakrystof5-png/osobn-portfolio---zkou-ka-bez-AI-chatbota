@@ -41,7 +41,7 @@ const services = [
 ];
 
 const inputCls =
-  "w-full bg-[#0e0e0e] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] transition-colors placeholder-[#3d3830]";
+  "w-full bg-[#0e0e0e] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] transition-colors placeholder-[#3d3830]";
 
 const stepVariants = {
   enter:  { opacity: 0, x: 40  },

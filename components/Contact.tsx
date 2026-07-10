@@ -24,7 +24,7 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-const inputClass = "w-full bg-[#111111] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] focus-visible:ring-1 focus-visible:ring-[rgba(201,168,76,0.3)] transition-colors placeholder-[#3d3830]";
+const inputClass = "w-full bg-[#111111] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] focus-visible:ring-1 focus-visible:ring-[rgba(201,168,76,0.3)] transition-colors placeholder-[#3d3830]";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
