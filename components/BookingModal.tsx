@@ -24,6 +24,7 @@ import type { LucideIcon } from 'lucide-react';
 
 /* ─── Service price map (shodné s Pricing.tsx / FirstClientModal.tsx) ── */
 const PRICES: Record<string, string> = {
+  "Micro Page":          "4 999 Kč",
   "Online Vizitka":      "7 499 Kč",
   "Promo Page":          "9 999 Kč",
   "Pro Web":             "14 999 Kč",

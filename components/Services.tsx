@@ -18,7 +18,7 @@ const services = [
     subtitle: "Vizitka · Promo stránka · Plnohodnotný web",
     description: "Weby na míru, které přivádějí zákazníky a zvyšují tržby — ne jen návštěvníky. Ať děláte web pro řemeslníky, kadeřnictví nebo účetní kancelář, každý pixel ladím ručně a na míru vašemu byznysu.",
     badge: "Nejoblíbenější",
-    packages: ["Online Vizitka — od 7 499 Kč", "Promo Page (landing page) — od 9 999 Kč", "Pro Web (více stránek + animace) — od 14 999 Kč", "Web Care — 999 Kč/měs"],
+    packages: ["Micro Page (coming soon / link-in-bio / redirect) — od 4 999 Kč", "Online Vizitka — od 7 499 Kč", "Promo Page (landing page) — od 9 999 Kč", "Pro Web (více stránek + animace) — od 14 999 Kč", "Web Care — 999 Kč/měs"],
   },
   {
     icon: Zap,

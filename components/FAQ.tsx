@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { fadeUp, viewport } from "@/lib/animations";
 
 const faqs = [
-  { question: "Jak dlouho trvá vytvoření webu?", answer: "Záleží na rozsahu. Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení." },
+  { question: "Jak dlouho trvá vytvoření webu?", answer: "Záleží na rozsahu. Micro Page do 2 pracovních dní, Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení." },
   { question: "Jak probíhá naše spolupráce?", answer: "Konzultace → Návrh → Vaše zpětná vazba → Tvorba → Ukázka → Doladění → Předání. Průběžně komunikujeme a nic neschvaluje bez vašeho souhlasu." },
   { question: "Pracuješ s AI nebo je vše ručně?", answer: "Nástroje AI používám jako pomocníka — pro inspiraci, urychlení rutinních kroků nebo generování textu. Každý výsledek ale ručně přepracuji, doladím a přizpůsobím vašemu projektu. Finální dílo je vždy moje práce, ne AI výstup." },
   { question: "Co je zahrnuto v ceně?", answer: "Design, kód, mobilní verze, základní SEO, testování a předání. Žádné skryté poplatky, žádné dodatečné faktury." },

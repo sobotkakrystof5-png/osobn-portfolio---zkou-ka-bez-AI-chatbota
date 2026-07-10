@@ -8,6 +8,7 @@ const services = [
   {
     group: "🌐 Weby",
     items: [
+      { id: "micro",    name: "Micro Page",           price: "4 999 Kč"         },
       { id: "vizitka",  name: "Online Vizitka",      price: "7 499 Kč"         },
       { id: "promo",    name: "Promo Page",           price: "9 999 Kč", featured: true },
       { id: "proweb",   name: "Pro Web",              price: "14 999 Kč"        },

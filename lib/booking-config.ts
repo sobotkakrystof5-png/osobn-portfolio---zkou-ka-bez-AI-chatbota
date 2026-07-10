@@ -13,6 +13,7 @@ export const SERVICES = {
     name: 'Weby',
     icon: 'Globe',
     subs: [
+      { id: 'micro', name: 'Micro Page', desc: 'Coming soon, link-in-bio nebo redirect stránka' },
       { id: 'small', name: 'Online Vizitka', desc: 'Jednoduchý web který prodává' },
       { id: 'landing', name: 'Promo Page', desc: 'Prodejní stránka maximalizující konverze' },
       { id: 'business', name: 'Pro Web', desc: 'Vícestránkový web na míru' },

@@ -97,7 +97,7 @@ const jsonLd = {
           name: "Jak dlouho trvá vytvoření webu?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Záleží na rozsahu. Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení.",
+            text: "Záleží na rozsahu. Micro Page do 2 pracovních dní, Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení.",
           },
         },
         {
