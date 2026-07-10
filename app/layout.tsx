@@ -6,6 +6,7 @@ import { BookingProvider } from "@/context/BookingContext";
 import { Toaster } from "react-hot-toast";
 import ClientBooking from "./ClientBooking";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -193,6 +194,7 @@ export default function RootLayout({
           />
         </BookingProvider>
         <GoogleAnalytics gaId="G-J5FMJYTGCK" />
+        <Analytics />
       </body>
     </html>
   );
