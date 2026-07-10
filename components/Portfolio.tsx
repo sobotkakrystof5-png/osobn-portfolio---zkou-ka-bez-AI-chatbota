@@ -11,12 +11,12 @@ const projects = [
     number: "01",
     title: "U Cerhů",
     category: "Svatby & Ubytování",
-    tech: "Next.js · Tailwind · Vercel",
+    tech: "HTML/CSS/JS Vanilla",
     description: "Landing page pro statek v Kněžmostě. Cíl: získat více zakázek na svatby a ubytování v Českém ráji.",
     url: "https://www.u-cerhu.cz",
     image: "/portfolio/ucerhu.jpg",
     alt: "Web na míru pro statek U Cerhů — svatby a ubytování v Českém ráji",
-    isReal: true,
+    badgeType: "client" as const,
   },
   {
     number: "02",
@@ -27,10 +27,21 @@ const projects = [
     url: "https://auf-gehts-cz-56ly.vercel.app",
     image: "/portfolio/aufgehts.jpg",
     alt: "Osobní web na míru pro lektora němčiny Auf Gehts — příklad webu pro živnostníka",
-    isReal: false,
+    badgeType: "demo" as const,
   },
   {
     number: "03",
+    title: "EstatIQ",
+    category: "PropTech & Správa nemovitostí",
+    tech: "HTML/CSS/JS Vanilla",
+    description: "Vlastní SaaS produkt pro správu nemovitostí — platební automatizace, evidence dokumentů a daňový export. Aktuálně v prelaunch fázi s early access waitlistem.",
+    url: "https://www.estatiq.cz",
+    image: "/portfolio/estatiq.jpg",
+    alt: "EstatIQ — vlastní produkt pro správu nemovitostí ve fázi prelaunch",
+    badgeType: "own" as const,
+  },
+  {
+    number: "04",
     title: "HairDeluxe",
     category: "Kadeřnictví & Wellness",
     tech: "Next.js · Tailwind · Vercel",
@@ -38,9 +49,15 @@ const projects = [
     url: "https://hair-deluxe-jo.vercel.app",
     image: "/portfolio/hairdeluxe.jpg",
     alt: "Web pro kadeřnický salon HairDeluxe — ukázka webu na míru pro kadeřnictví",
-    isReal: false,
+    badgeType: "demo" as const,
   },
 ];
+
+const badgeStyles: Record<string, { label: string; className: string }> = {
+  client: { label: "Skutečný klient", className: "text-[#c9a84c] border-[#c9a84c]/30" },
+  demo: { label: "Ukázkový projekt", className: "text-[#8a8070] border-white/[0.1]" },
+  own: { label: "Vlastní produkt (prelaunch)", className: "text-[#e8c76a] border-[#e8c76a]/25" },
+};
 
 export default function Portfolio() {
   return (
@@ -72,8 +89,8 @@ export default function Portfolio() {
               {/* Zlatá linka nahoře při hoveru */}
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-[#c9a84c]/0 group-hover:bg-[#c9a84c]/40 transition-colors duration-500" aria-hidden="true" />
               {/* Badge */}
-              <span className={`absolute top-4 right-4 z-10 font-inter font-normal text-[10px] uppercase tracking-[0.12em] border px-2.5 py-1 backdrop-blur-sm ${p.isReal ? "text-[#c9a84c] border-[#c9a84c]/30 bg-[#080808]/80" : "text-[#8a8070] border-white/[0.1] bg-[#080808]/80"}`}>
-                {p.isReal ? "Skutečný klient" : "Ukázkový projekt"}
+              <span className={`absolute top-4 right-4 z-10 font-inter font-normal text-[10px] uppercase tracking-[0.12em] border px-2.5 py-1 backdrop-blur-sm bg-[#080808]/80 ${badgeStyles[p.badgeType].className}`}>
+                {badgeStyles[p.badgeType].label}
               </span>
 
               <div className="absolute bottom-0 left-0 p-7 md:p-10">
