@@ -1,3 +1,5 @@
+import type { ServiceKey, SubService } from '@/types/booking';
+
 export const WORKING_HOURS: Record<number, { start: number; end: number }> = {
   0: { start: 8, end: 15 },
   1: { start: 14, end: 20 },
@@ -8,12 +10,17 @@ export const WORKING_HOURS: Record<number, { start: number; end: number }> = {
   6: { start: 8, end: 21 },
 };
 
-export const SERVICES = {
+export const SERVICES: Record<ServiceKey, { name: string; icon: string; subs: SubService[] }> = {
   weby: {
     name: 'Weby',
     icon: 'Globe',
     subs: [
-      { id: 'micro', name: 'Micro Page', desc: 'Coming soon, link-in-bio nebo redirect stránka' },
+      {
+        id: 'micro',
+        name: 'Micro Page',
+        desc: 'Coming soon, link-in-bio nebo redirect stránka',
+        variants: ['Coming soon', 'Link-in-bio', 'Redirect'],
+      },
       { id: 'small', name: 'Online Vizitka', desc: 'Jednoduchý web který prodává' },
       { id: 'landing', name: 'Promo Page', desc: 'Prodejní stránka maximalizující konverze' },
       { id: 'business', name: 'Pro Web', desc: 'Vícestránkový web na míru' },

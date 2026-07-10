@@ -4,11 +4,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Loader2, CheckCircle, ArrowRight, Calendar, Clock } from "lucide-react";
 
+const MICRO_VARIANTS = ["Coming soon", "Link-in-bio", "Redirect"];
+
 const services = [
   {
     group: "🌐 Weby",
     items: [
-      { id: "micro",    name: "Micro Page",           price: "4 999 Kč"         },
+      { id: "micro",    name: "Micro Page",           price: "4 999 Kč", variants: MICRO_VARIANTS },
       { id: "vizitka",  name: "Online Vizitka",      price: "7 499 Kč"         },
       { id: "promo",    name: "Promo Page",           price: "9 999 Kč", featured: true },
       { id: "proweb",   name: "Pro Web",              price: "14 999 Kč"        },
@@ -55,6 +57,7 @@ interface Props {
 export default function FirstClientModal({ open, onClose }: Props) {
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [selected, setSelected] = useState<string | null>(null);
+  const [variant, setVariant] = useState<string | null>(null);
   const [name,  setName]  = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -64,9 +67,11 @@ export default function FirstClientModal({ open, onClose }: Props) {
   const [error,   setError]   = useState<string | null>(null);
 
   const selectedService = services.flatMap((g) => g.items).find((i) => i.id === selected);
+  const needsVariant = !!selectedService?.variants && selectedService.variants.length > 0;
 
   const handleContinue = () => {
     if (!selected) { setError("Vyber prosím službu, o kterou máš zájem."); return; }
+    if (needsVariant && !variant) { setError("Vyber prosím variantu Micro Page."); return; }
     setError(null);
     setStep(1);
   };
@@ -77,9 +82,10 @@ export default function FirstClientModal({ open, onClose }: Props) {
     setError(null);
     setSending(true);
     try {
+      const serviceLabel = variant ? `${selectedService?.name} — ${variant}` : selectedService?.name;
       const message =
         `🚀 Nová poptávka — Vizeon\n\n` +
-        `Vybraná služba: ${selectedService?.name} (${selectedService?.price})\n\n` +
+        `Vybraná služba: ${serviceLabel} (${selectedService?.price})\n\n` +
         (date ? `Preferovaný termín konzultace: ${date}${time ? ` v ${time}` : ""}\n\n` : "");
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -115,6 +121,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
     setTimeout(() => {
       setStep(0);
       setSelected(null);
+      setVariant(null);
       setName(""); setEmail(""); setPhone("");
       setDate(""); setTime("");
       setSending(false);
@@ -216,7 +223,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                                   <button
                                     key={item.id}
                                     type="button"
-                                    onClick={() => { setSelected(item.id); setError(null); }}
+                                    onClick={() => { setSelected(item.id); setVariant(null); setError(null); }}
                                     className={`text-left p-3 border transition-all duration-200 relative ${
                                       active
                                         ? "border-[#c9a84c] bg-[rgba(201,168,76,0.06)]"
@@ -235,6 +242,33 @@ export default function FirstClientModal({ open, onClose }: Props) {
                           </div>
                         ))}
                       </div>
+
+                      {needsVariant && (
+                        <div className="mb-8">
+                          <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-[#8a8070] mb-4">
+                            Vyber variantu Micro Page
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            {selectedService?.variants?.map((v) => {
+                              const active = variant === v;
+                              return (
+                                <button
+                                  key={v}
+                                  type="button"
+                                  onClick={() => { setVariant(v); setError(null); }}
+                                  className={`text-center p-3 border transition-all duration-200 font-inter text-[12px] font-medium ${
+                                    active
+                                      ? "border-[#c9a84c] bg-[rgba(201,168,76,0.06)] text-[#c9a84c]"
+                                      : "border-white/[0.06] hover:border-white/[0.15] bg-[#0e0e0e] text-[#f0ece6]"
+                                  }`}
+                                >
+                                  {v}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
 
                       {error && (
                         <p role="alert" className="font-inter text-[12px] text-red-400 mb-4">
@@ -279,7 +313,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                             Vybrána služba
                           </p>
                           <p className="font-inter font-semibold text-[14px] text-[#f0ece6] mb-1">
-                            {selectedService?.name}
+                            {selectedService?.name}{variant ? ` — ${variant}` : ""}
                           </p>
                           <div className="flex items-center gap-3">
                             <span className="font-inter font-medium text-[14px] text-[#c9a84c]">
@@ -427,7 +461,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                         <div className="space-y-1.5">
                           <div className="flex justify-between">
                             <span className="font-inter font-light text-[12px] text-[#8a8070]">Služba</span>
-                            <span className="font-inter font-medium text-[12px] text-[#f0ece6]">{selectedService?.name}</span>
+                            <span className="font-inter font-medium text-[12px] text-[#f0ece6]">{selectedService?.name}{variant ? ` — ${variant}` : ""}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="font-inter font-light text-[12px] text-[#8a8070]">Cena</span>

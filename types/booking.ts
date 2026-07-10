@@ -4,6 +4,7 @@ export interface SubService {
   id: string;
   name: string;
   desc: string;
+  variants?: string[];
 }
 
 export interface BookingData {

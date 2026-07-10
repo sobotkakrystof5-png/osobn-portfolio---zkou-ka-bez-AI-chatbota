@@ -391,6 +391,8 @@ export default function BookingModal({
     return d;
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  // Varianta v rámci sub-služby (zatím jen Micro Page: Coming soon / Link-in-bio / Redirect)
+  const [subVariant, setSubVariant] = useState<string | null>(null);
   // Synchronní guard proti double-submitu. Ref (ne state) proto, že setLoading
   // je asynchronní — dva rychlé clicky by jinak oba viděly loading === false
   // a oba odeslaly POST → duplicitní rezervace v DB.
@@ -427,6 +429,7 @@ export default function BookingModal({
       d.setDate(1);
       setCurrentMonth(d);
       setSelectedDate(null);
+      setSubVariant(null);
     }
   }
 
@@ -451,7 +454,7 @@ export default function BookingModal({
         body: JSON.stringify({
           service: data.service ?? undefined,
           serviceName: data.serviceName,
-          subService: data.subService ?? undefined,
+          subService: effectiveSubService ?? undefined,
           name: data.name,
           phone: data.phone,
           email: data.email,
@@ -479,6 +482,15 @@ export default function BookingModal({
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
 
   const slots = selectedDate ? generateSlots(selectedDate) : [];
+
+  // Definice vybrané sub-služby (obsahuje `variants`, pokud si klient musí zvolit i variantu — např. Micro Page)
+  const selectedSubDef = data.service
+    ? SERVICES[data.service].subs.find((s) => s.name === data.subService)
+    : undefined;
+  const needsVariant = !!selectedSubDef?.variants;
+  // Finální popis typu projektu odeslaný na server / zobrazený v souhrnu — sub-služba + zvolená varianta
+  const effectiveSubService =
+    needsVariant && subVariant ? `${data.subService} — ${subVariant}` : data.subService;
 
   /* ── Render step 1 ── */
   const renderStep1 = () => (
@@ -553,7 +565,10 @@ export default function BookingModal({
                   return (
                     <button
                       key={sub.id}
-                      onClick={() => setData((prev) => ({ ...prev, subService: sub.name }))}
+                      onClick={() => {
+                        setData((prev) => ({ ...prev, subService: sub.name }));
+                        setSubVariant(null);
+                      }}
                       className={`p-3 rounded-xl border text-left transition-all duration-200 ${
                         isSubSelected
                           ? 'border-[#c9a84c] bg-white/5'
@@ -577,6 +592,43 @@ export default function BookingModal({
         )}
       </AnimatePresence>
 
+      {/* Varianta v rámci sub-služby (např. Micro Page: Coming soon / Link-in-bio / Redirect) */}
+      <AnimatePresence>
+        {needsVariant && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: 'hidden' }}
+          >
+            <div className="mt-4">
+              <p className="font-inter text-xs text-white/40 mb-3 uppercase tracking-[0.1em]">
+                Vyberte variantu
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {selectedSubDef?.variants?.map((v) => {
+                  const isVariantSelected = subVariant === v;
+                  return (
+                    <button
+                      key={v}
+                      onClick={() => setSubVariant(v)}
+                      className={`p-3 rounded-xl border text-center transition-all duration-200 font-inter text-sm ${
+                        isVariantSelected
+                          ? 'border-[#c9a84c] bg-white/5 text-[#c9a84c] font-medium'
+                          : 'border border-white/10 bg-white/[0.02] text-white/70 hover:border-white/20 hover:bg-white/[0.04]'
+                      }`}
+                    >
+                      {v}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Cena — zobrazí se ihned po výběru sub-služby */}
       <AnimatePresence mode="wait">
         {data.subService && (
@@ -586,7 +638,7 @@ export default function BookingModal({
 
       <NavButtons
         onNext={() => setStep(2)}
-        nextDisabled={!data.subService}
+        nextDisabled={!data.subService || (needsVariant && !subVariant)}
       />
     </div>
   );
@@ -753,7 +805,7 @@ export default function BookingModal({
   const renderStep4 = () => {
     const rows = [
       { label: 'Služba', value: data.serviceName },
-      { label: 'Typ projektu', value: data.subService },
+      { label: 'Typ projektu', value: effectiveSubService },
       { label: 'Jméno', value: data.name },
       { label: 'Telefon', value: data.phone },
       { label: 'E-mail', value: data.email },
