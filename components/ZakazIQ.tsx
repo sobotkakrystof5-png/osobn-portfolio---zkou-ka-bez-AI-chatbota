@@ -59,8 +59,8 @@ function ZakazIQLogo({ size = "default" }: { size?: "default" | "hero" }) {
       >
         Zakaz
         <span
-          className="text-[#4a7fd4]"
-          style={{ textShadow: "0 0 20px rgba(74,127,212,0.8), 0 0 44px rgba(74,127,212,0.4)" }}
+          className="text-[#5b83bd]"
+          style={{ textShadow: "0 0 14px rgba(91,131,189,0.3)" }}
         >
           IQ
         </span>

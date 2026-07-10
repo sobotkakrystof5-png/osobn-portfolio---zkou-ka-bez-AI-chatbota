@@ -11,7 +11,7 @@ const services = [
     items: [
       {
         name: "Online Vizitka",
-        subtitle: "Jednostránkový web — kontakty, portfolio, o mně",
+        subtitle: "Jméno, logo, kontakt a krátké představení firmy. Bez prodejního tlaku a CTA tlačítek — jen informuje, že existujete, a jste snadno dohledatelní a kontaktovatelní.",
         price: "7 499 Kč",
         featured: false,
         badge: "Nejlevnější",
@@ -112,12 +112,17 @@ const services = [
   },
 ];
 
+function formatKc(amount: number) {
+  return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
+}
+
 const bundles = [
   {
     name: "💼 Small Bundle",
     tagline: "Starter Branding Pack",
     description: "Ideální pro živnostníky, kteří teprve začínají budovat značku",
-    price: "2 499 Kč",
+    originalPrice: 2796,
+    price: 2499,
     includes: [
       "Brand Logo (699 Kč)",
       "Business Card (299 Kč)",
@@ -128,10 +133,11 @@ const bundles = [
   {
     name: "🌐 Small Bundle + Web",
     tagline: "Základ online prezence",
-    description: "Starter Branding Pack + tvůj první profesionální web",
-    price: "14 999 Kč",
+    description: "Starter Branding Pack + tvoje landing page na míru",
+    originalPrice: 12795,
+    price: 11498,
     includes: [
-      "Online Vizitka (7 499 Kč)",
+      "Promo Page (9 999 Kč)",
       "Brand Logo (699 Kč)",
       "Business Card (299 Kč)",
       "Content Blueprint (499 Kč)",
@@ -142,7 +148,8 @@ const bundles = [
     name: "🚀 Middle Bundle",
     tagline: "Rostoucí značka",
     description: "Nejpopulárnější volba — web + sociální sítě na 2 měsíce",
-    price: "29 999 Kč",
+    originalPrice: 23892,
+    price: 19999,
     includes: [
       "Promo Page (9 999 Kč)",
       "Brand Logo (699 Kč)",
@@ -157,7 +164,8 @@ const bundles = [
     name: "💎 Mega Bundle",
     tagline: "Kompletní online prezence",
     description: "Vše co firma potřebuje na jednom místě",
-    price: "49 999 Kč",
+    originalPrice: 45489,
+    price: 36999,
     includes: [
       "Pro Web (14 999 Kč)",
       "Brand Logo (699 Kč)",
@@ -182,7 +190,7 @@ type ServiceItem = {
 function ServiceCard({ item }: { item: ServiceItem }) {
   return (
     <motion.div
-      className={`relative glass-panel glass-panel-hover p-6 overflow-hidden ${
+      className={`relative glass-panel glass-panel-hover p-6 overflow-hidden h-full flex flex-col ${
         item.featured ? "border-[rgba(201,168,76,0.35)]!" : ""
       }`}
       whileHover={{ y: -6 }}
@@ -228,15 +236,19 @@ function ServiceCard({ item }: { item: ServiceItem }) {
         </p>
       )}
 
-      <p className="font-cormorant font-normal text-[30px] text-[#f0ece6] leading-none mb-3 relative z-10">{item.price}</p>
-      {item.bonus && (
-        <p className="font-inter font-light text-[11px] text-[#c9a84c] relative z-10">{item.bonus}</p>
-      )}
+      <div className="mt-auto">
+        <p className="font-cormorant font-normal text-[30px] text-[#f0ece6] leading-none mb-3 relative z-10">{item.price}</p>
+        {item.bonus && (
+          <p className="font-inter font-light text-[11px] text-[#c9a84c] relative z-10">{item.bonus}</p>
+        )}
+      </div>
     </motion.div>
   );
 }
 
 function BundleCard({ bundle }: { bundle: (typeof bundles)[0] }) {
+  const discountPercent = Math.round((1 - bundle.price / bundle.originalPrice) * 100);
+
   return (
     <motion.div
       className="glass-panel glass-panel-hover relative overflow-hidden group p-7 md:p-9"
@@ -275,7 +287,15 @@ function BundleCard({ bundle }: { bundle: (typeof bundles)[0] }) {
 
       {/* Cena */}
       <div className="relative z-10">
-        <p className="font-cormorant font-normal text-[38px] text-[#f0ece6] leading-none">{bundle.price}</p>
+        <div className="flex items-center gap-2 mb-1">
+          <p className="font-inter font-light text-[13px] text-[#8a8070] line-through leading-none">
+            {formatKc(bundle.originalPrice)}
+          </p>
+          <span className="font-inter font-medium text-[10px] tracking-[0.05em] text-[#080808] bg-[#c9a84c] px-1.5 py-[2px] leading-none">
+            -{discountPercent}&nbsp;%
+          </span>
+        </div>
+        <p className="font-cormorant font-normal text-[38px] text-[#c9a84c] leading-none">{formatKc(bundle.price)}</p>
       </div>
     </motion.div>
   );
@@ -376,7 +396,7 @@ export default function Pricing() {
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
                   >
                     {group.items.map((item, ii) => (
-                      <motion.div key={ii} variants={cardEntrance}>
+                      <motion.div key={ii} variants={cardEntrance} className="h-full">
                         <ServiceCard item={item} />
                       </motion.div>
                     ))}
