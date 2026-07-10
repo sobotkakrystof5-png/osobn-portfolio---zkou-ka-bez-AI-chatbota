@@ -60,15 +60,28 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  const origin = req.headers.get('origin');
+  const isDev = process.env.NODE_ENV === 'development';
+
+  // 0. CORS preflight — prohlížeč (typicky Safari) umí poslat OPTIONS i před
+  //    same-origin POST. Musí dostat 2xx s CORS hlavičkami, jinak selže celý
+  //    POST s "Load failed" ještě než se pošle na server.
+  if (req.method === 'OPTIONS') {
+    const preflight = new NextResponse(null, { status: 204 });
+    if (isDev || isAllowedOrigin(origin)) {
+      preflight.headers.set('Access-Control-Allow-Origin', origin ?? '*');
+      preflight.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      preflight.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+    }
+    return preflight;
+  }
+
   // 1. Dovolí GET (pro dostupné sloty) a POST
   if (req.method !== 'POST' && req.method !== 'GET') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
   // 2. Origin check — blokuje přímé API volání zvenčí
-  const origin = req.headers.get('origin');
-  const isDev = process.env.NODE_ENV === 'development';
-
   if (!isDev && !isAllowedOrigin(origin)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
