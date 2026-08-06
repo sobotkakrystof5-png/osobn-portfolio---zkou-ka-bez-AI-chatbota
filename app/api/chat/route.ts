@@ -6,6 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 // Bonus: skutečná n8n URL už není vidět v client JS bundlu.
 const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
 
+// Bez tohohle Vercel serverless funkci zabije po defaultním limitu (10-15s) —
+// AI agent v n8n (LLM + RAG lookup) občas odpovídá pomaleji, funkce spadne
+// uprostřed čekání na fetch a prohlížeč dostane network error místo odpovědi
+// ("Error: Failed to receive response" z @n8n/chat). 60s musí sedět s
+// AbortSignal.timeout níž — necháváme pár sekund rezervy, ať stihneme vrátit
+// vlastní 502 JSON dřív, než nás platforma zabije natvrdo.
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   if (!N8N_WEBHOOK_URL) {
     console.error("[Chat proxy] N8N_WEBHOOK_URL není nastavená");
@@ -24,7 +32,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(60_000),
+      signal: AbortSignal.timeout(55_000),
     });
 
     const text = await res.text();
