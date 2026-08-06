@@ -6,6 +6,11 @@ export interface BookingPrefill {
   service: ServiceKey;
   serviceName: string;
   subService: string;
+  // Volitelné — vyplní AI chatbot, když už kontakt zjistil v konverzaci,
+  // ať klient v BookingModalu jen ověří údaje a vybere termín.
+  name?: string;
+  phone?: string;
+  email?: string;
 }
 
 const BookingContext = createContext<{

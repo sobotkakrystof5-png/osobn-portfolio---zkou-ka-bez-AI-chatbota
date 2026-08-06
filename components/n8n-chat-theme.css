@@ -1,0 +1,220 @@
+/* ─── n8n chat widget přemapovaný na VIZEON design (viz app/globals.css,
+   components/BookingModal.tsx) — zlatá #c9a84c, tmavé sklo, jemný glow ─── */
+
+#n8n-chat {
+  --chat--color--primary: #c9a84c;
+  --chat--color--primary-shade-50: #d4b968;
+  --chat--color--primary--shade-100: #b8973e;
+  --chat--color--secondary: #c9a84c;
+  --chat--color-secondary-shade-50: #d4b968;
+
+  --chat--color-white: #f0ece6;
+  --chat--color-light: #111111;
+  --chat--color-light-shade-50: #161616;
+  --chat--color-light-shade-100: rgba(255, 255, 255, 0.1);
+  --chat--color-medium: #8a8070;
+  --chat--color-dark: #080808;
+  --chat--color-disabled: #3d3830;
+  --chat--color-typing: #c9a84c;
+
+  --chat--spacing: 1rem;
+  --chat--border-radius: 12px;
+  --chat--transition-duration: 0.25s;
+  --chat--font-family: var(--font-inter), system-ui, sans-serif;
+
+  --chat--window--width: 400px;
+  --chat--window--height: 640px;
+  --chat--window--bottom: 1.5rem;
+  --chat--window--right: 1.5rem;
+  --chat--window--border: 1px solid rgba(255, 255, 255, 0.1);
+  --chat--window--border-radius: 20px;
+
+  --chat--header-height: auto;
+  --chat--header--padding: 1.5rem 1.5rem 1.25rem;
+  --chat--header--background: #0a0a0a;
+  --chat--header--color: #f0ece6;
+  --chat--header--border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  --chat--heading--font-size: 1.15rem;
+  --chat--subtitle--font-size: 0.8rem;
+  --chat--subtitle--line-height: 1.6;
+
+  --chat--body--background: #0a0a0a;
+
+  --chat--message--font-size: 0.9rem;
+  --chat--message--padding: 0.7rem 1rem;
+  --chat--message--border-radius: 14px;
+  --chat--message-line-height: 1.55;
+  --chat--message--margin-bottom: 0.65rem;
+  --chat--message--bot--background: #161616;
+  --chat--message--bot--color: #f0ece6;
+  --chat--message--bot--border: 1px solid rgba(255, 255, 255, 0.07);
+  --chat--message--user--background: #c9a84c;
+  --chat--message--user--color: #0a0a0a;
+  --chat--message--user--border: none;
+  --chat--message--pre--background: rgba(255, 255, 255, 0.06);
+  --chat--messages-list--padding: 1.5rem;
+
+  --chat--toggle--size: 60px;
+  --chat--toggle--border-radius: 18px;
+  --chat--toggle--background: #c9a84c;
+  --chat--toggle--hover--background: #d4b968;
+  --chat--toggle--active--background: #b8973e;
+  --chat--toggle--color: #0a0a0a;
+
+  --chat--textarea--height: 46px;
+  --chat--input--border: 1px solid rgba(255, 255, 255, 0.1);
+  --chat--input--border-radius: 12px;
+  --chat--input--background: transparent;
+  --chat--input--text-color: #f0ece6;
+  --chat--input--border-active: 1px solid #c9a84c;
+  --chat--input--placeholder--font-size: 0.85rem;
+  --chat--input--container--background: rgba(255, 255, 255, 0.04);
+  --chat--input--container--border: 1px solid rgba(255, 255, 255, 0.1);
+  --chat--input--container--border-radius: 14px;
+  --chat--input--send--button--background: transparent;
+  --chat--input--send--button--color: #c9a84c;
+  --chat--input--send--button--background-hover: transparent;
+  --chat--input--send--button--color-hover: #d4b968;
+  --chat--input--file--button--background: transparent;
+  --chat--input--file--button--color: #8a8070;
+
+  --chat--button--background--primary: #c9a84c;
+  --chat--button--color--primary: #0a0a0a;
+  --chat--button--background--primary--hover: #d4b968;
+  --chat--button--color--primary--hover: #0a0a0a;
+  --chat--button--border-radius: 10px;
+
+  --chat--close--button--color-hover: #c9a84c;
+  --chat--message--actions--color: #c9a84c;
+
+  --chat--footer--background: #0a0a0a;
+}
+
+/* ─── Plovoucí bublina: hranatější, se zlatým glow pulzem ──────────────── */
+#n8n-chat .chat-window-toggle {
+  box-shadow: 0 8px 30px -8px rgba(201, 168, 76, 0.5), 0 0 0 1px rgba(201, 168, 76, 0.15);
+  animation: n8nTogglePulse 3s ease-in-out infinite;
+}
+#n8n-chat .chat-window-toggle:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 36px -6px rgba(201, 168, 76, 0.65), 0 0 0 1px rgba(201, 168, 76, 0.3);
+}
+@keyframes n8nTogglePulse {
+  0%, 100% { box-shadow: 0 8px 30px -8px rgba(201, 168, 76, 0.5), 0 0 0 1px rgba(201, 168, 76, 0.15); }
+  50%       { box-shadow: 0 8px 40px -4px rgba(201, 168, 76, 0.75), 0 0 0 1px rgba(201, 168, 76, 0.3); }
+}
+
+/* ─── Okno: sklo + gold glow, stejný jazyk jako BookingModal ────────────── */
+#n8n-chat .chat-window {
+  overflow: hidden;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(201, 168, 76, 0.08) inset,
+    0 30px 90px -30px rgba(0, 0, 0, 0.9),
+    0 0 60px -20px rgba(201, 168, 76, 0.15);
+  animation: n8nWindowIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes n8nWindowIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── Hlavička: jemná zlatá linka nahoře (stejný motiv jako CookieBanner) ─ */
+#n8n-chat .chat-header {
+  position: relative;
+}
+#n8n-chat .chat-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.5), transparent);
+}
+#n8n-chat .chat-heading {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+#n8n-chat .chat-heading h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+#n8n-chat .chat-heading h1::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px 1px rgba(74, 222, 128, 0.6);
+  flex-shrink: 0;
+}
+
+/* ─── Zprávy: jemný fade-in, ostřejší kontrast bot/user bublin ──────────── */
+#n8n-chat .chat-message {
+  animation: n8nMessageIn 0.25s ease-out;
+  box-shadow: 0 4px 16px -8px rgba(0, 0, 0, 0.4);
+}
+@keyframes n8nMessageIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#n8n-chat .chat-message-from-user .chat-message {
+  box-shadow: 0 4px 16px -6px rgba(201, 168, 76, 0.35);
+}
+
+/* ─── Input: focus stav laděný jako pole v BookingModal ─────────────────── */
+#n8n-chat .chat-inputs-controls {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#n8n-chat .chat-inputs-controls:focus-within {
+  border-color: #c9a84c !important;
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
+}
+#n8n-chat .chat-input::placeholder {
+  color: #8a8070;
+}
+
+/* ─── Tenký zlatý scrollbar, stejný jako zbytek webu ─────────────────────── */
+#n8n-chat .chat-messages-list::-webkit-scrollbar {
+  width: 4px;
+}
+#n8n-chat .chat-messages-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+#n8n-chat .chat-messages-list::-webkit-scrollbar-thumb {
+  background: #2a2520;
+  border-radius: 2px;
+}
+#n8n-chat .chat-messages-list::-webkit-scrollbar-thumb:hover {
+  background: #c9a84c;
+}
+
+/* ─── Skrýt výchozí "Powered by n8n" patičku ─────────────────────────────────
+   POZOR: .chat-footer NESMÍ jít na display:none — jakmile konverzace běží,
+   je to stejný kontejner, ve kterém n8n vykresluje skutečný textový input.
+   Cílíme jen na samotnou "Powered by" značku a na footer stavu před startem
+   konverzace (chat-get-started-footer), který se v naší konfiguraci prakticky
+   nikdy nezobrazí (showWelcomeScreen: false, loadPreviousSession: false). */
+#n8n-chat .chat-powered-by,
+#n8n-chat .chat-get-started-footer {
+  display: none;
+}
+
+/* ─── Mobil: okno přes celou obrazovku jako ostatní modály na webu ──────── */
+@media (max-width: 480px) {
+  #n8n-chat {
+    --chat--window--width: 100vw;
+    --chat--window--height: 100dvh;
+    --chat--window--bottom: 0px;
+    --chat--window--right: 0px;
+    --chat--window--border-radius: 0px;
+  }
+  #n8n-chat .chat-window {
+    backdrop-filter: blur(20px);
+  }
+}

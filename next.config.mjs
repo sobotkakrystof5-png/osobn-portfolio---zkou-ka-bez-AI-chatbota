@@ -26,6 +26,8 @@ const nextConfig = {
 
   // ── HTTP hlavičky ────────────────────────────────────────────────────────
   async headers() {
+    const isDev = process.env.NODE_ENV !== "production";
+
     return [
       // Bezpečnostní hlavičky na všech routách
       {
@@ -52,13 +54,20 @@ const nextConfig = {
         ],
       },
 
-      // Statické assety Next.js — cache 1 rok (obsah má hash v názvu)
-      {
-        source: "/_next/static/(.*)",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
+      // Statické assety Next.js — cache 1 rok (obsah má hash v názvu).
+      // Jen v produkci: ve vývoji Turbopack servíruje JS chunky ze stejné
+      // cesty a "immutable" cache donutí prohlížeč ignorovat i restarty
+      // dev serveru (viz Next.js varování "can break development behavior").
+      ...(isDev
+        ? []
+        : [
+            {
+              source: "/_next/static/(.*)",
+              headers: [
+                { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+              ],
+            },
+          ]),
 
       // Portfolio obrázky — cache 1 rok
       {
