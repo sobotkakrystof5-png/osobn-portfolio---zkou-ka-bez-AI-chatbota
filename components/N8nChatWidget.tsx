@@ -25,8 +25,11 @@ export default function N8nChatWidget() {
   const { openBooking } = useBooking();
 
   useEffect(() => {
-    const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
-    if (!webhookUrl || initialized.current) return;
+    if (initialized.current) return;
+    // Relativní cesta na same-origin proxy (app/api/chat) místo přímé URL n8n
+    // instance — obchází cross-origin fetch, který se v Safari (ITP / CORS
+    // preflight cache) choval jinak než v Chrome a Brave.
+    const webhookUrl = "/api/chat";
     // React Strict Mode (zapnuté v next.config.mjs) v dev módu efekt spustí
     // dvakrát na sebe — bez téhle pojistky se do stejného #n8n-chat divu
     // namountovaly DVĚ instance Vue aplikace nad sebou, což rozbilo psaní
