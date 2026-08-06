@@ -14,7 +14,31 @@ const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
 // vlastní 502 JSON dřív, než nás platforma zabije natvrdo.
 export const maxDuration = 60;
 
+// Prohlížeč (typicky Safari, viz stejný fix pro /api/booking v middleware.ts)
+// posílá před POST i OPTIONS preflight. Middleware /api/chat nematchuje, takže
+// odpovídal defaultní Next.js OPTIONS handler — 204 BEZ Access-Control-Allow-*
+// hlaviček. Preflight tím selhal, POST se vůbec neodeslal a widget ukázal
+// "Error: Failed to receive response" (v produkčních logách: OPTIONS 204 bez
+// navazujícího POST). Rate limiting z middleware tu záměrně není — konverzace
+// snadno přesáhne 10 zpráv za 10 minut.
+function corsHeaders(origin: string | null): HeadersInit {
+  return {
+    "Access-Control-Allow-Origin": origin ?? "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Accept",
+  };
+}
+
+export function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders(req.headers.get("origin")),
+  });
+}
+
 export async function POST(req: NextRequest) {
+  const origin = req.headers.get("origin");
+
   if (!N8N_WEBHOOK_URL) {
     console.error("[Chat proxy] N8N_WEBHOOK_URL není nastavená");
     return NextResponse.json({ error: "Chat není nakonfigurovaný." }, { status: 500 });
@@ -24,7 +48,10 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Neplatný JSON" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Neplatný JSON" },
+      { status: 400, headers: corsHeaders(origin) }
+    );
   }
 
   try {
@@ -38,10 +65,16 @@ export async function POST(req: NextRequest) {
     const text = await res.text();
     return new NextResponse(text, {
       status: res.status,
-      headers: { "Content-Type": res.headers.get("content-type") ?? "application/json" },
+      headers: {
+        "Content-Type": res.headers.get("content-type") ?? "application/json",
+        ...corsHeaders(origin),
+      },
     });
   } catch (err) {
     console.error("[Chat proxy]", err);
-    return NextResponse.json({ error: "Nepodařilo se spojit s chatbotem." }, { status: 502 });
+    return NextResponse.json(
+      { error: "Nepodařilo se spojit s chatbotem." },
+      { status: 502, headers: corsHeaders(origin) }
+    );
   }
 }
