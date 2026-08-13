@@ -268,9 +268,72 @@ export default function PodminkyPage() {
           </section>
 
           {/* Section 9 */}
+          <section aria-labelledby="hosting-sprava">
+            <h2 id="hosting-sprava" className="font-cormorant font-light text-[24px] md:text-[32px] text-[#f0ece6] mb-4">
+              9. Hosting a technická správa
+            </h2>
+            <p>
+              Po dokončení webové prezentace nabízí poskytovatel klientovi na
+              výběr ze dvou variant hostingu a technické správy:
+            </p>
+
+            <p className="mt-6 text-[#f0ece6]">
+              a) Varianta „Web u nás"
+            </p>
+            <p className="mt-2">
+              Web je nasazen a provozován na hostingové infrastruktuře
+              poskytovatele (Vercel). Klient hradí paušální poplatek{" "}
+              <span className="text-[#f0ece6]">1 000 Kč / měsíc</span>. V
+              rámci tohoto paušálu poskytovatel:
+            </p>
+            <ul className="mt-3 space-y-2 list-disc list-inside">
+              <li>odpovídá za bezproblémový provoz webu (doména, SSL, nasazení),</li>
+              <li>je připraven neprodleně zasáhnout v případě jakéhokoli výpadku či problému,</li>
+              <li>klient se nemusí starat o žádnou technickou stránku provozu webu.</li>
+            </ul>
+            <p className="mt-3">
+              Paušál nezahrnuje obsahové úpravy webu nad rámec technické
+              správy, pokud nejsou sjednány zvlášť.
+            </p>
+
+            <p className="mt-6 text-[#f0ece6]">
+              b) Varianta „Web u klienta"
+            </p>
+            <p className="mt-2">
+              Web je po dokončení předán a nasazen na vlastní hostingový účet
+              klienta (Vercel účet zřízený klientem nebo jeho IT). V tomto
+              případě:
+            </p>
+            <ul className="mt-3 space-y-2 list-disc list-inside">
+              <li>poskytovatel účtuje pouze jednorázovou cenu za vývoj webové prezentace,</li>
+              <li>klient nese plnou odpovědnost za provoz, dostupnost a technickou správu hostingu,</li>
+              <li>poskytovatel neposkytuje žádnou průběžnou technickou správu ani odpovědnost za výpadky či provoz webu,</li>
+              <li>případné budoucí úpravy nebo zásahy na žádost klienta jsou fakturovány samostatně dle aktuálního ceníku / hodinové sazby.</li>
+            </ul>
+
+            <p className="mt-6">
+              Volbu varianty potvrzuje klient písemně (e-mailem nebo v rámci
+              objednávky/smlouvy) před předáním hotové webové prezentace.
+            </p>
+
+            <p className="mt-4">
+              Toto ustanovení nabývá účinnosti dnem{" "}
+              <span className="text-[#f0ece6]">1. 9. 2026</span>.
+            </p>
+            <p className="mt-4">
+              <span className="text-[#f0ece6]">Přechodné ustanovení:</span>{" "}
+              U klientů, se kterými byla před tímto datem sjednána měsíční
+              správa webu bez bližšího rozlišení varianty, se stávající
+              smluvní vztah i nadále řídí původně sjednanými podmínkami, a to
+              až do doby, než se klient s poskytovatelem písemně dohodne na
+              přechodu na některou z výše uvedených variant.
+            </p>
+          </section>
+
+          {/* Section 10 */}
           <section aria-labelledby="spory">
             <h2 id="spory" className="font-cormorant font-light text-[24px] md:text-[32px] text-[#f0ece6] mb-4">
-              9. Řešení sporů
+              10. Řešení sporů
             </h2>
             <p>
               Smluvní strany se zavazují řešit případné spory přednostně
@@ -283,10 +346,10 @@ export default function PodminkyPage() {
             </p>
           </section>
 
-          {/* Section 10 */}
+          {/* Section 11 */}
           <section aria-labelledby="zaverecna">
             <h2 id="zaverecna" className="font-cormorant font-light text-[24px] md:text-[32px] text-[#f0ece6] mb-4">
-              10. Závěrečná ustanovení
+              11. Závěrečná ustanovení
             </h2>
             <p>
               Tyto obchodní podmínky nabývají platnosti a účinnosti dne
@@ -297,6 +360,11 @@ export default function PodminkyPage() {
               měnit. Změna nabývá účinnosti zveřejněním nové verze na webu.
               Na zakázky uzavřené před účinností změny se vztahuje předchozí
               znění podmínek.
+            </p>
+            <p className="mt-4">
+              Čl. 9 (Hosting a technická správa) byl do těchto podmínek
+              doplněn s účinností od{" "}
+              <span className="text-[#f0ece6]">1. 9. 2026</span>.
             </p>
             <p className="mt-4">
               Pokud je nebo se stane jakékoli ustanovení těchto podmínek
