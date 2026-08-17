@@ -169,7 +169,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Konfigurace serveru je neúplná.' }, { status: 500 });
   }
 
-  const adminEmail = process.env.CONTACT_EMAIL ?? 'sobotkakrystof5@gmail.com';
+  const adminEmail = process.env.CONTACT_EMAIL ?? 'info@vizeon.cz';
   const resend = new Resend(apiKey);
 
   try {

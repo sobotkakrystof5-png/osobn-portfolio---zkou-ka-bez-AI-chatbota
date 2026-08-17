@@ -222,7 +222,7 @@ ZakazIQ:
   ✅ Nová rezervace v kalendáři
     ↓
 Emails:
-  ✅ Tobě: sobotkakrystof5@gmail.com
+  ✅ Tobě: info@vizeon.cz
   ✅ Klientovi: his@email.com
     ↓
 Admin Dashboard (`/admin`):

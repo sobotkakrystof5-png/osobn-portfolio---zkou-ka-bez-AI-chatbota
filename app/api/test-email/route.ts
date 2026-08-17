@@ -9,7 +9,7 @@ import { Resend } from "resend";
 import { bookingNotificationFrom, bookingConfirmationFrom, buildClientConfirmationHtml } from "@/lib/email";
 
 export async function GET(req: NextRequest) {
-  const to = req.nextUrl.searchParams.get("to") ?? "sobotkakrystof5@gmail.com";
+  const to = req.nextUrl.searchParams.get("to") ?? "info@vizeon.cz";
   const results: Record<string, unknown> = {};
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   try {
     const { data, error } = await resend.emails.send({
       from: bookingNotificationFrom(),
-      to: "sobotkakrystof5@gmail.com",
+      to: "info@vizeon.cz",
       subject: "Test - Nova rezervace - Test Uzivatel - 25. 5. 2026",
       html: `<p>Admin notifikace funguje. Odesláno: ${new Date().toLocaleString("cs-CZ", { timeZone: "Europe/Prague" })}</p>`,
     });
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: bookingConfirmationFrom(),
       to,
-      replyTo: "sobotkakrystof5@gmail.com",
+      replyTo: "info@vizeon.cz",
       subject: "Test - Potvrzeni rezervace - 25. 5. 2026 v 10:00",
       html: buildClientConfirmationHtml({
         firstName:     "Test",
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
         dateFormatted: "25. 5. 2026",
         slot:          "10:00 – 10:30",
         timeStart:     "10:00",
-        replyEmail:    "sobotkakrystof5@gmail.com",
+        replyEmail:    "info@vizeon.cz",
       }),
     });
     results.clientConfirmation = error

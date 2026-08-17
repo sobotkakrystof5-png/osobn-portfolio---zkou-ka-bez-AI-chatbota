@@ -109,9 +109,9 @@ export default function Contact() {
           <motion.div variants={slideRight} className="md:col-span-2">
             <div className="space-y-7 pl-0 md:pl-8" style={{ borderLeft: "0px" }}>
               <div className="hidden md:block w-full h-[1px] mb-2" style={{ background: "linear-gradient(90deg, rgba(201,168,76,0.3), transparent)" }} />
-              <a href="mailto:sobotkakrystof5@gmail.com" className="flex items-center gap-3 group" aria-label="Email">
+              <a href="mailto:info@vizeon.cz" className="flex items-center gap-3 group" aria-label="Email">
                 <Mail size={15} className="text-[#c9a84c] shrink-0" />
-                <span className="font-inter font-light text-[14px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300 break-all">sobotkakrystof5@gmail.com</span>
+                <span className="font-inter font-light text-[14px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300 break-all">info@vizeon.cz</span>
               </a>
               <a href="tel:+420604837333"
                 className="flex items-center gap-3 group border border-white/[0.05] hover:border-[rgba(201,168,76,0.35)] hover:bg-[rgba(201,168,76,0.04)] px-4 py-3 -mx-4 transition-all duration-300"

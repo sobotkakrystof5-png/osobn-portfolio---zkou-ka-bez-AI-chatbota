@@ -82,7 +82,7 @@ ON CONFLICT (date, time_slot) DO NOTHING;
    - Vyber službu, své údaje, datum, čas
 
 3. **Ověř všechny 3 kanály:**
-   - ✅ Email tobě: sobotkakrystof5@gmail.com (notifikace)
+   - ✅ Email tobě: info@vizeon.cz (notifikace)
    - ✅ Email klientovi: jeho@email.com (potvrzení)
    - ✅ Admin dashboard: /admin (vidíš novou rezervaci)
 

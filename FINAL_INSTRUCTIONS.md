@@ -95,11 +95,11 @@ Měly by ti přijít 2 emaily:
 
 ✅ **Email 1: Notifikace tobě**
 - Od: VIZEON Booking
-- Do: sobotkakrystof5@gmail.com
+- Do: info@vizeon.cz
 - Předmět: "Nova rezervace - [tvoje jméno]"
 
 ✅ **Email 2: Potvrzení klientovi**
-- Od: hello@vizeon.cz (nebo Krystof Sobotka - VIZEON)
+- Od: info@vizeon.cz (nebo Krystof Sobotka - VIZEON)
 - Do: tvůj email (který jsi zadal v formuláři)
 - Předmět: "Potvrzení tvé rezervace"
 

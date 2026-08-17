@@ -77,7 +77,7 @@ const jsonLd = {
       name: "VIZEON",
       url: "https://vizeon.cz",
       telephone: "+420604837333",
-      email: "sobotkakrystof5@gmail.com",
+      email: "info@vizeon.cz",
       areaServed: { "@type": "Country", name: "Česká republika" },
       description:
         "Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí. Weby a grafika, které zvyšují tržby a konverze.",

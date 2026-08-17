@@ -86,10 +86,10 @@ export default function Footer() {
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
             <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-5">Kontakt</p>
             <div className="flex flex-col gap-4">
-              <a href="mailto:sobotkakrystof5@gmail.com" className="flex items-center gap-3 group" aria-label="Email">
+              <a href="mailto:info@vizeon.cz" className="flex items-center gap-3 group" aria-label="Email">
                 <Mail size={13} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-light text-[13px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300 break-all">
-                  sobotkakrystof5@gmail.com
+                  info@vizeon.cz
                 </span>
               </a>
               <a href="tel:+420604837333" className="flex items-center gap-2 group" aria-label="Zavolat +420 604 837 333">

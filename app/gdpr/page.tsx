@@ -59,8 +59,8 @@ export default function GdprPage() {
               <li><span className="text-[#f0ece6]">Obchodní název:</span> VIZEON</li>
               <li>
                 <span className="text-[#f0ece6]">E-mail: </span>
-                <a href="mailto:sobotkakrystof5@gmail.com" className="text-[#c9a84c] hover:underline">
-                  sobotkakrystof5@gmail.com
+                <a href="mailto:info@vizeon.cz" className="text-[#c9a84c] hover:underline">
+                  info@vizeon.cz
                 </a>
               </li>
               <li>
@@ -241,10 +241,10 @@ export default function GdprPage() {
               <p>
                 <span className="text-[#f0ece6]">E-mail: </span>
                 <a
-                  href="mailto:sobotkakrystof5@gmail.com"
+                  href="mailto:info@vizeon.cz"
                   className="text-[#c9a84c] hover:underline"
                 >
-                  sobotkakrystof5@gmail.com
+                  info@vizeon.cz
                 </a>
               </p>
               <p className="mt-2">
