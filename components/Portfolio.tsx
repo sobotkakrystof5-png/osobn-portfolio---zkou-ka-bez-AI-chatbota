@@ -20,6 +20,17 @@ const projects = [
   },
   {
     number: "02",
+    title: "Masáže Tomáš Kestner",
+    category: "Wellness & Osobní brand",
+    tech: "HTML/CSS/JS Vanilla",
+    description: "Prezentační web pro maséra s 20 lety praxe, 7 z toho u profesionálního fotbalu FK Mladá Boleslav. Cíl: vybudovat důvěru a přivést nové klienty na objednávku.",
+    url: "https://www.masazekestner.cz",
+    image: "/portfolio/kestner.jpg",
+    alt: "Prezentační web pro maséra Tomáše Kestnera — masáže Mladá Boleslav",
+    badgeType: "client" as const,
+  },
+  {
+    number: "03",
     title: "Auf Gehts",
     category: "Vzdělávání & Osobní brand",
     tech: "Next.js · TypeScript · Framer Motion",
@@ -30,7 +41,7 @@ const projects = [
     badgeType: "demo" as const,
   },
   {
-    number: "03",
+    number: "04",
     title: "EstatIQ",
     category: "PropTech & Správa nemovitostí",
     tech: "HTML/CSS/JS Vanilla",
@@ -39,17 +50,6 @@ const projects = [
     image: "/portfolio/estatiq.jpg",
     alt: "EstatIQ — vlastní produkt pro správu nemovitostí ve fázi prelaunch",
     badgeType: "own" as const,
-  },
-  {
-    number: "04",
-    title: "HairDeluxe",
-    category: "Kadeřnictví & Wellness",
-    tech: "Next.js · Tailwind · Vercel",
-    description: "Web pro kadeřnický salon. Důraz na ukázku práce a online rezervace.",
-    url: "https://hair-deluxe-jo.vercel.app",
-    image: "/portfolio/hairdeluxe.jpg",
-    alt: "Web pro kadeřnický salon HairDeluxe — ukázka webu na míru pro kadeřnictví",
-    badgeType: "demo" as const,
   },
 ];
 
@@ -97,7 +97,7 @@ export default function Portfolio() {
                 <span className="absolute top-3 left-3 md:top-6 md:left-6 font-cormorant font-light text-[80px] md:text-[110px] leading-none text-white/[0.04] select-none" aria-hidden="true">{p.number}</span>
                 <h3 className="font-cormorant font-light text-[26px] md:text-[36px] text-[#f0ece6] mb-1">{p.title}</h3>
                 <p className="font-inter font-light text-[11px] uppercase tracking-[0.12em] text-[#c9a84c] mb-1">{p.category}</p>
-                <p className="font-inter font-light text-[11px] text-[#3d3830] mb-3">{p.tech}</p>
+                <p className="font-inter font-normal text-[11px] tracking-[0.04em] text-[#a89c8a] mb-3">{p.tech}</p>
                 <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.75] mb-5 max-w-md">{p.description}</p>
                 <span className="inline-flex items-center gap-2 font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] border border-white/10 px-4 py-2 group-hover:border-[rgba(201,168,76,0.3)] group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300">
                   Zobrazit web <ArrowUpRight size={13} aria-hidden="true" />
