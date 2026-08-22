@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Mail, Phone, Loader2, CheckCircle } from "lucide-react";
+import toast from "react-hot-toast";
 import { fadeUp, slideLeft, slideRight, stagger, viewport } from "@/lib/animations";
 
 function FacebookIcon({ size = 16, className }: { size?: number; className?: string }) {
@@ -29,7 +30,6 @@ const inputClass = "w-full bg-[#111111] border border-white/[0.07] text-[#f0ece6
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const [toast, setToast] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormData) => {
@@ -37,10 +37,10 @@ export default function Contact() {
     try {
       const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       if (!res.ok) { const j = (await res.json()) as { error?: string }; throw new Error(j.error ?? "Chyba"); }
-      setSubmitted(true); setToast(true); reset();
-      setTimeout(() => setToast(false), 4000);
+      setSubmitted(true); reset();
+      toast.success("Děkuji! Ozvu se do 24 hodin.");
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Odeslání se nezdařilo.");
+      toast.error(err instanceof Error ? err.message : "Odeslání se nezdařilo.");
     } finally { setSending(false); }
   };
 
@@ -140,17 +140,6 @@ export default function Contact() {
           </motion.div>
         </motion.div>
       </div>
-
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -16, x: "-50%" }} animate={{ opacity: 1, y: 0, x: "-50%" }} exit={{ opacity: 0, y: -10, x: "-50%" }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-6 left-1/2 z-50 bg-[#c9a84c] text-[#080808] font-inter font-medium text-[13px] px-6 py-3 shadow-xl"
-            role="status" aria-live="polite">
-            ✓ Děkuji! Ozvu se do 24 hodin.
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
