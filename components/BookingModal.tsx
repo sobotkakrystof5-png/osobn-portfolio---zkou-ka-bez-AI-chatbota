@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  X,
   Check,
   CheckCircle,
   ChevronLeft,
@@ -21,6 +20,7 @@ import { SERVICES, WORKING_HOURS } from '@/lib/booking-config';
 import type { BookingData, ServiceKey } from '@/types/booking';
 import type { BookingPrefill } from '@/context/BookingContext';
 import type { LucideIcon } from 'lucide-react';
+import { MobileModal } from '@/components/ui/MobileModal';
 
 /* ─── Service price map (shodné s Pricing.tsx / FirstClientModal.tsx) ── */
 const PRICES: Record<string, string> = {
@@ -188,7 +188,7 @@ function StepIndicator({ current, skipService = false }: { current: Step; skipSe
             {/* Dot */}
             <div className="flex flex-col items-center gap-1.5">
               <div
-                className={`w-7 h-7 rounded-full border flex items-center justify-center text-xs font-medium transition-all duration-300 ${
+                className={`w-6 h-6 xs:w-7 xs:h-7 rounded-full border flex items-center justify-center text-xs font-medium transition-all duration-300 ${
                   isDone
                     ? 'border-[#c9a84c] bg-[#c9a84c]/10 text-[#c9a84c]'
                     : isActive
@@ -198,9 +198,10 @@ function StepIndicator({ current, skipService = false }: { current: Step; skipSe
               >
                 {isDone ? <Check size={13} /> : stepNum}
               </div>
+              {/* Popisek pod krokem: na <380px jen u aktivního kroku, ať se 4 kroky vejdou bez zalomení */}
               <span
                 className={`font-inter text-[10px] tracking-[0.05em] transition-colors duration-300 ${
-                  isActive ? 'text-[#c9a84c]' : isDone ? 'text-white/50' : 'text-white/25'
+                  isActive ? 'block text-[#c9a84c]' : isDone ? 'hidden xs:block text-white/50' : 'hidden xs:block text-white/25'
                 }`}
               >
                 {label}
@@ -209,7 +210,7 @@ function StepIndicator({ current, skipService = false }: { current: Step; skipSe
             {/* Connector line */}
             {i < STEP_LABELS.length - 1 && (
               <div
-                className={`w-10 md:w-16 h-[1px] mx-2 mb-5 transition-colors duration-300 ${
+                className={`w-6 xs:w-10 md:w-16 h-[1px] mx-1 xs:mx-2 mb-5 transition-colors duration-300 ${
                   active > stepNum ? 'bg-[#c9a84c]/40' : 'bg-white/10'
                 }`}
               />
@@ -432,12 +433,6 @@ export default function BookingModal({
       setSubVariant(null);
     }
   }
-
-  // Lock body scroll
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
 
   const handleSubmit = async () => {
     // Synchronní guard — viz submittingRef. Nepoužívat AbortController:
@@ -1116,50 +1111,26 @@ export default function BookingModal({
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={(e) => e.target === e.currentTarget && onClose()}
-        >
+    <MobileModal isOpen={isOpen} onClose={onClose} ariaLabel="Rezervace konzultace">
+      <div className="p-6 md:p-8">
+        {/* Step indicator — hidden on success a v compact módu (jeden formulář) */}
+        {step !== 'success' && step !== 'compact' && (
+          <StepIndicator current={step} skipService={hasPrefill} />
+        )}
+
+        {/* Step content with animation */}
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            key={step}
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -16 }}
+            transition={{ duration: 0.2 }}
           >
-            {/* Close button */}
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors"
-              aria-label="Zavřít"
-            >
-              <X size={15} />
-            </button>
-
-            <div className="p-6 md:p-8">
-              {/* Step indicator — hidden on success a v compact módu (jeden formulář) */}
-              {step !== 'success' && step !== 'compact' && (
-                <StepIndicator current={step} skipService={hasPrefill} />
-              )}
-
-              {/* Step content with animation */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={step}
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -16 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {renderContent()}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+            {renderContent()}
           </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+        </AnimatePresence>
+      </div>
+    </MobileModal>
   );
 }

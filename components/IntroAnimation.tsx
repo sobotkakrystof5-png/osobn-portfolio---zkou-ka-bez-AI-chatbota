@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 const LETTERS = ["V", "I", "Z", "E", "O", "N"];
 const WORDS   = ["Web.", "Design.", "Výsledky."];
@@ -9,6 +10,15 @@ const WORDS   = ["Web.", "Design.", "Výsledky."];
 export default function IntroAnimation() {
   const [visible, setVisible] = useState(true);
   const [mounted, setMounted] = useState(false);
+  // Session už intro viděla — nezobrazuj vůbec (na rozdíl od `visible` toto
+  // NESMÍ vynutit "return null" hned, dokud neproběhne exit animace, jinak
+  // AnimatePresence nestihne přehrát exit a onExitComplete nikdy nespustí).
+  const [skip, setSkip] = useState(false);
+  // Zamčeno od mountu do dokončení exit animace (ne jen do `visible=false`),
+  // ať uživatel nemůže scrollovat stránku pod ještě odjíždějícím intrem.
+  const [locked, setLocked] = useState(true);
+
+  useScrollLock(locked);
 
   useEffect(() => {
     // Hydration guard
@@ -16,12 +26,10 @@ export default function IntroAnimation() {
 
     // Jednou za session — pokud už uživatel viděl intro, přeskoč
     if (typeof window !== "undefined" && sessionStorage.getItem("vizeon_intro")) {
-      setVisible(false);
+      setSkip(true);
+      setLocked(false);
       return;
     }
-
-    // Zamkni scroll dokud intro běží
-    document.body.style.overflow = "hidden";
 
     const timer = setTimeout(() => setVisible(false), 2000);
 
@@ -40,14 +48,16 @@ export default function IntroAnimation() {
   const handleSkip = () => setVisible(false);
 
   const handleExitComplete = () => {
-    document.body.style.overflow = "";
+    setLocked(false);
     if (typeof window !== "undefined") {
       sessionStorage.setItem("vizeon_intro", "1");
     }
   };
 
-  // Nezobrazuj na serveru ani po skrytí
-  if (!mounted || !visible) return null;
+  // Nezobrazuj na serveru ani když session intro už viděla. Když `visible`
+  // spadne na false, AnimatePresence níže musí zůstat vyrenderovaná, ať
+  // stihne přehrát exit animaci a zavolat onExitComplete.
+  if (!mounted || skip) return null;
 
   return (
     <AnimatePresence onExitComplete={handleExitComplete}>
