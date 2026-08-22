@@ -17,6 +17,48 @@
   --border:        rgba(255,255,255,0.06);
   --border-accent: rgba(201,168,76,0.2);
   --glow:          0 0 40px rgba(201,168,76,0.08);
+
+  /* ─── Fixed/floating layer z-index scale ──────────────────
+     Nejnižší → nejvyšší. Header je záměrně NAD mobilním menu
+     (opačně, než jak by se dalo čekat), protože hamburger/X
+     tlačítko, kterým se menu zavírá, je DOM potomek headeru —
+     kdyby menu leželo nad headerem, tlačítko by bylo neklikatelné.
+     Menu je přesto plná neprůhledná vrstva, takže i tak vizuálně
+     překryje cookie lištu a chat bublinu pod sebou. */
+  --z-chat-widget:    40;
+  --z-cookie-banner:  45;
+  --z-mobile-menu:    50;
+  --z-header:         55;
+  --z-modal-backdrop: 60;
+  --z-modal:          61;
+  --z-chat-window:    70;
+}
+
+/* ─── Modal max-height: dvh se safe fallbackem na vh ────────
+   dvh správně počítá i s mobilní adresní lištou, která se
+   zasouvá/vysouvá (BookingModal/FirstClientModal — viz
+   components/ui/MobileModal.tsx). Platí jen od sm (640px) —
+   pod tím je modal fullscreen (h-[100dvh]) a tenhle strop
+   nemá co omezovat. Vlastní třída nejde prefixovat "sm:" v
+   JSX (Tailwind by ji nerozpoznalo), breakpoint je proto
+   napevno v samotném pravidle. */
+@media (min-width: 640px) {
+  .modal-max-h {
+    max-height: 90vh;
+  }
+  @supports (height: 100dvh) {
+    .modal-max-h {
+      max-height: 90dvh;
+    }
+  }
+}
+
+/* ─── Overlay coordination ──────────────────────────────────
+   Nastavuje se z hooks/useScrollLock.ts při otevření libovolného
+   modalu / mobilního menu — schová plovoucí chat bublinu, ať
+   nekoliduje s CTA tlačítky v modalu ani s menu. */
+body.overlay-open #n8n-chat {
+  display: none !important;
 }
 
 * { box-sizing: border-box; }

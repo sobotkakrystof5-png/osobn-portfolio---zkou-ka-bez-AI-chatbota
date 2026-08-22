@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { stagger, fadeIn } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 const navLinks = [
   { label: "O mně",     href: "#o-mne" },
@@ -25,10 +26,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
+  useScrollLock(menuOpen);
 
   const go = (href: string) => {
     setMenuOpen(false);
@@ -37,7 +35,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "backdrop-blur-xl bg-[#080808]/90 border-b border-white/[0.05]" : "bg-transparent"}`}>
+      <header className={`fixed top-0 left-0 right-0 z-[var(--z-header)] transition-all duration-500 ${scrolled || menuOpen ? "backdrop-blur-xl bg-[#080808]/90 border-b border-white/[0.05]" : "bg-transparent"}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="flex flex-col leading-none group" aria-label="VIZEON">
@@ -74,17 +72,17 @@ export default function Navbar() {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[#080808] flex flex-col items-center justify-center md:hidden"
+            className="fixed inset-0 z-[var(--z-mobile-menu)] bg-[#080808] flex flex-col items-center justify-center overflow-y-auto pt-16 pb-10 md:hidden"
           >
-            <motion.nav variants={stagger} initial="hidden" animate="visible" className="flex flex-col items-center gap-8">
+            <motion.nav variants={stagger} initial="hidden" animate="visible" className="flex flex-col items-center gap-5 xs:gap-8 my-auto py-6">
               {navLinks.map((l) => (
                 <motion.a key={l.href} href={l.href} variants={fadeIn}
                   onClick={(e) => { e.preventDefault(); go(l.href); }}
-                  className="font-cormorant font-light text-5xl text-[#f0ece6] hover:text-[#c9a84c] transition-colors duration-300">
+                  className="font-cormorant font-light text-4xl xs:text-5xl text-[#f0ece6] hover:text-[#c9a84c] transition-colors duration-300">
                   {l.label}
                 </motion.a>
               ))}
-              <motion.div variants={fadeIn} className="mt-6">
+              <motion.div variants={fadeIn} className="mt-4 xs:mt-6">
                 <CTAButton className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-8 py-3 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
                   Konzultace zdarma
                 </CTAButton>

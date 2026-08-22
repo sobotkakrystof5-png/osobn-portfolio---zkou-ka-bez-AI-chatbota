@@ -28,6 +28,10 @@
   --chat--window--right: 1.5rem;
   --chat--window--border: 1px solid rgba(255, 255, 255, 0.1);
   --chat--window--border-radius: 20px;
+  /* Sdílená z-index škála webu (app/globals.css) — drží bublinu i okno
+     chatu pod headerem/cookie lištou/modaly; skutečné schování při
+     otevřeném overlay/cookie liště řeší pravidla níže. */
+  --chat--window--z-index: var(--z-chat-widget);
 
   --chat--header-height: auto;
   --chat--header--padding: 1.5rem 1.5rem 1.25rem;
@@ -203,6 +207,13 @@
 #n8n-chat .chat-powered-by,
 #n8n-chat .chat-get-started-footer {
   display: none;
+}
+
+/* ─── Schovat bublinu, dokud je vidět cookie lišta ───────────────────────
+   Nastavuje se z components/CookieBanner.tsx (třída na <body>). Jednodušší
+   a spolehlivější než dopočítávat výšku lišty a bublinu jen posouvat. */
+body.cookie-banner-visible #n8n-chat {
+  display: none !important;
 }
 
 /* ─── Mobil: okno přes celou obrazovku jako ostatní modály na webu ──────── */

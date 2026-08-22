@@ -16,6 +16,14 @@ export default function CookieBanner() {
     }
   }, []);
 
+  // Dokud je lišta vidět, schovej plovoucí chat bublinu (viz
+  // body.cookie-banner-visible v components/n8n-chat-theme.css), ať s ní
+  // nekoliduje v pravém dolním rohu.
+  useEffect(() => {
+    document.body.classList.toggle("cookie-banner-visible", visible);
+    return () => document.body.classList.remove("cookie-banner-visible");
+  }, [visible]);
+
   const accept = () => { localStorage.setItem(STORAGE_KEY, "accepted"); setVisible(false); };
   const reject = () => { localStorage.setItem(STORAGE_KEY, "rejected"); setVisible(false); };
 
@@ -27,7 +35,7 @@ export default function CookieBanner() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed bottom-0 left-0 right-0 z-50 bg-[#111111] border-t border-white/[0.07]"
+          className="fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] bg-[#111111] border-t border-white/[0.07]"
           role="dialog"
           aria-label="Nastavení cookies"
           aria-live="polite"
