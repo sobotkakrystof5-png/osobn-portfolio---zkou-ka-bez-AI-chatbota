@@ -9,6 +9,17 @@ import { ArrowUpRight } from "lucide-react";
 const projects = [
   {
     number: "01",
+    title: "Schovinox",
+    category: "Zámečnictví & Kovovýroba",
+    tech: "Next.js · React",
+    description: "Firemní web pro zakázkovou kovovýrobu pod vedením pana Schovánka — zámečnictví, svařování a broušení s 40letou rodinnou zkušeností. Cíl: lépe prezentovat firmu a prodávat vlastní produkty na grilování.",
+    url: "https://www.schovinox.cz",
+    image: "/portfolio/schovinox.jpg",
+    alt: "Firemní web pro kovovýrobu Schovinox — zámečnictví a svařování",
+    badgeType: "client" as const,
+  },
+  {
+    number: "02",
     title: "U Cerhů",
     category: "Svatby & Ubytování",
     tech: "HTML/CSS/JS Vanilla",
@@ -19,7 +30,7 @@ const projects = [
     badgeType: "client" as const,
   },
   {
-    number: "02",
+    number: "03",
     title: "Masáže Tomáš Kestner",
     category: "Wellness & Osobní brand",
     tech: "HTML/CSS/JS Vanilla",
@@ -30,7 +41,7 @@ const projects = [
     badgeType: "client" as const,
   },
   {
-    number: "03",
+    number: "04",
     title: "Auf Gehts",
     category: "Vzdělávání & Osobní brand",
     tech: "Next.js · TypeScript · Framer Motion",
@@ -41,7 +52,7 @@ const projects = [
     badgeType: "demo" as const,
   },
   {
-    number: "04",
+    number: "05",
     title: "EstatIQ",
     category: "PropTech & Správa nemovitostí",
     tech: "HTML/CSS/JS Vanilla",
