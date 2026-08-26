@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, Globe, Palette, Presentation, Smartphone, Briefcase } from "lucide-react";
 import { fadeUp, stagger, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
 
 const services = [
   {
-    category: "🌐 Weby",
+    category: "Weby",
+    icon: Globe,
     items: [
       {
         name: "Micro Page",
@@ -44,7 +45,8 @@ const services = [
     ],
   },
   {
-    category: "🎨 Design",
+    category: "Design",
+    icon: Palette,
     items: [
       {
         name: "Brand Logo",
@@ -75,7 +77,8 @@ const services = [
     ],
   },
   {
-    category: "📊 Prezentace",
+    category: "Prezentace",
+    icon: Presentation,
     items: [
       {
         name: "Slide Deck Standard",
@@ -93,7 +96,8 @@ const services = [
     ],
   },
   {
-    category: "📱 Správa sítí",
+    category: "Správa sítí",
+    icon: Smartphone,
     items: [
       {
         name: "Social Starter",
@@ -345,7 +349,7 @@ export default function Pricing() {
             style={{ background: "linear-gradient(180deg, transparent, #c9a84c, transparent)" }}
             aria-hidden="true"
           />
-          <span className="text-[20px] shrink-0 mt-0.5" aria-hidden="true">💼</span>
+          <Briefcase size={20} className="text-[#c9a84c] shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="font-inter font-semibold text-[13px] text-[#c9a84c] mb-0.5 tracking-[0.03em]">
               Výhodné bundly
@@ -391,7 +395,8 @@ export default function Pricing() {
             >
               {services.map((group, gi) => (
                 <div key={gi}>
-                  <h3 className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#3d3830] mb-5">
+                  <h3 className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#3d3830] mb-5 flex items-center gap-2">
+                    <group.icon size={14} className="text-[#c9a84c]/60" aria-hidden="true" />
                     {group.category}
                   </h3>
                   <motion.div
