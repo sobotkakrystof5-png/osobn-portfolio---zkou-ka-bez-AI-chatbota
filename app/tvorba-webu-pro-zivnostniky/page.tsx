@@ -76,19 +76,59 @@ const jsonLd = {
 const obory = [
   {
     title: "Řemeslníci a stavební řemesla",
-    text: "Truhláři, elektrikáři nebo zedníci potřebují hlavně galerii realizací a rychlý kontaktní formulář — zákazník chce vidět, co umíte, a hned poslat poptávku, ne procházet pět podstránek.",
+    text: (
+      <>
+        Truhláři, elektrikáři nebo zedníci potřebují hlavně galerii realizací a rychlý kontaktní
+        formulář — zákazník chce vidět, co umíte, a hned poslat poptávku, ne procházet pět
+        podstránek. Podrobně popisuju, jak řeším{" "}
+        <Link href="/web-pro-remeslniky" className="text-[#c9a84c] hover:underline">
+          web pro řemeslníky
+        </Link>
+        , na samostatné stránce.
+      </>
+    ),
   },
   {
     title: "Kadeřnictví a kosmetické služby",
-    text: "U kadeřnictví a kosmetických salonů rozhoduje online rezervace bez telefonování, aktuální ceník a fotky prostoru. Web propojím i s rezervačním systémem, ať klientky objednáte i mimo otvírací dobu.",
+    text: (
+      <>
+        U kadeřnictví a kosmetických salonů rozhoduje online rezervace bez telefonování, aktuální
+        ceník a fotky prostoru. Web propojím i s rezervačním systémem, ať klientky objednáte i
+        mimo otvírací dobu. Jak přesně vypadá{" "}
+        <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline">
+          rezervační systém pro kadeřnictví
+        </Link>
+        , najdete na samostatné stránce.
+      </>
+    ),
   },
   {
     title: "Účetní a poradenské služby",
-    text: "Účetní a daňoví poradci potřebují hlavně důvěru — jasný přehled služeb, reference a srozumitelné vysvětlení, co přesně řešíte. Web bez zbytečných efektů, který působí odborně a seriózně.",
+    text: (
+      <>
+        Účetní a daňoví poradci potřebují hlavně důvěru — jasný přehled služeb, reference a
+        srozumitelné vysvětlení, co přesně řešíte. Web bez zbytečných efektů, který působí
+        odborně a seriózně. Detailně jsem to rozepsal na stránce o tom, jak stavím{" "}
+        <Link href="/web-pro-ucetni" className="text-[#c9a84c] hover:underline">
+          web pro účetní kancelář
+        </Link>
+        .
+      </>
+    ),
   },
   {
     title: "Masérské a wellness služby",
-    text: "Maséři a wellness studia těží z klidného designu, ceníku balíčků a rezervačního kalendáře přímo na webu — klient si vybere termín, aniž by musel psát zprávu a čekat na odpověď.",
+    text: (
+      <>
+        Maséři a wellness studia těží z klidného designu, ceníku balíčků a rezervačního kalendáře
+        přímo na webu — klient si vybere termín, aniž by musel psát zprávu a čekat na odpověď. Jak
+        přesně takový{" "}
+        <Link href="/web-pro-masery-a-wellness" className="text-[#c9a84c] hover:underline">
+          web pro maséry
+        </Link>{" "}
+        stavím, najdete na samostatné stránce.
+      </>
+    ),
   },
 ];
 

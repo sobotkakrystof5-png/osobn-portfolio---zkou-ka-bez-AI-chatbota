@@ -24,7 +24,23 @@ const services = [
     icon: Zap,
     title: "Webové aplikace",
     subtitle: "Rezervační systémy · Kalkulačky · Nástroje na míru",
-    description: "Rezervační systémy, kalkulačky, nástroje na míru — ideální pro kadeřnice, masérky nebo řemeslníky, kteří potřebují online rezervace bez zbytečného telefonování.",
+    description: (
+      <>
+        Rezervační systémy, kalkulačky, nástroje na míru — ideální pro{" "}
+        <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
+          kadeřnice
+        </Link>
+        ,{" "}
+        <Link href="/web-pro-masery-a-wellness" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
+          masérky
+        </Link>{" "}
+        nebo{" "}
+        <Link href="/web-pro-remeslniky" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
+          řemeslníky
+        </Link>
+        , kteří potřebují online rezervace bez zbytečného telefonování.
+      </>
+    ),
     packages: ["Kalkulačka na míru", "Rezervační systém", "Interaktivní formuláře", "Vlastní dashboard"],
   },
   {
@@ -46,7 +62,16 @@ const services = [
     icon: Megaphone,
     title: "Správa sociálních sítí",
     subtitle: "Instagram · Facebook · LinkedIn",
-    description: "Obsah, grafiky, publikování, komentáře — pro kadeřnictví, řemeslníky i další drobné podnikatele, kteří na Instagram a Facebook nemají čas. Vy podnikejte, sítě nechte na mně.",
+    description: (
+      <>
+        Obsah, grafiky, publikování, komentáře — pro{" "}
+        <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
+          kadeřnictví
+        </Link>
+        , řemeslníky i další drobné podnikatele, kteří na Instagram a Facebook nemají čas. Vy
+        podnikejte, sítě nechte na mně.
+      </>
+    ),
     packages: ["Social Starter — od 4 999 Kč/měs", "Social Pro — od 7 499 Kč/měs", "Content Blueprint — 499 Kč"],
   },
   {
@@ -170,8 +195,19 @@ export default function Services() {
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-inter font-light text-[15px] md:text-[17px] text-[#8a8070] leading-[1.8] max-w-xl mb-16"
         >
-          Ať potřebujete web pro řemeslníky, kadeřnictví nebo účetní kancelář, řeším ho na míru
-          vašemu oboru. Přečtěte si, jak přesně probíhá{" "}
+          Ať potřebujete{" "}
+          <Link href="/web-pro-remeslniky" className="text-[#c9a84c] hover:underline">
+            web pro řemeslníky
+          </Link>
+          ,{" "}
+          <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline">
+            kadeřnictví
+          </Link>{" "}
+          nebo{" "}
+          <Link href="/web-pro-ucetni" className="text-[#c9a84c] hover:underline">
+            účetní kancelář
+          </Link>
+          , řeším ho na míru vašemu oboru. Přečtěte si, jak přesně probíhá{" "}
           <Link href="/tvorba-webu-pro-zivnostniky" className="text-[#c9a84c] hover:underline">
             tvorba webu pro živnostníky
           </Link>{" "}

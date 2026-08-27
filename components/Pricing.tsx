@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Globe, Palette, Presentation, Smartphone, Briefcase } from "lucide-react";
 import { fadeUp, stagger, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
@@ -333,7 +334,12 @@ export default function Pricing() {
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-inter font-light text-[14px] text-[#8a8070] mb-8"
         >
-          Víte přesně co dostanete a za kolik — cena dle dohodnuté nabídky.
+          Víte přesně co dostanete a za kolik — cena dle dohodnuté nabídky. Celý ceník najdete i
+          jako{" "}
+          <Link href="/cenik" className="text-[#c9a84c] hover:underline">
+            samostatnou stránku
+          </Link>
+          , kterou si můžete uložit nebo poslat dál.
         </motion.p>
 
         {/* ── Bundly banner ── */}
