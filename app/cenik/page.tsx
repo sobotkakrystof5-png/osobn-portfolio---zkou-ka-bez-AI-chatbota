@@ -5,7 +5,7 @@ import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Cena tvorby webu na míru | VIZEON",
+    title: "Cena tvorby webu na míru",
     description:
       "Cena tvorby webu na míru pro živnostníky — transparentní ceník od 4 999 Kč, hotovo do 3 týdnů. Weby, grafika i správa sítí.",
     alternates: { canonical: "https://vizeon.cz/cenik" },

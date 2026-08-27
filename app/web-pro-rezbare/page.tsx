@@ -3,7 +3,7 @@ import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro řezbáře na míru | VIZEON",
+    title: "Web pro řezbáře na míru",
     description:
       "Tvorba webu pro řezbáře na míru — prezentace řezbářských prací online s galerií a poptávkou na zakázku, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-rezbare" },
@@ -37,6 +37,8 @@ export default function WebProRezbarePage() {
         },
       ]}
       cenikLead="Pro řezbářskou prezentaci s galerií realizací se nejčastěji hodí Online Vizitka nebo Promo Page — od 7 499 Kč, hotovo do 10 pracovních dní."
+      slug="web-pro-rezbare"
+      serviceType="Tvorba webu pro řezbáře"
       faqs={[
         {
           q: "Můžu si obsah galerie po spuštění webu doplňovat sám?",

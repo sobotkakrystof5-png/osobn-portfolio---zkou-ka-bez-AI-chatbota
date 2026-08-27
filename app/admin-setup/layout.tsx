@@ -1,0 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Setup — VIZEON",
+  robots: { index: false, follow: false },
+};
+
+export default function AdminSetupLayout({ children }: { children: React.ReactNode }) {
+  return children;
+}

@@ -3,7 +3,7 @@ import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro malíře pokojů na míru | VIZEON",
+    title: "Web pro malíře pokojů na míru",
     description:
       "Tvorba webu pro malířskou a natěračskou firmu na míru — fotky před/po a rychlá poptávka, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-malire" },
@@ -37,6 +37,8 @@ export default function WebProMalirePage() {
         },
       ]}
       cenikLead="Pro malířskou firmu se nejvíc hodí Online Vizitka s galerií před/po — od 7 499 Kč, hotovo do 5 pracovních dní."
+      slug="web-pro-malire"
+      serviceType="Tvorba webu pro malíře pokojů"
       faqs={[
         {
           q: "Kolik fotek před/po je potřeba na spuštění webu?",

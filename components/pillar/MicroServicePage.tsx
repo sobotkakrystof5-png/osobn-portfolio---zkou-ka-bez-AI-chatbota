@@ -13,6 +13,9 @@ export function MicroServicePage({
   cenikLead,
   faqs,
   portfolioNote,
+  slug,
+  serviceType,
+  breadcrumbName,
 }: {
   kicker: string;
   h1: string;
@@ -22,9 +25,54 @@ export function MicroServicePage({
   faqs?: MicroFaq[];
   /** Volitelná reference na Schovinox (zámečnictví/kovovýroba) v portfoliu. */
   portfolioNote?: ReactNode;
+  /** Cesta stránky bez lomítka, např. "web-pro-zamecniky" — pro BreadcrumbList/Service JSON-LD. */
+  slug: string;
+  /** schema.org Service.serviceType, např. "Tvorba webu pro zámečníky". */
+  serviceType: string;
+  /** Název položky v BreadcrumbList, defaultně h1. */
+  breadcrumbName?: string;
 }) {
+  const url = `https://vizeon.cz/${slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Domů", item: "https://vizeon.cz" },
+          { "@type": "ListItem", position: 2, name: breadcrumbName ?? h1, item: url },
+        ],
+      },
+      {
+        "@type": "Service",
+        serviceType,
+        name: h1,
+        provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+        areaServed: { "@type": "Country", name: "Česká republika" },
+        url,
+        description: subhead,
+      },
+      ...(faqs && faqs.length > 0
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: faqs.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            },
+          ]
+        : []),
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-[#080808] text-[#f0ece6]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PillarHeader />
 
       <main className="max-w-4xl mx-auto px-6 md:px-12 py-16 md:py-24">

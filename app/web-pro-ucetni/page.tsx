@@ -5,7 +5,7 @@ import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro účetní na míru | VIZEON",
+    title: "Web pro účetní na míru",
     description:
       "Tvorba webu pro účetní kancelář na míru — jasný přehled služeb a důvěryhodný dojem, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-ucetni" },

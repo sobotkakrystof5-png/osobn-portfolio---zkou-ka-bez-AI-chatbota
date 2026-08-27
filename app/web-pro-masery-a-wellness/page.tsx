@@ -5,7 +5,7 @@ import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro masérky na míru | VIZEON",
+    title: "Web pro masérky na míru",
     description:
       "Tvorba webu pro maséry a wellness studia na míru — klidný design a rezervační kalendář, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-masery-a-wellness" },

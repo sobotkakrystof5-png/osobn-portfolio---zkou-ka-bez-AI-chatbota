@@ -3,7 +3,7 @@ import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro studnaře na míru | VIZEON",
+    title: "Web pro studnaře na míru",
     description:
       "Tvorba webu pro studnařskou firmu na míru — důvěra, reference a oblast působnosti na první pohled, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-studnare" },
@@ -37,6 +37,8 @@ export default function WebProStudnarePage() {
         },
       ]}
       cenikLead="Studnařské firmě obvykle stačí Online Vizitka s referencemi a oblastí působnosti — od 7 499 Kč, hotovo do 5 pracovních dní."
+      slug="web-pro-studnare"
+      serviceType="Tvorba webu pro studnaře"
       faqs={[
         {
           q: "Jak na webu nejlíp ukázat důvěryhodnost, když nemám žádné psané reference?",

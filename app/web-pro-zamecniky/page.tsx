@@ -4,7 +4,7 @@ import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro zámečníky na míru | VIZEON",
+    title: "Web pro zámečníky na míru",
     description:
       "Tvorba webu pro zámečníky a zámečnictví na míru — galerie realizací, rychlý kontakt na poptávku, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-zamecniky" },
@@ -38,6 +38,8 @@ export default function WebProZamecnikyPage() {
         },
       ]}
       cenikLead="Pro zámečnickou firmu se nejčastěji hodí Online Vizitka nebo Promo Page s galerií realizací — od 7 499 Kč, hotovo do 10 pracovních dní."
+      slug="web-pro-zamecniky"
+      serviceType="Tvorba webu pro zámečníky"
       portfolioNote={
         <>
           Podobnou zakázku jsem už dělal — web pro{" "}

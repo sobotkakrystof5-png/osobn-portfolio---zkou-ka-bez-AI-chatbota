@@ -4,7 +4,7 @@ import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro kováře na míru | VIZEON",
+    title: "Web pro kováře na míru",
     description:
       "Tvorba webu pro uměleckého kováře na míru — velkoformátová galerie realizací a poptávkový formulář na zakázku, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-kovare" },
@@ -38,6 +38,8 @@ export default function WebProKovarePage() {
         },
       ]}
       cenikLead="U kovářské prezentace se nejvíc osvědčí Promo Page s důrazem na fotogalerii — od 9 999 Kč, hotovo do 10 pracovních dní."
+      slug="web-pro-kovare"
+      serviceType="Tvorba webu pro kováře"
       portfolioNote={
         <>
           Kovovýrobu jsem řešil i pro{" "}

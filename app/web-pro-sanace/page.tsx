@@ -3,7 +3,7 @@ import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro sanační firmy na míru | VIZEON",
+    title: "Web pro sanační firmy na míru",
     description:
       "Tvorba webu pro sanaci vlhkého zdiva na míru — srozumitelné vysvětlení postupu prací a důvěra, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-sanace" },
@@ -37,6 +37,8 @@ export default function WebProSanacePage() {
         },
       ]}
       cenikLead="Pro sanační firmu se nejčastěji hodí Promo Page vysvětlující postup prací — od 9 999 Kč, hotovo do 10 pracovních dní."
+      slug="web-pro-sanace"
+      serviceType="Tvorba webu pro sanační firmy"
       faqs={[
         {
           q: "Zvládne web srozumitelně vysvětlit i technicky náročnější postup?",

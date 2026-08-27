@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Ochrana osobních údajů (GDPR)",
   description:
     "Informace o zpracování osobních údajů ve smyslu nařízení GDPR a zákona č. 110/2019 Sb. — VIZEON, Kryštof Sobotka.",
+  alternates: { canonical: "https://vizeon.cz/gdpr" },
   robots: { index: false, follow: false },
 };
 

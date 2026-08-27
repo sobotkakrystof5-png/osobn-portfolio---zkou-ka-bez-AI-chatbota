@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Obchodní podmínky",
   description:
     "Obchodní podmínky poskytování webových a grafických služeb — VIZEON, Kryštof Sobotka. Platnost od 1. 1. 2026.",
+  alternates: { canonical: "https://vizeon.cz/podminky" },
   robots: { index: false, follow: false },
 };
 

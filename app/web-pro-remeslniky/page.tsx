@@ -5,7 +5,7 @@ import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Web pro řemeslníky na míru | VIZEON",
+    title: "Web pro řemeslníky na míru",
     description:
       "Tvorba webu pro řemeslníky na míru — galerie realizací, rychlá poptávka, hotovo do 10 dní. Truhláři, elektrikáři, zedníci i další řemesla.",
     alternates: { canonical: "https://vizeon.cz/web-pro-remeslniky" },
