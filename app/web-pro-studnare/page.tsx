@@ -45,6 +45,7 @@ export default function WebProStudnarePage() {
           a: "I pár vět od spokojených zákazníků, které posbíráme telefonicky nebo přes SMS, na webu udělá rozdíl. Poradím, jak si je nenásilně vyžádat po dokončení zakázky.",
         },
       ]}
+      relatedSlugs={["web-pro-instalatery", "web-pro-sanace", "web-pro-remeslniky"]}
     />
   );
 }

@@ -10,17 +10,17 @@ const features = [
   {
     icon: MessageCircle,
     title: "Komunikace o projektu",
-    description: "Společný prostor, kde se bavíme o každém detailu vašeho projektu. Žádné ztracené emaily — vše na jednom místě.",
+    description: "Společný prostor, kde se bavíme o každém detailu vašeho projektu. Žádné ztracené emaily. Vše na jednom místě.",
   },
   {
     icon: Star,
     title: "Zpětná vazba",
-    description: "Klient mi může kdykoliv poslat připomínky, nápady nebo změny. Jednoduše, přímo a bez zbytečného zdržení.",
+    description: "Klient mi může kdykoliv poslat připomínky, nápady nebo změny. Stačí napsat rovnou, bez zbytečného zdržení.",
   },
   {
     icon: CalendarCheck,
     title: "Konzultace na jedno kliknutí",
-    description: "Chcete prodiskutovat zlepšení projektu? Konzultaci si domluvíte přímo v systému — bez volání, bez čekání.",
+    description: "Chcete prodiskutovat zlepšení projektu? Konzultaci si domluvíte přímo v systému. Bez volání, bez čekání.",
   },
   {
     icon: LayoutDashboard,
@@ -121,31 +121,34 @@ export default function ZakazIQ() {
                 { text: "Přímá komunikace", accent: false },
                 { text: "Zpětná vazba", accent: false },
                 { text: "Přehled", accent: true },
-              ].map((line, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeUp}
-                  className="flex items-baseline gap-5 border-b border-white/[0.04] py-5 first:pt-0 last:border-b-0 group"
-                >
-                  <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h2
-                    className={`font-cormorant font-light text-[42px] md:text-[64px] lg:text-[78px] leading-[1.0] tracking-tight ${
-                      line.accent ? "text-shimmer" : "text-[#f0ece6]"
-                    } group-hover:translate-x-2 transition-transform duration-500`}
+              ].map((line, i) => {
+                const Heading = i === 0 ? "h1" : "h2";
+                return (
+                  <motion.div
+                    key={i}
+                    variants={fadeUp}
+                    className="flex items-baseline gap-5 border-b border-white/[0.04] py-5 first:pt-0 last:border-b-0 group"
                   >
-                    {line.text}
-                  </h2>
-                </motion.div>
-              ))}
+                    <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <Heading
+                      className={`font-cormorant font-light text-[42px] md:text-[64px] lg:text-[78px] leading-[1.0] tracking-tight ${
+                        line.accent ? "text-shimmer" : "text-[#f0ece6]"
+                      } group-hover:translate-x-2 transition-transform duration-500`}
+                    >
+                      {line.text}
+                    </Heading>
+                  </motion.div>
+                );
+              })}
             </motion.div>
 
             <motion.p
               variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
               className="font-inter font-normal text-[18px] md:text-[22px] text-[#e8e3dc] leading-[1.75] mt-10"
             >
-              ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému — a odtud probíhá veškerá spolupráce.
+              ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému. Odtud probíhá veškerá spolupráce.
             </motion.p>
           </div>
 

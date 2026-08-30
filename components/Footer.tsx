@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Phone } from "lucide-react";
 import { fadeUp, viewport } from "@/lib/animations";
+import { NAV_LINKS } from "@/lib/nav";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (
@@ -22,21 +24,7 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-const navLinks = [
-  { label: "O mně", href: "#o-mne" },
-  { label: "Služby", href: "#sluzby" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Reference", href: "#reference" },
-  { label: "Ceník", href: "#cenik" },
-  { label: "Kontakt", href: "#kontakt" },
-];
-
 export default function Footer() {
-  const handleClick = (href: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <footer id="footer" className="bg-[#080808] border-t border-white/[0.05]" aria-label="Patička">
       {/* Top golden line */}
@@ -47,9 +35,8 @@ export default function Footer() {
 
           {/* Brand */}
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            <Link
+              href="/"
               className="group inline-flex flex-col leading-none mb-4"
               aria-label="VIZEON — přejít na začátek"
             >
@@ -59,9 +46,9 @@ export default function Footer() {
               <span className="font-inter font-light text-[10px] uppercase tracking-[0.25em] text-[#8a8070] mt-0.5">
                 Web. Design. Výsledky.
               </span>
-            </a>
+            </Link>
             <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7] max-w-xs mt-4">
-              Tvorba webů na míru a grafika, které zvyšují tržby a konverze. Jeden člověk, přímá komunikace, výsledky.
+              Tvořím webové stránky a grafiku na míru, které mají smysl pro váš byznys. Jeden člověk, přímá komunikace a důraz na výsledek.
             </p>
           </motion.div>
 
@@ -69,15 +56,14 @@ export default function Footer() {
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
             <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-5">Navigace</p>
             <nav className="flex flex-col gap-3" aria-label="Patičková navigace">
-              {navLinks.map((link) => (
-                <a
+              {NAV_LINKS.map((link) => (
+                <Link
                   key={link.href}
                   href={link.href}
-                  onClick={handleClick(link.href)}
                   className="font-inter font-light text-[13px] text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300 w-fit"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </motion.div>
@@ -138,19 +124,19 @@ export default function Footer() {
             © 2026 VIZEON. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
-            <a
+            <Link
               href="/gdpr"
               className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
             >
               Ochrana osobních údajů
-            </a>
+            </Link>
             <span className="font-inter font-light text-[12px] text-[#2a2520]" aria-hidden="true">·</span>
-            <a
+            <Link
               href="/podminky"
               className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
             >
               Obchodní podmínky
-            </a>
+            </Link>
           </div>
         </div>
       </div>

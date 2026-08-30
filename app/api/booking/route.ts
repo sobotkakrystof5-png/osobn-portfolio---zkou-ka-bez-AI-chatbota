@@ -21,9 +21,9 @@ const ZAKAZIQ_ENDPOINT = 'https://project-iq-sigma.vercel.app/api/public/booking
 const ZAKAZIQ_PROJECT_TYPE: Record<ServiceKey, string> = {
   weby:        'Web na míru',
   grafika:     'Grafický design',
-  prezentace:  'Firemní prezentace',
-  socialni:    'Správa sociálních sítí',
-  bundle:      'Jiné',
+  chatbot:     'AI Chatbot',
+  systemy:     'Systém na míru',
+  technicke:   'Technické služby',
   individualni: 'Jiné',
 };
 

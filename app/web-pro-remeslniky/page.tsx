@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CTAButton } from "@/components/CTAButton";
+import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
 
 export function generateMetadata(): Metadata {
   return {
     title: "Web pro řemeslníky na míru",
     description:
-      "Tvorba webu pro řemeslníky na míru — galerie realizací, rychlá poptávka, hotovo do 10 dní. Truhláři, elektrikáři, zedníci i další řemesla.",
+      "Tvorba webu pro řemeslníky na míru, galerie realizací, rychlá poptávka, hotovo do 10 dní. Truhláři, elektrikáři, zedníci i další řemesla.",
     alternates: { canonical: "https://vizeon.cz/web-pro-remeslniky" },
     openGraph: {
       title: "Web pro řemeslníky na míru | VIZEON",
       description:
-        "Web na míru pro řemeslníky — prezentace realizací online, rychlá poptávka, žádná šablona.",
+        "Web na míru pro řemeslníky, prezentace realizací online, rychlá poptávka, žádná šablona.",
       url: "https://vizeon.cz/web-pro-remeslniky",
       type: "website",
     },
@@ -42,7 +42,7 @@ const jsonLd = {
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/web-pro-remeslniky",
       description:
-        "Tvorba webu na míru pro řemeslníky a stavební řemesla — galerie realizací, rychlý poptávkový formulář a mobilní zobrazení.",
+        "Tvorba webu na míru pro řemeslníky a stavební řemesla, galerie realizací, rychlý poptávkový formulář a mobilní zobrazení.",
     },
     {
       "@type": "FAQPage",
@@ -52,7 +52,7 @@ const jsonLd = {
           name: "Jak velkou galerii realizací web unese?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Klidně desítky fotek rozdělených do kategorií podle typu zakázky — galerii navrhnu tak, ať se rychle načítá i s velkým počtem fotek a zákazník se v ní snadno zorientuje.",
+            text: "Klidně desítky fotek rozdělených do kategorií podle typu zakázky. Galerii navrhnu tak, ať se rychle načítá i s velkým počtem fotek a zákazník se v ní snadno zorientuje.",
           },
         },
         {
@@ -65,7 +65,7 @@ const jsonLd = {
         },
         {
           "@type": "Question",
-          name: "Řeším víc řemesel najednou — dá se to na jeden web?",
+          name: "Řeším víc řemesel najednou. Dá se to na jeden web?",
           acceptedAnswer: {
             "@type": "Answer",
             text: "Ano, běžně se to řeší přehledem služeb rozděleným podle řemesla, ať zákazník hned vidí, co přesně nabízíte. U specializovaných oborů (zámečnictví, kovářství a další) mám i samostatné vzorové stránky.",
@@ -91,20 +91,24 @@ const remeslaTiles = [
   { name: "Studnařství", text: "Důvěra a reference tam, kde výsledek práce nejde vidět.", anchor: "web pro studnaře", href: "/web-pro-studnare" },
   { name: "Malířství a natěračství", text: "Fotky před/po jako hlavní argument pro zákazníka.", anchor: "web pro malíře pokojů", href: "/web-pro-malire" },
   { name: "Sanace", text: "Srozumitelné vysvětlení postupu prací u vlhkého zdiva.", anchor: "web pro sanační firmy", href: "/web-pro-sanace" },
+  { name: "Truhlářství a tesařství", text: "Galerie nábytku a kuchyní na míru, poptávka na pár kliknutí.", anchor: "web pro truhláře", href: "/web-pro-truhlare" },
+  { name: "Zahradnictví", text: "Fotky před/po jako nejsilnější argument u zahradních úprav.", anchor: "web pro zahradníky", href: "/web-pro-zahradniky" },
+  { name: "Instalatérství", text: "Rychlý kontakt na havarijní zásahy, přehled specializací.", anchor: "web pro instalatéry", href: "/web-pro-instalatery" },
+  { name: "Elektrikářství", text: "Rychlý kontakt na havarijní zásahy a revize, přehled služeb.", anchor: "web pro elektrikáře", href: "/web-pro-elektrikare" },
 ];
 
 const faqs = [
   {
     q: "Jak velkou galerii realizací web unese?",
-    a: "Klidně desítky fotek rozdělených do kategorií podle typu zakázky — galerii navrhnu tak, ať se rychle načítá i s velkým počtem fotek a zákazník se v ní snadno zorientuje.",
+    a: "Klidně desítky fotek rozdělených do kategorií podle typu zakázky. Galerii navrhnu tak, ať se rychle načítá i s velkým počtem fotek a zákazník se v ní snadno zorientuje.",
   },
   {
     q: "Musím mít profesionální fotky realizací?",
     a: "Ne. Stačí ostré fotky z mobilu při dobrém světle. Poradím, jak je nafotit, ať na webu vypadají dobře, a případně je před nasazením upravím.",
   },
   {
-    q: "Řeším víc řemesel najednou — dá se to na jeden web?",
-    a: "Ano, běžně se to řeší přehledem služeb rozděleným podle řemesla, ať zákazník hned vidí, co přesně nabízíte. U specializovaných oborů mám i samostatné vzorové stránky — viz sekce níže.",
+    q: "Řeším víc řemesel najednou. Dá se to na jeden web?",
+    a: "Ano, běžně se to řeší přehledem služeb rozděleným podle řemesla, ať zákazník hned vidí, co přesně nabízíte. U specializovaných oborů mám i samostatné vzorové stránky, viz sekce níže.",
   },
   {
     q: "Jak dlouho trvá tvorba webu s galerií realizací?",
@@ -126,10 +130,10 @@ export default function WebProRemeslnikyPage() {
           — Web na míru pro řemeslníky
         </p>
         <h1 className="font-cormorant font-light text-[36px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-6 max-w-2xl">
-          Web pro řemeslníky, který ukáže vaši práci — ne jen kontakt
+          Web pro řemeslníky, který ukáže vaši práci, ne jen kontakt
         </h1>
         <p className="font-inter font-light text-[16px] md:text-[18px] leading-[1.85] text-[#8a8070] max-w-2xl mb-16">
-          Web pro řemeslníky musí hlavně dokázat, že svou práci umíte — a to nejrychleji ukáže
+          Web pro řemeslníky musí hlavně dokázat, že svou práci umíte. Nejrychleji to ukáže
           fotka hotové zakázky, ne odstavec textu o spolehlivosti. Proto ho stavím kolem galerie
           realizací a rychlé cesty k poptávce, ne kolem obecného firemního popisu. Víc o tom, jak
           obecně řeším{" "}
@@ -146,8 +150,8 @@ export default function WebProRemeslnikyPage() {
               Proč běžná firemní šablona řemeslníkům nestačí
             </h2>
             <p>
-              Většina webových šablon počítá s textem — sekcemi "o nás", "naše hodnoty",
-              odstavcem o kvalitě. Zákazník, který hledá truhláře na kuchyňskou linku nebo
+              Většina webových šablon počítá hlavně s textem, sekcemi "o nás", "naše hodnoty"
+              nebo odstavcem o kvalitě. Zákazník, který hledá truhláře na kuchyňskou linku nebo
               elektrikáře na rekonstrukci, ale nechce číst o hodnotách. Chce vidět, jestli jste už
               dělali podobnou zakázku, a jak vypadala. Bez galerie realizací se stavíte do stejné
               pozice jako kdokoli jiný na první stránce Googlu.
@@ -165,7 +169,7 @@ export default function WebProRemeslnikyPage() {
               Jak probíhá spolupráce
             </h2>
             <p className="mb-5">
-              Zkrácená verze procesu — celý postup krok za krokem najdete na stránce{" "}
+              Tohle je zkrácená verze procesu. Kompletní postup krok za krokem najdete na stránce{" "}
               <Link href="/tvorba-webu-pro-zivnostniky#proces" className="text-[#c9a84c] hover:underline">
                 tvorba webu pro živnostníky
               </Link>
@@ -190,15 +194,15 @@ export default function WebProRemeslnikyPage() {
               </div>
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className="font-inter font-medium text-[14px] text-[#f0ece6] mb-1.5 tracking-[0.01em]">Rychlý poptávkový formulář</h3>
-                <p>Pár polí místo dlouhého kontaktního formuláře — čím míň kliků k odeslání, tím víc poptávek dorazí.</p>
+                <p>Pár polí místo dlouhého kontaktního formuláře. Čím míň kliků k odeslání, tím víc poptávek dorazí.</p>
               </div>
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className="font-inter font-medium text-[14px] text-[#f0ece6] mb-1.5 tracking-[0.01em]">Přehled řemesel a služeb</h3>
-                <p>Jasně oddělené obory, pokud jich řešíte víc najednou — zákazník hned pozná, jestli u vás najde, co potřebuje.</p>
+                <p>Jasně oddělené obory, pokud jich řešíte víc najednou. Zákazník hned pozná, jestli u vás najde, co potřebuje.</p>
               </div>
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className="font-inter font-medium text-[14px] text-[#f0ece6] mb-1.5 tracking-[0.01em]">Mobilní zobrazení na prvním místě</h3>
-                <p>Většina poptávek přichází z mobilu na stavbě nebo mezi zakázkami — web tomu odpovídá rychlostí i ovládáním.</p>
+                <p>Většina poptávek přichází z mobilu na stavbě nebo mezi zakázkami. Web tomu odpovídá rychlostí i ovládáním.</p>
               </div>
             </div>
           </section>
@@ -240,7 +244,7 @@ export default function WebProRemeslnikyPage() {
               Pro jednoho řemeslníka s galerií realizací obvykle stačí Online Vizitka od 7 499 Kč,
               u rozsáhlejší prezentace s víc podstránkami se hodí Promo Page od 9 999 Kč nebo Pro
               Web od 14 999 Kč. Kompletní a aktuální ceník najdete na{" "}
-              <Link href="/cenik" className="text-[#c9a84c] hover:underline">
+              <Link href="/cena-tvorby-webu" className="text-[#c9a84c] hover:underline">
                 samostatné stránce s ceníkem
               </Link>
               .
@@ -263,18 +267,10 @@ export default function WebProRemeslnikyPage() {
           </section>
         </div>
 
-        {/* CTA */}
-        <div className="mt-16 pt-10 border-t border-white/[0.05] text-center">
-          <p className="font-cormorant font-light text-[26px] md:text-[36px] text-[#f0ece6] mb-2">
-            Chcete web, který vaše realizace ukáže tak, jak si zaslouží?
-          </p>
-          <p className="font-inter font-light text-[13px] text-[#8a8070] mb-8">
-            Nezávazná konzultace zdarma — probereme, jak by měla vypadat galerie i poptávkový formulář pro váš obor.
-          </p>
-          <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
-            Nezávazná konzultace zdarma →
-          </CTAButton>
-        </div>
+        <ClosingCTA
+          heading="Chcete web, který vaše realizace ukáže tak, jak si zaslouží?"
+          subheading="Nezávazná konzultace zdarma — probereme, jak by měla vypadat galerie i poptávkový formulář pro váš obor."
+        />
 
         <div className="mt-14">
           <Link

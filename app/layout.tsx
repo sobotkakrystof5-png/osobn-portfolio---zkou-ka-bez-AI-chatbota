@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import ClientBooking from "./ClientBooking";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import N8nChatWidget from "@/components/N8nChatWidget";
+import CookieBanner from "@/components/CookieBanner";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -24,11 +25,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "VIZEON | Tvorba webů, grafika a správa sítí",
+    default: "VIZEON | Tvorba webů, AI chatboti a grafika",
     template: "%s | VIZEON",
   },
   description:
-    "Tvorba webů na míru pro živnostníky a malé firmy. Bez šablon, hotovo za 10 dní — weby, které přivádějí zákazníky, ne jen návštěvníky.",
+    "Tvorba webů na míru pro živnostníky a malé firmy. Bez šablon, hotovo za 10 dní. Weby, které přivádějí zákazníky, ne jen návštěvníky.",
   keywords: [
     "tvorba webů",
     "tvorba webu na míru",
@@ -42,7 +43,8 @@ export const metadata: Metadata = {
     "web který zvyšuje tržby",
     "zvýšení tržeb",
     "zvýšení konverzí",
-    "správa sociálních sítí malé firmy",
+    "AI chatbot pro firmy",
+    "rezervační systém na míru",
     "Next.js React web Česká republika",
     "VIZEON",
   ],
@@ -86,84 +88,35 @@ const jsonLd = {
       email: "info@vizeon.cz",
       areaServed: { "@type": "Country", name: "Česká republika" },
       description:
-        "Tvorba webů na míru, grafický design, prezentace a správa sociálních sítí. Weby a grafika, které zvyšují tržby a konverze.",
+        "Tvorba webů na míru, AI chatboti, systémy na míru, grafický design a technické služby. Weby a grafika, které zvyšují tržby a konverze.",
       serviceType: [
         "Tvorba webů na míru",
-        "Tvorba grafiky",
+        "AI Chatbot",
+        "Systémy na míru",
         "Grafický design",
+        "Technické služby",
+        "SEO optimalizace",
         "Zvýšení tržeb a konverzí",
-        "Firemní prezentace",
-        "Správa sociálních sítí",
       ],
     },
     {
-      "@type": "FAQPage",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "Jak dlouho trvá vytvoření webu?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Záleží na rozsahu. Micro Page do 2 pracovních dní, Online Vizitka do 5 pracovních dní, Promo Page do 10 dní, Pro Web do 3 týdnů. Vždy dopředu víte přesný termín — žádná překvapení.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Jak probíhá naše spolupráce?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Konzultace → Návrh → Vaše zpětná vazba → Tvorba → Ukázka → Doladění → Předání. Průběžně komunikujeme a nic neschvaluje bez vašeho souhlasu.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Pracuješ s AI nebo je vše ručně?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Nástroje AI používám jako pomocníka — pro inspiraci, urychlení rutinních kroků nebo generování textu. Každý výsledek ale ručně přepracuji, doladím a přizpůsobím vašemu projektu. Finální dílo je vždy moje práce, ne AI výstup.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Co je zahrnuto v ceně?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Design, kód, mobilní verze, základní SEO, testování a předání. Žádné skryté poplatky, žádné dodatečné faktury.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Mohu web po předání spravovat sám?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Ano. Předám vám přístupy a krátký návod. Případně se postaráme o správu za 999 Kč/měsíc — vy se starejte o byznys, já o web.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Co když se mi výsledek nebude líbit?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "To se nestane — průběžně konzultujeme a upravujeme. Ale pokud by přesto nastal problém, opravím vše dokud nejste 100% spokojeni.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Pracuješ i mimo ČR?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Ano. Pracuji online pro klienty po celé ČR i zahraničí. Komunikace přes telefon, WhatsApp nebo video hovor — odkudkoliv.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Jak mi nový web nebo grafika pomůže zvýšit tržby?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Web navržený na míru pro vaše zákazníky, s jasnou strukturou a cestou k objednávce, přivádí víc poptávek než šablonový web, který jen 'existuje'. Stejně tak sjednocená grafika (logo, vizitky, sociální sítě) zvyšuje důvěru a tím i konverze — víc lidí, kteří web nebo profil navštíví, se promění v zákazníky.",
-          },
-        },
+      "@type": "Organization",
+      "@id": "https://vizeon.cz/#organization",
+      name: "VIZEON",
+      url: "https://vizeon.cz",
+      logo: "https://vizeon.cz/favicon.ico",
+      sameAs: [
+        "https://www.facebook.com/profile.php?id=100086439650056",
+        "https://www.instagram.com/vizeon_official/",
       ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://vizeon.cz/#website",
+      url: "https://vizeon.cz",
+      name: "VIZEON",
+      inLanguage: "cs-CZ",
+      publisher: { "@id": "https://vizeon.cz/#organization" },
     },
   ],
 };
@@ -199,6 +152,7 @@ export default function RootLayout({
             }}
           />
           <N8nChatWidget />
+          <CookieBanner />
         </BookingProvider>
         <GoogleAnalytics gaId="G-J5FMJYTGCK" />
       </body>

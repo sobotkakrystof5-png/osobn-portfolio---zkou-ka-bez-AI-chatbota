@@ -91,8 +91,8 @@ export default function PodminkyPage() {
             <ul className="mt-4 space-y-2 list-disc list-inside">
               <li>Tvorba webových stránek a webových aplikací na míru</li>
               <li>Grafický design (vizuální identity, bannery, tiskové materiály)</li>
-              <li>Tvorba prezentací a firemních materiálů</li>
-              <li>Správa sociálních sítí a tvorba obsahu</li>
+              <li>AI chatboti a automatizace pro zákaznickou komunikaci</li>
+              <li>Technické služby (správa domény, přesměrování, údržba webu)</li>
               <li>Konzultace v oblasti online marketingu a digitální přítomnosti</li>
             </ul>
             <p className="mt-4">
@@ -338,7 +338,7 @@ export default function PodminkyPage() {
             </h2>
             <p>
               Smluvní strany se zavazují řešit případné spory přednostně
-              smírnou cestou — přímým jednáním nebo mimosoudní mediací.
+              smírnou cestou, přímým jednáním nebo mimosoudní mediací.
             </p>
             <p className="mt-4">
               Pokud nedojde k dohodě, je pro řešení sporů příslušný obecný

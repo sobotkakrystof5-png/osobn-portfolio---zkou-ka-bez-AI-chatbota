@@ -1,45 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, CheckCircle, ArrowRight, Calendar, Clock } from "lucide-react";
 import { MobileModal } from "@/components/ui/MobileModal";
+import { PRICING_CATEGORIES } from "@/lib/data/pricing";
 
-const MICRO_VARIANTS = ["Coming soon", "Link-in-bio", "Redirect"];
-
-const services = [
-  {
-    group: "🌐 Weby",
-    items: [
-      { id: "micro",    name: "Micro Page",           price: "4 999 Kč", variants: MICRO_VARIANTS },
-      { id: "vizitka",  name: "Online Vizitka",      price: "7 499 Kč"         },
-      { id: "promo",    name: "Promo Page",           price: "9 999 Kč", featured: true },
-      { id: "proweb",   name: "Pro Web",              price: "14 999 Kč"        },
-    ],
-  },
-  {
-    group: "🎨 Design",
-    items: [
-      { id: "logo",     name: "Brand Logo",           price: "699 Kč"           },
-      { id: "bcard",    name: "Business Card",        price: "299 Kč"           },
-      { id: "print",    name: "Print Design",         price: "699 Kč"           },
-    ],
-  },
-  {
-    group: "📊 Prezentace",
-    items: [
-      { id: "slides-s", name: "Slide Deck Standard", price: "1 099 Kč"         },
-      { id: "slides-p", name: "Slide Deck Premium",  price: "3 499 Kč"         },
-    ],
-  },
-  {
-    group: "📱 Správa sítí",
-    items: [
-      { id: "soc-s",    name: "Social Starter",      price: "4 999 Kč/měs"    },
-      { id: "soc-p",    name: "Social Pro",          price: "7 499 Kč/měs"    },
-    ],
-  },
-];
+const services = PRICING_CATEGORIES.map((category) => ({
+  group: `${category.emoji} ${category.category}`,
+  items: category.items.filter((item) => item.includeInQuickInquiry),
+})).filter((group) => group.items.length > 0);
 
 const inputCls =
   "w-full bg-[#0e0e0e] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] transition-colors placeholder-[#3d3830]";
@@ -56,6 +27,7 @@ interface Props {
 }
 
 export default function FirstClientModal({ open, onClose }: Props) {
+  const router = useRouter();
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [variant, setVariant] = useState<string | null>(null);
@@ -112,9 +84,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
 
   const handleScrollToContact = () => {
     handleClose();
-    setTimeout(() => {
-      document.querySelector("#kontakt")?.scrollIntoView({ behavior: "smooth" });
-    }, 350);
+    router.push("/kontakt");
   };
 
   const handleClose = () => {

@@ -37,38 +37,39 @@ export const SERVICES: Record<ServiceKey, { name: string; icon: string; subs: Su
       { id: 'tisk', name: 'Print Design', desc: 'Letáky, plakáty, tiskové materiály' },
     ],
   },
-  prezentace: {
-    name: 'Prezentace',
-    icon: 'Presentation',
+  chatbot: {
+    name: 'AI Chatbot',
+    icon: 'Bot',
     subs: [
-      { id: 'standard', name: 'Slide Deck Standard', desc: 'Profesionální prezentace na míru' },
-      { id: 'premium', name: 'Slide Deck Premium', desc: 'Prémiový deck pro důležité příležitosti' },
+      { id: 'chatbot-faq', name: 'AI Chatbot Starter', desc: 'Odpovídá na časté dotazy přímo na webu' },
+      { id: 'chatbot-pro', name: 'AI Chatbot Pro', desc: 'Napojení na rezervace, poptávky nebo vaše data' },
     ],
   },
-  socialni: {
-    name: 'Sociální sítě',
-    icon: 'Share2',
+  systemy: {
+    name: 'Systémy na míru',
+    icon: 'CalendarClock',
     subs: [
-      { id: 'blueprint', name: 'Content Blueprint', desc: 'Strategie a plán obsahu' },
-      { id: 'starter', name: 'Social Starter', desc: 'Kompletní správa profilů' },
-      { id: 'pro', name: 'Social Pro', desc: 'Správa + vizuály + strategie' },
+      { id: 'rezervace', name: 'Rezervační systém', desc: 'Online rezervace bez telefonování' },
+      { id: 'kalkulacka', name: 'Kalkulačka na míru', desc: 'Automatický výpočet ceny nebo nabídky' },
+      { id: 'formular', name: 'Interaktivní formuláře', desc: 'Sběr poptávek a dat od zákazníků' },
+      { id: 'dashboard', name: 'Vlastní dashboard', desc: 'Přehled dat a agendy na jednom místě' },
     ],
   },
-  bundle: {
-    name: 'Výhodné bundly',
-    icon: 'Package',
+  technicke: {
+    name: 'Technické služby',
+    icon: 'Wrench',
     subs: [
-      { id: 'small', name: 'Small Bundle', desc: 'Logo + Vizitka + Social Visual' },
-      { id: 'smallweb', name: 'Small Bundle + Web', desc: 'Kompletní online přítomnost' },
-      { id: 'middle', name: 'Middle Bundle', desc: 'Web + design + sociální sítě' },
-      { id: 'mega', name: 'Mega Bundle', desc: 'Vše co váš byznys potřebuje' },
+      { id: 'redirect', name: 'Přesměrování domény', desc: 'Nastavení DNS a přesměrování na novou adresu' },
+      { id: 'relink', name: 'Přelinkování domény', desc: 'Migrace webu na jinou doménu bez ztráty provozu' },
+      { id: 'sprava', name: 'Web Care', desc: 'Průběžná správa a údržba webu' },
+      { id: 'tech-zasah', name: 'Technický zásah', desc: 'Jednorázová oprava nebo úprava webu' },
     ],
   },
   individualni: {
     name: 'Individuální poptávka',
     icon: 'MessageCircle',
     subs: [
-      { id: 'custom', name: 'Vlastní projekt', desc: 'Webová aplikace, rezervační systém, custom řešení' },
+      { id: 'custom', name: 'Vlastní projekt', desc: 'Cokoliv, co nezapadá do ostatních kategorií' },
     ],
   },
 };

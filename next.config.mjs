@@ -24,6 +24,32 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
+  // ── Přesměrování ─────────────────────────────────────────────────────────
+  async redirects() {
+    return [
+      {
+        source: "/sluzby/tvorba-webu",
+        destination: "/sluzby/tvorba-webovych-stranek",
+        permanent: true,
+      },
+      {
+        source: "/cenik",
+        destination: "/cena-tvorby-webu",
+        permanent: true,
+      },
+      {
+        source: "/reference",
+        destination: "/ukazky-webu",
+        permanent: true,
+      },
+      {
+        source: "/sluzby/systemy",
+        destination: "/sluzby/systemy-na-miru",
+        permanent: true,
+      },
+    ];
+  },
+
   // ── HTTP hlavičky ────────────────────────────────────────────────────────
   async headers() {
     const isDev = process.env.NODE_ENV !== "production";

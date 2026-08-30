@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeUp, viewport } from "@/lib/animations";
 import FirstClientModal from "@/components/FirstClientModal";
+import { TestimonialCard } from "@/components/TestimonialCard";
+import { testimonials } from "@/lib/data/testimonials";
 
 export default function Testimonials() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -43,11 +45,11 @@ export default function Testimonials() {
             viewport={viewport}
             className="font-inter font-light text-[16px] md:text-[18px] text-[#8a8070] max-w-2xl mb-12 leading-[1.9]"
           >
-            Stavím portfolio referencí krok za krokem. To pro vás znamená jedno:{" "}
+            Stavím portfolio referencí krok za krokem. Každému projektu věnuji{" "}
             <span className="text-[#f0ece6]">
-              věnuji vašemu projektu plnou pozornost
-            </span>
-            , férové ceny a dokazuji kvalitu prací, ne slovy.
+              plnou pozornost
+            </span>{" "}
+            a nabízím férové ceny. Kvalitu ale dokazuji prací, ne slovy.
           </motion.p>
 
           <motion.div
@@ -57,45 +59,9 @@ export default function Testimonials() {
             viewport={viewport}
             className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start max-w-5xl mb-16"
           >
-            <div className="border border-[#c9a84c]/20 bg-[#141414] p-8 md:p-10 relative">
-              <span className="absolute top-6 left-8 text-[#c9a84c]/30 font-cormorant text-[72px] leading-none select-none">&ldquo;</span>
-              <p className="font-inter font-light text-[15px] md:text-[17px] text-[#c8c0b4] leading-[1.9] mt-8 mb-8">
-                Spolupráce s Kryštofem z Vizeon na našem novém a skvělém webu u-cerhu.cz byla konstruktivní, rychlá a hlavně zábavná. Doporučím všem ve svém okolí. Jen tak dál a přeji hodně úspěchů, Kryštofe.
-              </p>
-              <div className="flex items-center gap-4 pt-4 border-t border-[#c9a84c]/10">
-                <div>
-                  <p className="font-inter font-medium text-[13px] text-[#f0ece6] tracking-wide">Jiří Bartoň</p>
-                  <a
-                    href="https://www.u-cerhu.cz"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-inter font-light text-[12px] text-[#c9a84c] hover:text-[#d4b968] transition-colors duration-200 tracking-[0.05em]"
-                  >
-                    u-cerhu.cz ↗
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-[#c9a84c]/20 bg-[#141414] p-8 md:p-10 relative">
-              <span className="absolute top-6 left-8 text-[#c9a84c]/30 font-cormorant text-[72px] leading-none select-none">&ldquo;</span>
-              <p className="font-inter font-light text-[15px] md:text-[17px] text-[#c8c0b4] leading-[1.9] mt-8 mb-8">
-                S Kryštofem se mi i přes to, že je mladá generace, spolupracovalo velmi dobře — je to profík každým coulem. Co jsem nechápal, mi vysvětlil, a co jsem neuměl udělat, mě po telefonu navedl. Vřele ho doporučuji všem, kdo chtějí nové webové stránky.
-              </p>
-              <div className="flex items-center gap-4 pt-4 border-t border-[#c9a84c]/10">
-                <div>
-                  <p className="font-inter font-medium text-[13px] text-[#f0ece6] tracking-wide">Tomáš Kestner</p>
-                  <a
-                    href="https://www.masazekestner.cz"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-inter font-light text-[12px] text-[#c9a84c] hover:text-[#d4b968] transition-colors duration-200 tracking-[0.05em]"
-                  >
-                    masazekestner.cz ↗
-                  </a>
-                </div>
-              </div>
-            </div>
+            {testimonials.map((testimonial) => (
+              <TestimonialCard key={testimonial.name} {...testimonial} />
+            ))}
           </motion.div>
 
           <motion.div

@@ -2,98 +2,25 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Globe, Zap, Palette, PresentationIcon, Megaphone, RefreshCw } from "lucide-react";
 import { fadeUp, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
+import { SERVICE_CATEGORIES } from "@/lib/data/services";
 import { useRef } from "react";
 import type { MouseEvent, ReactNode } from "react";
 
-const scrollToCenik = () => {
-  document.querySelector("#cenik")?.scrollIntoView({ behavior: "smooth" });
-};
-
-const services = [
-  {
-    icon: Globe,
-    title: "Tvorba webů na míru",
-    subtitle: "Vizitka · Promo stránka · Plnohodnotný web",
-    description: "Weby na míru, které přivádějí zákazníky a zvyšují tržby — ne jen návštěvníky. Ať děláte web pro řemeslníky, kadeřnictví nebo účetní kancelář, každý pixel ladím ručně a na míru vašemu byznysu.",
-    badge: "Nejoblíbenější",
-    packages: ["Micro Page (coming soon / link-in-bio / redirect) — od 4 999 Kč", "Online Vizitka — od 7 499 Kč", "Promo Page (landing page) — od 9 999 Kč", "Pro Web (více stránek + animace) — od 14 999 Kč", "Web Care — 999 Kč/měs"],
-  },
-  {
-    icon: Zap,
-    title: "Webové aplikace",
-    subtitle: "Rezervační systémy · Kalkulačky · Nástroje na míru",
-    description: (
-      <>
-        Rezervační systémy, kalkulačky, nástroje na míru — ideální pro{" "}
-        <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
-          kadeřnice
-        </Link>
-        ,{" "}
-        <Link href="/web-pro-masery-a-wellness" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
-          masérky
-        </Link>{" "}
-        nebo{" "}
-        <Link href="/web-pro-remeslniky" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
-          řemeslníky
-        </Link>
-        , kteří potřebují online rezervace bez zbytečného telefonování.
-      </>
-    ),
-    packages: ["Kalkulačka na míru", "Rezervační systém", "Interaktivní formuláře", "Vlastní dashboard"],
-  },
-  {
-    icon: Palette,
-    title: "Grafický design",
-    subtitle: "Logo · Vizitky · Bannery · Tiskoviny",
-    description: "Tvorba grafiky na míru — logo, vizitky, šablony, PDF materiály. Od loga pro začínajícího řemeslníka až po jednotný vizuál pro účetní kancelář, který zvyšuje důvěru zákazníků.",
-    badge: "Nejžádanější",
-    packages: ["Brand Logo — od 699 Kč", "Business Card — od 299 Kč", "Social Visual — od 299 Kč", "Print Design — od 699 Kč"],
-  },
-  {
-    icon: PresentationIcon,
-    title: "Firemní prezentace",
-    subtitle: "PowerPoint · Google Slides · PDF",
-    description: "PowerPoint, který přesvědčí i nejsceptičtějšího klienta. Žádné šablony. Jen váš příběh.",
-    packages: ["Slide Deck Standard — od 1 099 Kč", "Slide Deck Premium — od 3 499 Kč"],
-  },
-  {
-    icon: Megaphone,
-    title: "Správa sociálních sítí",
-    subtitle: "Instagram · Facebook · LinkedIn",
-    description: (
-      <>
-        Obsah, grafiky, publikování, komentáře — pro{" "}
-        <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline" onClick={(e) => e.stopPropagation()}>
-          kadeřnictví
-        </Link>
-        , řemeslníky i další drobné podnikatele, kteří na Instagram a Facebook nemají čas. Vy
-        podnikejte, sítě nechte na mně.
-      </>
-    ),
-    packages: ["Social Starter — od 4 999 Kč/měs", "Social Pro — od 7 499 Kč/měs", "Content Blueprint — 499 Kč"],
-  },
-  {
-    icon: RefreshCw,
-    title: "Správa & údržba webu",
-    subtitle: "Aktualizace · Bezpečnost · Změny obsahu",
-    description: "Aktualizace, bezpečnost, změny obsahu. Web, který funguje dnes i za rok.",
-    badge: "Výhodné",
-    packages: ["Web Care — 999 Kč/měs", "Jednorázové úpravy na vyžádání"],
-  },
-];
-
 /* ─── 3D Tilt card ──────────────────────────────────── */
+// Karta je "stretched link" — skutečný <a href> přes celou plochu (z-20),
+// takže jde otevřít v nové záložce, funguje bez JS a je indexovatelný. Vnořené
+// odkazy v popisu (z-30, position: relative) leží nad ním, takže mají přednost
+// tam, kde se s kartou překrývají.
 function TiltCard({
   children,
   className,
-  onClick,
+  href,
   ariaLabel,
 }: {
   children: ReactNode;
   className?: string;
-  onClick?: () => void;
+  href: string;
   ariaLabel?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -122,12 +49,10 @@ function TiltCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={className}
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onClick?.()}
-      aria-label={ariaLabel}
     >
+      <Link href={href} aria-label={ariaLabel} className="absolute inset-0 z-20">
+        <span className="sr-only">{ariaLabel}</span>
+      </Link>
       {children}
     </div>
   );
@@ -184,12 +109,12 @@ export default function Services() {
         >
           — Co pro vás udělám
         </motion.p>
-        <motion.h2
+        <motion.h1
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-6 max-w-2xl"
         >
           Ne co umím. Co z toho budete mít <span className="text-shimmer">vy</span>.
-        </motion.h2>
+        </motion.h1>
 
         <motion.p
           variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
@@ -221,7 +146,7 @@ export default function Services() {
           viewport={viewport}
           className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6"
         >
-          {services.map((s, i) => (
+          {SERVICE_CATEGORIES.map((s, i) => (
             <motion.div
               key={i}
               variants={cardEntrance}
@@ -229,8 +154,8 @@ export default function Services() {
               transition={{ type: "spring", stiffness: 320, damping: 26 }}
             >
               <TiltCard
-                ariaLabel={`${s.title} – zobrazit ceník`}
-                onClick={scrollToCenik}
+                ariaLabel={`${s.title} – zjistit více`}
+                href={s.href}
                 className="group relative glass-panel glass-panel-hover p-7 md:p-8 cursor-pointer h-full"
               >
                 {/* Gradient pozadí */}
@@ -324,7 +249,7 @@ export default function Services() {
                 )}
 
                 <p className="font-inter font-light text-[11px] tracking-[0.1em] uppercase text-[#c9a84c]/40 group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300 relative z-10">
-                  Zobrazit ceny →
+                  Zjistit více →
                 </p>
               </TiltCard>
             </motion.div>

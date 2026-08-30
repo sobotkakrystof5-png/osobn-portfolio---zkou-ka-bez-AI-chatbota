@@ -1,4 +1,4 @@
-export type ServiceKey = 'weby' | 'grafika' | 'prezentace' | 'socialni' | 'bundle' | 'individualni';
+export type ServiceKey = 'weby' | 'grafika' | 'chatbot' | 'systemy' | 'technicke' | 'individualni';
 
 export interface SubService {
   id: string;

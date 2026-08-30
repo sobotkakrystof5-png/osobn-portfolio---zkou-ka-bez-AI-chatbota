@@ -3,88 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CTAButton } from "@/components/CTAButton";
 import { fadeUp, stagger, viewport } from "@/lib/animations";
 import { ArrowUpRight } from "lucide-react";
-
-type Project = {
-  number: string;
-  title: string;
-  category: string;
-  tech: string;
-  description: string;
-  url: string;
-  image: string;
-  alt: string;
-  badgeType: "client" | "demo" | "own";
-  internalLink?: { text: string; href: string };
-};
-
-const projects: Project[] = [
-  {
-    number: "01",
-    title: "Schovinox",
-    category: "Zámečnictví & Kovovýroba",
-    tech: "Next.js · React",
-    description: "Firemní web pro zakázkovou kovovýrobu pod vedením pana Schovánka — zámečnictví, svařování a broušení s 40letou rodinnou zkušeností. Cíl: lépe prezentovat firmu a prodávat vlastní produkty na grilování.",
-    url: "https://www.schovinox.cz",
-    image: "/portfolio/schovinox.jpg",
-    alt: "Firemní web pro kovovýrobu Schovinox — zámečnictví a svařování",
-    badgeType: "client" as const,
-    internalLink: { text: "Chcete podobný web pro řemeslníky?", href: "/web-pro-remeslniky" },
-  },
-  {
-    number: "02",
-    title: "U Cerhů",
-    category: "Svatby & Ubytování",
-    tech: "HTML/CSS/JS Vanilla",
-    description: "Landing page pro statek v Kněžmostě. Cíl: získat více zakázek na svatby a ubytování v Českém ráji.",
-    url: "https://www.u-cerhu.cz",
-    image: "/portfolio/ucerhu.jpg",
-    alt: "Web na míru pro statek U Cerhů — svatby a ubytování v Českém ráji",
-    badgeType: "client" as const,
-  },
-  {
-    number: "03",
-    title: "Masáže Tomáš Kestner",
-    category: "Wellness & Osobní brand",
-    tech: "HTML/CSS/JS Vanilla",
-    description: "Prezentační web pro maséra s 20 lety praxe, 7 z toho u profesionálního fotbalu FK Mladá Boleslav. Cíl: vybudovat důvěru a přivést nové klienty na objednávku.",
-    url: "https://www.masazekestner.cz",
-    image: "/portfolio/kestner.jpg",
-    alt: "Prezentační web pro maséra Tomáše Kestnera — masáže Mladá Boleslav",
-    badgeType: "client" as const,
-    internalLink: { text: "Podobný web pro maséry a wellness studia", href: "/web-pro-masery-a-wellness" },
-  },
-  {
-    number: "04",
-    title: "Auf Gehts",
-    category: "Vzdělávání & Osobní brand",
-    tech: "Next.js · TypeScript · Framer Motion",
-    description: "Osobní brand web pro lektora němčiny. Zaměřeno na důvěru a první kontakt.",
-    url: "https://auf-gehts-cz-56ly.vercel.app",
-    image: "/portfolio/aufgehts.jpg",
-    alt: "Osobní web na míru pro lektora němčiny Auf Gehts — příklad webu pro živnostníka",
-    badgeType: "demo" as const,
-  },
-  {
-    number: "05",
-    title: "EstatIQ",
-    category: "PropTech & Správa nemovitostí",
-    tech: "HTML/CSS/JS Vanilla",
-    description: "Vlastní SaaS produkt pro správu nemovitostí — platební automatizace, evidence dokumentů a daňový export. Aktuálně v prelaunch fázi s early access waitlistem.",
-    url: "https://www.estatiq.cz",
-    image: "/portfolio/estatiq.jpg",
-    alt: "EstatIQ — vlastní produkt pro správu nemovitostí ve fázi prelaunch",
-    badgeType: "own" as const,
-  },
-];
-
-const badgeStyles: Record<string, { label: string; className: string }> = {
-  client: { label: "Skutečný klient", className: "text-[#c9a84c] border-[#c9a84c]/30" },
-  demo: { label: "Ukázkový projekt", className: "text-[#8a8070] border-white/[0.1]" },
-  own: { label: "Vlastní produkt (prelaunch)", className: "text-[#e8c76a] border-[#e8c76a]/25" },
-};
+import { projects, badgeStyles } from "@/lib/data/portfolio";
 
 export default function Portfolio() {
   return (
@@ -94,13 +15,13 @@ export default function Portfolio() {
           className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
           — Moje práce
         </motion.p>
-        <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+        <motion.h1 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-4 max-w-2xl">
           Výsledky mluví za vše.
-        </motion.h2>
+        </motion.h1>
         <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-inter font-light text-[16px] md:text-[19px] text-[#c8c0b4] leading-[1.7] max-w-xl mb-16">
-          Weby a grafika, které zvyšují konverze a tržby. Každý projekt je ručně vytvořený, každý má svůj příběh.
+          Weby a grafika navržené tak, aby dobře vypadaly a fungovaly. A hlavně aby přinášely výsledky. Každý projekt tvořím od základu s důrazem na detail, kvalitu a to, co dává smysl právě vašemu podnikání.
         </motion.p>
 
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="space-y-5">
@@ -160,14 +81,6 @@ export default function Portfolio() {
         >
           Portfolio zahrnuje weby skutečných klientů i ukázkové projekty pro demonstraci designového stylu.
         </motion.p>
-
-        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className="mt-14 text-center">
-          <p className="font-cormorant font-light text-[28px] md:text-[40px] text-[#f0ece6] mb-2">Váš projekt může být dalším.</p>
-          <p className="font-inter font-light text-[13px] text-[#8a8070] mb-8">Bez čekání. Bez agentury. Přímo se mnou.</p>
-          <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
-            Začněme →
-          </CTAButton>
-        </motion.div>
       </div>
     </section>
   );

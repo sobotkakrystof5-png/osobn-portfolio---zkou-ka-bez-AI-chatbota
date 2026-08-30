@@ -6,7 +6,7 @@ import { fadeUp, stagger, viewport } from "@/lib/animations";
 
 const steps = [
   { number: "01", icon: Phone, title: "První konzultace", description: "Zavoláme si nebo napíšeme. Zdarma, bez závazků. Pochopím váš byznys a cíle." },
-  { number: "02", icon: Ruler, title: "Návrh konceptu", description: "Připravím první vizuální návrh přesně pro vás — ne šablonu, ale váš web." },
+  { number: "02", icon: Ruler, title: "Návrh konceptu", description: "Připravím první vizuální návrh přesně pro vás. Ne šablonu, ale váš web." },
   { number: "03", icon: MessageCircle, title: "Konzultace návrhu", description: "Společně projdeme návrh. Upravíme vše co potřebujete. Váš souhlas je nutný." },
   { number: "04", icon: Code2, title: "Tvorba webu", description: "Stavím váš web. Ručně, s péčí o každý detail. Průběžně informuji o postupu." },
   { number: "05", icon: Eye, title: "Ukázka webu", description: "Pošlu vám live odkaz na rozpracovaný web. Vidíte vše v reálném provozu." },
@@ -22,10 +22,10 @@ export default function HowItWorks() {
           className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
           — Jak spolupráce probíhá
         </motion.p>
-        <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+        <motion.h1 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-16 max-w-2xl">
           Sedm kroků od nápadu ke spuštění.
-        </motion.h2>
+        </motion.h1>
 
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport} className="relative">
           <div className="absolute left-[28px] md:left-[52px] top-4 bottom-4 w-[1px]"

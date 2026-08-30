@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CTAButton } from "@/components/CTAButton";
 
 // Sdílená hlavička/patička pro samostatné oborové stránky — kopíruje
 // strukturu a styl z app/tvorba-webu-pro-zivnostniky/page.tsx, ať nové
@@ -55,24 +54,6 @@ export function PillarFooter() {
   );
 }
 
-export function PillarCTA({
-  heading,
-  subheading,
-  buttonLabel = "Nezávazná konzultace zdarma →",
-}: {
-  heading: string;
-  subheading: string;
-  buttonLabel?: string;
-}) {
-  return (
-    <div className="mt-16 pt-10 border-t border-white/[0.05] text-center">
-      <p className="font-cormorant font-light text-[26px] md:text-[36px] text-[#f0ece6] mb-2">
-        {heading}
-      </p>
-      <p className="font-inter font-light text-[13px] text-[#8a8070] mb-8">{subheading}</p>
-      <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
-        {buttonLabel}
-      </CTAButton>
-    </div>
-  );
-}
+// PillarCTA se přestěhovala do components/layout/ClosingCTA.tsx — používají ji
+// i stránky mimo oborovou rodinu. Re-export drží zpětnou kompatibilitu importů.
+export { ClosingCTA as PillarCTA } from "@/components/layout/ClosingCTA";

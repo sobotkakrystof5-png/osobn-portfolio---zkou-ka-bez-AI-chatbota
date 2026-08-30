@@ -45,6 +45,7 @@ export default function WebProMalirePage() {
           a: "Stačí 4 až 6 kvalitních párů fotek. Zbytek galerie můžete průběžně doplňovat po dalších zakázkách — ukážu vám jak.",
         },
       ]}
+      relatedSlugs={["web-pro-sanace", "web-pro-zahradniky", "web-pro-remeslniky"]}
     />
   );
 }

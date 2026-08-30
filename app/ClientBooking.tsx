@@ -9,3 +9,4 @@ const BookingModalWrapper = dynamic(
 export default function ClientBooking() {
   return <BookingModalWrapper />;
 }
+ 

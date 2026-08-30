@@ -27,10 +27,11 @@ type FormData = z.infer<typeof schema>;
 
 const inputClass = "w-full bg-[#111111] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] focus-visible:ring-1 focus-visible:ring-[rgba(201,168,76,0.3)] transition-colors placeholder-[#3d3830]";
 
-export default function Contact() {
+export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" | "h2" }) {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const Heading = motion[headingLevel];
 
   const onSubmit = async (data: FormData) => {
     setSending(true);
@@ -51,15 +52,10 @@ export default function Contact() {
         style={{ background: "radial-gradient(ellipse, rgba(201,168,76,0.05), transparent 70%)" }} />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-cormorant font-light text-[52px] md:text-[88px] leading-[1.0] text-[#f0ece6] mb-4">
+        <Heading variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
+          className="font-cormorant font-light text-[52px] md:text-[88px] leading-[1.0] text-[#f0ece6] mb-16">
           Pojďme <span className="text-shimmer">na to</span>.
-        </motion.h2>
-        <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-light text-[15px] text-[#8a8070] leading-[1.75] max-w-md mb-16">
-          Nezávazná konzultace je zdarma. Nejhorší co se může stát je, že si popovídáme.
-        </motion.p>
-
+        </Heading>
         <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}
           className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-16">
 

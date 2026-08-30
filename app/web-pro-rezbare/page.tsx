@@ -45,6 +45,7 @@ export default function WebProRezbarePage() {
           a: "Ano, dostanete přístupy a krátký návod, jak přidávat nové realizace — nemusíte kvůli každé fotce psát mně.",
         },
       ]}
+      relatedSlugs={["web-pro-truhlare", "web-pro-kovare", "web-pro-remeslniky"]}
     />
   );
 }

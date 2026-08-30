@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CTAButton } from "@/components/CTAButton";
+import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
+import { RelatedIndustries } from "@/components/pillar/RelatedIndustries";
 
 export function generateMetadata(): Metadata {
   return {
     title: "Web pro masérky na míru",
     description:
-      "Tvorba webu pro maséry a wellness studia na míru — klidný design a rezervační kalendář, hotovo do 10 dní.",
+      "Tvorba webu pro maséry a wellness studia na míru, klidný design a rezervační kalendář, hotovo do 10 dní.",
     alternates: { canonical: "https://vizeon.cz/web-pro-masery-a-wellness" },
     openGraph: {
       title: "Web pro masérky na míru | VIZEON",
-      description: "Web s rezervací pro maséra nebo wellness studio — klid, důvěra a termín na pár kliknutí.",
+      description: "Web s rezervací pro maséra nebo wellness studio, kde klient najde klid, důvěru a termín na pár kliknutí.",
       url: "https://vizeon.cz/web-pro-masery-a-wellness",
       type: "website",
     },
@@ -41,7 +42,7 @@ const jsonLd = {
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/web-pro-masery-a-wellness",
       description:
-        "Tvorba webu na míru pro maséry a wellness studia — klidný design, rezervační kalendář a ceník balíčků.",
+        "Tvorba webu na míru pro maséry a wellness studia, klidný design, rezervační kalendář a ceník balíčků.",
     },
     {
       "@type": "FAQPage",
@@ -59,7 +60,7 @@ const jsonLd = {
           name: "Dá se na web přidat prodej dárkových poukazů?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Ano, dárkové poukazy patří mezi nejžádanější doplňky u masérů a wellness studií — vyřešíme je jako součást webové aplikace na míru.",
+            text: "Ano, dárkové poukazy patří mezi nejžádanější doplňky u masérů a wellness studií. Vyřešíme je jako součást webové aplikace na míru.",
           },
         },
         {
@@ -67,7 +68,7 @@ const jsonLd = {
           name: "Jak má vypadat design, aby působil klidně a ne jako běžný firemní web?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Méně je víc — tlumenější barvy, dostatek prostoru mezi prvky a fotky, které evokují klid, ne agresivní CTA tlačítka na každém rohu.",
+            text: "Méně je víc. Tlumenější barvy, dostatek prostoru mezi prvky a fotky, které evokují klid, ne agresivní CTA tlačítka na každém rohu.",
           },
         },
         {
@@ -75,7 +76,7 @@ const jsonLd = {
           name: "Co když klient potřebuje rezervaci zrušit nebo přeobjednat?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Do rezervačního systému se dá přidat i samoobslužné zrušení nebo přeobjednání termínu do stanoveného limitu — ušetří to čas oběma stranám.",
+            text: "Do rezervačního systému se dá přidat i samoobslužné zrušení nebo přeobjednání termínu do stanoveného limitu. Ušetří to čas oběma stranám.",
           },
         },
       ],
@@ -90,15 +91,15 @@ const faqs = [
   },
   {
     q: "Dá se na web přidat prodej dárkových poukazů?",
-    a: "Ano, dárkové poukazy patří mezi nejžádanější doplňky u masérů a wellness studií — vyřešíme je jako součást webové aplikace na míru.",
+    a: "Ano, dárkové poukazy patří mezi nejžádanější doplňky u masérů a wellness studií. Vyřešíme je jako součást webové aplikace na míru.",
   },
   {
     q: "Jak má vypadat design, aby působil klidně a ne jako běžný firemní web?",
-    a: "Méně je víc — tlumenější barvy, dostatek prostoru mezi prvky a fotky, které evokují klid, ne agresivní CTA tlačítka na každém rohu.",
+    a: "Méně je víc. Tlumenější barvy, dostatek prostoru mezi prvky a fotky, které evokují klid, ne agresivní CTA tlačítka na každém rohu.",
   },
   {
     q: "Co když klient potřebuje rezervaci zrušit nebo přeobjednat?",
-    a: "Do rezervačního systému se dá přidat i samoobslužné zrušení nebo přeobjednání termínu do stanoveného limitu — ušetří to čas oběma stranám.",
+    a: "Do rezervačního systému se dá přidat i samoobslužné zrušení nebo přeobjednání termínu do stanoveného limitu. Ušetří to čas oběma stranám.",
   },
 ];
 
@@ -119,8 +120,8 @@ export default function WebProMaseryAWellnessPage() {
           Web pro masérky, který sám o sobě působí klidně
         </h1>
         <p className="font-inter font-light text-[16px] md:text-[18px] leading-[1.85] text-[#8a8070] max-w-2xl mb-16">
-          Web pro masérky a wellness studia stavím na klidném designu a rezervačním kalendáři —
-          klient si masáž objednává i proto, aby si odpočinul, a stejný dojem má vyvolat i web, kde
+          Web pro masérky a wellness studia stavím na klidném designu a rezervačním kalendáři.
+          Klient si masáž objednává i proto, aby si odpočinul, a stejný dojem má vyvolat i web, kde
           termín rezervuje. Vybere si čas sám, bez zprávy a čekání na odpověď.
         </p>
 
@@ -130,13 +131,13 @@ export default function WebProMaseryAWellnessPage() {
               Proč u masérů a wellness studií rozhoduje design a kalendář
             </h2>
             <p>
-              Křiklavý web plný baneru a slev působí u masáží a wellness přesně opačně, než má —
-              místo klidu vyvolá stres už při prohlížení. Design proto musí vyvolat stejný pocit,
+              Křiklavý web plný baneru a slev působí u masáží a wellness přesně opačně, než má.
+              Místo klidu vyvolá stres už při prohlížení. Design proto musí vyvolat stejný pocit,
               jaký klient očekává od samotné procedury: klid, prostor, žádný spěch.
             </p>
             <p className="mt-4">
               Druhá věc je rezervace. Klient, který si chce dopřát masáž, nechce kvůli tomu psát
-              zprávu a čekat, až se ozvete zpátky — chce otevřít kalendář, vybrat volný termín a mít
+              zprávu a čekat, až se ozvete zpátky. Chce otevřít kalendář, vybrat volný termín a mít
               hotovo. Bez toho končí poptávka u konkurenčního studia, které rezervaci online nabízí.
             </p>
           </section>
@@ -146,7 +147,7 @@ export default function WebProMaseryAWellnessPage() {
               Jak probíhá spolupráce
             </h2>
             <p className="mb-5">
-              Zkrácená verze procesu — celý postup najdete na stránce{" "}
+              Tohle je zkrácená verze procesu. Kompletní postup najdete na stránce{" "}
               <Link href="/tvorba-webu-pro-zivnostniky#proces" className="text-[#c9a84c] hover:underline">
                 tvorba webu pro živnostníky
               </Link>
@@ -170,7 +171,7 @@ export default function WebProMaseryAWellnessPage() {
               </div>
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className="font-inter font-medium text-[14px] text-[#f0ece6] mb-1.5 tracking-[0.01em]">Ceník balíčků procedur</h3>
-                <p>Přehledně seřazené jednotlivé masáže i zvýhodněné balíčky — klient se rozhoduje rychleji, když vidí přesnou cenu.</p>
+                <p>Přehledně seřazené jednotlivé masáže i zvýhodněné balíčky. Klient se rozhoduje rychleji, když vidí přesnou cenu.</p>
               </div>
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className="font-inter font-medium text-[14px] text-[#f0ece6] mb-1.5 tracking-[0.01em]">Klidný, nerušivý design</h3>
@@ -178,7 +179,7 @@ export default function WebProMaseryAWellnessPage() {
               </div>
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className="font-inter font-medium text-[14px] text-[#f0ece6] mb-1.5 tracking-[0.01em]">Galerie prostoru studia</h3>
-                <p>Fotky prostředí, kde procedura probíhá — pro klienta často rozhodující detail před první návštěvou.</p>
+                <p>Fotky prostředí, kde procedura probíhá. Pro klienta jde často o rozhodující detail před první návštěvou.</p>
               </div>
             </div>
           </section>
@@ -191,7 +192,7 @@ export default function WebProMaseryAWellnessPage() {
               Prezentace s ceníkem balíčků obvykle vychází jako Online Vizitka od 7 499 Kč nebo
               Promo Page od 9 999 Kč, rezervační kalendář se řeší jako webová aplikace na míru.
               Kompletní ceník najdete na{" "}
-              <Link href="/cenik" className="text-[#c9a84c] hover:underline">
+              <Link href="/cena-tvorby-webu" className="text-[#c9a84c] hover:underline">
                 stránce s ceníkem
               </Link>
               .
@@ -213,17 +214,12 @@ export default function WebProMaseryAWellnessPage() {
           </section>
         </div>
 
-        <div className="mt-16 pt-10 border-t border-white/[0.05] text-center">
-          <p className="font-cormorant font-light text-[26px] md:text-[36px] text-[#f0ece6] mb-2">
-            Chcete web, který klientům dodá klid ještě před první procedurou?
-          </p>
-          <p className="font-inter font-light text-[13px] text-[#8a8070] mb-8">
-            Nezávazná konzultace zdarma — probereme, jaký kalendář a design sedí vašemu studiu.
-          </p>
-          <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
-            Nezávazná konzultace zdarma →
-          </CTAButton>
-        </div>
+        <ClosingCTA
+          heading="Chcete web, který klientům dodá klid ještě před první procedurou?"
+          subheading="Nezávazná konzultace zdarma — probereme, jaký kalendář a design sedí vašemu studiu."
+        />
+
+        <RelatedIndustries slugs={["web-pro-fitness-trenery", "web-pro-kosmeticky", "web-pro-kadernictvi"]} />
 
         <div className="mt-14">
           <Link

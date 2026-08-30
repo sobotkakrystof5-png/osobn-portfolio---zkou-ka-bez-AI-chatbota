@@ -10,43 +10,22 @@ import {
   Loader2,
   Globe,
   Palette,
-  Share2,
-  Package,
+  Bot,
+  CalendarClock,
+  Wrench,
   MessageCircle,
-  PresentationIcon,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { SERVICES, WORKING_HOURS } from '@/lib/booking-config';
+import { PRICE_BY_NAME } from '@/lib/data/pricing';
 import type { BookingData, ServiceKey } from '@/types/booking';
 import type { BookingPrefill } from '@/context/BookingContext';
 import type { LucideIcon } from 'lucide-react';
 import { MobileModal } from '@/components/ui/MobileModal';
 
-/* ─── Service price map (shodné s Pricing.tsx / FirstClientModal.tsx) ── */
-const PRICES: Record<string, string> = {
-  "Micro Page":          "4 999 Kč",
-  "Online Vizitka":      "7 499 Kč",
-  "Promo Page":          "9 999 Kč",
-  "Pro Web":             "14 999 Kč",
-  "Web Care":            "999 Kč/měs",
-  "Brand Logo":          "699 Kč",
-  "Business Card":       "299 Kč",
-  "Social Visual":       "299 Kč/ks",
-  "Print Design":        "699 Kč",
-  "Slide Deck Standard": "1 099 Kč",
-  "Slide Deck Premium":  "3 499 Kč",
-  "Content Blueprint":   "499 Kč",
-  "Social Starter":      "4 999 Kč/měs",
-  "Social Pro":          "7 499 Kč/měs",
-  "Small Bundle":        "2 499 Kč",
-  "Small Bundle + Web":  "14 999 Kč",
-  "Middle Bundle":       "29 999 Kč",
-  "Mega Bundle":         "49 999 Kč",
-};
-
 /* ─── Price display ─────────────────────────────────────── */
 function PriceDisplay({ subName }: { subName: string }) {
-  const price = PRICES[subName];
+  const price = PRICE_BY_NAME[subName];
   if (!price) return null;
 
   return (
@@ -80,9 +59,9 @@ function PriceDisplay({ subName }: { subName: string }) {
 const iconMap: Record<string, LucideIcon> = {
   Globe,
   Palette,
-  Presentation: PresentationIcon,
-  Share2,
-  Package,
+  Bot,
+  CalendarClock,
+  Wrench,
   MessageCircle,
 };
 
@@ -693,7 +672,7 @@ export default function BookingModal({
             <span className="normal-case text-white/25">(volitelné)</span>
           </label>
           <textarea
-            placeholder="Stručně popište vaši vizi, co potřebujete, nebo co vás trápí — čím více víte, tím lépe se připravím..."
+            placeholder="Stručně popište vaši vizi, co potřebujete, nebo co vás trápí. Čím více víte, tím lépe se připravím..."
             value={data.note}
             onChange={(e) => setData((prev) => ({ ...prev, note: e.target.value }))}
             rows={4}
@@ -727,7 +706,7 @@ export default function BookingModal({
           Vyberte termín konzultace
         </h2>
         <p className="font-inter font-light text-sm text-white/50 mb-6">
-          Konzultace probíhá telefonicky — vyberte den a čas který vám vyhovuje.
+          Konzultace probíhá telefonicky. Vyberte den a čas, který vám vyhovuje.
         </p>
 
         <Calendar
@@ -866,7 +845,7 @@ export default function BookingModal({
           Rezervujte si nezávaznou konzultaci
         </h2>
         <p className="font-inter font-light text-sm text-white/50 mb-6">
-          Vyplňte kontakt a vyberte termín — ozvu se vám telefonicky.
+          Vyplňte kontakt a vyberte termín. Ozvu se vám telefonicky.
         </p>
 
         {/* Kontaktní údaje */}

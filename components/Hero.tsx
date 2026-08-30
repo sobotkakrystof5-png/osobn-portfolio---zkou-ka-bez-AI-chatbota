@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { staggerFast, fadeIn, fadeUp } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
 
@@ -47,12 +48,7 @@ export default function Hero() {
     return () => { window.removeEventListener("resize", resize); cancelAnimationFrame(id); };
   }, []);
 
-  const go = (href: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const words = ["Weby", "pro", "živnostníky,", "které", "přivádějí", "zákazníky", "–", "ne", "jen", "návštěvníky."];
+  const words = ["Web", "pro", "firmu,", "který", "spojuje", "moderní", "design", "a", "SEO", "optimalizaci"];
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
@@ -91,18 +87,18 @@ export default function Hero() {
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-24 sm:pt-28 md:pt-24 pb-12 sm:pb-14 md:pb-20">
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
           className="font-cormorant font-light leading-[1.12] text-[38px] sm:text-[48px] md:text-[62px] lg:text-[76px] text-[#f0ece6] mb-5 md:mb-6"
-          aria-label="Weby pro živnostníky, které přivádějí zákazníky – ne jen návštěvníky.">
+          aria-label="Web pro firmu, který spojuje moderní design a SEO optimalizaci">
           {words.map((word, i) => (
             <motion.span key={i} variants={fadeUp}
-              className={`inline-block mr-[0.2em] last:mr-0 ${i >= 5 ? "text-shimmer" : ""}`}>
+              className={`inline-block mr-[0.2em] last:mr-0 ${i >= 8 ? "text-shimmer" : ""}`}>
               {word}
             </motion.span>
           ))}
         </motion.h1>
 
         <motion.h2 variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
-          className="font-inter font-light text-[15px] md:text-[17px] leading-[1.7] text-[#8a8070] max-w-lg mx-auto mb-8 md:mb-10">
-          Weby pro živnostníky a malé firmy v růstové fázi. Web za 10 dní, zákazníci navždy.
+          className="font-inter font-light text-[15px] md:text-[17px] leading-[1.7] text-[#8a8070] max-w-lg mx-auto mb-8 md:mb-10 text-left">
+          Tvorba webu pro firmy a živnostníky na míru. Moderní web s profesionálním designem a SEO optimalizací webu, který pomáhá získávat nové zákazníky.
         </motion.h2>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
@@ -110,18 +106,18 @@ export default function Hero() {
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
           </CTAButton>
-          <a href="#sluzby" onClick={go("#sluzby")}
+          <Link href="/sluzby"
             className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#f0ece6] border border-white/10 px-8 py-4 hover:border-white/20 hover:bg-white/5 transition-all duration-300 w-full sm:w-auto text-center">
             Zobrazit služby
-          </a>
+          </Link>
         </motion.div>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
           className="flex items-center justify-center flex-wrap gap-x-3 gap-y-2">
           {[
-            { text: "Bez závazků", icon: "✓" },
-            { text: "Transparentní ceník", icon: "✓" },
-            { text: "Jen výsledky", icon: "✓" },
+            { text: "Precizní práce", icon: "✓" },
+            { text: "Kvalitní provedení", icon: "✓" },
+            { text: "Flexibilní přístup", icon: "✓" },
           ].map((item, i) => (
             <motion.span
               key={i}
@@ -146,13 +142,6 @@ export default function Hero() {
           ))}
         </motion.div>
       </div>
-
-      {/* Scroll */}
-      <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.8 }}
-        className="hidden md:flex absolute bottom-3 left-1/2 -translate-x-1/2 flex-col items-center gap-3" aria-hidden="true">
-        <span className="font-inter font-light text-[10px] tracking-[0.25em] text-[#3d3830] uppercase">Scroll</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-[#c9a84c]/60 to-transparent origin-top scroll-line" />
-      </motion.div>
     </section>
   );
 }

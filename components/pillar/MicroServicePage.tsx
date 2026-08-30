@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { PillarHeader, PillarFooter } from "@/components/pillar/PillarChrome";
+import { RelatedIndustries } from "@/components/pillar/RelatedIndustries";
 
 export type MicroFaq = { q: string; a: string };
 export type MicroBullet = { title: string; text: string };
@@ -16,6 +17,9 @@ export function MicroServicePage({
   slug,
   serviceType,
   breadcrumbName,
+  hubHref = "/web-pro-remeslniky",
+  hubLabel = "← Zpět na přehled webů pro řemeslníky",
+  relatedSlugs,
 }: {
   kicker: string;
   h1: string;
@@ -31,6 +35,12 @@ export function MicroServicePage({
   serviceType: string;
   /** Název položky v BreadcrumbList, defaultně h1. */
   breadcrumbName?: string;
+  /** Cíl zpětného odkazu na dně stránky. Default = řemeslnická rodina. */
+  hubHref?: string;
+  /** Text zpětného odkazu, musí odpovídat hubHref. */
+  hubLabel?: string;
+  /** Slugy 2-3 příbuzných oborů pro cross-link blok „Podobné obory". */
+  relatedSlugs?: string[];
 }) {
   const url = `https://vizeon.cz/${slug}`;
   const jsonLd = {
@@ -120,7 +130,7 @@ export function MicroServicePage({
             {cenikLead}
           </p>
           <Link
-            href="/cenik"
+            href="/cena-tvorby-webu"
             className="relative inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-7 py-3.5 hover:bg-[#d4b968] transition-all duration-300"
           >
             Podívat se na ceník →
@@ -143,11 +153,13 @@ export function MicroServicePage({
           </section>
         )}
 
+        {relatedSlugs && relatedSlugs.length > 0 && <RelatedIndustries slugs={relatedSlugs} />}
+
         <Link
-          href="/web-pro-remeslniky"
+          href={hubHref}
           className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300"
         >
-          ← Zpět na přehled webů pro řemeslníky
+          {hubLabel}
         </Link>
       </main>
 

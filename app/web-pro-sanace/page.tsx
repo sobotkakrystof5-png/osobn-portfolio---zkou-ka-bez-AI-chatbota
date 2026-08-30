@@ -45,6 +45,7 @@ export default function WebProSanacePage() {
           a: "Ano — texty společně zjednodušíme tak, aby jim rozuměl i laik, ale zůstaly odborně přesné. To je ostatně základ toho, proč zákazník firmě uvěří.",
         },
       ]}
+      relatedSlugs={["web-pro-malire", "web-pro-studnare", "web-pro-remeslniky"]}
     />
   );
 }
