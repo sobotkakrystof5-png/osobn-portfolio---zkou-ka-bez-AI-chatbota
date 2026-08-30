@@ -22,14 +22,14 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
-// PLACEHOLDER — nahradit reálnou referencí před nasazením do produkce.
 // Používá se JEN v TestimonialCarousel na homepage, ne na /reference.
 export const carouselTestimonials: Testimonial[] = [
   ...testimonials,
   {
-    quote: "PLACEHOLDER — sem přijde reálná reference třetího klienta.",
-    name: "Placeholder klient (nahradit)",
-    url: "https://vizeon.cz",
-    urlLabel: "nahradit reálným odkazem",
+    quote:
+      "Kryštofe, obrovské díky za ty nové stránky, jsou fakt perfektní! Upřímně mě potěšilo, jak hladce jsme všechno zvládli vyřešit jen přes zprávy. Výsledek vypadá naprosto profesionálně a už teď mi dělá neskutečnou radost. Skvělá práce a perfektní komunikace. Pokud se mě někdo zeptá na tvorbu webu, hned vím, koho doporučit! Budu se těšit do budoucna na další spolupráci na e-shopu a webu pro manželku.",
+    name: "Dominik Schovánek",
+    url: "https://www.schovinox.cz",
+    urlLabel: "schovinox.cz ↗",
   },
 ];

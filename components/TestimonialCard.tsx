@@ -1,3 +1,4 @@
+import { Star } from "lucide-react";
 import type { Testimonial } from "@/lib/data/testimonials";
 
 export function TestimonialCard({ quote, name, url, urlLabel }: Testimonial) {
@@ -7,7 +8,7 @@ export function TestimonialCard({ quote, name, url, urlLabel }: Testimonial) {
       <p className="font-inter font-light text-[15px] md:text-[17px] text-[#c8c0b4] leading-[1.9] mt-8 mb-8">
         {quote}
       </p>
-      <div className="flex items-center gap-4 pt-4 border-t border-[#c9a84c]/10">
+      <div className="flex items-center justify-between gap-4 pt-4 border-t border-[#c9a84c]/10">
         <div>
           <p className="font-inter font-medium text-[13px] text-[#f0ece6] tracking-wide">{name}</p>
           <a
@@ -18,6 +19,10 @@ export function TestimonialCard({ quote, name, url, urlLabel }: Testimonial) {
           >
             {urlLabel}
           </a>
+        </div>
+        <div className="flex items-center gap-1 text-[#c9a84c] shrink-0" aria-label="Hodnocení 5,0 z 5">
+          <Star size={13} className="fill-[#c9a84c]" />
+          <span className="font-inter font-medium text-[12px] tracking-wide">5,0</span>
         </div>
       </div>
     </div>
