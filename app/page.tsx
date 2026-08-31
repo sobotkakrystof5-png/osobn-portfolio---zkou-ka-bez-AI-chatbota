@@ -3,7 +3,7 @@ import IntroAnimation from "@/components/IntroAnimation";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
-import TestimonialWall from "@/components/TestimonialWall";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
 import StatementBlock from "@/components/StatementBlock";
 import HomeExplore from "@/components/HomeExplore";
 import Contact from "@/components/Contact";
@@ -33,7 +33,7 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <SocialProof />
-        <TestimonialWall />
+        <TestimonialCarousel />
         <StatementBlock />
         <HomeExplore />
         <Contact headingLevel="h2" />
