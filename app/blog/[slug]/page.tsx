@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
+import { ArticleMeta } from "@/components/blog/ArticleMeta";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { getPostBySlug, getSortedPosts } from "@/lib/data/blog";
 import { t } from "@/lib/ui";
@@ -71,9 +72,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           lead={post.excerpt}
         />
 
-        <p className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#8a8070] -mt-10 mb-14">
-          {new Date(post.date).toLocaleDateString("cs-CZ")} · {post.readingMinutes} min čtení
-        </p>
+        <ArticleMeta date={post.date} readingMinutes={post.readingMinutes} className="-mt-6" />
 
         <article className="space-y-6">{post.content}</article>
 

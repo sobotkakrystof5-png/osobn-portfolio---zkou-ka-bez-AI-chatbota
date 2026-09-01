@@ -50,21 +50,37 @@ export default function BlogPage() {
         {posts.length === 0 ? (
           <p className={t.body}>Tato sekce se připravuje.</p>
         ) : (
-          <div className="space-y-6">
+          <div className="grid gap-6 sm:grid-cols-2">
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group block border border-white/[0.06] p-6 hover:border-[rgba(201,168,76,0.4)] transition-colors duration-300"
+                className="group glass-panel glass-panel-hover flex flex-col p-6 md:p-8"
               >
-                <p className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#c9a84c] mb-3">
-                  {post.category} · {new Date(post.date).toLocaleDateString("cs-CZ")} · {post.readingMinutes} min čtení
+                <p className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#c9a84c] mb-4">
+                  {post.category}
                 </p>
-                <h2 className={cn(t.h2Page, "mb-2 text-[22px] md:text-[28px]")}>{post.title}</h2>
-                <p className={cn(t.body, "mb-3")}>{post.excerpt}</p>
-                <span className="inline-flex items-center gap-1.5 font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] group-hover:text-[#c9a84c] transition-colors duration-300">
-                  Číst článek <ArrowUpRight size={13} aria-hidden="true" />
-                </span>
+                <h2 className={cn(t.h2Page, "mb-3 text-[22px] md:text-[26px] leading-snug")}>
+                  {post.title}
+                </h2>
+                <p className={cn(t.body, "mb-6 flex-1")}>{post.excerpt}</p>
+
+                <div className="flex items-center justify-between gap-4 pt-5 border-t border-white/[0.06]">
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#c9a84c]/40 font-cormorant font-light text-[12px] text-[#c9a84c]">
+                      V
+                    </span>
+                    <span className="font-inter font-medium text-[10px] uppercase tracking-[0.12em] text-[#8a8070]">
+                      VIZEON <span className="mx-1 text-white/20">·</span>
+                      {new Date(post.date).toLocaleDateString("cs-CZ")}
+                      <span className="mx-1 text-white/20">·</span>
+                      {post.readingMinutes} min
+                    </span>
+                  </div>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] group-hover:text-[#c9a84c] transition-colors duration-300">
+                    Číst <ArrowUpRight size={13} aria-hidden="true" />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

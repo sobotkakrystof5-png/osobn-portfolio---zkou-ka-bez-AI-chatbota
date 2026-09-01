@@ -10,6 +10,8 @@ export const t = {
   lead: "font-inter font-light text-[16px] md:text-[18px] leading-[1.85] text-[#8a8070]",
   body: "font-inter font-light text-[15px] text-[#8a8070] leading-[1.85]",
   h3: "font-inter font-medium text-[14px] text-[#f0ece6] tracking-[0.01em]",
+  articleH2:
+    "font-cormorant font-light text-[21px] md:text-[26px] text-[#f0ece6] pt-4",
   link: "text-[#c9a84c] hover:underline",
   backLink:
     "font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300",
