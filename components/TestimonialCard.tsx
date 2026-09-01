@@ -5,7 +5,7 @@ export function TestimonialCard({ quote, name, url, urlLabel }: Testimonial) {
   return (
     <div className="border border-[#c9a84c]/20 bg-[#141414] p-8 md:p-10 relative">
       <span className="absolute top-6 left-8 text-[#c9a84c]/30 font-cormorant text-[72px] leading-none select-none">&ldquo;</span>
-      <p className="font-inter font-light text-[15px] md:text-[17px] text-[#c8c0b4] leading-[1.9] mt-8 mb-8">
+      <p className="font-inter font-light text-[15px] md:text-[17px] text-[#c8c0b4] leading-[1.9] mt-8 mb-8 [-webkit-line-clamp:7] [display:-webkit-box] [-webkit-box-orient:vertical] overflow-hidden">
         {quote}
       </p>
       <div className="flex items-center justify-between gap-4 pt-4 border-t border-[#c9a84c]/10">
