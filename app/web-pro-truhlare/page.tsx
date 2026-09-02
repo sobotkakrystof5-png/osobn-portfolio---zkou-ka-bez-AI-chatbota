@@ -39,10 +39,35 @@ export default function WebProTruhlarePage() {
       cenikLead="Pro truhláře s galerií realizací obvykle stačí Online Vizitka od 7 499 Kč, u rozsáhlejší prezentace víc kategorií práce se hodí Promo Page od 9 999 Kč."
       slug="web-pro-truhlare"
       serviceType="Tvorba webu pro truhláře"
+      caseExampleTitle="Příklad zakázky: kuchyňská linka na míru"
+      caseExampleText="Klient poptává kuchyňskou linku přes formulář na webu, přiloží fotku prostoru a orientační rozměry. Ještě před první schůzkou mu můžete poslat pár návrhů z galerie v podobném stylu — klient tak vidí, co může čekat, a spolupráce se rychleji posune k závazné nabídce."
+      processHeading="Jak obvykle probíhá zakázka"
+      processSteps={[
+        {
+          title: "Poptávka s fotkou prostoru",
+          text: "Klient přes web pošle rozměry a fotku místnosti, ať víte, o jak velkou zakázku jde, ještě než vyrazíte na zaměření.",
+        },
+        {
+          title: "Zaměření a návrh",
+          text: "Na místě doladíte přesné rozměry a materiál, klientovi ukážete podobné realizace z galerie webu.",
+        },
+        {
+          title: "Výroba a montáž",
+          text: "Po odsouhlasení návrhu kus vyrobíte a namontujete, fotku hotové práce přidáte zpět do galerie pro další poptávky.",
+        },
+      ]}
       faqs={[
         {
           q: "Musím mít profesionální fotky realizací?",
           a: "Ne, stačí ostré fotky z mobilu při dobrém světle. Poradím, jak je nafotit, ať na webu vypadají dobře.",
+        },
+        {
+          q: "Dá se poptávkový formulář přizpůsobit typu zakázky?",
+          a: "Ano, formulář nastavím tak, aby se pole měnila podle vybraného typu zakázky — u kuchyně se zeptá na rozměry a spotřebiče, u tesařiny třeba na typ konstrukce.",
+        },
+        {
+          q: "Jak často mám galerii realizací aktualizovat?",
+          a: "Ideálně po každé větší zakázce přidat pár fotek. Čerstvé realizace působí důvěryhodněji a jsou i signál pro Google, že se web mění.",
         },
       ]}
       relatedSlugs={["web-pro-rezbare", "web-pro-zamecniky", "web-pro-remeslniky"]}

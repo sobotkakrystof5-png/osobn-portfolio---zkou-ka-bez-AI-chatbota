@@ -39,10 +39,34 @@ export default function WebProMalirePage() {
       cenikLead="Pro malířskou firmu se nejvíc hodí Online Vizitka s galerií před/po — od 7 499 Kč, hotovo do 5 pracovních dní."
       slug="web-pro-malire"
       serviceType="Tvorba webu pro malíře pokojů"
+      caseExampleTitle="Příklad zakázky: malování bytu před nastěhováním"
+      caseExampleText="Zákazník řeší vymalování bytu před stěhováním a v galerii před/po hledá podobný rozsah práce, třeba celý byt nebo jednu místnost. Přes formulář nahraje fotku prostoru, ať mu dokážete odhadnout rozsah práce a termín ještě před první schůzkou."
+      processSteps={[
+        {
+          title: "Poptávka s fotkou prostoru",
+          text: "Zákazník přes formulář popíše rozsah práce a přiloží fotku místnosti.",
+        },
+        {
+          title: "Odhad a termín",
+          text: "Podle fotky a rozsahu domluvíte orientační cenu a volný termín.",
+        },
+        {
+          title: "Realizace a fotodokumentace",
+          text: "Po dokončení práce přidáte fotky před/po do galerie pro další poptávky.",
+        },
+      ]}
       faqs={[
         {
           q: "Kolik fotek před/po je potřeba na spuštění webu?",
           a: "Stačí 4 až 6 kvalitních párů fotek. Zbytek galerie můžete průběžně doplňovat po dalších zakázkách — ukážu vám jak.",
+        },
+        {
+          q: "Dá se poptávkový formulář přizpůsobit typu práce?",
+          a: "Ano, formulář rozšíříme o výběr typu práce (malování, štukování, tapetování), ať víte hned při poptávce, o jaký rozsah zakázky jde.",
+        },
+        {
+          q: "Jak nejlíp na webu ukázat rozdíl mezi malováním a kompletní rekonstrukcí povrchu?",
+          a: "Krátký popis u každé služby s vlastní fotkou před/po pomůže zákazníkovi rychle poznat, jakou práci vlastně potřebuje.",
         },
       ]}
       relatedSlugs={["web-pro-sanace", "web-pro-zahradniky", "web-pro-remeslniky"]}

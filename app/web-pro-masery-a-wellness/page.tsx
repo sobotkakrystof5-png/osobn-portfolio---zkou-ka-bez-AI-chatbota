@@ -140,6 +140,14 @@ export default function WebProMaseryAWellnessPage() {
               zprávu a čekat, až se ozvete zpátky. Chce otevřít kalendář, vybrat volný termín a mít
               hotovo. Bez toho končí poptávka u konkurenčního studia, které rezervaci online nabízí.
             </p>
+            <p className="mt-4">
+              Masáže a wellness procedury si lidé obvykle vybírají podle blízkosti studia. Aby vás
+              zákazníci z okolí vůbec našli, řeším to jako{" "}
+              <Link href="/sluzby/seo-optimalizace/lokalni-seo" className="text-[#c9a84c] hover:underline">
+                lokální SEO
+              </Link>
+              , tedy nastavení Google Business Profile i Firmy.cz na Seznamu.
+            </p>
           </section>
 
           <section aria-labelledby="proces">

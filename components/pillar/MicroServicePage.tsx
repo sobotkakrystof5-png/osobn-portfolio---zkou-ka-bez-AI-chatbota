@@ -5,6 +5,7 @@ import { RelatedIndustries } from "@/components/pillar/RelatedIndustries";
 
 export type MicroFaq = { q: string; a: string };
 export type MicroBullet = { title: string; text: string };
+export type MicroProcessStep = { title: string; text: string };
 
 export function MicroServicePage({
   kicker,
@@ -20,6 +21,10 @@ export function MicroServicePage({
   hubHref = "/web-pro-remeslniky",
   hubLabel = "← Zpět na přehled webů pro řemeslníky",
   relatedSlugs,
+  caseExampleTitle,
+  caseExampleText,
+  processHeading = "Jak obvykle probíhá zakázka",
+  processSteps,
 }: {
   kicker: string;
   h1: string;
@@ -41,6 +46,14 @@ export function MicroServicePage({
   hubLabel?: string;
   /** Slugy 2-3 příbuzných oborů pro cross-link blok „Podobné obory". */
   relatedSlugs?: string[];
+  /** Nadpis volitelné sekce s konkrétním příkladem zakázky, výchozí "Příklad zakázky". */
+  caseExampleTitle?: string;
+  /** Text konkrétního příkladu zakázky/scénáře specifického pro obor. Vynechá sekci, pokud chybí. */
+  caseExampleText?: string;
+  /** Nadpis volitelné sekce s procesem zakázky, výchozí "Jak obvykle probíhá zakázka". */
+  processHeading?: string;
+  /** 3-4 kroky popisující, jak zakázka v oboru obvykle probíhá (ne proces tvorby webu). Vynechá sekci, pokud chybí. */
+  processSteps?: MicroProcessStep[];
 }) {
   const url = `https://vizeon.cz/${slug}`;
   const jsonLd = {
@@ -117,6 +130,35 @@ export function MicroServicePage({
           <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.8] mb-12 -mt-4">
             {portfolioNote}
           </p>
+        )}
+
+        {caseExampleText && (
+          <section aria-labelledby="priklad-zakazky" className="mb-12">
+            <h2 id="priklad-zakazky" className="font-cormorant font-light text-[24px] md:text-[30px] text-[#f0ece6] mb-4">
+              {caseExampleTitle ?? "Příklad zakázky"}
+            </h2>
+            <p className="font-inter font-light text-[15px] text-[#8a8070] leading-[1.8]">
+              {caseExampleText}
+            </p>
+          </section>
+        )}
+
+        {processSteps && processSteps.length > 0 && (
+          <section aria-labelledby="proces-zakazky" className="mb-12">
+            <h2 id="proces-zakazky" className="font-cormorant font-light text-[24px] md:text-[30px] text-[#f0ece6] mb-6">
+              {processHeading}
+            </h2>
+            <ol className="space-y-5 font-inter font-light text-[15px] text-[#8a8070] leading-[1.8] list-decimal list-inside">
+              {processSteps.map((step) => (
+                <li key={step.title}>
+                  <span className="font-inter font-medium text-[14px] text-[#f0ece6] tracking-[0.01em]">
+                    {step.title}
+                  </span>{" "}
+                  — {step.text}
+                </li>
+              ))}
+            </ol>
+          </section>
         )}
 
         {/* Hlavní konverzní CTA — přímo na ceník */}

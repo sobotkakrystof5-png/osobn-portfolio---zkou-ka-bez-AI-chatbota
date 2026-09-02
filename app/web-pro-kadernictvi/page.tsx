@@ -144,6 +144,14 @@ export default function WebProKadernictviPage() {
               prostor salonu a orientačně vědět, kolik služba stojí, aniž by musela psát zprávu a
               čekat na odpověď.
             </p>
+            <p className="mt-4">
+              Většina klientek hledá salon podle okolí, ve kterém bydlí nebo pracuje. Aby vás v
+              takovém hledání Google i Seznam vůbec ukázaly, řeším to jako{" "}
+              <Link href="/sluzby/seo-optimalizace/lokalni-seo" className="text-[#c9a84c] hover:underline">
+                lokální SEO
+              </Link>
+              .
+            </p>
           </section>
 
           <section aria-labelledby="proces">

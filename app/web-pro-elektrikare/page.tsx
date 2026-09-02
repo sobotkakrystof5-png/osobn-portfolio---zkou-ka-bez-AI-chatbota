@@ -39,10 +39,34 @@ export default function WebProElektrikarePage() {
       cenikLead="Pro elektrikářskou firmu obvykle stačí Online Vizitka od 7 499 Kč s přehledem služeb, hotovo do 5 pracovních dní."
       slug="web-pro-elektrikare"
       serviceType="Tvorba webu pro elektrikáře"
+      caseExampleTitle="Příklad zakázky: revize elektroinstalace před prodejem bytu"
+      caseExampleText="Zákazník potřebuje revizi kvůli prodeji nemovitosti a přes web hledá termín, který stihne do uzávěrky. Vyplní krátký formulář s typem revize a termínem, vy mu obratem potvrdíte dostupnost — rychlá odezva tu často rozhoduje víc než cena, protože termín tlačí kupující i realitka."
+      processSteps={[
+        {
+          title: "Poptávka s typem zakázky",
+          text: "Zákazník vybere, jestli jde o revizi, rekonstrukci nebo havárii, a popíše termín.",
+        },
+        {
+          title: "Nacenění nebo výjezd",
+          text: "Podle typu zakázky domluvíte orientační cenu na dálku, nebo výjezd na místo.",
+        },
+        {
+          title: "Realizace a doklady",
+          text: "Práci dokončíte a u revizí předáte zákazníkovi revizní zprávu.",
+        },
+      ]}
       faqs={[
         {
           q: "Dá se na web přidat i objednávka revize?",
           a: "Ano, jednoduchý formulář na objednání revize nebo prohlídky vám do webu zabuduji jako součást poptávkového formuláře.",
+        },
+        {
+          q: "Dá se na web přidat rozlišení urgentní vs. plánovaná zakázka?",
+          a: "Ano, formulář rozšíříme o výběr naléhavosti, ať poznáte na první pohled, kterou poptávku řešit přednostně.",
+        },
+        {
+          q: "Jde na web přidat i ceník běžných revizí?",
+          a: "Ano, orientační ceník podle typu nemovitosti nebo rozsahu revize snižuje počet dotazů typu „kolik to bude stát“.",
         },
       ]}
       relatedSlugs={["web-pro-instalatery", "web-pro-zamecniky", "web-pro-remeslniky"]}

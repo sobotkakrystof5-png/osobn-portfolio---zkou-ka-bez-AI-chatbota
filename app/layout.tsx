@@ -98,6 +98,10 @@ const jsonLd = {
         "SEO optimalizace",
         "Zvýšení tržeb a konverzí",
       ],
+      // TODO: až vznikne Google Business Profile s reálnými recenzemi (viz manuální
+      // checklist), doplnit sem `aggregateRating: { "@type": "AggregateRating",
+      // ratingValue, reviewCount }` s reálnými hodnotami z profilu. Nikdy nevyplňovat
+      // fabrikovanými/odhadnutými čísly — viz omezení v SEO-backlinkchecker-prompt.md.
     },
     {
       "@type": "Organization",
@@ -108,6 +112,9 @@ const jsonLd = {
       sameAs: [
         "https://www.facebook.com/profile.php?id=100086439650056",
         "https://www.instagram.com/vizeon_official/",
+        // TODO: až vznikne Google Business Profile, doplnit sem jeho Google Maps
+        // URL (formát https://maps.app.goo.gl/... nebo g.page/...) — posílí to
+        // provázání profilu s webem pro Google.
       ],
     },
     {

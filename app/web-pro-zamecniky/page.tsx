@@ -49,10 +49,34 @@ export default function WebProZamecnikyPage() {
           , rodinnou zámečnickou a kovovýrobní firmu se 40letou tradicí.
         </>
       }
+      caseExampleTitle="Příklad zakázky: vypadlý zámek u dveří"
+      caseExampleText="Zákazník řeší vypadlý zámek v sobotu večer, na mobilu najde váš web, uvidí telefon v hlavičce a zavolá rovnou. U méně urgentních zakázek, třeba výroby mříže, místo volání raději vyplní formulář s fotkou a popisem, ať máte při zpětném kontaktu rovnou představu o rozsahu práce."
+      processSteps={[
+        {
+          title: "Rychlý kontakt",
+          text: "Havarijní případy řeší zákazník telefonem přímo z hlavičky webu, běžné poptávky přes formulář s fotkou.",
+        },
+        {
+          title: "Diagnóza a nacenění",
+          text: "Podle popisu nebo fotky odhadnete rozsah práce a domluvíte výjezd nebo termín zaměření.",
+        },
+        {
+          title: "Realizace a předání",
+          text: "Opravu, montáž nebo výrobu na míru dokončíte na místě, hotovou práci pak můžete přidat do galerie webu.",
+        },
+      ]}
       faqs={[
         {
           q: "Dá se na web přidat i nonstop kontakt pro havarijní zásahy?",
           a: "Ano, telefonní číslo a poznámku o dostupnosti mimo pracovní dobu vám dám hned do hlavičky webu, ať ho zákazník nemusí hledat.",
+        },
+        {
+          q: "Jde nastavit, aby telefonní číslo v hlavičce fungovalo jako tlačítko na mobilu?",
+          a: "Ano, na mobilu se číslo automaticky mění na klikací tlačítko, zákazník tak vytočí číslo jedním klepnutím bez přepisování.",
+        },
+        {
+          q: "Dá se na web přidat info o příplatku za servis mimo pracovní dobu?",
+          a: "Ano, do hlavičky nebo přímo k ceníku dáme jasnou poznámku o dostupnosti a případném příplatku za servis mimo pracovní dobu.",
         },
       ]}
       relatedSlugs={["web-pro-kovare", "web-pro-truhlare", "web-pro-elektrikare"]}

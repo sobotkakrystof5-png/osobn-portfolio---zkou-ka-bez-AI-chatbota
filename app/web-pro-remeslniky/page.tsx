@@ -161,6 +161,18 @@ export default function WebProRemeslnikyPage() {
               z mobilu, o víkendu. Pokud web nemá jasné tlačítko "poptat" a kontakt na dosah jednoho
               kliknutí, zákazník napíše radši konkurenci, u které to jde rychleji.
             </p>
+            <p className="mt-4">
+              Na co si dát pozor při výběru dodavatele webu, jsem sepsal do článku{" "}
+              <Link href="/blog/jak-poznat-kvalitni-web-pro-remeslnika" className="text-[#c9a84c] hover:underline">
+                Jak poznat kvalitní web pro řemeslníka
+              </Link>
+              . A protože většina poptávek u řemeslníků přichází z okolí, řeším i{" "}
+              <Link href="/sluzby/seo-optimalizace/lokalni-seo" className="text-[#c9a84c] hover:underline">
+                lokální SEO
+              </Link>
+              , tedy nastavení Google Business Profile a Firmy.cz na Seznamu, ať vás zákazníci
+              z regionu najdou.
+            </p>
           </section>
 
           {/* Jak probíhá spolupráce */}

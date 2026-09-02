@@ -39,13 +39,37 @@ export default function WebProFotografyPage() {
       cenikLead="Pro portfolio s galeriemi podle specializace obvykle stačí Online Vizitka od 7 499 Kč, u rozsáhlejší prezentace s víc kategoriemi se hodí Promo Page od 9 999 Kč."
       slug="web-pro-fotografy"
       serviceType="Tvorba webu pro fotografy"
+      caseExampleTitle="Příklad zakázky: svatební fotografie"
+      caseExampleText="Snoubenci procházejí portfolio podle specializace, najdou galerii svateb ve stylu, který se jim líbí, a přes formulář pošlou datum a místo konání. Protože termíny svateb se plánují měsíce dopředu, rychlá a přehledná odpověď na dostupnost často rozhoduje o tom, jestli si vyberou vás, nebo fotografa s rychlejším webem."
+      processSteps={[
+        {
+          title: "Výběr podle portfolia",
+          text: "Klient si podle stylu fotek v galerii vybere, jestli mu vaše práce sedí.",
+        },
+        {
+          title: "Poptávka s termínem",
+          text: "Přes formulář pošle datum, místo a typ focení.",
+        },
+        {
+          title: "Focení a předání",
+          text: "Po focení galerii doplníte o nové fotky, které slouží i jako reference pro další klienty.",
+        },
+      ]}
       faqs={[
         {
           q: "Zvládne web unést hodně fotek ve vysokém rozlišení?",
           a: "Ano, obrázky optimalizuji tak, aby se načítaly rychle i ve vysoké kvalitě — použiju moderní formáty a správné rozměry pro každé zařízení.",
         },
+        {
+          q: "Dá se portfolio rozdělit podle specializace, třeba svatby a portréty zvlášť?",
+          a: "Ano, galerie se rozdělí do kategorií, ať klient hned najde styl focení, který ho zajímá, bez procházení všeho.",
+        },
+        {
+          q: "Jak rychle se dá web po nové zakázce doplnit o čerstvé fotky?",
+          a: "Dostanete jednoduchý přístup, kterým si galerii doplňujete sami, během pár minut, bez zásahu do kódu.",
+        },
       ]}
-      relatedSlugs={["web-pro-realitni-maklere", "web-pro-kosmeticky", "web-pro-autoservisy"]}
+      relatedSlugs={["web-pro-realitni-maklere", "web-pro-kosmeticky", "web-pro-zahradniky"]}
       hubHref="/"
       hubLabel="← Zpět na hlavní stránku"
     />

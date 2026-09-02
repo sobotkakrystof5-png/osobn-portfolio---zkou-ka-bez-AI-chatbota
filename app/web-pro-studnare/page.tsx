@@ -39,10 +39,34 @@ export default function WebProStudnarePage() {
       cenikLead="Studnařské firmě obvykle stačí Online Vizitka s referencemi a oblastí působnosti — od 7 499 Kč, hotovo do 5 pracovních dní."
       slug="web-pro-studnare"
       serviceType="Tvorba webu pro studnaře"
+      caseExampleTitle="Příklad zakázky: vrtaná studna pro rodinný dům"
+      caseExampleText="Zákazník řeší zásobování vodou u nového pozemku a hledá firmu s prokazatelnou praxí v jeho kraji — na webu vidí oblast působnosti, roky zkušeností a jednoduše popsaný postup vrtání. Protože výsledek práce je pod zemí a nejde ho předem zkontrolovat, důvěra tu rozhoduje víc než cena."
+      processSteps={[
+        {
+          title: "Poptávka s lokalitou",
+          text: "Zákazník přes formulář uvede lokalitu pozemku a orientační požadavky na vydatnost vody.",
+        },
+        {
+          title: "Průzkum a nacenění",
+          text: "Podle lokality a geologických podmínek připravíte nabídku a termín vrtání.",
+        },
+        {
+          title: "Vrtání a předání",
+          text: "Po dokončení předáte dokumentaci a zákazník ví, co má od studny čekat.",
+        },
+      ]}
       faqs={[
         {
           q: "Jak na webu nejlíp ukázat důvěryhodnost, když nemám žádné psané reference?",
           a: "I pár vět od spokojených zákazníků, které posbíráme telefonicky nebo přes SMS, na webu udělá rozdíl. Poradím, jak si je nenásilně vyžádat po dokončení zakázky.",
+        },
+        {
+          q: "Dá se na web přidat mapa nebo popis oblasti, kam dojíždíte?",
+          a: "Ano, jasně vymezená oblast působnosti (kraj nebo okruh kilometrů) na webu ušetří poptávky odjinud, které stejně nemůžete realizovat.",
+        },
+        {
+          q: "Jak na webu vysvětlit odborný postup, aniž by to znělo jako reklama?",
+          a: "Stručný, věcný popis kroků — průzkum, vrtání, zapažení, testování vydatnosti — působí důvěryhodněji než obecná prodejní fráze, a přesně takhle texty společně nastavíme.",
         },
       ]}
       relatedSlugs={["web-pro-instalatery", "web-pro-sanace", "web-pro-remeslniky"]}

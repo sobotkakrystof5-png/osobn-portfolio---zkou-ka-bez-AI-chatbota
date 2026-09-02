@@ -39,10 +39,34 @@ export default function WebProZahradnikyPage() {
       cenikLead="Pro prezentaci s galerií před/po obvykle stačí Online Vizitka od 7 499 Kč, u rozsáhlejší nabídky služeb se hodí Promo Page od 9 999 Kč."
       slug="web-pro-zahradniky"
       serviceType="Tvorba webu pro zahradníky"
+      caseExampleTitle="Příklad zakázky: kompletní úprava zahrady"
+      caseExampleText="Zákazník řeší zanedbanou zahradu u nového bydlení, v galerii před/po najde podobně rozsáhlou proměnu a přes formulář pošle adresu pozemku a orientační rozlohu. Rozhoduje se hlavně podle vizuálního výsledku předchozích realizací, ne podle popisu služeb — proto fotky nesou většinu prodejní síly webu."
+      processSteps={[
+        {
+          title: "Poptávka s adresou pozemku",
+          text: "Zákazník přes formulář popíše rozlohu a typ úpravy, kterou potřebuje.",
+        },
+        {
+          title: "Prohlídka a návrh",
+          text: "Na místě zhodnotíte pozemek a navrhnete rozsah prací podle sezóny.",
+        },
+        {
+          title: "Realizace a dokumentace",
+          text: "Po dokončení fotky před/po přidáte do galerie, ať slouží dalším poptávkám.",
+        },
+      ]}
       faqs={[
         {
           q: "Dá se web přizpůsobit sezónnosti poptávek?",
           a: "Ano, aktuální nabídku (třeba jarní úpravy nebo podzimní úklid) můžete sami měnit podle sezóny, ukážu vám jak.",
+        },
+        {
+          q: "Dá se galerie před/po řadit podle typu úpravy?",
+          a: "Ano, kategorie v galerii nastavím podle vaší nabídky (trávník, keře, celková proměna), ať zákazník rychle najde realizaci podobnou té svojí.",
+        },
+        {
+          q: "Jak často je potřeba galerii aktualizovat, aby web působil aktivně?",
+          a: "Stačí přidat pár fotek po větších zakázkách, ideálně v hlavní sezóně. Čerstvé realizace budí důvěru a jsou i signál pro Google, že web žije.",
         },
       ]}
       relatedSlugs={["web-pro-malire", "web-pro-sanace", "web-pro-remeslniky"]}

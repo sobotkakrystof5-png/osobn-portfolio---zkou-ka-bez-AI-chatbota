@@ -49,10 +49,34 @@ export default function WebProKovarePage() {
           , zámečnickou a kovářskou firmu s 40letou rodinnou tradicí.
         </>
       }
+      caseExampleTitle="Příklad zakázky: kovaná brána na míru"
+      caseExampleText="Zákazník osloví přes poptávkový formulář s popisem stylu (rustikální, moderní) a orientačním rozměrem vjezdu. Vy mu na základě podobných realizací z galerie připravíte první návrh ještě před osobní schůzkou — u zakázkové kovářské práce totiž vizuální shoda ve stylu rozhoduje víc než cena."
+      processSteps={[
+        {
+          title: "Poptávka se stylem a rozměrem",
+          text: "Zákazník popíše představu a přiloží inspiraci, ať víte, jakým směrem návrh vést.",
+        },
+        {
+          title: "Návrh a konzultace",
+          text: "Na základě galerie a poptávky navrhnete provedení, detaily doladíte na schůzce nebo na dálku.",
+        },
+        {
+          title: "Kovářská práce a instalace",
+          text: "Po odsouhlasení kus vyrobíte a nainstalujete, fotky z procesu i hotového díla doplníte do galerie.",
+        },
+      ]}
       faqs={[
         {
           q: "Zvládne web dobře zobrazit fotky ve vysokém rozlišení, aniž by se zpomalil?",
           a: "Ano, fotky optimalizuji tak, aby se načítaly rychle i na mobilu, ale detail práce zůstal čitelný. Rychlost webu totiž vaše zakázky neprodá o nic míň než kvalitní fotka.",
+        },
+        {
+          q: "Dá se galerie řadit podle typu výrobku, třeba brány nebo mříže zvlášť?",
+          a: "Ano, kategorie v galerii nastavím podle toho, jak dělíte nabídku vy, ať zákazník rychle najde podobnou realizaci.",
+        },
+        {
+          q: "Zvládne web ukázat i proces výroby, ne jen hotový výsledek?",
+          a: "Ano, krátká sekce nebo pár fotek z procesu — kování, svařování, broušení — u umělecké práce často přesvědčí víc než jen finální snímek.",
         },
       ]}
       relatedSlugs={["web-pro-zamecniky", "web-pro-rezbare", "web-pro-truhlare"]}

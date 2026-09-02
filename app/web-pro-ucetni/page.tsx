@@ -143,6 +143,14 @@ export default function WebProUcetniPage() {
               vidět jasně pojmenované služby, ne odbornou terminologii bez vysvětlení. Jinak
               napíše poptávku tam, kde tomu porozumí rychleji.
             </p>
+            <p className="mt-4">
+              Hodně poptávek u účetních kanceláří navíc přichází lokálně, od firem z okolí. Pokud
+              chcete, aby vás zákazníci z regionu našli i na Googlu a Seznamu, řeším to jako{" "}
+              <Link href="/sluzby/seo-optimalizace/lokalni-seo" className="text-[#c9a84c] hover:underline">
+                lokální SEO
+              </Link>
+              .
+            </p>
           </section>
 
           <section aria-labelledby="proces">
@@ -222,7 +230,7 @@ export default function WebProUcetniPage() {
           subheading="Nezávazná konzultace zdarma. Probereme, jak přehledně popsat vaše služby."
         />
 
-        <RelatedIndustries slugs={["web-pro-realitni-maklere", "web-pro-kadernictvi", "web-pro-remeslniky"]} />
+        <RelatedIndustries slugs={["web-pro-realitni-maklere", "web-pro-kadernictvi", "web-pro-masery-a-wellness"]} />
 
         <div className="mt-14">
           <Link

@@ -39,10 +39,34 @@ export default function WebProKosmetickyPage() {
       cenikLead="Prezentace s galerií a ceníkem obvykle vychází jako Online Vizitka od 7 499 Kč nebo Promo Page od 9 999 Kč, rezervační systém se řeší jako webová aplikace zvlášť."
       slug="web-pro-kosmeticky"
       serviceType="Tvorba webu pro kosmetičky"
+      caseExampleTitle="Příklad zakázky: první návštěva na kosmetické ošetření"
+      caseExampleText="Klientka hledá kosmetický salon večer po práci, prohlédne si galerii proměn a ceník, a rovnou v rezervačním systému vybere volný termín na pleťové ošetření — bez zprávy a čekání na odpověď. Rozhodne se rychleji, když vidí přesnou cenu a fotky výsledků, ne jen obecný popis „kosmetické služby“."
+      processSteps={[
+        {
+          title: "Výběr ošetření",
+          text: "Klientka si v přehledu ošetření a galerii proměn vybere, o co má zájem.",
+        },
+        {
+          title: "Rezervace termínu",
+          text: "V kalendáři na webu vybere volný termín sama, i mimo otvírací dobu.",
+        },
+        {
+          title: "Ošetření a další péče",
+          text: "Po ošetření může přes web rovnou rezervovat navazující termín nebo dokoupit poukaz.",
+        },
+      ]}
       faqs={[
         {
           q: "Dá se na web přidat prodej dárkových poukazů?",
           a: "Ano, dárkové poukazy patří mezi žádané doplňky i u kosmetických studií, vyřešíme je jako součást webové aplikace na míru.",
+        },
+        {
+          q: "Dá se rezervační systém propojit s připomínkou termínu SMS zprávou?",
+          a: "Ano, u většiny rezervačních řešení jde zapnout automatickou SMS nebo e-mailovou připomínku, která sníží počet zapomenutých termínů.",
+        },
+        {
+          q: "Jak na web přidat fotky před/po bez porušení soukromí klientek?",
+          a: "Vždy jen s výslovným souhlasem klientky, ideálně bez viditelné tváře, pokud ji sama nechce ukázat. Poradím, jak souhlas jednoduše získat.",
         },
       ]}
       relatedSlugs={["web-pro-kadernictvi", "web-pro-masery-a-wellness", "web-pro-fitness-trenery"]}

@@ -121,6 +121,31 @@ export default function LokalniSeoPage() {
             </p>
           </section>
 
+          <section aria-labelledby="komu-se-hodi">
+            <h2 id="komu-se-hodi" className={cn(t.h2Page, "mb-4")}>Komu se lokální SEO hodí nejvíc</h2>
+            <p className={t.body}>
+              Nejvíc se vyplatí oborům, kde zákazník hledá podle okolí — řemeslníkům, kadeřnictvím
+              a salonům, masérům, wellness studiím i účetním kancelářím s regionální klientelou.
+              Podívejte se, jak weby pro tyto obory řeším:{" "}
+              <Link href="/web-pro-remeslniky" className="text-[#c9a84c] hover:underline">web pro řemeslníky</Link>,{" "}
+              <Link href="/web-pro-kadernictvi" className="text-[#c9a84c] hover:underline">web pro kadeřnictví</Link>,{" "}
+              <Link href="/web-pro-masery-a-wellness" className="text-[#c9a84c] hover:underline">web pro maséry a wellness</Link>{" "}
+              nebo{" "}
+              <Link href="/web-pro-ucetni" className="text-[#c9a84c] hover:underline">web pro účetní</Link>.
+            </p>
+            <p className={cn(t.body, "mt-4")}>
+              Víc k tématu najdete i na blogu:{" "}
+              <Link href="/blog/lokalni-seo-pro-zivnostniky-v-cr" className="text-[#c9a84c] hover:underline">
+                Lokální SEO pro živnostníky v ČR
+              </Link>{" "}
+              a{" "}
+              <Link href="/blog/google-business-profile-vs-firmy-cz" className="text-[#c9a84c] hover:underline">
+                Google Business Profile vs. Firmy.cz — co nastavit jako první
+              </Link>
+              .
+            </p>
+          </section>
+
           <section aria-labelledby="faq-lokalni">
             <h2 id="faq-lokalni" className={cn(t.h2Page, "mb-6")}>Časté otázky o lokálním SEO</h2>
             <div className="space-y-6">
