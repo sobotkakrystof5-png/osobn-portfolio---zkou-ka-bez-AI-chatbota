@@ -111,6 +111,9 @@ export default function Footer() {
                   Instagram
                 </span>
               </a>
+              <p className="font-inter font-light text-[13px] text-[#8a8070]">
+                IČO: 29977231
+              </p>
             </div>
           </motion.div>
         </div>
