@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getSortedPosts } from "@/lib/data/blog";
+import { projects } from "@/lib/data/portfolio";
 
 // lastModified je zadané ručně (ne new Date()), aby se neměnilo při každém
 // requestu — při publikaci obsahové změny na dané stránce datum aktualizuj.
@@ -10,6 +11,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts: MetadataRoute.Sitemap = getSortedPosts().map((post) => ({
     url: `${base}/blog/${post.slug}`,
     lastModified: post.date,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  const projectPages: MetadataRoute.Sitemap = projects.map((p) => ({
+    url: `${base}/ukazky-webu/${p.slug}`,
+    lastModified: "2026-09-06",
     changeFrequency: "monthly",
     priority: 0.6,
   }));
@@ -174,10 +182,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${base}/ukazky-webu`,
-      lastModified: "2026-08-28",
+      lastModified: "2026-09-06",
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...projectPages,
     {
       url: `${base}/web-pro-zamecniky`,
       lastModified: "2026-09-02",

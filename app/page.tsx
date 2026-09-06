@@ -13,11 +13,11 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 // Below-the-fold, ale reference/citace mají SEO hodnotu (E-E-A-T) — ssr
 // zůstává zapnuté (výchozí next/dynamic chování), takže text zákazníků
 // je pořád v prvotním HTML pro crawlery. Dynamic import jen vyčlení
-// samotnou interakci karuselu (framer-motion varianty, drag-scroll logiku,
-// data referencí) do vlastního chunku mimo hlavní bundle homepage — viz
+// samotnou sekci (framer-motion varianty, data referencí) do vlastního
+// chunku mimo hlavní bundle homepage — viz
 // vizeon.cz-audit/findings/performance.md Finding 1/2. `loading` skeleton
 // se reálně uplatní jen při klientské navigaci (SSR už text vykreslí).
-const TestimonialCarousel = dynamic(() => import("@/components/TestimonialCarousel"), {
+const ReferencesSection = dynamic(() => import("@/components/ReferencesSection"), {
   loading: () => (
     <section aria-hidden="true" className="py-20 md:py-28 bg-[#0e0e0e] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -56,7 +56,7 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <SocialProof />
-        <TestimonialCarousel />
+        <ReferencesSection />
         <StatementBlock />
         <HomeExplore />
         <Contact headingLevel="h2" />
