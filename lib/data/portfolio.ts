@@ -103,7 +103,7 @@ export const projects: Project[] = [
 ];
 
 export const badgeStyles: Record<string, { label: string; className: string }> = {
-  client: { label: "Skutečný klient", className: "text-[#a3812f] border-[#c9a84c]/40" },
-  demo: { label: "Ukázkový projekt", className: "text-[#6b6455] border-black/15" },
-  own: { label: "Vlastní produkt (prelaunch)", className: "text-[#a3812f] border-[#e8c76a]/60" },
+  client: { label: "Skutečný klient", className: "text-[#c9a84c] border-[#c9a84c]/40" },
+  demo: { label: "Ukázkový projekt", className: "text-[#a89c8a] border-white/15" },
+  own: { label: "Vlastní produkt (prelaunch)", className: "text-[#e8c76a] border-[#e8c76a]/40" },
 };
