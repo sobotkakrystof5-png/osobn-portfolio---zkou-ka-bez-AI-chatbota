@@ -25,7 +25,12 @@ export default function Navbar() {
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-[var(--z-header)] transition-all duration-500 ${scrolled || menuOpen ? "backdrop-blur-xl bg-[#080808]/90 border-b border-white/[0.05]" : "bg-transparent"}`}>
-        <div className="max-w-[92rem] mx-auto px-6 md:px-12 2xl:px-16 h-20 md:h-24 flex items-center justify-between gap-6">
+        {/* h-16 md:h-20 beze změny oproti původní verzi — zvýšená výška
+            přesahovala do "pt-16 md:pt-24" konvence, kterou používá ~15
+            podstránek pro odsazení obsahu pod fixed headerem (viz jejich
+            page.tsx), a na mobilu se s ní header překrýval. Vzdušnost
+            navbaru řeší horizontální gapy a padding níž, ne výška. */}
+        <div className="max-w-[92rem] mx-auto px-6 md:px-12 2xl:px-16 h-16 md:h-20 flex items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/" className="flex flex-col leading-none group shrink-0" aria-label="VIZEON">
             <span className="font-cormorant font-light text-[22px] tracking-widest text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">VIZEON</span>

@@ -64,7 +64,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     <PageShell jsonLd={jsonLd}>
       <AnalyticsTracker page={`/ukazky-webu/${project.slug}`} />
 
-      <div className={cn(t.container.page, "pt-4 md:pt-6")}>
+      <div className={cn(t.container.page, "pt-16 md:pt-24")}>
         <Link href="/ukazky-webu" className={t.backLink}>← Zpět na projekty</Link>
       </div>
 
