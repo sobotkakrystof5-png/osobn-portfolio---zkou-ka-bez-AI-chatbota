@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { fadeUp, viewport } from "@/lib/animations";
 import { faqs } from "@/lib/data/faq";
@@ -18,18 +18,24 @@ function FAQItem({ faq, isOpen, onToggle, index }: { faq: typeof faqs[0]; isOpen
         <ChevronDown size={16} className={`shrink-0 text-[#c9a84c] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} aria-hidden="true" />
       </button>
 
-      {isOpen && <div className="h-[1px] faq-line-expand" style={{ background: "linear-gradient(90deg, rgba(201,168,76,0.4), transparent)" }} aria-hidden="true" />}
+      <div aria-hidden="true" className={`h-[1px] transition-opacity duration-300 ${isOpen ? "opacity-100 faq-line-expand" : "opacity-0"}`}
+        style={{ background: "linear-gradient(90deg, rgba(201,168,76,0.4), transparent)" }} />
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div id={`faq-panel-${index}`} role="region" aria-labelledby={`faq-btn-${index}`}
-            initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeOut" }}
-            className="overflow-hidden">
-            <p className="font-inter font-light text-[14px] text-[#8a8070] leading-[1.85] pb-5 pt-3">{faq.answer}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Odpověď je v DOM VŽDY (jen vizuálně sbalená přes CSS grid-rows), ne
+          podmíněně mountovaná — jinak crawlery/AI enginy, které čtou vykreslený
+          text (ne JSON-LD), vidí jen otevřenou otázku. Viz GEO audit finding 3:
+          8 z 9 odpovědí bylo dřív mimo DOM. */}
+      <div
+        id={`faq-panel-${index}`}
+        role="region"
+        aria-labelledby={`faq-btn-${index}`}
+        className="grid transition-[grid-template-rows] duration-300 ease-out"
+        style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <p className="font-inter font-light text-[14px] text-[#8a8070] leading-[1.85] pb-5 pt-3">{faq.answer}</p>
+        </div>
+      </div>
     </motion.div>
   );
 }

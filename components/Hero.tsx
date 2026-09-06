@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { staggerFast, fadeIn, fadeUp } from "@/lib/animations";
@@ -89,10 +89,20 @@ export default function Hero() {
           className="font-cormorant font-light leading-[1.12] text-[38px] sm:text-[48px] md:text-[62px] lg:text-[76px] text-[#f0ece6] mb-5 md:mb-6"
           aria-label="Web pro firmu, který spojuje moderní design a SEO optimalizaci">
           {words.map((word, i) => (
-            <motion.span key={i} variants={fadeUp}
-              className={`inline-block mr-[0.2em] last:mr-0 ${i >= 8 ? "text-shimmer" : ""}`}>
-              {word}
-            </motion.span>
+            <Fragment key={i}>
+              <motion.span variants={fadeUp}
+                className={`inline-block ${i >= 8 ? "text-shimmer" : ""}`}>
+                {word}
+              </motion.span>
+              {/* Mezera jako reálný text uzel MIMO inline-block span (ne jen CSS
+                  margin), ať plain-text extrakce (čtečky, Google, AI crawlery)
+                  nečte slova slepená dohromady — viz SXO audit finding 5.
+                  Musí být sourozenec spanu, ne jeho potomek: mezera na konci
+                  obsahu display:inline-block boxu se ořízne na nulovou šířku
+                  (inline-block si své okraje řádku zarovnává samo), takže by
+                  vizuálně zmizela a slova by se slepila. */}
+              {i < words.length - 1 ? " " : ""}
+            </Fragment>
           ))}
         </motion.h1>
 

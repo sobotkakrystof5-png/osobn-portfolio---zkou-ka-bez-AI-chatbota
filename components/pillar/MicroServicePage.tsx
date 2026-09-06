@@ -18,8 +18,8 @@ export function MicroServicePage({
   slug,
   serviceType,
   breadcrumbName,
-  hubHref = "/web-pro-remeslniky",
-  hubLabel = "← Zpět na přehled webů pro řemeslníky",
+  hubHref = "/tvorba-webu-pro-zivnostniky",
+  hubLabel = "← Zpět na tvorbu webu pro živnostníky",
   relatedSlugs,
   caseExampleTitle,
   caseExampleText,
@@ -40,7 +40,7 @@ export function MicroServicePage({
   serviceType: string;
   /** Název položky v BreadcrumbList, defaultně h1. */
   breadcrumbName?: string;
-  /** Cíl zpětného odkazu na dně stránky. Default = řemeslnická rodina. */
+  /** Cíl zpětného odkazu na dně stránky. Default = pillar (/tvorba-webu-pro-zivnostniky). */
   hubHref?: string;
   /** Text zpětného odkazu, musí odpovídat hubHref. */
   hubLabel?: string;

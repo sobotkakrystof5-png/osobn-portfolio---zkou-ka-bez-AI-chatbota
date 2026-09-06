@@ -75,6 +75,28 @@ const nextConfig = {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
           },
+          // CSP — defense-in-depth. 'unsafe-inline'/'unsafe-eval' na script-src jsou
+          // potřeba kvůli Next.js inline hydration scriptům, JSON-LD blokům a @n8n/chat
+          // (Vue runtime); 'unsafe-inline' na style-src kvůli Tailwind/Framer Motion.
+          // Chat widget volá jen same-origin /api/chat (viz N8nChatWidget.tsx), takže
+          // n8n instance samotná není v connect-src potřeba.
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com data:",
+              "img-src 'self' data: https:",
+              "connect-src 'self' https://www.google-analytics.com https://*.supabase.co wss://*.supabase.co",
+              "frame-src 'self'",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "upgrade-insecure-requests",
+            ].join("; "),
+          },
           // Pomáhá s výkonem: prefetch DNS pro Google Fonts
           { key: "X-DNS-Prefetch-Control", value: "on" },
         ],

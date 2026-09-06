@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Phone, Mail } from "lucide-react";
 
 // Sdílená hlavička/patička pro samostatné oborové stránky — kopíruje
 // strukturu a styl z app/tvorba-webu-pro-zivnostniky/page.tsx, ať nové
@@ -22,6 +23,47 @@ export function PillarHeader() {
         >
           ← Zpět na web
         </Link>
+      </div>
+
+      {/* Trvalá kontaktní lišta — tyhle stránky dřív neměly žádnou cestu ke
+          kontaktu (nav, formulář, tel/WhatsApp), viz SXO audit finding 2. */}
+      <div className="border-t border-white/[0.04] bg-[#0c0c0c]">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 py-2.5 flex flex-wrap items-center justify-center sm:justify-between gap-x-6 gap-y-1.5">
+          <p className="hidden sm:block font-inter font-light text-[11px] text-[#5a5148] shrink-0">
+            Nezávazná poptávka:
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
+            <a
+              href="tel:+420604837333"
+              className="flex items-center gap-1.5 font-inter font-medium text-[12px] text-[#f0ece6] hover:text-[#c9a84c] transition-colors duration-300"
+              aria-label="Zavolat +420 604 837 333"
+            >
+              <Phone size={12} className="text-[#c9a84c] shrink-0" aria-hidden="true" />
+              +420 604 837 333
+            </a>
+            <a
+              href="https://wa.me/420604837333"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-inter font-medium text-[12px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
+            >
+              WhatsApp
+            </a>
+            <a
+              href="mailto:info@vizeon.cz"
+              className="hidden xs:flex items-center gap-1.5 font-inter font-light text-[12px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
+            >
+              <Mail size={12} className="text-[#c9a84c] shrink-0" aria-hidden="true" />
+              info@vizeon.cz
+            </a>
+            <Link
+              href="/kontakt"
+              className="font-inter font-medium text-[11px] tracking-[0.08em] uppercase text-[#c9a84c] hover:text-[#d4b968] transition-colors duration-300"
+            >
+              Kontaktní formulář →
+            </Link>
+          </div>
+        </div>
       </div>
     </header>
   );

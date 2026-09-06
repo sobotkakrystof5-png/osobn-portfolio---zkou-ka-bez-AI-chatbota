@@ -24,6 +24,19 @@ export default function IntroAnimation() {
     // Hydration guard
     setMounted(true);
 
+    // Uživatel má v OS/prohlížeči zapnuté "omezit animace" — intro (dřív
+    // ~2.85s uzamčeného scrollu) mu vůbec nepouštíme, stejně jako v
+    // sessionStorage větvi níže. Viz vizeon.cz-audit/findings/visual.md
+    // Finding 1.
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setSkip(true);
+      setLocked(false);
+      return;
+    }
+
     // Jednou za session — pokud už uživatel viděl intro, přeskoč
     if (typeof window !== "undefined" && sessionStorage.getItem("vizeon_intro")) {
       setSkip(true);
@@ -31,7 +44,10 @@ export default function IntroAnimation() {
       return;
     }
 
-    const timer = setTimeout(() => setVisible(false), 2000);
+    // Zkráceno z 2000ms — spolu s kratší exit tranzicí (viz níže) drží
+    // celkový uzamčený čas kolem ~1.2s místo původních ~2.85s (audit
+    // Finding 1: mobil ukazoval jen splash bez H1/CTA "several seconds").
+    const timer = setTimeout(() => setVisible(false), 800);
 
     // Escape přeskočí animaci okamžitě — zlepšuje INP pro netrpělivé uživatele
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -67,7 +83,7 @@ export default function IntroAnimation() {
           className="fixed inset-0 z-[200] bg-[#080808] flex flex-col items-center justify-center select-none cursor-pointer"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
-          transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
           onClick={handleSkip}
           role="button"
           tabIndex={0}
@@ -83,7 +99,7 @@ export default function IntroAnimation() {
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           />
 
           {/* ── Písmena VIZEON ── */}
@@ -97,11 +113,11 @@ export default function IntroAnimation() {
                   letterSpacing: "0.22em",
                   lineHeight: 1,
                 }}
-                initial={{ opacity: 0, y: 55 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.52,
-                  delay: i * 0.056,
+                  duration: 0.32,
+                  delay: i * 0.032,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
@@ -115,7 +131,7 @@ export default function IntroAnimation() {
             className="h-[1px] bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent mt-5 mb-4"
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: "clamp(180px, 28vw, 380px)", opacity: 1 }}
-            transition={{ duration: 0.67, delay: 0.41, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.3, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
           />
 
           {/* ── Tagline ── */}
@@ -128,11 +144,11 @@ export default function IntroAnimation() {
                   fontSize: "clamp(0.6rem, 1.4vw, 0.8rem)",
                   letterSpacing: "0.28em",
                 }}
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.41,
-                  delay: 0.37 + i * 0.074,
+                  duration: 0.24,
+                  delay: 0.2 + i * 0.04,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
@@ -146,14 +162,14 @@ export default function IntroAnimation() {
             className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.74, duration: 0.37 }}
+            transition={{ delay: 0.42, duration: 0.2 }}
           >
             <div className="w-[1px] h-6 bg-[#2a2520] overflow-hidden relative">
               <motion.div
                 className="absolute top-0 left-0 w-full bg-[#c9a84c]"
                 initial={{ height: "0%" }}
                 animate={{ height: "100%" }}
-                transition={{ duration: 1.11, delay: 0.74, ease: "linear" }}
+                transition={{ duration: 0.32, delay: 0.42, ease: "linear" }}
               />
             </div>
           </motion.div>

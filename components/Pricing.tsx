@@ -90,6 +90,10 @@ export default function Pricing() {
           <Link href="/tvorba-webu-pro-zivnostniky" className="text-[#c9a84c] hover:underline">
             tvorbu webu pro živnostníky
           </Link>
+          . Kompletní rozbor, co všechno cenu ovlivňuje, najdete v článku{" "}
+          <Link href="/blog/kolik-stoji-tvorba-webu-2026" className="text-[#c9a84c] hover:underline">
+            Kolik stojí tvorba webových stránek v roce 2026
+          </Link>
           .
         </motion.p>
 

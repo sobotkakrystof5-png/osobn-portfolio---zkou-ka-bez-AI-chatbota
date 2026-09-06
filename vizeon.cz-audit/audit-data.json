@@ -1,0 +1,215 @@
+{
+  "summary": {
+    "health_score": 66,
+    "business_type": "Professional Service / Agency (freelance web-dev & SEO, remote-first, no physical storefront)",
+    "top_findings": [
+      "19 /web-pro-* trade pages have zero images and no conversion path (no tel/WhatsApp/form/nav) despite being the site's largest page-type footprint",
+      "Today's internal-linking commit is mostly broken: template hubHref defaults to the wrong page, pillar only links to 4/19 spokes",
+      "Homepage LCP is 5.9s (Poor, lab-only) driven by one ~500KB JS chunk 64-82% unused",
+      "FAQ page: 8 of 9 answers exist only in JSON-LD, invisible to any crawler reading visible text",
+      "Content expansion is real but incomplete: only 3 of 18 trade pages got a full rewrite, 15 remain thin (323-345 words vs 800-word floor)"
+    ],
+    "quick_wins": [
+      "Fix MicroServicePage.tsx hubHref default (one line + 5 overrides)",
+      "Switch FAQ.tsx accordion from conditional render to CSS collapse (few hours)",
+      "Remove /gdpr and /podminky from app/sitemap.ts",
+      "Add tel/WhatsApp/contact link to web-pro-* page template",
+      "Add missing BlogPosting image/mainEntityOfPage fields using existing OG image"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 76,
+      "what_works": [
+        "robots.txt and sitemap.xml valid and correctly linked",
+        "SSR/SSG confirmed sitewide, no JS-rendering risk for crawlers",
+        "Zero duplicate titles across 48 pages, single H1 everywhere",
+        "HTTPS + HSTS enforced consistently"
+      ],
+      "findings": [
+        {"title": "www.vizeon.cz serves duplicate 200 instead of redirecting", "severity": "High", "description": "vercel.json defines a 301 redirect but live behavior contradicts it, likely a Vercel dashboard domain-alias override", "recommendation": "Fix in Vercel dashboard (Project > Settings > Domains), not code"},
+        {"title": "No Content-Security-Policy header", "severity": "Medium", "description": "Confirmed absent across all sampled page types in next.config.mjs/vercel.json/middleware.ts", "recommendation": "Add CSP via headers() in next.config.mjs"},
+        {"title": "Hero H1/H2 JS-gated via framer-motion", "severity": "Medium-High", "description": "Primary heading starts at opacity:0 and only paints after hydration + animation", "recommendation": "Render hero heading at full opacity by default or use CSS-only animation"},
+        {"title": "Portfolio images 100% client-rendered on /ukazky-webu", "severity": "Medium", "description": "Zero <img> tags in raw HTML on the page whose entire purpose is showing visual proof", "recommendation": "Server-render at least the first 1-2 portfolio images"},
+        {"title": "noindex pages (/gdpr, /podminky) still listed in sitemap.xml", "severity": "Medium", "description": "Contradictory crawl signal", "recommendation": "Remove from app/sitemap.ts, use /admin as template"},
+        {"title": "No IndexNow support", "severity": "Low", "description": "No key file or submission call found", "recommendation": "Implement IndexNow for faster Bing/Yandex indexing"}
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 44,
+      "what_works": [
+        "Genuine per-trade research on rewritten pages, not mail-merge filler",
+        "Transparent contact/legal info, no fabricated statistics detected",
+        "Testimonials use a verifiable named+linked format"
+      ],
+      "findings": [
+        {"title": "15 of 18 web-pro-* pages remain under 800-word service-page floor", "severity": "High", "description": "323-345 live words each, differentiated but thin", "recommendation": "Prioritize full-page rewrites for highest-intent trades"},
+        {"title": "Blog articles are 240-333 words vs 1,500-word target", "severity": "High", "description": "Accurate, Czech-specific content but reads as extended FAQ not blog depth", "recommendation": "Expand materially or relabel as guides/FAQ"},
+        {"title": "Repetitive 'not X, but Y' rhetorical pattern used 30x", "severity": "Medium", "description": "Classic AI-writing tic substituting for genuine depth", "recommendation": "Vary sentence structure, human editing pass before publishing"},
+        {"title": "Named testimonials need owner verification", "severity": "Medium", "description": "3 named+linked testimonials, stronger format than typical fake reviews but unverified", "recommendation": "Confirm consent/authenticity for the record"},
+        {"title": "Founder anonymized on /o-mne", "severity": "Medium", "description": "Real name only in podminky/blog schema, not visible UI, undermining the 'one named person' pitch", "recommendation": "Name founder on /o-mne and match blog byline to schema author"},
+        {"title": "/sluzby pages thin relative to 800-word floor", "severity": "Medium", "description": "161-401 words across 12 pages", "recommendation": "Expand highest commercial-intent pages first"}
+      ]
+    },
+    {
+      "name": "On-Page SEO",
+      "score": 78,
+      "what_works": [
+        "Zero duplicate titles across all 48 pages",
+        "Every page has a unique, non-empty meta description",
+        "Exactly one H1 per page sitewide"
+      ],
+      "findings": [
+        {"title": "A handful of titles/meta descriptions run long or short of ideal SERP length", "severity": "Low", "description": "4 titles exceed ~60-70 chars, 4 meta descriptions exceed 160 chars, several web-pro-* descriptions run short", "recommendation": "Trim/pad to ideal ranges"}
+      ]
+    },
+    {
+      "name": "Schema / Structured Data",
+      "score": 78,
+      "what_works": [
+        "Service/FAQPage/BreadcrumbList present on all 19 web-pro-* pages and 12 sluzby pages",
+        "BlogPosting with author/publisher present on blog template",
+        "AggregateRating/GBP sameAs correctly deferred with TODO comments, no fabricated data"
+      ],
+      "findings": [
+        {"title": "Organization.logo points to 32x32 favicon", "severity": "Medium", "description": "Below Google's 112x112px minimum requirement", "recommendation": "Create real square logo asset, min 512x512"},
+        {"title": "BlogPosting missing image, mainEntityOfPage, author.url", "severity": "Medium", "description": "A real per-post OG image already exists and can be reused with zero new assets", "recommendation": "Add fields to app/blog/[slug]/page.tsx template"},
+        {"title": "Organization/ProfessionalService disconnected nodes", "severity": "Medium", "description": "No shared @id linking the two entity nodes in app/layout.tsx", "recommendation": "Merge into one linked node"},
+        {"title": "FAQPage schema has no remaining SERP benefit", "severity": "Info", "description": "Google retired FAQ rich results site-wide 2026-05-07", "recommendation": "No action needed, don't prioritize more FAQ schema work"}
+      ]
+    },
+    {
+      "name": "Performance (lab-only, no CrUX)",
+      "score": 60,
+      "what_works": [
+        "CLS near-zero across all templates",
+        "next/image and next/font/google used correctly",
+        "Fast TTFB (140-409ms) on Vercel fra1"
+      ],
+      "findings": [
+        {"title": "Homepage LCP 5.9s (Poor)", "severity": "Critical", "description": "Driven by a single ~500KB JS chunk, 64% unused on homepage, blocking main thread before text-based LCP element paints", "recommendation": "Code-split/lazy-load non-critical JS via next/dynamic"},
+        {"title": "Site-wide oversized shared JS bundle", "severity": "High", "description": "30-82% unused per page across all three templates tested", "recommendation": "Bundle analyzer + route-scope client components"},
+        {"title": "Render-blocking CSS on every page", "severity": "Medium", "description": "Two chunks ~150ms each in the critical path", "recommendation": "Inline critical CSS, defer the rest"},
+        {"title": "Non-composited CSS animations", "severity": "Medium", "description": "Shimmer text and glow-pulse button force main-thread paint work", "recommendation": "Re-implement with transform/opacity"}
+      ]
+    },
+    {
+      "name": "AI Search Readiness (GEO)",
+      "score": 57,
+      "what_works": [
+        "AI crawlers fully allowed, no robots.txt or header blocks",
+        "Blog articles fully SSR with genuine named authorship and visible byline",
+        "Technical accessibility scores 90/100"
+      ],
+      "findings": [
+        {"title": "FAQ page: 8 of 9 answers invisible to text-reading crawlers", "severity": "High", "description": "Conditional React render instead of CSS collapse in components/FAQ.tsx", "recommendation": "Switch to CSS-based collapse, single highest-leverage citability fix available"},
+        {"title": "Blog article sections run 60-120 words, under 134-167 optimal citation window", "severity": "Medium", "description": "Citable but slightly thin passages", "recommendation": "Expand sections, rephrase some H2s as questions"},
+        {"title": "Brand-mention/authority signals near-zero", "severity": "Info", "description": "Expected for a 14-week-old domain, not fixable on-page", "recommendation": "No measurable AI-citation visibility expected for 6-12 months; off-site brand-building matters more than technical GEO work at this stage"}
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 78,
+      "what_works": [
+        "next/image configured correctly (avif/webp, device sizing, CDN cache)",
+        "Descriptive, unique alt text where images exist"
+      ],
+      "findings": [
+        {"title": "Oversized original image assets in /public", "severity": "Medium", "description": "Several source originals over 1.4MB feeding the optimization pipeline", "recommendation": "Pre-compress originals to under 500KB before committing"}
+      ]
+    }
+  ],
+  "supplementary_audits": [
+    {
+      "name": "SXO / Conversion Readiness",
+      "score": 33,
+      "note": "Not part of the standard weighted formula, but measures whether pages actually convert visitors",
+      "findings": [
+        {"title": "web-pro-* pages have zero images despite promising a gallery", "severity": "Critical", "recommendation": "Build the actual portfolio module described in the copy"},
+        {"title": "No conversion mechanism on trade pages", "severity": "Critical", "recommendation": "Add nav, tel/WhatsApp links, form"},
+        {"title": "Price positioning below SERP-consensus market range", "severity": "Medium", "recommendation": "Justify low anchor price or add tiered comparison"},
+        {"title": "/sluzby/seo-optimalizace thin relative to ranking competitors", "severity": "High", "recommendation": "Expand depth, add FAQPage schema"},
+        {"title": "Homepage H1 renders without word spaces", "severity": "Low", "recommendation": "Fix animated per-word span component"}
+      ]
+    },
+    {
+      "name": "Internal Linking / Cluster Architecture",
+      "score": 42,
+      "note": "Measures link-equity flow and hub-spoke structure, not content itself",
+      "findings": [
+        {"title": "MicroServicePage hubHref defaults to wrong page", "severity": "High", "recommendation": "Fix default to point at the real pillar page"},
+        {"title": "Pillar page links to only 4 of 19 spokes", "severity": "High", "recommendation": "Expand pillar's linked trade index"},
+        {"title": "web-pro-autoservisy is a true orphan", "severity": "High", "recommendation": "Add reciprocal relatedSlugs links"},
+        {"title": "8 of 19 spokes below 3-incoming-link minimum", "severity": "Medium", "recommendation": "Rebalance cross-link clusters"},
+        {"title": "Homepage cannibalizes two service-page titles", "severity": "Medium", "recommendation": "Re-title homepage around brand + differentiator"}
+      ]
+    },
+    {
+      "name": "Sitemap Hygiene",
+      "score": 78,
+      "findings": [
+        {"title": "Noindexed pages included in sitemap", "severity": "High", "recommendation": "Remove /gdpr and /podminky from app/sitemap.ts"}
+      ]
+    },
+    {
+      "name": "Visual / Mobile Rendering",
+      "score": 62,
+      "findings": [
+        {"title": "Mobile homepage above-the-fold shows only splash animation, no H1/CTA/nav", "severity": "High", "recommendation": "Cap animation duration, ensure hero renders immediately"},
+        {"title": "Cookie-consent banner overlaps contact form CTA on mobile", "severity": "Medium", "recommendation": "Reduce banner height, ensure buttons never overlap interactive elements"}
+      ]
+    },
+    {
+      "name": "Backlinks (foundation-readiness)",
+      "score": 34,
+      "note": "Expected zero-authority state for a 14-week-old domain, not a quality defect",
+      "findings": [
+        {"title": "3 real dofollow backlinks verified from delivered client sites", "severity": "Info", "recommendation": "None needed, already working"},
+        {"title": "Zero local business citations (no GBP, no Firmy.cz)", "severity": "High", "recommendation": "Off-site: register Google Business Profile and Firmy.cz listing"}
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {"name": "Phase 1: Critical Fixes", "timeframe": "This week", "items": [
+        "Add conversion path (tel/WhatsApp/email/kontakt link) to all 19 web-pro-* pages",
+        "Fix MicroServicePage.tsx hubHref default to point at the real pillar",
+        "Split the ~500KB shared JS chunk via next/dynamic lazy imports",
+        "Add real portfolio images to web-pro-truhlare"
+      ]},
+      {"name": "Phase 2: High-Impact Improvements", "timeframe": "Weeks 2-3", "items": [
+        "Switch FAQ.tsx to CSS-based collapse so all 9 answers render in DOM",
+        "Expand pillar page to link all 19 trades",
+        "Fix web-pro-autoservisy orphan status",
+        "Investigate www.vizeon.cz non-redirect in Vercel dashboard",
+        "Remove noindexed pages from sitemap.ts",
+        "Rewrite highest-intent trade pages to full depth",
+        "Expand /sluzby/seo-optimalizace and add FAQPage schema"
+      ]},
+      {"name": "Phase 3: Content & Authority", "timeframe": "Month 2", "items": [
+        "Expand all 4 blog articles toward genuine depth",
+        "Name the founder on /o-mne",
+        "Verify testimonial authenticity/consent",
+        "Schema cleanup: consolidate Organization/ProfessionalService, add BlogPosting fields, fix logo",
+        "Add Content-Security-Policy header",
+        "Fix homepage H1 word-spacing bug",
+        "Fix mobile splash blocking hero content",
+        "Fix cookie-banner mobile overlap",
+        "Re-title homepage to stop keyword cannibalization"
+      ]},
+      {"name": "Phase 4: Monitoring & Iteration", "timeframe": "Ongoing", "items": [
+        "Rebalance internal links for under-linked spokes",
+        "Fix render-blocking CSS and non-composited animations",
+        "Trim/pad title and meta description lengths",
+        "Implement IndexNow",
+        "Monitor web-pro-* template pattern as it scales"
+      ]}
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  }
+}

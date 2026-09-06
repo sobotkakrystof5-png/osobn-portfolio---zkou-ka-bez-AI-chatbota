@@ -29,7 +29,7 @@ export const posts: BlogPost[] = [
       "Cena webu v roce 2026 se pohybuje od pár tisíc za šablonu až po desítky tisíc za web na míru. Rozebíráme, co ji nejvíc ovlivňuje — a kolik si účtuje VIZEON.",
     date: "2026-09-01",
     category: "Ceny webu",
-    readingMinutes: 3,
+    readingMinutes: 5,
     content: (
       <>
         <p className={t.body}>
@@ -63,6 +63,21 @@ export const posts: BlogPost[] = [
           skrytých poplatků.
         </p>
 
+        <h2 className={t.articleH2}>Šablona, nebo web na míru</h2>
+        <p className={t.body}>
+          Na trhu narazíte na dva zásadně odlišné přístupy k tvorbě webu. Hotová
+          šablona, kterou jen upravíte podle firmy, dává smysl tam, kde stačí
+          rychle informovat o existenci firmy – typicky u jednoduché vizitky nebo
+          stránky "již brzy". Jakmile ale má web aktivně přivádět poptávky, limity
+          šablony se rychle projeví: omezená struktura, pomalejší načítání kvůli
+          nadbytečnému kódu a horší možnost přizpůsobit stránku přesně tomu, jak se
+          u vás zákazníci rozhodují. Na co se přitom zaměřit, popisujeme v článku{" "}
+          <Link href="/blog/jak-poznat-kvalitni-web-pro-remeslnika" className={t.link}>
+            Jak poznat kvalitní web pro řemeslníka
+          </Link>{" "}
+          – většina bodů platí i mimo řemeslné obory.
+        </p>
+
         <h2 className={t.articleH2}>Kolik stojí web u VIZEON</h2>
         <p className={t.body}>
           Podle veřejného ceníku VIZEONu se cena odvíjí od rozsahu projektu. Kdo
@@ -72,8 +87,57 @@ export const posts: BlogPost[] = [
           jde o audit, lokální, obsahové nebo technické SEO – VIZEON řeší
           individuálně podle rozsahu webu.
         </p>
+        <p className={t.body}>
+          Nejjednodušší a cenově nejdostupnější je Micro Page – řeší jeden
+          konkrétní účel, ať je to stránka "již brzy", link-in-bio nebo
+          přesměrování. Kdo potřebuje jen důstojně informovat o existenci firmy,
+          jménu a kontaktu bez prodejního tlaku, sáhne po Online Vizitce. Promo
+          Page je landing page postavená kolem jedné konverze – poptávky nebo
+          objednávky. A Pro Web dává smysl tam, kde web řeší víc podstránek
+          najednou, pokročilejší animace nebo systém na míru, třeba rezervace.
+        </p>
 
         <PricingHighlight />
+
+        <h2 className={t.articleH2}>Co se do ceny nepočítá</h2>
+        <p className={t.body}>
+          Doménu a hosting obvykle zajišťuje registrátor domény nebo poskytovatel
+          hostingu jako samostatnou položku mimo cenu webu samotného. Podobně to platí u SEO
+          služeb: audit, lokální, obsahové i technické SEO se řeší individuálně
+          podle rozsahu webu a konkrétního zadání, protože rozsah práce se liší
+          projekt od projektu natolik, že paušální cena by byla zavádějící. Počítejte
+          proto s tím, že cena webu a cena SEO práce jsou dvě oddělené položky,
+          které se dají řešit i postupně – nejdřív web, SEO třeba až po spuštění.
+        </p>
+
+        <h2 className={t.articleH2}>Kolik trvá tvorba webu</h2>
+        <p className={t.body}>
+          Termín dodání se odvíjí od rozsahu podobně jako cena. Jednodušší weby,
+          jako je Online Vizitka, bývají hotové v řádu jednotek pracovních dní, u
+          rozsáhlejších projektů s vlastním systémem nebo pokročilejší
+          funkcionalitou počítejte obvykle s termínem do tří týdnů. Konkrétní
+          termín by měl být součástí nabídky od začátku, aby se v průběhu prací
+          neposouval bez vysvětlení.
+        </p>
+
+        <h2 className={t.articleH2}>Jak si připravit zadání pro přesnější nabídku</h2>
+        <p className={t.body}>
+          Přesnost nabídky, kterou od dodavatele dostanete, závisí hlavně na tom, jak
+          konkrétní zadání mu dáte. Sepište si předem, kolik podstránek reálně
+          potřebujete, jestli chcete vlastní texty a fotografie nebo je má zajistit
+          dodavatel, a jestli počítáte i se SEO, nebo zatím jen se samotným webem.
+          Nejasné zadání typu "udělejte mi hezký web" vede k nabídkám, které se od
+          sebe liší o desítky tisíc korun a nejdou mezi sebou vůbec porovnat.
+        </p>
+
+        <h2 className={t.articleH2}>Na co se zeptat, než podepíšete</h2>
+        <p className={t.body}>
+          Kromě samotné ceny se vyplatí zeptat, kolik kol úprav je v ceně
+          zahrnutých, jestli po dokončení dostanete přístupy ke správě obsahu a
+          zda vám patří doména a obsah webu, nebo zůstávají u dodavatele. Tahle
+          otázka rozhoduje o tom, jak snadno – a levně – budete moct web v
+          budoucnu upravit nebo přejít k jinému dodavateli.
+        </p>
 
         <p className={t.body}>
           Než se proto pustíte do výběru dodavatele, vyplatí se předem ujasnit
@@ -91,7 +155,7 @@ export const posts: BlogPost[] = [
       "Řemeslníci často dostanou nabídku hezky vypadajícího webu, který jim ale nepřivede jedinou poptávku. Rozebíráme, podle čeho kvalitní web pro řemeslníka poznáte předem.",
     date: "2026-09-02",
     category: "Weby pro řemeslníky",
-    readingMinutes: 4,
+    readingMinutes: 5,
     content: (
       <>
         <p className={t.body}>
@@ -118,6 +182,61 @@ export const posts: BlogPost[] = [
           jako doplněk v patičce.
         </p>
 
+        <h2 className={t.articleH2}>Kolik by měl web pro řemeslníka stát</h2>
+        <p className={t.body}>
+          Cena se u řemeslníků obvykle odvíjí od toho, kolik podstránek a jak
+          rozsáhlou galerii web potřebuje. Pro jednoho řemeslníka s galerií
+          realizací a poptávkovým formulářem často stačí Online Vizitka od 7 499
+          Kč, u rozsáhlejší prezentace s víc podstránkami nebo přehledem několika
+          řemesel najednou se hodí Promo Page od 9 999 Kč nebo Pro Web od 14 999
+          Kč. Kompletní a aktuální ceník najdete na{" "}
+          <Link href="/cena-tvorby-webu" className={t.link}>
+            stránce s ceníkem
+          </Link>
+          , podrobnější rozbor toho, co cenu webu obecně ovlivňuje, pak v článku{" "}
+          <Link href="/blog/kolik-stoji-tvorba-webu-2026" className={t.link}>
+            Kolik stojí tvorba webových stránek v roce 2026
+          </Link>
+          .
+        </p>
+
+        <h2 className={t.articleH2}>Jak dlouho má tvorba trvat</h2>
+        <p className={t.body}>
+          Řemeslníci obvykle nemůžou čekat na web měsíce – poptávky přicházejí
+          denně a konkurence nespí. Online Vizitka s galerií bývá hotová do 5
+          pracovních dní, Promo Page do 10 dní. Pokud vám dodavatel nedokáže
+          termín odhadnout ani orientačně, nebo mluví jen o "pár týdnech" bez
+          konkrétnějšího čísla, je to důvod ptát se dál.
+        </p>
+
+        <h2 className={t.articleH2}>Proč se vyplatí být opatrný u extrémně nízkých nabídek</h2>
+        <p className={t.body}>
+          Extrémně nízká cena bývá spíš varovný signál než výhoda. Nejčastěji za
+          ní stojí jedna z několika věcí: web postavený na univerzální šabloně
+          beze změn, žádné kolo úprav v ceně, dodavatel, který po předání přestane
+          komunikovat, nebo přístupy a doména, které si dodavatel ponechává, takže
+          na něm zůstáváte dál závislí. Levný web není automaticky špatný web, ale
+          je potřeba mnohem pečlivěji zjistit, co přesně cena obsahuje.
+        </p>
+
+        <h2 className={t.articleH2}>Co byste měli dostat při předání webu</h2>
+        <p className={t.body}>
+          Solidní dodavatel předá nejen hotový web, ale i přístupy do administrace,
+          návod, jak si sami přidávat fotky do galerie, a informaci, kam se obrátit,
+          když bude po spuštění potřeba drobná úprava. Pokud vám dodavatel nedá
+          přístupy vůbec, nebo je podmíní měsíční platbou navíc, není to nutně
+          problém – ale mělo by to zaznít předem, ideálně ještě před podpisem.
+        </p>
+
+        <h2 className={t.articleH2}>Kdy dává smysl měsíční správa webu</h2>
+        <p className={t.body}>
+          U jednoduché vizitky, kterou aktualizujete jednou za čas sami, měsíční
+          správu obvykle nepotřebujete. Vyplatí se tam, kde web běžně upravujete –
+          přidáváte fotky nových realizací, měníte ceník nebo chcete jistotu, že
+          web zůstane zabezpečený a aktuální i bez toho, abyste to sami hlídali.
+          U VIZEONu tuhle variantu řeší Web Care.
+        </p>
+
         <h2 className={t.articleH2}>Mobilní zobrazení není bonus, je základ</h2>
         <p className={t.body}>
           Většina návštěv webů pro řemeslníky přichází z mobilu — na stavbě, v autě mezi
@@ -137,6 +256,20 @@ export const posts: BlogPost[] = [
           . Pokud navíc chcete, aby vás našli i zákazníci z okolí, řeší se to jako{" "}
           <Link href="/sluzby/seo-optimalizace/lokalni-seo" className={t.link}>
             lokální SEO
+          </Link>
+          .
+        </p>
+
+        <h2 className={t.articleH2}>Reference, které něco dokazují</h2>
+        <p className={t.body}>
+          Vedle galerie realizací se vyplatí zeptat i na reference od konkrétních
+          klientů – jméno, obor a případně odkaz na jejich vlastní web. Anonymní
+          hodnocení bez ověřitelné vazby na skutečnou firmu má menší váhu než pár
+          jmenovitých referencí, u kterých si zákazník může sám dohledat, jak
+          výsledná práce v provozu skutečně vypadá. Pár ukázek realizací najdete
+          na stránce{" "}
+          <Link href="/ukazky-webu" className={t.link}>
+            Ukázky webů a reference od klientů
           </Link>
           .
         </p>
@@ -168,7 +301,7 @@ export const posts: BlogPost[] = [
       "Živnostník s webem, ale bez lokálního SEO, přichází o poptávky od lidí z vlastního okolí. Vysvětlujeme, z čeho se lokální SEO v Česku skládá a kde s ním začít.",
     date: "2026-09-02",
     category: "Lokální SEO",
-    readingMinutes: 4,
+    readingMinutes: 5,
     content: (
       <>
         <p className={t.body}>
@@ -204,11 +337,92 @@ export const posts: BlogPost[] = [
           oslabují signál, že jde o důvěryhodnou, aktivně vedenou firmu.
         </p>
 
+        <h2 className={t.articleH2}>Fotky v profilu nejsou jen doplněk</h2>
+        <p className={t.body}>
+          Profily s dostatkem aktuálních a kvalitních fotek – exteriéru, interiéru,
+          hotové práce – dostávají obvykle víc pozornosti než profil s jednou
+          rozmazanou fotkou z mobilu. U řemeslníků a služeb, kde zákazník rozhoduje
+          podle vzhledu výsledku, funguje fotka v profilu podobně jako galerie
+          realizací na webu: je to první věc, podle které se potenciální zákazník
+          rozhoduje, jestli klikne dál.
+        </p>
+
         <h2 className={t.articleH2}>Recenze jako nejsilnější signál</h2>
         <p className={t.body}>
           Počet a čerstvost recenzí patří mezi nejsilnější faktory, podle kterých se firmy v
           mapovém výřezu řadí. Nejjednodušší způsob, jak recenze získat, je požádat o ně
           spokojeného zákazníka krátce po dokončení zakázky, dokud je zážitek čerstvý.
+        </p>
+
+        <h2 className={t.articleH2}>Odpovídejte na recenze, i na ty negativní</h2>
+        <p className={t.body}>
+          Odpověď na recenzi – pozitivní i negativní – ukazuje ostatním zákazníkům i
+          vyhledávačům, že profil někdo aktivně spravuje. U negativní recenze se vyplatí
+          reagovat věcně, bez emocí a případně nabídnout řešení mimo veřejnou diskuzi.
+          Nezodpovězená negativní recenze bez jakéhokoli kontextu obvykle působí hůř než
+          recenze samotná.
+        </p>
+
+        <h2 className={t.articleH2}>Kategorie a otevírací doba rozhodují víc, než se zdá</h2>
+        <p className={t.body}>
+          Google Business Profile i Firmy.cz umožňují zvolit hlavní i doplňkové kategorie,
+          a právě podle nich vyhledávač pozná, na jaké dotazy se má profil zobrazovat.
+          Špatně zvolená nebo příliš obecná kategorie znamená, že se firma nezobrazí přesně
+          tam, kde by ji zákazník hledal. Stejně tak neaktuální otevírací doba patří mezi
+          nejčastější důvody, proč zákazník dorazí na zavřeno a příště zkusí konkurenci.
+        </p>
+
+        <h2 className={t.articleH2}>Příspěvky a Q&A v profilu</h2>
+        <p className={t.body}>
+          Google Business Profile umožňuje kromě základních údajů přidávat krátké
+          příspěvky – novinky, akce, sezónní nabídku – a odpovídat na dotazy v sekci
+          Q&A. Aktivně vedený profil s pravidelnými příspěvky obvykle působí
+          důvěryhodněji než profil, který od založení nikdo neotevřel.
+        </p>
+
+        <h2 className={t.articleH2}>Citace v dalších katalozích a mapách</h2>
+        <p className={t.body}>
+          Kromě Google Business Profile a Firmy.cz se vyplatí mít firmu založenou i
+          v dalších relevantních katalozích, třeba v oborových katalozích pro váš
+          obor nebo na sociálních sítích, kde firmu provozujete. Každá taková citace se stejnými NAP údaji
+          posiluje signál, že jde o skutečně existující a aktivně vedenou firmu – čím víc
+          nekonzistentních verzí adresy nebo telefonu je po internetu rozeseto, tím hůř.
+        </p>
+
+        <h2 className={t.articleH2}>Živnostník bez kamenné provozovny</h2>
+        <p className={t.body}>
+          Pokud jezdíte za zákazníkem – elektrikář, instalatér, úklidová firma – profil
+          se nastavuje jako služba s definovanou oblastí působnosti místo pobočky s
+          veřejnou adresou. Rozsah oblasti je potřeba nastavit realisticky: příliš široký
+          okruh rozmělní relevanci profilu pro konkrétní lokalitu, příliš úzký zase
+          zbytečně omezí, kdo vás vůbec najde. Víc o tom, jak takový web pro řemeslníky
+          stavím, najdete na stránce{" "}
+          <Link href="/web-pro-remeslniky" className={t.link}>
+            web pro řemeslníky
+          </Link>
+          .
+        </p>
+
+        <h2 className={t.articleH2}>Proč lokální SEO potřebuje i dobrý web</h2>
+        <p className={t.body}>
+          Profil na Google Business Profile a Firmy.cz přivede zákazníka k rozhodnutí
+          kliknout, ale samotné rozhodnutí objednat obvykle padne až na webu – proto
+          se nevyplatí řešit lokální SEO bez toho, aby web samotný fungoval a rychle
+          se načítal. Jak spolu obě věci souvisí a na co se u dodavatele webu
+          zeptat, rozebíráme v článku{" "}
+          <Link href="/blog/jak-poznat-kvalitni-web-pro-remeslnika" className={t.link}>
+            Jak poznat kvalitní web pro řemeslníka
+          </Link>
+          .
+        </p>
+
+        <h2 className={t.articleH2}>Jak sledovat, jestli lokální SEO funguje</h2>
+        <p className={t.body}>
+          Google Business Profile i Firmy.cz nabízí přehled statistik – kolikrát se
+          profil zobrazil, kolik lidí kliklo na web, zavolalo nebo si nechalo
+          zobrazit trasu. Sledování těchto čísel v čase je nejjednodušší způsob, jak
+          poznat, jestli optimalizace přináší reálný efekt, a ne se spoléhat jen na
+          dojem.
         </p>
 
         <h2 className={t.articleH2}>Jak dlouho to trvá</h2>
@@ -233,7 +447,7 @@ export const posts: BlogPost[] = [
       "Dva bezplatné firemní profily, dva různé vyhledávače. Rozebíráme, čím se Google Business Profile a Firmy.cz liší a co nastavit jako první, když máte čas jen na jedno.",
     date: "2026-09-02",
     category: "Lokální SEO",
-    readingMinutes: 3,
+    readingMinutes: 5,
     content: (
       <>
         <p className={t.body}>
@@ -257,12 +471,92 @@ export const posts: BlogPost[] = [
           klientely.
         </p>
 
+        <h2 className={t.articleH2}>Jak se profily liší ve správě</h2>
+        <p className={t.body}>
+          Google Business Profile se spravuje přes vlastní aplikaci nebo webové
+          rozhraní napojené na Google účet, a změny – třeba úprava otevírací doby –
+          se do vyhledávání promítnou obvykle rychle. Firmy.cz funguje obdobně přes
+          účet na Seznamu, ale jde o samostatný systém s vlastním schvalovacím
+          procesem u některých úprav. Nejde tedy o dvě jména jednoho rozhraní, ale
+          o dvě nezávislé platformy, které je potřeba spravovat zvlášť.
+        </p>
+
+        <h2 className={t.articleH2}>Seznam Mapy a Google Maps</h2>
+        <p className={t.body}>
+          Stejně jako se Google Business Profile propisuje do Google Maps, Firmy.cz
+          se propisuje do Seznam Map – druhé nejpoužívanější mapové služby v Česku.
+          Firma, která má vyplněný jen jeden z profilů, tak chybí v jedné ze dvou
+          map, které lidé při hledání služeb v okolí běžně otevírají.
+        </p>
+
+        <h2 className={t.articleH2}>Recenze se nepřenášejí mezi platformami</h2>
+        <p className={t.body}>
+          Recenze na Google Business Profile a recenze na Firmy.cz jsou dvě oddělené
+          sady hodnocení. Spokojený zákazník, který vám dal pět hvězd na Googlu, se
+          na Seznamu nijak neprojeví, dokud ho nepožádáte o recenzi i tam. Firma,
+          která si vybudovala silné hodnocení jen na jedné platformě, tak na druhé
+          může působit jako nová nebo neprověřená, i když ve skutečnosti dlouhodobě
+          funguje.
+        </p>
+
         <h2 className={t.articleH2}>Co nastavit jako první</h2>
         <p className={t.body}>
           Pokud musíte vybrat jen jedno, začněte Google Business Profile — Google má v Česku větší
           podíl na vyhledávání obecně. Firmy.cz by ale nemělo zůstat pozadu o víc než pár týdnů:
           jde o krátké nastavení a bez něj přicházíte o poptávky, které Seznam ukáže jinak než
           Google.
+        </p>
+
+        <h2 className={t.articleH2}>Který profil zákazníci vnímají důvěryhodněji</h2>
+        <p className={t.body}>
+          Ani jeden profil sám o sobě není důvěryhodnější – roli hraje hlavně to, jak
+          kompletní a aktuální je. Prázdný nebo dlouho neaktualizovaný profil na
+          kterékoli platformě působí hůř než profil na té "méně důležité" platformě,
+          který je vyplněný pořádně, s fotkami a odpověďmi na recenze.
+        </p>
+
+        <h2 className={t.articleH2}>Co dělat, když firma působí ve víc městech</h2>
+        <p className={t.body}>
+          Pokud firma působí ve víc lokalitách, obě platformy umožňují založit
+          samostatný profil pro každou pobočku nebo oblast působnosti. Duplikovat
+          jeden profil pro víc měst není řešení – vyhledávač pak neví, kterou
+          lokalitu má zobrazit, a relevance profilu pro konkrétní město klesá.
+        </p>
+
+        <h2 className={t.articleH2}>Kolik času správa obou profilů zabere</h2>
+        <p className={t.body}>
+          Založení obou profilů je u jednoduché živnosti bez víc poboček otázka
+          jednoho odpoledne. Průběžná správa – reakce na recenze, aktualizace fotek
+          a otevírací doby – zabere řádově pár minut týdně, pokud si na ni uděláte
+          pravidelný čas, místo abyste ji řešili nárazově jednou za půl roku.
+        </p>
+
+        <h2 className={t.articleH2}>Odkaz na web patří do obou profilů</h2>
+        <p className={t.body}>
+          Oba profily umožňují přidat odkaz na web – nevynechávejte ho ani na
+          jednom z nich. Je to nejpřímější cesta, jak profil, který zákazníka
+          zaujme, propojit s webem, kde padne finální rozhodnutí objednat nebo
+          poptat.
+        </p>
+
+        <h2 className={t.articleH2}>Jak poznat, že profil není správně nastavený</h2>
+        <p className={t.body}>
+          Nejjistější signál je nesoulad: jiná adresa nebo telefon na webu než v
+          profilu, zavřená provozovna podle otevírací doby v době, kdy ve
+          skutečnosti fungujete, nebo dlouho nezodpovězené recenze. Tyhle drobnosti
+          samy o sobě web nepotopí, ale u zákazníka, který porovnává víc firem
+          najednou, rozhodují o tom, komu nakonec zavolá.
+        </p>
+
+        <h2 className={t.articleH2}>Typické chyby při zakládání profilu</h2>
+        <p className={t.body}>
+          Nejčastější chybou je duplicitní profil – firma vznikne na platformě
+          automaticky, třeba z veřejného rejstříku, a majitel si založí druhý,
+          aniž by ten první převzal nebo nechal sloučit. Vyhledávač pak neví,
+          který profil je aktuální, a rozmělňuje mezi nimi recenze i signály
+          relevance. Další časté chyby jsou nepřevzatý (neověřený) profil, který
+          může upravovat kdokoli, špatně zvolená kategorie a zapomenutá aktualizace
+          při stěhování provozovny nebo změně telefonu.
         </p>
 
         <h2 className={t.articleH2}>Stejné údaje na obou profilech</h2>

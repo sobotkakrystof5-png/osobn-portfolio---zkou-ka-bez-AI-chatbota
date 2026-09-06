@@ -268,17 +268,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-    {
-      url: `${base}/gdpr`,
-      lastModified: "2026-05-23",
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${base}/podminky`,
-      lastModified: "2026-05-23",
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
+    // /gdpr a /podminky mají noindex (viz jejich metadata) — záměrně vynechány
+    // ze sitemapy, ať Google nedostává protichůdný signál (noindex + sitemap
+    // listing). Stejný vzor jako /admin a /admin-setup.
   ];
 }

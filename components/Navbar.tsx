@@ -32,18 +32,25 @@ export default function Navbar() {
             <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#8a8070]">Web. Design. Výsledky.</span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Hlavní navigace">
+          {/* Desktop nav — whitespace-nowrap: bez toho se "O mně" (jediná
+              položka se skutečnou mezerou v textu) v tísni s místem zalamovalo
+              na dva řádky, zatímco jednoslovné položky (nezalomitelné) zůstaly
+              vždy na jednom — flexbox "ukrádal" prostor právě jemu. Responzivní
+              gap drží při šíři ~1024-1279px (10 položek + logo + CTA) víc
+              volného místa, viz vizeon.cz-audit — nová položka "Obory". */}
+          <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8" aria-label="Hlavní navigace">
             {NAV_LINKS.map((l) => (
               <Link key={l.href} href={l.href}
-                className="font-inter font-normal text-[12px] tracking-[0.08em] text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300 uppercase">
+                className="font-inter font-normal text-[12px] tracking-[0.08em] text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300 uppercase whitespace-nowrap">
                 {l.label}
               </Link>
             ))}
           </nav>
 
-          {/* CTA */}
-          <CTAButton className="hidden md:inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-5 py-2.5 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
+          {/* CTA — schovaná mezi md-lg (768-1279px): s logem + 10 položkami
+              navigace + CTA se tam už nevejde na jeden řádek bez zalamování/
+              přetečení (viz audit). Od xl (1280px) je zpátky vidět. */}
+          <CTAButton className="hidden xl:inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-5 py-2.5 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
             Konzultace zdarma
           </CTAButton>
 

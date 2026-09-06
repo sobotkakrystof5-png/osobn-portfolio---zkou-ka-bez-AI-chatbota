@@ -6,6 +6,7 @@ export type NavLink = { label: string; href: string };
 export const NAV_LINKS: NavLink[] = [
   { label: "O mně", href: "/o-mne" },
   { label: "Služby", href: "/sluzby" },
+  { label: "Obory", href: "/tvorba-webu-pro-zivnostniky" },
   { label: "Spolupráce", href: "/spoluprace" },
   { label: "Projekty", href: "/ukazky-webu" },
   { label: "Ceník", href: "/cena-tvorby-webu" },

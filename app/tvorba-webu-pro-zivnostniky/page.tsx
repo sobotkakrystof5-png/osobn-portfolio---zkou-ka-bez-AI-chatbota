@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
+import { getIndustryBySlug } from "@/lib/data/industries";
 
 export function generateMetadata(): Metadata {
   return {
@@ -132,6 +133,38 @@ const obory = [
   },
 ];
 
+// Kompletní přehled všech 19 oborových stránek — viz cluster.md finding 2:
+// pillar dřív odkazoval jen na 4 z 19 spoků. Slugy podle INDUSTRIES (jediný
+// zdroj pravdy, viz lib/data/industries.ts), seskupené podle stejných
+// klastrů, se kterými pracuje RelatedIndustries/relatedSlugs.
+const oboryGroups = [
+  {
+    label: "Řemeslníci a stavební řemesla",
+    slugs: [
+      "web-pro-remeslniky",
+      "web-pro-truhlare",
+      "web-pro-zamecniky",
+      "web-pro-kovare",
+      "web-pro-rezbare",
+      "web-pro-studnare",
+      "web-pro-malire",
+      "web-pro-sanace",
+      "web-pro-zahradniky",
+      "web-pro-instalatery",
+      "web-pro-elektrikare",
+      "web-pro-autoservisy",
+    ],
+  },
+  {
+    label: "Krása a wellness",
+    slugs: ["web-pro-kadernictvi", "web-pro-masery-a-wellness", "web-pro-kosmeticky", "web-pro-fitness-trenery"],
+  },
+  {
+    label: "Odborné a kreativní služby",
+    slugs: ["web-pro-ucetni", "web-pro-realitni-maklere", "web-pro-fotografy"],
+  },
+];
+
 const faqs = [
   {
     q: "Vyplatí se web, i když mám jen pár desítek zákazníků měsíčně?",
@@ -251,6 +284,41 @@ export default function TvorbaWebuProZivnostnikyPage() {
                     {o.title}
                   </h3>
                   <p>{o.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Kompletní přehled všech 19 oborových stránek jedním kliknutím */}
+          <section aria-labelledby="vsechny-obory">
+            <h2 id="vsechny-obory" className="font-cormorant font-light text-[26px] md:text-[36px] text-[#f0ece6] mb-3">
+              Všechny obory, které řeším
+            </h2>
+            <p className="mb-8">
+              Nad rámec čtyř oborů popsaných výše mám samostatnou vzorovou stránku i pro tato
+              řemesla a specializace:
+            </p>
+            <div className="space-y-8">
+              {oboryGroups.map((group) => (
+                <div key={group.label}>
+                  <h3 className="font-inter font-medium text-[12px] uppercase tracking-[0.15em] text-[#5a5148] mb-3">
+                    {group.label}
+                  </h3>
+                  <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    {group.slugs.map((slug) => {
+                      const industry = getIndustryBySlug(slug);
+                      if (!industry) return null;
+                      return (
+                        <Link
+                          key={slug}
+                          href={`/${slug}`}
+                          className="font-inter font-light text-[14px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
+                        >
+                          {industry.name} →
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
             </div>

@@ -46,7 +46,7 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
   };
 
   return (
-    <section id="kontakt" className="py-28 md:py-40 bg-[#0e0e0e] relative overflow-hidden" aria-label="Kontakt">
+    <section id="kontakt" className="py-28 md:py-40 bg-[#0e0e0e] relative overflow-hidden scroll-mb-24" aria-label="Kontakt">
       {/* Glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
         style={{ background: "radial-gradient(ellipse, rgba(201,168,76,0.05), transparent 70%)" }} />

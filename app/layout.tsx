@@ -6,7 +6,7 @@ import { BookingProvider } from "@/context/BookingContext";
 import { Toaster } from "react-hot-toast";
 import ClientBooking from "./ClientBooking";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import N8nChatWidget from "@/components/N8nChatWidget";
+import N8nChatWidget from "@/components/N8nChatWidgetLoader";
 import CookieBanner from "@/components/CookieBanner";
 
 const cormorant = Cormorant_Garamond({
@@ -82,10 +82,14 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "ProfessionalService",
+      "@id": "https://vizeon.cz/#organization",
       name: "VIZEON",
       url: "https://vizeon.cz",
       telephone: "+420604837333",
       email: "info@vizeon.cz",
+      // TODO: nahradit reálným logem ≥112×112px, až vznikne design asset —
+      // aktuální favicon.ico je 32×32 a nesplňuje Google minimum pro Organization.logo.
+      logo: "https://vizeon.cz/favicon.ico",
       areaServed: { "@type": "Country", name: "Česká republika" },
       description:
         "Tvorba webů na míru, AI chatboti, systémy na míru, grafický design a technické služby. Weby a grafika, které zvyšují tržby a konverze.",
@@ -97,6 +101,13 @@ const jsonLd = {
         "Technické služby",
         "SEO optimalizace",
         "Zvýšení tržeb a konverzí",
+      ],
+      sameAs: [
+        "https://www.facebook.com/profile.php?id=100086439650056",
+        "https://www.instagram.com/vizeon_official/",
+        // TODO: až vznikne Google Business Profile, doplnit sem jeho Google Maps
+        // URL (formát https://maps.app.goo.gl/... nebo g.page/...) — posílí to
+        // provázání profilu s webem pro Google.
       ],
       // TODO: až vznikne Google Business Profile s reálnými recenzemi (viz manuální
       // checklist), doplnit sem `aggregateRating: { "@type": "AggregateRating",
@@ -112,9 +123,6 @@ const jsonLd = {
       sameAs: [
         "https://www.facebook.com/profile.php?id=100086439650056",
         "https://www.instagram.com/vizeon_official/",
-        // TODO: až vznikne Google Business Profile, doplnit sem jeho Google Maps
-        // URL (formát https://maps.app.goo.gl/... nebo g.page/...) — posílí to
-        // provázání profilu s webem pro Google.
       ],
     },
     {

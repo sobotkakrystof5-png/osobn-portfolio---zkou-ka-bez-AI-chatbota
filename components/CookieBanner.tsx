@@ -35,7 +35,7 @@ export default function CookieBanner() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] bg-[#111111] border-t border-white/[0.07]"
+          className="fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] bg-[#111111] border-t border-white/[0.07] shadow-[0_-16px_40px_-12px_rgba(0,0,0,0.6)]"
           role="dialog"
           aria-label="Nastavení cookies"
           aria-live="polite"
@@ -43,23 +43,23 @@ export default function CookieBanner() {
           {/* Gold top accent line */}
           <div className="h-[1px]" style={{ background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent)" }} aria-hidden="true" />
 
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.6] max-w-xl">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 py-3.5 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+            <p className="font-inter font-light text-[12px] sm:text-[13px] text-[#8a8070] leading-[1.5] sm:leading-[1.6] max-w-xl">
               Tento web používá cookies pro lepší uživatelský zážitek a analýzu návštěvnosti.{" "}
               <a href="/gdpr" className="text-[#c9a84c] hover:underline underline-offset-4 transition-all">
                 Více informací
               </a>
             </p>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
               <button
                 onClick={accept}
-                className="font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#080808] bg-[#c9a84c] px-5 py-2.5 hover:bg-[#d4b968] transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-[#c9a84c]/40 focus-visible:outline-none"
+                className="font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#080808] bg-[#c9a84c] px-4 py-2 sm:px-5 sm:py-2.5 hover:bg-[#d4b968] transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-[#c9a84c]/40 focus-visible:outline-none"
               >
                 Přijmout
               </button>
               <button
                 onClick={reject}
-                className="font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] border border-white/[0.07] px-5 py-2.5 hover:border-white/20 hover:text-[#f0ece6] transition-all duration-300 focus-visible:ring-2 focus-visible:ring-white/10 focus-visible:outline-none"
+                className="font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] border border-white/[0.07] px-4 py-2 sm:px-5 sm:py-2.5 hover:border-white/20 hover:text-[#f0ece6] transition-all duration-300 focus-visible:ring-2 focus-visible:ring-white/10 focus-visible:outline-none"
               >
                 Odmítnout
               </button>
