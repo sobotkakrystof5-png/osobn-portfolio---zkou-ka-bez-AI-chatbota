@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { BookingProvider } from "@/context/BookingContext";
@@ -8,6 +9,48 @@ import ClientBooking from "./ClientBooking";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import N8nChatWidget from "@/components/N8nChatWidgetLoader";
 import CookieBanner from "@/components/CookieBanner";
+
+// Safari s vypnutým "Block All Cookies" hodí synchronní SecurityError na
+// KAŽDÝ přístup k localStorage/sessionStorage — nejen náš vlastní kód (ten
+// má safeStorageGet/Set, viz lib/utils.ts), ale i @n8n/chat (session ID
+// persistence, viz node_modules/@n8n/chat/dist), který tuhle výjimku nikde
+// nechytá. Tam nemůžeme opravit zdroj (node_modules se přepíše při dalším
+// npm install), takže storage nahradíme in-memory náhradou ještě předtím,
+// než se spustí JAKÝKOLI jiný skript — beforeInteractive garantuje běh před
+// Next.js hydratací i před dynamickým importem chat widgetu.
+const STORAGE_POLYFILL = `
+(function () {
+  function works(name) {
+    try {
+      var s = window[name];
+      var k = "__vizeon_test__";
+      s.setItem(k, "1");
+      s.removeItem(k);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  function memoryStorage() {
+    var data = {};
+    return {
+      getItem: function (k) { return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
+      setItem: function (k, v) { data[k] = String(v); },
+      removeItem: function (k) { delete data[k]; },
+      clear: function () { data = {}; },
+      key: function (i) { return Object.keys(data)[i] || null; },
+      get length() { return Object.keys(data).length; },
+    };
+  }
+  ["localStorage", "sessionStorage"].forEach(function (name) {
+    if (!works(name)) {
+      try {
+        Object.defineProperty(window, name, { value: memoryStorage(), configurable: true, writable: false });
+      } catch (e) {}
+    }
+  });
+})();
+`;
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -144,6 +187,9 @@ export default function RootLayout({
   return (
     <html lang="cs" className={cn(cormorant.variable, inter.variable, "font-sans")}>
       <head>
+        <Script id="safe-storage-polyfill" strategy="beforeInteractive">
+          {STORAGE_POLYFILL}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
