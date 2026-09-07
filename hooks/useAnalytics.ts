@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
+import { safeStorageGet, safeStorageSet } from '@/lib/utils'
 
 // ── Session ID (unikátní per návštěva, ne per tab) ──────
 function getSessionId(): string {
   if (typeof window === 'undefined') return 'ssr'
-  let sid = sessionStorage.getItem('v_sid')
+  let sid = safeStorageGet(sessionStorage, 'v_sid')
   if (!sid) {
     sid = crypto.randomUUID()
-    sessionStorage.setItem('v_sid', sid)
+    safeStorageSet(sessionStorage, 'v_sid', sid)
   }
   return sid
 }

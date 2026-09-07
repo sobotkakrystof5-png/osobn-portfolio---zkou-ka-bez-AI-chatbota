@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { safeStorageGet, safeStorageSet } from "@/lib/utils";
 
 const STORAGE_KEY = "vizeon-cookie-consent";
 
@@ -9,7 +10,7 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = safeStorageGet(localStorage, STORAGE_KEY);
     if (!stored) {
       const t = setTimeout(() => setVisible(true), 2500);
       return () => clearTimeout(t);
@@ -24,8 +25,8 @@ export default function CookieBanner() {
     return () => document.body.classList.remove("cookie-banner-visible");
   }, [visible]);
 
-  const accept = () => { localStorage.setItem(STORAGE_KEY, "accepted"); setVisible(false); };
-  const reject = () => { localStorage.setItem(STORAGE_KEY, "rejected"); setVisible(false); };
+  const accept = () => { safeStorageSet(localStorage, STORAGE_KEY, "accepted"); setVisible(false); };
+  const reject = () => { safeStorageSet(localStorage, STORAGE_KEY, "rejected"); setVisible(false); };
 
   return (
     <AnimatePresence>

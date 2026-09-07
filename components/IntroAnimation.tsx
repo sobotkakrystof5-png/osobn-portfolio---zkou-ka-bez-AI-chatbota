@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollLock } from "@/hooks/useScrollLock";
+import { safeStorageGet, safeStorageSet } from "@/lib/utils";
 
 const LETTERS = ["V", "I", "Z", "E", "O", "N"];
 const WORDS   = ["Web.", "Design.", "Výsledky."];
@@ -38,7 +39,7 @@ export default function IntroAnimation() {
     }
 
     // Jednou za session — pokud už uživatel viděl intro, přeskoč
-    if (typeof window !== "undefined" && sessionStorage.getItem("vizeon_intro")) {
+    if (typeof window !== "undefined" && safeStorageGet(sessionStorage, "vizeon_intro")) {
       setSkip(true);
       setLocked(false);
       return;
@@ -66,7 +67,7 @@ export default function IntroAnimation() {
   const handleExitComplete = () => {
     setLocked(false);
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("vizeon_intro", "1");
+      safeStorageSet(sessionStorage, "vizeon_intro", "1");
     }
   };
 
