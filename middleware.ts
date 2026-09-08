@@ -38,7 +38,8 @@ function isRateLimited(key: string, maxRequests: number, windowMs: number): bool
 
 /* ─── Povolené originy ──────────────────────────────────────────────────── */
 // vizeon.cz (bez www) je jediná kanonická doména — www.vizeon.cz se přesměrovává
-// na apex ve vercel.json, takže sem by Origin: https://www.vizeon.cz neměl nikdy dorazit.
+// na apex ve vercel.json (dvě pravidla: holý root "/" a "/:path*", protože /:path*
+// samo root nematchuje), takže sem by Origin: https://www.vizeon.cz neměl nikdy dorazit.
 const ALLOWED_ORIGINS = [
   'https://vizeon.cz',
 ];

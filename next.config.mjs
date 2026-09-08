@@ -88,7 +88,11 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: https:",
-              "connect-src 'self' https://www.google-analytics.com https://*.supabase.co wss://*.supabase.co",
+              // GA4 posílá measurement hity na regionální endpointy (region1.google-analytics.com,
+              // region1.analytics.google.com), ne jen na www.google-analytics.com — bez wildcardů
+              // CSP hity zablokuje a analytika tiše přijde o data. Sada dle
+              // developers.google.com/tag-platform/security/guides/csp.
+              "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co wss://*.supabase.co",
               "frame-src 'self'",
               "object-src 'none'",
               "base-uri 'self'",
