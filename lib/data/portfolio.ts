@@ -100,6 +100,24 @@ export const projects: Project[] = [
     alt: "EstatIQ — vlastní produkt pro správu nemovitostí ve fázi prelaunch",
     badgeType: "own" as const,
   },
+  {
+    slug: "malirske-prace-litomerice",
+    title: "Michal Varchol — Malířské práce",
+    category: "Malířství & Natěračství",
+    stack: ["HTML5", "CSS3", "JavaScript"],
+    description: "Firemní web pro malíře a lakýrníka s 20 lety praxe v Litoměřicích a okolí. Prezentuje malby interiérů, fasádní nátěry, renovace dřevěných fasád i pronájem lešení, s galerií rozdělenou podle typu zakázky.",
+    highlights: [
+      "Přehledný výpis služeb — malby, lakýrnické práce, fasádní nátěry i renovace dřeva",
+      "Galerie realizací rozdělená do 5 kategorií podle typu práce",
+      "Samostatná sekce pro pronájem rámového lešení",
+      "Kontaktní formulář a reference pro rychlé poptávky",
+    ],
+    url: "https://www.malirske-nateracske-prace-litomerice.cz",
+    image: "/portfolio/varchol.jpg",
+    alt: "Firemní web pro malíře pokojů a natěrače Michala Varchola — Litoměřice",
+    badgeType: "client" as const,
+    internalLink: { text: "Chcete podobný web pro malíře pokojů?", href: "/web-pro-malire" },
+  },
 ];
 
 export const badgeStyles: Record<string, { label: string; className: string }> = {

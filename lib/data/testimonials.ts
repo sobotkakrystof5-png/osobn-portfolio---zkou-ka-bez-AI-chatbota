@@ -20,6 +20,13 @@ export const testimonials: Testimonial[] = [
     url: "https://www.masazekestner.cz",
     urlLabel: "masazekestner.cz",
   },
+  {
+    quote:
+      "S panem Sobotkou jsem byl maximálně spokojený. Měl se mnou velkou trpělivost a všechno jsme spolu postupně doladili přesně podle mých představ. Komunikace byla super, vše proběhlo podle domluvy a web funguje přesně, jak má. Pokud budu v budoucnu znovu potřebovat jeho služby, určitě se na něj obrátím. Za mě určitě doporučuji!",
+    name: "Michal Varchol",
+    url: "https://www.malirske-nateracske-prace-litomerice.cz",
+    urlLabel: "malirske-nateracske-prace-litomerice.cz",
+  },
 ];
 
 // Používá se JEN v ReferencesSection na homepage, ne v components/Testimonials.tsx.
