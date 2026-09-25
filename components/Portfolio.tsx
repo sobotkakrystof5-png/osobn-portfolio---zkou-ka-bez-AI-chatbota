@@ -5,8 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, stagger, cardEntrance, viewport } from "@/lib/animations";
 import { ArrowUpRight } from "lucide-react";
-import { projects, badgeStyles } from "@/lib/data/portfolio";
-import { cn } from "@/lib/utils";
+import { projects } from "@/lib/data/portfolio";
 
 export default function Portfolio() {
   return (
@@ -43,12 +42,6 @@ export default function Portfolio() {
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" aria-hidden="true" />
-                  <span className={cn(
-                    "absolute top-3 right-3 font-inter font-normal text-[10px] uppercase tracking-[0.1em] border px-2.5 py-1 bg-[#080808]/85 backdrop-blur-sm rounded-full",
-                    badgeStyles[p.badgeType].className
-                  )}>
-                    {badgeStyles[p.badgeType].label}
-                  </span>
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c9a84c]/0 group-hover:bg-[#c9a84c]/60 transition-colors duration-400" aria-hidden="true" />
                 </div>
 

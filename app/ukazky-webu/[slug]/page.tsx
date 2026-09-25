@@ -6,7 +6,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
-import { projects, badgeStyles } from "@/lib/data/portfolio";
+import { projects } from "@/lib/data/portfolio";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -114,10 +114,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   </span>
                 ))}
               </div>
-
-              <p className="font-inter font-light text-[12px] text-[#8a8070] mb-6">
-                {badgeStyles[project.badgeType].label}
-              </p>
 
               <a
                 href={project.url}
