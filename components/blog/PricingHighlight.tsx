@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PRICING_CATEGORIES } from "@/lib/data/pricing";
+import { PriceLabel } from "@/components/PriceLabel";
 import { cn } from "@/lib/utils";
 
 // Vizuální náhled ceníku pro vložení do článků o cenách/rozpočtu. Čte přímo
@@ -36,7 +37,7 @@ export function PricingHighlight() {
               </p>
             </div>
             <p className="mt-3 font-cormorant font-light text-[22px] text-[#c9a84c]">
-              {tier.price}
+              <PriceLabel price={tier.price} />
             </p>
           </div>
         ))}

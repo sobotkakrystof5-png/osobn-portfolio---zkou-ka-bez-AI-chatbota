@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
 import { PRICING_CATEGORIES, type PricingItem } from "@/lib/data/pricing";
+import { PriceLabel } from "@/components/PriceLabel";
 
 function ServiceCard({ item }: { item: PricingItem }) {
   return (
@@ -55,7 +56,9 @@ function ServiceCard({ item }: { item: PricingItem }) {
       )}
 
       <div className="mt-auto">
-        <p className="font-cormorant font-normal text-[30px] text-[#f0ece6] leading-none mb-3 relative z-10">{item.price}</p>
+        <p className="font-cormorant font-normal text-[30px] text-[#f0ece6] leading-none mb-3 relative z-10">
+          <PriceLabel price={item.price} />
+        </p>
         {item.bonus && (
           <p className="font-inter font-light text-[11px] text-[#c9a84c] relative z-10">{item.bonus}</p>
         )}

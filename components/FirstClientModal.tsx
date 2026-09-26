@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, CheckCircle, ArrowRight, Calendar, Clock } from "lucide-react";
 import { MobileModal } from "@/components/ui/MobileModal";
+import { PriceLabel } from "@/components/PriceLabel";
 import { PRICING_CATEGORIES } from "@/lib/data/pricing";
 
 const services = PRICING_CATEGORIES.map((category) => ({
@@ -169,7 +170,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                               <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#c9a84c]" aria-hidden="true" />
                             )}
                             <p className="font-inter font-medium text-[12px] text-[#f0ece6] mb-1">{item.name}</p>
-                            <p className="font-inter font-medium text-[13px] text-[#c9a84c]">{item.price}</p>
+                            <p className="font-inter font-medium text-[13px] text-[#c9a84c]"><PriceLabel price={item.price} /></p>
                           </button>
                         );
                       })}
@@ -252,7 +253,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                   </p>
                   <div className="flex items-center gap-3">
                     <span className="font-inter font-medium text-[14px] text-[#c9a84c]">
-                      {selectedService?.price}
+                      {selectedService && <PriceLabel price={selectedService.price} />}
                     </span>
                   </div>
                 </div>
@@ -400,7 +401,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                   </div>
                   <div className="flex justify-between">
                     <span className="font-inter font-light text-[12px] text-[#8a8070]">Cena</span>
-                    <span className="font-inter font-medium text-[12px] text-[#c9a84c]">{selectedService?.price}</span>
+                    <span className="font-inter font-medium text-[12px] text-[#c9a84c]">{selectedService && <PriceLabel price={selectedService.price} />}</span>
                   </div>
                   {date && (
                     <div className="flex justify-between">

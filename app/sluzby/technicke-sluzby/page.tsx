@@ -7,6 +7,7 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { PRICE_BY_NAME } from "@/lib/data/pricing";
+import { PriceLabel } from "@/components/PriceLabel";
 
 export function generateMetadata(): Metadata {
   return {
@@ -74,7 +75,7 @@ export default function TechnickeSluzbyPage() {
                 <div key={i.name} className="border border-white/[0.06] p-5">
                   <div className="flex items-baseline justify-between gap-3 mb-1.5">
                     <h3 className={t.h3}>{i.name}</h3>
-                    <span className="font-cormorant text-[20px] text-[#c9a84c] whitespace-nowrap">{i.price}</span>
+                    <span className="font-cormorant text-[20px] text-[#c9a84c] whitespace-nowrap"><PriceLabel price={i.price} /></span>
                   </div>
                   <p className={t.body}>{i.desc}</p>
                 </div>
