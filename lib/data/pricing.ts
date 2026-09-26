@@ -32,7 +32,7 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
         name: "Micro Page",
         subtitle:
           "Jedna stránka na jeden účel: coming soon, link-in-bio nebo redirect. Vyberete si jednu ze tří variant, ne balíček všech tří.",
-        price: "4 999 Kč",
+        price: "od 4 999 Kč",
         badge: "Nejlevnější",
         variants: ["Coming soon", "Link-in-bio", "Redirect"],
         includeInQuickInquiry: true,
@@ -42,14 +42,14 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
         name: "Online Vizitka",
         subtitle:
           "Jméno, logo, kontakt a krátké představení firmy. Bez prodejního tlaku a CTA tlačítek. Jen informuje, že existujete a jste snadno dohledatelní a kontaktovatelní.",
-        price: "7 499 Kč",
+        price: "od 7 499 Kč",
         includeInQuickInquiry: true,
       },
       {
         id: "promo",
         name: "Promo Page",
         subtitle: "Landing page: jedna stránka, maximální dojem",
-        price: "9 999 Kč",
+        price: "od 9 999 Kč",
         featured: true,
         badge: "Nejoblíbenější",
         includeInQuickInquiry: true,
@@ -58,7 +58,7 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
         id: "proweb",
         name: "Pro Web",
         subtitle: "Více stránek, pokročilé animace a systémy na míru",
-        price: "14 999 Kč",
+        price: "od 14 999 Kč",
         includeInQuickInquiry: true,
       },
       {
