@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Mail, Phone } from "lucide-react";
 import { fadeUp, viewport } from "@/lib/animations";
 import { NAV_LINKS } from "@/lib/nav";
+import { AltenoMark } from "@/components/brand/AltenoMark";
+import { altenoUrl } from "@/lib/alteno";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (
@@ -59,6 +61,38 @@ export default function Footer() {
             <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7] max-w-xs mt-4">
               Tvořím webové stránky a grafiku na míru, které mají smysl pro váš byznys. Jeden člověk, přímá komunikace a důraz na výsledek.
             </p>
+
+            {/* Rodina značek sedí pod Brand sloupcem, ne v navigaci —
+                lib/nav.ts je sdílený s Navbarem, kde je na další položku
+                natěsno (viz komentář o šířce v Navbar.tsx). */}
+            <div className="mt-8 pt-6 border-t border-white/[0.05] max-w-xs">
+              <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-3">
+                Rodina značek
+              </p>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="font-cormorant font-light text-[16px] tracking-[0.12em] text-[#f0ece6]">
+                  VIZEON
+                </span>
+                <span className="font-inter font-light text-[11px] text-[#3d3830]" aria-hidden="true">
+                  |
+                </span>
+                <a
+                  href={altenoUrl("/", "footer")}
+                  target="_blank"
+                  rel="noopener"
+                  className="transition-opacity duration-300 hover:opacity-70"
+                >
+                  <AltenoMark size="sm" />
+                </a>
+              </div>
+              <p className="font-inter font-light text-[12px] text-[#8a8070] leading-[1.7]">
+                Weby dělám pod VIZEONEM,{" "}
+                <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
+                  automatizaci firemních procesů
+                </Link>{" "}
+                pod značkou ALTENO. Za oběma stojí jeden člověk.
+              </p>
+            </div>
           </motion.div>
 
           {/* Navigation */}

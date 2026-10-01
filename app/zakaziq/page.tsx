@@ -42,6 +42,14 @@ export default function ZakazIQPage() {
       <ZakazIQ />
 
       <div className={cn(t.container.page, "pb-16 md:pb-24")}>
+        <p className={cn(t.body, "mb-10 max-w-2xl")}>
+          Portál využívají obě moje značky. Ať u mě řešíte web pod VIZEONEM, nebo{" "}
+          <Link href="/automatizace" className={t.link}>
+            automatizaci pod značkou ALTENO
+          </Link>
+          , stav zakázky vidíte na jednom místě.
+        </p>
+
         <Link href="/" className={t.backLink}>
           ← Zpět na hlavní stránku
         </Link>

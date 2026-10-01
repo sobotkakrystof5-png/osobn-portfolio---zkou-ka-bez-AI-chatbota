@@ -11,7 +11,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "Služby — weby, AI chatboti, systémy a grafika",
     description:
-      "Nabízím živnostníkům a malým firmám weby na míru, AI chatboty, rezervační systémy, grafický design i technické služby.",
+      "Nabízím živnostníkům a malým firmám weby na míru, AI chatboty, rezervační systémy, grafický design, technické služby i automatizaci.",
     alternates: { canonical: "https://vizeon.cz/sluzby" },
     openGraph: {
       title: "Služby — weby, AI chatboti, systémy a grafika | VIZEON",

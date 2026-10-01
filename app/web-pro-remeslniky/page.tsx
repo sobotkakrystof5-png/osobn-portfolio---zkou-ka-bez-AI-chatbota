@@ -261,6 +261,14 @@ export default function WebProRemeslnikyPage() {
               </Link>
               .
             </p>
+            <p className="mt-4">
+              Když jste celý den na place, poptávky z webu čekají do večera. Potvrzení zákazníkovi
+              a upozornění pro vás můžou odejít samy, viz{" "}
+              <Link href="/automatizace#automatizace-procesu" className="text-[#c9a84c] hover:underline">
+                automatizace poptávek z webu
+              </Link>
+              .
+            </p>
           </section>
 
           {/* FAQ */}

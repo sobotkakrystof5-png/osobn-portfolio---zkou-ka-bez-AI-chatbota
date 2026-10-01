@@ -104,6 +104,21 @@ export default function AiChatbotPage() {
             </p>
           </section>
 
+          <section aria-labelledby="rag">
+            <h2 id="rag" className={cn(t.h2Page, "mb-4")}>
+              Když má chatbot prohledávat vaše podklady
+            </h2>
+            <p className={t.body}>
+              Starter i Pro stačí na běžné dotazy kolem vašich služeb. Jakmile má chatbot hledat
+              odpovědi ve větším množství podkladů, třeba v katalogu, návodech nebo smlouvách,
+              řeší to{" "}
+              <Link href="/automatizace#chatboti-rag" className={t.link}>
+                chatboti a RAG
+              </Link>{" "}
+              pod mou druhou značkou ALTENO.
+            </p>
+          </section>
+
           <section aria-labelledby="pro-koho">
             <h2 id="pro-koho" className={cn(t.h2Page, "mb-4")}>Pro koho se to hodí</h2>
             <p className={t.body}>

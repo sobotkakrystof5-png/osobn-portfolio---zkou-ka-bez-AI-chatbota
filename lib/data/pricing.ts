@@ -1,4 +1,4 @@
-import { Globe, Palette, Bot, CalendarClock, Wrench, Search } from "lucide-react";
+import { Globe, Palette, Bot, CalendarClock, Wrench, Search, Workflow } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type PricingItem = {
@@ -198,6 +198,47 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
         name: "Technické SEO",
         subtitle: "Rychlost, strukturovaná data a indexovatelnost webu.",
         price: "Individuální",
+      },
+    ],
+  },
+  {
+    // Realizace běží pod sesterskou značkou ALTENO, poptávka i fakturace jdou
+    // přes stejný subjekt — kategorie proto patří do stejného ceníku.
+    category: "Automatizace a AI (ALTENO)",
+    emoji: "⚙️",
+    icon: Workflow,
+    items: [
+      {
+        id: "automatizace",
+        name: "Automatizace",
+        subtitle: "Pevná cena předem, 14 dní podpory po spuštění zdarma.",
+        price: "od 4 999 Kč",
+        includeInQuickInquiry: true,
+      },
+      {
+        id: "ai-agenti",
+        name: "AI agenti na míru",
+        subtitle: "Agent, který zvládne celou agendu, ne jen jeden krok. Cena dle rozsahu projektu.",
+        price: "Individuální",
+        includeInQuickInquiry: true,
+      },
+      {
+        id: "chatboti-rag",
+        name: "Chatboti a RAG",
+        // TODO(CENA-RAG): ověřit s Kryštofem, jestli má RAG vlastní vstupní
+        // cenu, nebo zůstává individuální podle počtu podkladů.
+        subtitle: "Vyhledávání ve vašich podkladech. Jednoduchý chatbot na web je v kategorii AI Chatbot výše.",
+        price: "Individuální",
+        includeInQuickInquiry: true,
+      },
+      {
+        id: "voice-agenti",
+        name: "Voice agenti",
+        subtitle: "Hlasový agent, který zvedne telefon. Zatím ho stavím, u klientů ho nenasazuji.",
+        // Místo ceny nese pole stav služby — PriceLabel řetězec bez prefixu
+        // "od " vypíše beze změny. Badge se záměrně nepřidává, jinak by na
+        // kartě stálo slovo "Připravuji" dvakrát.
+        price: "Připravuji",
       },
     ],
   },

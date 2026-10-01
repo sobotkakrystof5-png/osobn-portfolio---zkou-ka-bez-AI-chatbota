@@ -150,6 +150,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${base}/automatizace`,
+      lastModified: "2026-09-30",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${base}/kontakt`,
       lastModified: "2026-08-28",
       changeFrequency: "monthly",

@@ -68,6 +68,14 @@ const jsonLd = {
             text: "Ano, 30 % zálohou při zahájení práce a 70 % doplatek po dokončení a schválení webu. Před tím proběhne nezávazná konzultace zdarma, kde probereme rozsah a cenu.",
           },
         },
+        {
+          "@type": "Question",
+          name: "Kolik stojí automatizace a AI?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Automatizace začíná na 4 999 Kč a pevnou cenu znáte předem. Prvních 14 dní po spuštění máte podporu zdarma, potom si můžete vzít průběžnou podporu jako měsíční paušál. Cenu AI agentů a chatbotů určuje rozsah, dostanete ji v nabídce po konzultaci. Tuhle část dělám pod sesterskou značkou ALTENO.",
+          },
+        },
       ],
     },
   ],
@@ -169,6 +177,20 @@ export default function CenaTvorbyWebuPage() {
                 <p className={t.body}>
                   Ano, 30 % zálohou při zahájení práce a 70 % doplatek po dokončení a schválení
                   webu. Před tím proběhne nezávazná konzultace zdarma, kde probereme rozsah a cenu.
+                </p>
+              </div>
+              <div>
+                <h3 className={cn(t.h3, "mb-1.5")}>Kolik stojí automatizace a AI?</h3>
+                <p className={t.body}>
+                  Automatizace začíná na 4 999 Kč a pevnou cenu znáte předem. Prvních 14 dní po
+                  spuštění máte podporu zdarma, potom si můžete vzít průběžnou podporu jako měsíční
+                  paušál. Cenu AI agentů a chatbotů určuje rozsah, dostanete ji v nabídce po
+                  konzultaci. Tuhle část dělám pod sesterskou značkou ALTENO, podrobnosti najdete
+                  na stránce{" "}
+                  <Link href="/automatizace" className={t.link}>
+                    automatizace a AI
+                  </Link>
+                  .
                 </p>
               </div>
             </div>

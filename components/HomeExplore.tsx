@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { User, Briefcase, Handshake, Images, Receipt, LayoutDashboard, ArrowUpRight } from "lucide-react";
+import { User, Briefcase, Handshake, Images, Receipt, LayoutDashboard, Workflow, ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { fadeUp, stagger, cardEntrance, viewport } from "@/lib/animations";
 import { t } from "@/lib/ui";
@@ -15,6 +15,8 @@ type Card = {
   tagline: string;
   body: string;
   span: string;
+  /** Štítek v rohu dlaždice — zatím jen pro automatizaci pod značkou ALTENO. */
+  brandTag?: string;
 };
 
 const cards: Card[] = [
@@ -50,13 +52,15 @@ const cards: Card[] = [
     body: "Zámečnictví, penzion, kadeřnictví i vzdělávací projekt. Podívejte se na hotové weby a přečtěte si, co o spolupráci říkají samotní klienti.",
     span: "md:col-span-12",
   },
+  // Poslední řada je 4+4+4, ať po přidání automatizace nezůstane v gridu
+  // osamocená dlaždice na vlastním řádku (dřív tu byly dvě po šesti).
   {
     href: "/cena-tvorby-webu",
     label: "Ceník",
     icon: Receipt,
     tagline: "Cena tvorby webu na míru.",
     body: "Ceny vidíte hned, bez vyplňování formuláře. Nabízím weby od jednoduché vizitky po kompletní web, s jasným rozpisem toho, za co platíte.",
-    span: "md:col-span-6",
+    span: "md:col-span-4",
   },
   {
     href: "/zakaziq",
@@ -64,7 +68,16 @@ const cards: Card[] = [
     icon: LayoutDashboard,
     tagline: "Přímá komunikace. Zpětná vazba. Přehled.",
     body: "Po konzultaci vás rovnou zařadím do systému. Schůzku si domluvíte na pár kliknutí a vidíte přesně, v jaké fázi je váš projekt.",
-    span: "md:col-span-6",
+    span: "md:col-span-4",
+  },
+  {
+    href: "/automatizace",
+    label: "Automatizace",
+    icon: Workflow,
+    tagline: "Web přivede zákazníky. Zbytek udělá automatizace.",
+    body: "Potvrzení poptávek, odpovědi na běžné dotazy nebo zápisy do tabulek můžou běžet samy. Stavím je pod sesterskou značkou ALTENO.",
+    span: "md:col-span-4",
+    brandTag: "by ALTENO",
   },
 ];
 
@@ -95,6 +108,12 @@ export default function HomeExplore() {
               <Link href={card.href}
                 className="group relative glass-panel glass-panel-hover p-7 md:p-8 h-full flex flex-col overflow-hidden">
                 <div className="card-shimmer-line absolute top-0 left-0 right-0 h-[1px] pointer-events-none" aria-hidden="true" />
+
+                {card.brandTag && (
+                  <span className="absolute top-5 right-5 font-inter font-light text-[9px] uppercase tracking-[0.18em] text-[#c9a84c]/50">
+                    {card.brandTag}
+                  </span>
+                )}
 
                 <div className="relative w-10 h-10 border border-[rgba(201,168,76,0.4)] flex items-center justify-center mb-6 group-hover:border-[rgba(201,168,76,0.8)] transition-all duration-300">
                   <card.icon size={17} className="text-[#c9a84c] group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />

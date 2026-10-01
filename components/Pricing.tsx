@@ -5,6 +5,10 @@ import { motion } from "framer-motion";
 import { fadeUp, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
 import { PRICING_CATEGORIES, type PricingItem } from "@/lib/data/pricing";
 import { PriceLabel } from "@/components/PriceLabel";
+import { altenoUrl } from "@/lib/alteno";
+
+/** Jediná kategorie s poznámkou pod kartami — realizuje ji sesterská značka. */
+const AUTOMATION_CATEGORY = "Automatizace a AI (ALTENO)";
 
 function ServiceCard({ item }: { item: PricingItem }) {
   return (
@@ -120,6 +124,26 @@ export default function Pricing() {
                   </motion.div>
                 ))}
               </motion.div>
+
+              {group.category === AUTOMATION_CATEGORY && (
+                <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.85] mt-5 max-w-3xl">
+                  Automatizace začíná na 4 999 Kč s pevnou cenou předem. U AI agentů a chatbotů
+                  záleží na rozsahu. Co všechno jde automatizovat, popisuje stránka{" "}
+                  <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
+                    automatizace a AI
+                  </Link>
+                  . Kolik vám rutina bere času, spočítáte v{" "}
+                  <a
+                    href={altenoUrl("/cenik#kalkulacka", "cenik")}
+                    target="_blank"
+                    rel="noopener"
+                    className="text-[#c9a84c] hover:underline"
+                  >
+                    kalkulačce na ALTENO ↗
+                  </a>
+                  .
+                </p>
+              )}
             </div>
           ))}
         </div>

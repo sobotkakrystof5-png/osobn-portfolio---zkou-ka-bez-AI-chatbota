@@ -17,6 +17,11 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 // chunku mimo hlavní bundle homepage — viz
 // vizeon.cz-audit/findings/performance.md Finding 1/2. `loading` skeleton
 // se reálně uplatní jen při klientské navigaci (SSR už text vykreslí).
+// Pruh se sesterskou značkou leží až pod HomeExplore, takže se do hlavního
+// bundlu homepage nemusí načítat rovnou — stejný důvod jako u referencí níž.
+// SSR zůstává zapnuté, text pruhu je tedy v prvotním HTML.
+const AltenoBand = dynamic(() => import("@/components/AltenoBand"));
+
 const ReferencesSection = dynamic(() => import("@/components/ReferencesSection"), {
   loading: () => (
     <section aria-hidden="true" className="py-20 md:py-28 bg-[#0e0e0e] overflow-hidden">
@@ -59,6 +64,7 @@ export default function Home() {
         <ReferencesSection />
         <StatementBlock />
         <HomeExplore />
+        <AltenoBand />
         <Contact headingLevel="h2" />
       </main>
       <Footer />

@@ -112,7 +112,7 @@ export default function Hero() {
         </motion.h2>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-5">
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
           </CTAButton>
@@ -121,6 +121,16 @@ export default function Hero() {
             Zobrazit služby
           </Link>
         </motion.div>
+
+        {/* Odkaz na sesterskou značku vede dovnitř webu, ne rovnou na
+            alteno.cz — návštěvník hero sekce ještě nemá důvod odcházet. */}
+        <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.1 }}
+          className="font-inter font-light text-[12px] text-[#8a8070] mb-7">
+          Kromě webů dělám i automatizaci firemních procesů{" "}
+          <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
+            → ALTENO
+          </Link>
+        </motion.p>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
           className="flex items-center justify-center flex-wrap gap-x-3 gap-y-2">

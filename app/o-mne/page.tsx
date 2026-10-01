@@ -4,6 +4,7 @@ import About from "@/components/About";
 import { PageShell } from "@/components/layout/PageShell";
 import { CTAButton } from "@/components/CTAButton";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { altenoUrl } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +44,31 @@ export default function OMnePage() {
       <About />
 
       <div className={cn(t.container.page, "pb-16 md:pb-24")}>
-        <div className="text-center -mt-8 md:-mt-12">
+        <section aria-labelledby="alteno" className="-mt-12 md:-mt-20 mb-14">
+          <h2 id="alteno" className={cn(t.h2Page, "mb-4")}>
+            Druhá značka: ALTENO
+          </h2>
+          <p className={t.body}>
+            Kromě webů dělám automatizaci firemních procesů a AI, a to pod značkou{" "}
+            <a
+              href={altenoUrl("/", "o-mne")}
+              target="_blank"
+              rel="noopener"
+              className={t.link}
+            >
+              ALTENO ↗
+            </a>
+            . Není to jiná firma ani partner, za oběma značkami stojím já a stejné IČO. Když si u
+            mě necháte postavit web a zároveň řešíte, kolik času vám bere opakovaná práce kolem
+            něj, probereme obojí najednou. Co všechno se dá automatizovat, popisuje stránka{" "}
+            <Link href="/automatizace" className={t.link}>
+              automatizace a AI
+            </Link>
+            .
+          </p>
+        </section>
+
+        <div className="text-center">
           <CTAButton className="inline-flex font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300">
             Nezávazná konzultace zdarma →
           </CTAButton>

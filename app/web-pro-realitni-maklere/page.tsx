@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MicroServicePage } from "@/components/pillar/MicroServicePage";
 
 export function generateMetadata(): Metadata {
@@ -41,6 +42,16 @@ export default function WebProRealitniMaklerePage() {
         },
       ]}
       cenikLead="Pro osobní prezentaci makléře obvykle stačí Online Vizitka od 7 499 Kč, u prezentace s přehledem nabídek se hodí Promo Page od 9 999 Kč, hotovo do 10 pracovních dní. Web je vždy responzivní, protože zájemci si nabídky často prohlížejí přímo na cestě na prohlídku."
+      extraNote={
+        <>
+          Poptávek od zájemců chodí většinou víc než hotových obchodů. Jejich třídění a první
+          odpověď se dají nechat na{" "}
+          <Link href="/automatizace#ai-agenti" className="text-[#c9a84c] hover:underline">
+            AI agentovi
+          </Link>
+          , ať se věnujete jen tomu, co má šanci dojít k podpisu.
+        </>
+      }
       slug="web-pro-realitni-maklere"
       serviceType="Tvorba webu pro realitní makléře"
       caseExampleTitle="Příklad zakázky: prodej rodinného domu"

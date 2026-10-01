@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, Bot, CalendarClock, Palette, Wrench, Search } from "lucide-react";
+import { Globe, Bot, CalendarClock, Palette, Wrench, Search, Workflow } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -46,7 +46,12 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
         <Link href="/web-pro-remeslniky" className="relative z-30 text-[#c9a84c] hover:underline">
           řemeslníky
         </Link>
-        , kteří nemají čas odpovídat na každou zprávu ručně.
+        , kteří nemají čas odpovídat na každou zprávu ručně. Pokud má chatbot hledat odpovědi ve
+        větším množství podkladů, řeší to{" "}
+        <Link href="/automatizace#chatboti-rag" className="relative z-30 text-[#c9a84c] hover:underline">
+          chatboti a RAG
+        </Link>
+        .
       </>
     ),
     badge: "Novinka",
@@ -106,3 +111,24 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     href: "/sluzby/seo-optimalizace",
   },
 ];
+
+/**
+ * Automatizace je v gridu služeb sedmá, ale vykresluje se jako široký pruh pod
+ * ním (md:col-span-3), ne jako sedmá dlaždice — ve třech sloupcích by zůstala
+ * na vlastním řádku sama. Zároveň je to jediná položka pod jinou značkou, což
+ * pruh dává najevo líp než další stejná karta.
+ */
+export const AUTOMATION_HIGHLIGHT = {
+  icon: Workflow,
+  badge: "ALTENO",
+  title: "Automatizace a AI",
+  description:
+    "Web přivede zákazníky, ale odpovědi, doklady a připomínky pak řešíte ručně. Tuhle část přebírá automatizace, kterou stavím pod sesterskou značkou ALTENO.",
+  href: "/automatizace",
+  chips: [
+    { label: "AI agenti na míru", href: "/automatizace#ai-agenti" },
+    { label: "Automatizace", href: "/automatizace#automatizace-procesu" },
+    { label: "Chatboti a RAG", href: "/automatizace#chatboti-rag" },
+    { label: "Voice agenti", href: "/automatizace#voice-agenti" },
+  ],
+} as const;

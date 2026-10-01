@@ -15,6 +15,7 @@ export function MicroServicePage({
   cenikLead,
   faqs,
   portfolioNote,
+  extraNote,
   slug,
   serviceType,
   breadcrumbName,
@@ -34,6 +35,8 @@ export function MicroServicePage({
   faqs?: MicroFaq[];
   /** Volitelná reference na Schovinox (zámečnictví/kovovýroba) v portfoliu. */
   portfolioNote?: ReactNode;
+  /** Další volná poznámka pod bullety, např. odkaz na navazující službu. */
+  extraNote?: ReactNode;
   /** Cesta stránky bez lomítka, např. "web-pro-zamecniky" — pro BreadcrumbList/Service JSON-LD. */
   slug: string;
   /** schema.org Service.serviceType, např. "Tvorba webu pro zámečníky". */
@@ -129,6 +132,12 @@ export function MicroServicePage({
         {portfolioNote && (
           <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.8] mb-12 -mt-4">
             {portfolioNote}
+          </p>
+        )}
+
+        {extraNote && (
+          <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.8] mb-12 -mt-4">
+            {extraNote}
           </p>
         )}
 
