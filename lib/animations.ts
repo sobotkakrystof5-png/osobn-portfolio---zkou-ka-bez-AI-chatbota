@@ -73,3 +73,17 @@ export const cardEntrance: Variants = {
 
 /** Viewport config */
 export const viewport = { once: true, margin: "-60px" } as const;
+
+/**
+ * Náhrada `fadeUp` pod prefers-reduced-motion: bez posunu, s nulovou délkou.
+ *
+ * Proč ne `initial={reduced ? false : "hidden"}`: na serveru vrací
+ * `useReducedMotion()` null, takže SSR HTML vždy nese `opacity: 0`. Kdyby klient
+ * pod reduced motion animaci vypnul, nikdo by ten inline styl nepřepsal a obsah
+ * by zůstal neviditelný. Props `initial`/`whileInView` proto nechte stejné
+ * a vyměňte jen varianty: `variants={reduced ? revealInstant : fadeUp}`.
+ */
+export const revealInstant: Variants = {
+  hidden: { opacity: 0, y: 0 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+};

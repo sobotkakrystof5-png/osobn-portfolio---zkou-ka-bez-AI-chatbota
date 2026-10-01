@@ -34,7 +34,7 @@ Větev: feat/automatizace-alteno
 - [x] S2 Data + detail + Telefon
 - [x] S3 Chat, Flow, Konzole
 - [x] S4 Ilustrace + detail
-- [ ] S5 Hub, SEO, sitemap
+- [x] S5 Hub, SEO, sitemap
 - [ ] S6 Navbar + dropdown
 - [ ] S7 Co-branding
 - [ ] S8 Napojení, úklid, QA
@@ -304,3 +304,59 @@ Větev: feat/automatizace-alteno
   - Opravit dvojitý titulek hubu (viz S2) a reduced-motion chybu v `AutomationFAQ.tsx` (výše).
   - Na sekce lze použít `components/automation/Reveal.tsx`.
 - Navržená commit zpráva: `feat(automatizace): ilustrace a všechny sekce podstránek služeb (S4)`
+
+### S5 (2026-10-01, stejné sezení jako S3 a S4)
+- Hotovo:
+  - `components/automation/ServiceArtwork.tsx`: `cp` z `ALT/components/motion/ServiceArtwork.tsx`,
+    `TURQUOISE/MINT` → `GOLD/GOLD_LIGHT`, výplň uzlů `"#0b1215"` → `{NODE_FILL}` (v alteno je to
+    přesně hodnota `NODE_FILL`), klíč mapy `automatizace` → `"automatizace-procesu"`, nový volitelný
+    prop `id` (default `svc-<slug>`), hub ho předává explicitně. SVG cesty beze změny.
+  - `app/automatizace/page.tsx`: místo `<AutomationAccordion />` grid 4 karet (`grid-cols-1
+    sm:grid-cols-2`, `max-w-5xl`), celá karta je `Link` na `/automatizace/<slug>`, nahoře
+    `ServiceArtwork` (`h-32 sm:h-36`), název jako h2, pořadí `01…04`, summary pod linkou,
+    „Zjistit víc →", u voice štítek „Připravuji", `ai-agenti` zvýrazněná
+    (`border-[rgba(201,168,76,0.2)]`), `group` + `card-shimmer-line`, hover zlatý rámeček a nadpis.
+    Grid v `Reveal`. Ostatní sekce hubu beze změny. Import `AutomationAccordion` pryč (soubor
+    zůstává do S8). Titulek `title: { absolute: … }`, takže už není dvojité „| VIZEON" (komentář
+    o frázích ALTENO zachován). JSON-LD `hasOfferCatalog` URL → `/automatizace/<slug>`.
+  - `lib/data/automation.tsx`: `AUTOMATION_SERVICES` bere `title`, `summary` a `status` z
+    `automation-pages.ts` přes `fromPage(id)` (chybějící podstránka shodí build při načtení
+    modulu). `priceNote`, `altenoPath`, `cta`, ikony a zbytek polí zůstaly. Komentář u `id`:
+    slug podstránky + suffix UTM, ne kotva.
+  - `app/sitemap.ts`: 4 položky z `automationPages` (`0.7`, `monthly`, `2026-10-01`), `/automatizace`
+    ponecháno na `0.8`, jeho `lastModified` posunut na `2026-10-01` (obsah hubu se změnil, pravidlo
+    v hlavičce souboru).
+  - `app/automatizace/opengraph-image.tsx`: podtitulek „ALTENO × VIZEON" (stejně jako podstránky),
+    alt „… | ALTENO × VIZEON".
+  - **Oprava reduced motion** (nalezeno v S4): nová sdílená varianta `revealInstant` v
+    `lib/animations.ts` (s komentářem proč), použitá v `components/automation/Reveal.tsx`
+    a v `components/AutomationFAQ.tsx` (dřív pod reduced motion neviditelné FAQ hubu).
+- Ověřeno (`next start -p 3100`, `pw/verify-hub.js`):
+  - `npx tsc --noEmit` 0, `npm run build` prošel (124 stránek).
+  - SSR hubu: `<title>` „Automatizace a AI pro majitele webu | VIZEON × ALTENO" (jednou), HTML
+    obsahuje `href` na všechny 4 podstránky, žádný accordion; JSON-LD nabídky míří na 4 podstránky.
+  - `/sitemap.xml` obsahuje všechny 4 nové URL (ověřeno na produkčním buildu, ne `npm run dev`).
+  - Prohlížeč 1440/1024/390 + 390 reduced: 4 karty ve 2 sloupcích (390 v jednom), voice má
+    „Připravuji", zvýrazněná karta má zlatý rámeček, hover: rámeček `0.06 → 0.45` zlatá, nadpis
+    zlatý, shimmer linka `scaleX(1)`; klik na každou ze 4 karet vede na správnou podstránku
+    se správným H1; po scrollu 0 skrytých karet ani položek FAQ i pod reduced motion;
+    horizontální scroll 0; konzole bez chyb.
+  - Screenshoty: `<scratchpad>/pw/shots/hub-grid-1440.png`, `hub-grid-390.png`.
+- Neověřeno (a proč): 768/1280 a klávesnice (S8). Jen Chromium.
+- Odchylky od zadání a důvod:
+  1. Ikony služeb zůstaly v `automation.tsx` (lucide), `automation-pages.ts` žádné ikony nemá,
+     takže „zdroj ikony" odtud převzít nejde. Hub je stejně nepoužívá (karty mají ServiceArtwork).
+  2. Summary a názvy na hubu jsou teď z alteno dat (např. „Zastane celou agendu, ne jeden krok.
+     Rozhoduje podle vašich dat a pravidel." místo dřívějšího „Zvládnou celou agendu, ne jen jeden
+     krok.", „Automatizace procesů" místo „Automatizace"). Plyne to z bodu 3 zadání; stejné texty
+     teď čte i JSON-LD hubu.
+  3. Sitemap bere slugy z `automationPages` místo vypsaného pole (stejně jako blog a portfolio).
+- Postřeh mimo rozsah: chat widget n8n (`components/N8nChatWidget.tsx`) po hydrataci vkládá
+  `<h1>VIZEON</h1>` (hlavička okna chatu) na každou stránku webu, takže v DOM jsou dvě H1. V SSR
+  HTML je H1 jen jeden. Řešení by bylo v konfiguraci/CSS widgetu, ne v automatizaci; rozhodne uživatel.
+- Pro další session (S6): `lib/nav.ts`, `NavDropdown`. Položky dropdownu Automatizace lze generovat
+  z `automationPages` (pořadí ai-agenti, automatizace-procesu, chatboti-rag, voice-agenti,
+  `comingSoon` u voice). Souběžné změny uživatele v `components/Navbar.tsx`, `Footer.tsx` (nový
+  claim) jsou v pracovním stromu nezacommitované, S6 na ně bude navazovat; před S6 je potřeba,
+  aby je uživatel zacommitoval nebo potvrdil, že se s nimi má pracovat.
+- Navržená commit zpráva: `feat(automatizace): hub jako přehled 4 služeb, JSON-LD a sitemap podstránek (S5)`

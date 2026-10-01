@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { fadeUp, viewport } from "@/lib/animations";
+import { fadeUp, revealInstant, viewport } from "@/lib/animations";
 import { AUTOMATION_FAQ } from "@/lib/data/automation";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -23,9 +23,11 @@ export default function AutomationFAQ() {
         return (
           <motion.div
             key={faq.question}
-            variants={reduced ? undefined : fadeUp}
-            initial={reduced ? false : "hidden"}
-            whileInView={reduced ? undefined : "visible"}
+            // Pod reduced motion jen jiné varianty, ne vypnutá animace: jinak
+            // zůstane inline opacity 0 z SSR (viz revealInstant).
+            variants={reduced ? revealInstant : fadeUp}
+            initial="hidden"
+            whileInView="visible"
             viewport={viewport}
             className="border-b border-white/[0.05] last:border-b-0"
           >

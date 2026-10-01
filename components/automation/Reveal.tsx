@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { fadeUp, viewport } from "@/lib/animations";
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeUp, revealInstant, viewport } from "@/lib/animations";
 
 // Odhalení sekce při scrollu na /automatizace/[slug]. Stránka je serverová
 // komponenta, tohle je jediný klientský obal kolem jejích sekcí, aby text
@@ -15,12 +15,7 @@ import { fadeUp, viewport } from "@/lib/animations";
 // nikdo by ten inline `opacity: 0` z SSR nepřepsal a sekce by zůstala
 // neviditelná. Props `initial`/`whileInView` jsou proto vždy stejné a pod
 // reduced motion se mění jen varianty: bez posunu a s nulovou délkou, obsah
-// se při vstupu do výřezu rovnou ukáže.
-
-const instant: Variants = {
-  hidden: { opacity: 0, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0 } },
-};
+// se při vstupu do výřezu rovnou ukáže (`revealInstant` v lib/animations.ts).
 
 export function Reveal({
   children,
@@ -33,7 +28,7 @@ export function Reveal({
 
   return (
     <motion.div
-      variants={reduced ? instant : fadeUp}
+      variants={reduced ? revealInstant : fadeUp}
       initial="hidden"
       whileInView="visible"
       viewport={viewport}

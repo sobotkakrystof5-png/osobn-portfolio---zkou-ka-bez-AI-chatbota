@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getSortedPosts } from "@/lib/data/blog";
 import { projects } from "@/lib/data/portfolio";
+import { automationPages } from "@/lib/data/automation-pages";
 
 // lastModified je zadané ručně (ne new Date()), aby se neměnilo při každém
 // requestu — při publikaci obsahové změny na dané stránce datum aktualizuj.
@@ -151,10 +152,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${base}/automatizace`,
-      lastModified: "2026-09-30",
+      lastModified: "2026-10-01",
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    // Podstránky 4 služeb automatizace (/automatizace/<slug>, S5).
+    ...automationPages.map((page) => ({
+      url: `${base}/automatizace/${page.slug}`,
+      lastModified: "2026-10-01",
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     {
       url: `${base}/kontakt`,
       lastModified: "2026-08-28",

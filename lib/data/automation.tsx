@@ -2,14 +2,18 @@ import Link from "next/link";
 import { Bot, Workflow, MessageSquareText, PhoneCall } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { getAutomationPage } from "@/lib/data/automation-pages";
 
-// Jediný zdroj pravdy pro obsah sekce Automatizace (/automatizace) — čte ho
-// AutomationAccordion, JSON-LD stránky i odkazové čipy na /sluzby. Texty jsou
+// Doplňkový obsah hubu /automatizace (balíčky, průběh, FAQ) a katalog služeb
+// pro JSON-LD hubu. Název, jednověté summary a stav každé služby se berou
+// z lib/data/automation-pages.ts (zdroj pravdy podstránek /automatizace/<slug>),
+// ať se hub, JSON-LD a podstránka nerozejdou. Texty jsou
 // psané z pohledu majitele webu ("co se děje po odeslání formuláře"), ne z
 // pohledu firmy řešící procesy obecně, ať si VIZEON nekanibalizuje pozice se
 // sesterskou značkou ALTENO, která na tahle témata cílí přímo.
 
-/** `id` je zároveň kotva (`/automatizace#<id>`) i suffix UTM kampaně. */
+/** `id` je zároveň slug podstránky (`/automatizace/<id>`) a suffix UTM
+ *  kampaně (lib/alteno.ts). Na kotvy hubu už neodkazuje, hub kotvy nemá. */
 export type AutomationServiceId =
   | "ai-agenti"
   | "automatizace-procesu"
@@ -41,13 +45,26 @@ export type AutomationService = {
   cta: { label: string } | { label: string; href: string };
 };
 
+/** Převezme z podstránky název, summary a stav. Chybějící podstránka shodí
+ *  build už při načtení modulu, ne až tichou mezerou na hubu. */
+function fromPage(
+  id: AutomationServiceId
+): Pick<AutomationService, "title" | "summary" | "status"> {
+  const page = getAutomationPage(id);
+  if (!page) throw new Error(`Chybí podstránka automatizace: ${id}`);
+  return {
+    title: page.title,
+    summary: page.summary,
+    ...(page.comingSoon ? { status: "preparing" as const } : {}),
+  };
+}
+
 export const AUTOMATION_SERVICES: AutomationService[] = [
   {
     id: "ai-agenti",
     number: "01",
     icon: Bot,
-    title: "AI agenti na míru",
-    summary: "Zvládnou celou agendu, ne jen jeden krok.",
+    ...fromPage("ai-agenti"),
     description:
       "Běžná automatizace udělá jednu věc podle pevného pravidla. AI agent zvládne celou cestu. Přečte zprávu, pochopí, co zákazník chce, podívá se do vašich dat a rozhodne podle pravidel, která mu nastavíte. Vy se věnujete jen tomu, co skutečně potřebuje člověka.",
     scenarios: [
@@ -83,8 +100,7 @@ export const AUTOMATION_SERVICES: AutomationService[] = [
     id: "automatizace-procesu",
     number: "02",
     icon: Workflow,
-    title: "Automatizace",
-    summary: "Doklady, e-maily, přepisy i pravidelné rozesílky proběhnou samy.",
+    ...fromPage("automatizace-procesu"),
     description:
       "Opakující se práci, kterou dnes děláte ručně, převezme systém na pozadí. Stavím ji v nástrojích jako n8n a Make, případně vlastním kódem, a napojuji ji na to, co už používáte.",
     scenarios: [
@@ -127,8 +143,7 @@ export const AUTOMATION_SERVICES: AutomationService[] = [
     id: "chatboti-rag",
     number: "03",
     icon: MessageSquareText,
-    title: "Chatboti a RAG",
-    summary: "Odpovídají zákazníkům z vašich dat, 24 hodin denně.",
+    ...fromPage("chatboti-rag"),
     description:
       "Chatbot neodpovídá z hlavy. Hledá odpověď ve vašich podkladech, tedy v ceníku, návodech, smlouvách nebo produktových listech, a odpovídá jen z nich. Technice, která to umožňuje, se říká RAG. Zvládne jednoduchého chatbota i vyhledávání ve velkém množství dokumentů.",
     scenarios: [
@@ -169,9 +184,7 @@ export const AUTOMATION_SERVICES: AutomationService[] = [
     id: "voice-agenti",
     number: "04",
     icon: PhoneCall,
-    title: "Voice agenti",
-    summary: "AI, která zvedne telefon a běžný hovor dotáhne sama.",
-    status: "preparing",
+    ...fromPage("voice-agenti"),
     description:
       "Opakující se telefonáty může převzít hlasový agent. Právě ho stavím a zatím ho nenasazuji u klientů. Pokud vás téma zajímá, napište mi a ozvu se, až bude připravený.",
     scenarios: [],

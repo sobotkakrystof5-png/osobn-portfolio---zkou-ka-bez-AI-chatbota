@@ -3,7 +3,8 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
-import AutomationAccordion from "@/components/AutomationAccordion";
+import ServiceArtwork from "@/components/automation/ServiceArtwork";
+import { Reveal } from "@/components/automation/Reveal";
 import AutomationFAQ from "@/components/AutomationFAQ";
 import { AltenoMark, BrandLockup } from "@/components/brand/AltenoMark";
 import { CTAButton } from "@/components/CTAButton";
@@ -13,6 +14,7 @@ import {
   AUTOMATION_SERVICES,
   AUTOMATION_STEPS,
 } from "@/lib/data/automation";
+import { automationPages } from "@/lib/data/automation-pages";
 import { altenoUrl } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -24,7 +26,9 @@ import { cn } from "@/lib/utils";
 // dodavatele. Stejná logika jako u metadat homepage (viz app/page.tsx).
 export function generateMetadata(): Metadata {
   return {
-    title: "Automatizace a AI pro majitele webu | VIZEON × ALTENO",
+    // `absolute`: šablona titulku v app/layout.tsx by jinak přidala druhé
+    // „| VIZEON" („… | VIZEON × ALTENO | VIZEON").
+    title: { absolute: "Automatizace a AI pro majitele webu | VIZEON × ALTENO" },
     description:
       "Automatizace poptávek z webu, chatboti a AI agenti pro živnostníky a malé firmy. Web i automatizace od jednoho dodavatele, od 4 999 Kč, konzultace zdarma.",
     alternates: { canonical: "https://vizeon.cz/automatizace" },
@@ -37,6 +41,9 @@ export function generateMetadata(): Metadata {
     },
   };
 }
+
+/** Zvýrazněná karta v gridu služeb (stejně jako na alteno.cz/sluzby). */
+const HIGHLIGHTED_SLUG = "ai-agenti";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -66,7 +73,7 @@ const jsonLd = {
             "@type": "Service",
             name: s.title,
             description: s.summary,
-            url: `https://vizeon.cz/automatizace#${s.id}`,
+            url: `https://vizeon.cz/automatizace/${s.id}`,
           },
         })),
       },
@@ -121,8 +128,81 @@ export default function AutomatizacePage() {
         </div>
       </div>
 
-      {/* Čtyři služby jako rozklikávací položky */}
-      <AutomationAccordion />
+      {/* Čtyři služby jako karty, každá celá vede na svou podstránku
+          (/automatizace/<slug>). Rozvržení podle hubu alteno.cz/sluzby:
+          grafika přes celý horní slot, název s pořadím, summary pod linkou,
+          „Zjistit víc". AI agenti jsou zvýraznění. Název je h2, sekce vlastní
+          nadpis nemá (stejně jako v předloze). */}
+      <section aria-label="Služby automatizace" className={cn(t.container.wide, "pt-12 md:pt-16")}>
+        <Reveal className="grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2">
+          {automationPages.map((page, i) => {
+            const highlighted = page.slug === HIGHLIGHTED_SLUG;
+
+            return (
+              <Link
+                key={page.slug}
+                href={`/automatizace/${page.slug}`}
+                className={cn(
+                  "group relative flex h-full flex-col overflow-hidden border p-6 transition-colors duration-500 hover:border-[rgba(201,168,76,0.45)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#c9a84c]",
+                  highlighted ? "border-[rgba(201,168,76,0.2)] bg-[#0e0e0e]" : "border-white/[0.06] bg-[#080808]"
+                )}
+              >
+                <div className="card-shimmer-line absolute top-0 left-0 right-0 h-[1px] pointer-events-none z-10" aria-hidden="true" />
+
+                {/* Grafika přes celý slot, záporné okraje ji pouštějí až
+                    k hraně karty. */}
+                <div
+                  className={cn(
+                    "-mx-6 -mt-6 mb-5 h-32 overflow-hidden border-b sm:h-36",
+                    highlighted ? "border-accent/20" : "border-white/[0.06]"
+                  )}
+                >
+                  <ServiceArtwork slug={page.slug} id={`svc-${page.slug}`} />
+                </div>
+
+                <div className="flex items-baseline justify-between gap-3">
+                  <h2 className="font-inter font-medium text-[17px] text-[#f0ece6] transition-colors duration-300 group-hover:text-[#c9a84c]">
+                    {page.title}
+                  </h2>
+                  <div className="flex shrink-0 items-center gap-2">
+                    {page.comingSoon ? (
+                      <span className="font-inter font-medium text-[10px] tracking-[0.1em] uppercase px-2.5 py-[3px] text-[#c9a84c] border border-[rgba(201,168,76,0.4)]">
+                        Připravuji
+                      </span>
+                    ) : null}
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "font-inter text-[11px] tracking-[0.1em] tabular-nums",
+                        highlighted ? "text-[#c9a84c]/60" : "text-[#8a8070]"
+                      )}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                </div>
+
+                <p
+                  className={cn(
+                    t.body,
+                    "mt-4 border-t pt-4",
+                    highlighted ? "border-accent/20" : "border-white/[0.06]"
+                  )}
+                >
+                  {page.summary}
+                </p>
+
+                <span
+                  aria-hidden="true"
+                  className="mt-auto pt-6 font-inter font-medium text-[12px] uppercase tracking-[0.1em] text-[#c9a84c]"
+                >
+                  Zjistit víc →
+                </span>
+              </Link>
+            );
+          })}
+        </Reveal>
+      </section>
 
       <div className={cn(t.container.page, "py-16 md:py-24 space-y-16 md:space-y-20")}>
         {/* Balíčky */}
