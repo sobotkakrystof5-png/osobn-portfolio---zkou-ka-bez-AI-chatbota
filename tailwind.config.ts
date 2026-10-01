@@ -27,6 +27,22 @@ const config: Config = {
         cormorant: ["var(--font-cormorant)", "Georgia", "serif"],
         inter: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
+      // Automatizace (port z alteno). Stejné keyframes jsou i v
+      // app/globals.css včetně reduced-motion pojistky.
+      keyframes: {
+        "voice-wave": {
+          "0%, 100%": { transform: "scaleY(0.2)" },
+          "50%": { transform: "scaleY(1)" },
+        },
+        "nav-panel-in": {
+          from: { opacity: "0", transform: "translateY(-4px) scale(0.98)" },
+          to: { opacity: "1", transform: "none" },
+        },
+      },
+      animation: {
+        "voice-wave": "voice-wave 900ms ease-in-out infinite",
+        "nav-panel-in": "nav-panel-in 150ms ease-out",
+      },
     },
   },
   plugins: [],

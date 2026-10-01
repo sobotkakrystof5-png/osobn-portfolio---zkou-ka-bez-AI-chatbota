@@ -291,3 +291,88 @@ body {
   --ring: rgba(201,168,76,0.4);
   --radius: 2px;
 }
+
+/* ─── Automatizace (port z alteno) ─────────────────────
+   Převzato z alteno app/globals.css (voice-wave, .benefit-*, .pain-*),
+   barvy přemapované do palety VIZEON. Platí pravidla pohybu z alteno:
+   jen transform/opacity, žádná smyčka na pozadí, každá animace má
+   záznam v reduced-motion bloku níž. Keyframes `voice-wave` a
+   `nav-panel-in` jsou zároveň v tailwind.config.ts (třídy
+   `animate-voice-wave`, `animate-nav-panel-in`). */
+
+/* Křivka řeči ve scéně Voice agentů. Sloupečky se hýbou jen ve stavu
+   `speaking`, mimo repliku je křivka klidná čára. Gatuje ji stav, ne
+   třída zapsaná natvrdo. Rytmus dělá komponenta posunem fáze
+   (`animationDelay`) a délkou (`animationDuration`) po sloupečcích. */
+@keyframes voice-wave {
+  0%, 100% { transform: scaleY(0.2); }
+  50%      { transform: scaleY(1); }
+}
+.animate-voice-wave {
+  animation: voice-wave 900ms ease-in-out infinite;
+}
+
+/* Panel ilustrace přínosu, sekce „Co získáte" na /automatizace/[slug]
+   (BenefitArtwork.tsx). Bez technické mřížky, měkký zlatý dozvuk zdola.
+   Výsledky se mají číst jako stav „po", ne jako schéma. */
+.benefit-panel {
+  background:
+    radial-gradient(90% 75% at 50% 115%, rgba(212,185,104,0.16), transparent 70%),
+    radial-gradient(70% 60% at 12% 0%, rgba(201,168,76,0.08), transparent 70%),
+    #0e0e0e;
+}
+
+/* Výsledek scény se při najetí na kartu zvedne. Jen transform, jen na
+   vyžádání, žádná smyčka. */
+.benefit-lift {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .benefit-lift {
+  transform: translateY(-4px);
+}
+
+/* Panel ilustrace bolesti, sekce „Co vás dnes zdržuje" (PainArtwork.tsx).
+   Protějšek .benefit-panel: stav „před" je BEZ akcentní barvy. Neutrální
+   teplá šedá, šrafovaná („zaseknuto"), se světlejším středem, kam padá
+   ohnisko scény. */
+.pain-panel {
+  background:
+    radial-gradient(70% 70% at 50% 45%, rgba(240,236,230,0.06), transparent 72%),
+    repeating-linear-gradient(135deg, rgba(240,236,230,0.04) 0 1px, transparent 1px 8px),
+    #0d0d0d;
+}
+
+/* Ohnisko problému při najetí jednou škubne. Tření, ne ozdoba. */
+@keyframes pain-jolt {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-3px); }
+  45%      { transform: translateX(3px); }
+  70%      { transform: translateX(-1.5px); }
+}
+.group:hover .pain-jolt {
+  animation: pain-jolt 0.45s ease-in-out 1;
+}
+
+/* Vstup panelu dropdownu v navbaru (NavDropdown). Náhrada za
+   tw-animate-css `animate-in fade-in-0 zoom-in-95 slide-in-from-top-1`,
+   které VIZEON nemá. */
+@keyframes nav-panel-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Scéna Voice agentů se pod reduced-motion vykreslí rovnou dokončená
+     a do stavu `speaking` se nedostane. Tohle je pojistka. */
+  .animate-voice-wave,
+  .animate-nav-panel-in,
+  .group:hover .pain-jolt {
+    animation: none;
+  }
+  .benefit-lift {
+    transition: none;
+  }
+  .group:hover .benefit-lift {
+    transform: none;
+  }
+}
