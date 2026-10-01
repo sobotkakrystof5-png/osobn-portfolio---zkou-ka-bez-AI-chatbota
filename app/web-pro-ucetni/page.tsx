@@ -210,9 +210,9 @@ export default function WebProUcetniPage() {
             </p>
             <p className="mt-4">
               Papírování kolem klientů, které se každý měsíc opakuje, se často dá přesunout na
-              pozadí. Jak to vypadá v praxi, popisuje stránka{" "}
-              <Link href="/automatizace#automatizace-procesu" className="text-[#c9a84c] hover:underline">
-                automatizace a AI
+              pozadí. Jak to vypadá v praxi, popisuje stránka o{" "}
+              <Link href="/automatizace/automatizace-procesu" className="text-[#c9a84c] hover:underline">
+                automatizaci procesů
               </Link>
               .
             </p>

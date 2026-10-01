@@ -13,9 +13,11 @@ import PainArtwork from "@/components/automation/PainArtwork";
 import BenefitArtwork from "@/components/automation/BenefitArtwork";
 import UseCaseArtwork from "@/components/automation/UseCaseArtwork";
 import { Reveal } from "@/components/automation/Reveal";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { LinkIcon, TargetIcon } from "@/components/automation/process-icons";
 import { automationPages, getAutomationPage } from "@/lib/data/automation-pages";
 import { getServiceDemo, type ServiceDemo } from "@/lib/data/automation-demos";
+import { altenoUrl, type AltenoCampaign } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -96,6 +98,14 @@ function ToolChip({ children }: { children: ReactNode }) {
     <span className={cn(chip, "border-white/[0.06] text-[#b8b0a2]")}>{children}</span>
   );
 }
+
+// Kampaň odkazu ALTENO v lockupu nad H1 (kampaně jsou v lib/alteno.ts).
+const ALTENO_CAMPAIGN: Record<string, AltenoCampaign> = {
+  "ai-agenti": "automatizace-ai-agenti",
+  "automatizace-procesu": "automatizace-automatizace-procesu",
+  "chatboti-rag": "automatizace-chatboti-rag",
+  "voice-agenti": "automatizace-voice-agenti",
+};
 
 export function generateStaticParams() {
   return automationPages.map((page) => ({ slug: page.slug }));
@@ -180,13 +190,22 @@ export default async function AutomationServicePage({ params }: Props) {
             ← Zpět na přehled automatizací
           </Link>
 
-          <div className="mt-8 mb-4 flex flex-wrap items-center gap-3">
-            <p className={t.eyebrow}>— Automatizace by ALTENO</p>
-            {page.comingSoon ? (
-              <span className="font-inter font-medium text-[10px] tracking-[0.1em] uppercase px-2.5 py-[3px] text-[#c9a84c] border border-[rgba(201,168,76,0.4)]">
-                Připravuji
-              </span>
-            ) : null}
+          {/* Řádek nad H1: eyebrow (+ štítek) a lockup spolupráce vedle sebe,
+              na mobilu lockup pod eyebrowem. */}
+          <div className="mt-8 mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
+            <div className="flex flex-wrap items-center gap-3">
+              <p className={t.eyebrow}>— Automatizace by ALTENO</p>
+              {page.comingSoon ? (
+                <span className="font-inter font-medium text-[10px] tracking-[0.1em] uppercase px-2.5 py-[3px] text-[#c9a84c] border border-[rgba(201,168,76,0.4)]">
+                  Připravuji
+                </span>
+              ) : null}
+            </div>
+            <BrandLockup
+              size="sm"
+              altenoHref={altenoUrl("/", ALTENO_CAMPAIGN[page.slug] ?? "automatizace-hero")}
+              className="self-start sm:self-auto"
+            />
           </div>
 
           <h1 className={cn(t.h1, "mb-6")}>{page.title}</h1>

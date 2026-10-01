@@ -4,8 +4,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Phone } from "lucide-react";
 import { fadeUp, viewport } from "@/lib/animations";
-import { NAV_LINKS } from "@/lib/nav";
-import { AltenoMark } from "@/components/brand/AltenoMark";
+import { NAV_LINKS, AUTOMATION_NAV_ITEMS } from "@/lib/nav";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
@@ -69,22 +69,7 @@ export default function Footer() {
               <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-3">
                 Rodina značek
               </p>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="font-cormorant font-light text-[16px] tracking-[0.12em] text-[#f0ece6]">
-                  VIZEON
-                </span>
-                <span className="font-inter font-light text-[11px] text-[#3d3830]" aria-hidden="true">
-                  |
-                </span>
-                <a
-                  href={altenoUrl("/", "footer")}
-                  target="_blank"
-                  rel="noopener"
-                  className="transition-opacity duration-300 hover:opacity-70"
-                >
-                  <AltenoMark size="sm" />
-                </a>
-              </div>
+              <BrandLockup size="sm" altenoHref={altenoUrl("/", "footer")} className="mb-3" />
               <p className="font-inter font-light text-[12px] text-[#8a8070] leading-[1.7]">
                 Weby dělám pod VIZEONEM,{" "}
                 <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
@@ -109,6 +94,27 @@ export default function Footer() {
                 </Link>
               ))}
             </nav>
+
+            {/* Podstránky Automatizace zvlášť: v NAV_LINKS je jen hub, lišta je
+                má v rozbalovacím panelu, který patička nemá. */}
+            <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mt-10 mb-5">Automatizace</p>
+            <ul className="flex flex-col gap-3">
+              {AUTOMATION_NAV_ITEMS.map((item) => (
+                <li key={item.href} className="flex">
+                  <Link
+                    href={item.href}
+                    className="font-inter font-light text-[13px] text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300 w-fit flex items-center gap-2"
+                  >
+                    {item.label}
+                    {item.comingSoon ? (
+                      <span className="border border-accent/40 text-accent text-[9px] uppercase tracking-[0.08em] px-1.5 py-0.5 leading-none">
+                        Připravuji
+                      </span>
+                    ) : null}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
           {/* Contact */}

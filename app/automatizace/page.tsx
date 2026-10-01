@@ -5,8 +5,9 @@ import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import ServiceArtwork from "@/components/automation/ServiceArtwork";
 import { Reveal } from "@/components/automation/Reveal";
+import { LegacyHashRedirect } from "@/components/automation/LegacyHashRedirect";
 import AutomationFAQ from "@/components/AutomationFAQ";
-import { AltenoMark, BrandLockup } from "@/components/brand/AltenoMark";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { CTAButton } from "@/components/CTAButton";
 import {
   AUTOMATION_BUNDLES,
@@ -93,25 +94,26 @@ export default function AutomatizacePage() {
   return (
     <PageShell jsonLd={jsonLd}>
       <AnalyticsTracker page="/automatizace" />
+      <LegacyHashRedirect />
 
       {/* Hero */}
       <div className={cn(t.container.wide, "pt-16 md:pt-24 pb-4")}>
+        {/* Spolupráce dvou značek jako první věc sekce, ještě nad H1. */}
+        <BrandLockup
+          size="lg"
+          withClaim
+          altenoHref={altenoUrl("/", "automatizace-hero")}
+          className="mt-6 md:mt-0 mb-10 md:mb-12"
+        />
         <p className={cn(t.eyebrow, "mb-4")}>— Automatizace by ALTENO</p>
         <h1 className={cn(t.h1, "mb-6 max-w-3xl")}>
           Automatizace pro firmy, které mají web hotový
         </h1>
-        <p className={cn(t.lead, "max-w-2xl mb-8")}>
+        <p className={cn(t.lead, "max-w-2xl mb-10")}>
           Web vám přivede zákazníky. Automatizace se postará o všechno, co následuje: potvrzení
           poptávek, odpovědi na běžné dotazy, zápisy do tabulek, připomínky. Stavím ji pod značkou
           ALTENO, vy mluvíte pořád se stejným člověkem.
         </p>
-
-        <div className="inline-flex items-center gap-3 border border-[rgba(201,168,76,0.25)] px-4 py-2 mb-10">
-          <span className="font-inter font-light text-[11px] uppercase tracking-[0.15em] text-[#8a8070]">
-            Sesterská značka
-          </span>
-          <AltenoMark size="sm" />
-        </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <CTAButton className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-colors duration-300 text-center">

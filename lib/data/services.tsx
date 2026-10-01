@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Globe, Bot, CalendarClock, Palette, Wrench, Search, Workflow } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { automationIndex } from "@/lib/data/automation-index";
 
 export type ServiceCategory = {
   icon: LucideIcon;
@@ -48,7 +49,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
         </Link>
         , kteří nemají čas odpovídat na každou zprávu ručně. Pokud má chatbot hledat odpovědi ve
         větším množství podkladů, řeší to{" "}
-        <Link href="/automatizace#chatboti-rag" className="relative z-30 text-[#c9a84c] hover:underline">
+        <Link href="/automatizace/chatboti-rag" className="relative z-30 text-[#c9a84c] hover:underline">
           chatboti a RAG
         </Link>
         .
@@ -125,10 +126,10 @@ export const AUTOMATION_HIGHLIGHT = {
   description:
     "Web přivede zákazníky, ale odpovědi, doklady a připomínky pak řešíte ručně. Tuhle část přebírá automatizace, kterou stavím pod sesterskou značkou ALTENO.",
   href: "/automatizace",
-  chips: [
-    { label: "AI agenti na míru", href: "/automatizace#ai-agenti" },
-    { label: "Automatizace", href: "/automatizace#automatizace-procesu" },
-    { label: "Chatboti a RAG", href: "/automatizace#chatboti-rag" },
-    { label: "Voice agenti", href: "/automatizace#voice-agenti" },
-  ],
+  // Čipy = 4 podstránky /automatizace/[slug]; názvy a pořadí ze stejného
+  // indexu jako menu, ať se nerozejdou.
+  chips: automationIndex.map((page) => ({
+    label: page.title,
+    href: `/automatizace/${page.slug}`,
+  })),
 } as const;

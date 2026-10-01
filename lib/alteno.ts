@@ -19,6 +19,7 @@ export type AltenoCampaign =
   | "sluzby"
   | "cenik"
   | "footer"
+  | "nav-dropdown"
   | "o-mne";
 
 /**

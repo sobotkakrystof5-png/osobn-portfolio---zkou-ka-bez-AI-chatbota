@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { staggerFast, fadeIn, fadeUp } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -112,7 +113,7 @@ export default function Hero() {
         </motion.h2>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-5">
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
           </CTAButton>
@@ -122,15 +123,19 @@ export default function Hero() {
           </Link>
         </motion.div>
 
-        {/* Odkaz na sesterskou značku vede dovnitř webu, ne rovnou na
-            alteno.cz — návštěvník hero sekce ještě nemá důvod odcházet. */}
-        <motion.p variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.1 }}
-          className="font-inter font-light text-[12px] text-[#8a8070] mb-7">
-          Kromě webů dělám i automatizaci firemních procesů{" "}
-          <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
-            → ALTENO
-          </Link>
-        </motion.p>
+        {/* Spolupráce ALTENO × VIZEON hned pod hlavními CTA, ještě nad ohybem.
+            Logo ALTENO tu záměrně NENÍ odkaz ven: návštěvník hero sekce ještě
+            nemá důvod odcházet, „Automatizace →" vede dovnitř webu. */}
+        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.1 }}
+          className="flex flex-col items-center gap-2.5 mb-7">
+          <BrandLockup size="sm" />
+          <p className="font-inter font-light text-[12px] text-[#8a8070]">
+            Weby a automatizace pod jednou střechou ·{" "}
+            <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
+              Automatizace →
+            </Link>
+          </p>
+        </motion.div>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
           className="flex items-center justify-center flex-wrap gap-x-3 gap-y-2">

@@ -112,7 +112,7 @@ export default function AiChatbotPage() {
               Starter i Pro stačí na běžné dotazy kolem vašich služeb. Jakmile má chatbot hledat
               odpovědi ve větším množství podkladů, třeba v katalogu, návodech nebo smlouvách,
               řeší to{" "}
-              <Link href="/automatizace#chatboti-rag" className={t.link}>
+              <Link href="/automatizace/chatboti-rag" className={t.link}>
                 chatboti a RAG
               </Link>{" "}
               pod mou druhou značkou ALTENO.

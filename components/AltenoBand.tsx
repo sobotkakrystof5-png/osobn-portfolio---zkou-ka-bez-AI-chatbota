@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { fadeUp, viewport } from "@/lib/animations";
-import { BrandLockup } from "@/components/brand/AltenoMark";
+import { fadeUp, revealInstant, viewport } from "@/lib/animations";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -19,9 +19,12 @@ export default function AltenoBand() {
     <section className="pb-24 md:pb-32 bg-[#0e0e0e]" aria-labelledby="alteno-band-nadpis">
       <div className={t.container.wide}>
         <motion.div
-          variants={reduced ? undefined : fadeUp}
-          initial={reduced ? false : "hidden"}
-          whileInView={reduced ? undefined : "visible"}
+          // Pod reduced motion se mění jen varianty, ne initial/whileInView:
+          // SSR vždy nese opacity 0 a bez whileInView by ji nikdo nepřepsal
+          // (pruh by zůstal neviditelný). Viz components/automation/Reveal.tsx.
+          variants={reduced ? revealInstant : fadeUp}
+          initial="hidden"
+          whileInView="visible"
           viewport={viewport}
           className="relative border border-[rgba(201,168,76,0.2)] p-7 md:p-10 overflow-hidden flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12"
         >
@@ -32,7 +35,7 @@ export default function AltenoBand() {
           />
 
           <div className="relative z-10 shrink-0">
-            <BrandLockup size="md" altenoHref={altenoUrl("/", "home-banner-logo")} className="mb-3" />
+            <BrandLockup size="lg" altenoHref={altenoUrl("/", "home-banner-logo")} className="mb-4" />
             <p className="font-inter font-light text-[12px] tracking-[0.05em] text-[#8a8070]">
               Jeden člověk, dvě značky.
             </p>

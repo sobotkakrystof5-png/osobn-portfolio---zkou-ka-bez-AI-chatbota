@@ -46,7 +46,7 @@ export default function WebProRealitniMaklerePage() {
         <>
           Poptávek od zájemců chodí většinou víc než hotových obchodů. Jejich třídění a první
           odpověď se dají nechat na{" "}
-          <Link href="/automatizace#ai-agenti" className="text-[#c9a84c] hover:underline">
+          <Link href="/automatizace/ai-agenti" className="text-[#c9a84c] hover:underline">
             AI agentovi
           </Link>
           , ať se věnujete jen tomu, co má šanci dojít k podpisu.

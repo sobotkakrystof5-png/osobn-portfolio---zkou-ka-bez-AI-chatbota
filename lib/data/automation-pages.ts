@@ -1,7 +1,8 @@
 // Jediný zdroj pravdy pro 4 podstránky /automatizace/[slug] (port z alteno,
 // lib/services.ts). Když se obsah služeb mění, mění se tady, ne v komponentě.
-// Navbar (S6) z tohohle pole generuje názvy a pořadí položek dropdownu
-// Automatizace, takže pořadí v poli je zároveň pořadí v menu.
+// Navbar a Footer čtou názvy a pořadí přes lehký lib/data/automation-index.ts
+// (důvod tam); kontrola na konci souboru drží oba seznamy shodné, takže
+// pořadí v poli je zároveň pořadí v menu.
 //
 // TYP ZÁMĚRNĚ NEMÁ POLE PRO CENU a nikdy ho mít nebude. Podstránky
 // neuvádějí žádnou částku ani rozmezí; cenu řeší odkaz na /cena-tvorby-webu.
@@ -23,6 +24,7 @@
 // „Automatizace procesů", aby se v menu odlišil od celé sekce. Pole
 // `relatedArea` (alteno „oblasti") vypadlo, VIZEON oblasti nemá.
 import type { DemoIcon } from "@/lib/data/automation-demos";
+import { automationIndex } from "@/lib/data/automation-index";
 
 /** Klíč ilustrace přínosu. Řetězec, ne komponenta: data nesmí táhnout JSX. */
 export type BenefitArt =
@@ -562,4 +564,23 @@ export const automationPages: Service[] = [
 
 export function getAutomationPage(slug: string) {
   return automationPages.find((service) => service.slug === slug);
+}
+
+// Menu čte automationIndex, ne tohle pole. Když se rozejdou (nová služba,
+// přejmenování, změna pořadí nebo `comingSoon`), spadne build při načtení
+// modulu, ne až uživatel v menu.
+if (
+  automationIndex.length !== automationPages.length ||
+  automationPages.some((page, i) => {
+    const entry = automationIndex[i];
+    return (
+      entry.slug !== page.slug ||
+      entry.title !== page.title ||
+      Boolean(entry.comingSoon) !== Boolean(page.comingSoon)
+    );
+  })
+) {
+  throw new Error(
+    "lib/data/automation-index.ts se rozešel s automation-pages.ts (slug, název, pořadí nebo comingSoon)."
+  );
 }

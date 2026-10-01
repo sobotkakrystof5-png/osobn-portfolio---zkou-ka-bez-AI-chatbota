@@ -35,9 +35,9 @@ Větev: feat/automatizace-alteno
 - [x] S3 Chat, Flow, Konzole
 - [x] S4 Ilustrace + detail
 - [x] S5 Hub, SEO, sitemap
-- [ ] S6 Navbar + dropdown
-- [ ] S7 Co-branding
-- [ ] S8 Napojení, úklid, QA
+- [x] S6 Navbar + dropdown
+- [x] S7 Co-branding
+- [x] S8 Napojení, úklid, QA
 
 ## Deník sessions
 ### S0 (2026-10-01)
@@ -360,3 +360,227 @@ Větev: feat/automatizace-alteno
   claim) jsou v pracovním stromu nezacommitované, S6 na ně bude navazovat; před S6 je potřeba,
   aby je uživatel zacommitoval nebo potvrdil, že se s nimi má pracovat.
 - Navržená commit zpráva: `feat(automatizace): hub jako přehled 4 služeb, JSON-LD a sitemap podstránek (S5)`
+
+### S6 (2026-10-01)
+- Výchozí stav: S5 hotová, během session zacommitovaná jako `00b09a8`. V pracovním stromu
+  zůstávají nezacommitované změny uživatele mimo S6 (claim „Vize. Vývoj. Výsledky." v Navbar,
+  Footer, layout, Hero a dalších). S6 na ně v Navbar/Footer navazuje.
+- Hotovo:
+  - `lib/nav.ts`: `NavLinkItem`, `NavGroup`, `NavEntry`, `isNavGroup`, `NAV_STRUCTURE`
+    (10 položek: O mně, Služby, Automatizace▾, Obory, Spolupráce, Projekty, Ceník, ZakazIQ,
+    Blog▾, Kontakt), `AUTOMATION_NAV_ITEMS` a odvozený `NAV_LINKS` (Blog rozbalený na Blog + FAQ).
+  - `lib/data/automation-index.ts` (nový, viz odchylka 1) + kontrola shody na konci
+    `lib/data/automation-pages.ts`.
+  - `components/NavDropdown.tsx`: port alteno `NavDropdown`, chování 1:1 (hover jen myš,
+    `CLOSE_DELAY_MS = 150`, spolknutí kliku po hoveru, Escape s návratem fokusu, `pointerdown`
+    mimo, `onBlur`, zavření při změně `usePathname()` během renderu, `aria-expanded`/`aria-controls`,
+    panel v SSR s `hidden`, `pt-2.5` jako součást hover cíle). Spouštěč = `Link` + tlačítko
+    s `ChevronDown`. Vzhled VIZEON, `animate-nav-panel-in`, štítek „Připravuji", oddělovače.
+    Úvodní blok `IntroSlot` s placeholder textem a `TODO(S7)`.
+  - `components/Navbar.tsx`: desktop mapuje `NAV_STRUCTURE`; mobilní overlay má
+    `MobileNavGroup` (odkaz na hub + chevron 44×44 px, rozbalení framer-motion `height: auto` +
+    `opacity`, pod reduced motion `duration: 0`, placeholder úvodního bloku `TODO(S7)`).
+    Nově Escape zavře overlay a vrátí fokus na hamburger (dřív neexistoval, zadání ho
+    předpokládalo). Overlay se zavře, když okno přeroste přes 1280 px (jinak by zůstal
+    zamčený scroll). Výška `h-16 md:h-20` beze změny.
+  - `components/Footer.tsx`: navigace z odvozeného `NAV_LINKS` (+ Automatizace, FAQ zůstává),
+    pod ní blok „Automatizace" se 4 podstránkami (štítek „Připravuji" u voice).
+- Ověřeno (`next start -p 3100`, `<scratchpad>/pw/verify-nav.js`, 48/48 ✔):
+  - `npx tsc --noEmit` 0, `npm run build` prošel (124 stránek, jen stará hláška Cache-Control).
+  - SSR: `curl / | grep automatizace/ai-agenti` najde odkaz, panely mají `hidden=""`.
+  - Lišta bez přetečení při 390, 768, 900, 1024, 1180, 1279 (hamburger), 1280, 1366 (bez CTA),
+    1440, 1536, 1920 (s CTA, rezerva 56 px mezi logem/nav/CTA).
+  - Desktop 1440, Automatizace i Blog: hover otevře, přejezd do panelu drží, zavření po
+    80 ms ještě otevřeno / po 280 ms zavřeno, chevron myší (hover → klik spolknut → přepíná),
+    klik mimo, Tab text → chevron → položky, Enter/mezerník, Escape vrací fokus, Tab ven zavře,
+    klik na text vede na hub, navigace z panelu i návrat v historii panel zavřou.
+  - Mobil 390 (touch): 10 položek, skupiny se rozbalují, rozbalené menu jde doscrollovat
+    nahoru, odkaz naviguje a menu zavře a odemkne scroll, Escape, text skupiny vede na hub;
+    reduced motion rozbalí okamžitě. Tablet 1024: overlay, po zvětšení na 1366 se zavře.
+  - Footer: Automatizace, Blog, FAQ v navigaci + 4 podstránky, rozestupy shodné (32 px).
+  - Konzole bez chyb. Screenshoty `<scratchpad>/pw/shots/` (navbar-*, dropdown-*-1440,
+    mobile-menu-390*, tablet-menu-1024, footer-1280).
+- Neověřeno (a proč): jen Chromium (Safari/Firefox ne); skutečný dotykový tablet ne (jen emulace).
+- Odchylky od zadání a důvod:
+  1. **Breakpointy lišty (rozhodnutí uživatele).** Měření ukázalo, že už produkční lišta
+     (vizeon.cz, bez Automatizace) přetékala při 768–1023 px o 86–218 px (Blog, FAQ, Kontakt
+     mimo obrazovku) a při 1280 px ořízla CTA. S Automatizací chybělo 35–330 px, ubráním `gap`
+     to řešit nešlo. Uživatel zvolil: hamburger/overlay do 1279 px (`xl:hidden`), desktopová
+     lišta od 1280 px s `gap-6` na všech šířkách, CTA v liště od 1440 px (`min-[1440px]:inline-flex`).
+     Zdůvodnění je v komentáři v `Navbar.tsx`.
+  2. Menu nečte `automationPages` přímo, ale lehký `automationIndex` (slug, název, comingSoon):
+     Navbar/Footer jsou klientské komponenty na každé stránce a `automation-pages.ts` má ~25 kB
+     textů. Shodu (pořadí, slug, název, comingSoon) hlídá kontrola na konci
+     `automation-pages.ts`, která shodí build.
+  3. `NavGroup` má navíc volitelné `expandInFooter` (místo porovnávání labelu „Blog").
+  4. Overlay ztratil `justify-center` (centruje `my-auto`), jinak se rozbalené menu nahoře ořízlo.
+- Pro další session (S7):
+  - Placeholder desktop: `IntroSlot` v `components/NavDropdown.tsx`. Mobil: `<li>` s `TODO(S7)`
+    v `MobileNavGroup` v `components/Navbar.tsx`. Obojí nahradit lockupem + větou.
+  - Hamburger je teď až do 1279 px: lockup v Hero kontroluj i na 1024 (overlay místo lišty).
+  - Rodina značek ve Footeru je beze změny (S7).
+- Navržená commit zpráva: `feat(automatizace): navbar s dropdownem Automatizace a Blog, mobilní skupiny, footer (S6)`
+
+### S7 (2026-10-01)
+- Výchozí stav: S6 hotová (zápis výše), ale **nezacommitovaná**. S7 na ni navazuje ve stejném
+  pracovním stromu (na pokyn uživatele „pokračuj se session 7").
+- Hotovo:
+  - `components/brand/AltenoLogo.tsx`: `cp` z `ALT/components/brand/AltenoWordmark.tsx`. Cesty
+    `LETTERS`/`ACCENT` beze změny (ověřeno `diff` proti klonu: shodné). Barvy jako pevné atributy
+    `fill="#F4F4F5"` / `fill="#2DD4BF"`, `viewBox="0 0 939 126"`, `fillRule="evenodd"`, props
+    `className`, `title` (+ `style`). `AltenoInline` a metriky Geistu vynechané (nepoužívá se),
+    komentáře o tokenech `zinc-100`/`brand-turquoise` pryč, o tvaru ponechané. Export
+    `ALTENO_BELOW_BASELINE` (9,45/126).
+  - `components/brand/VizeonLogo.tsx`: Cormorant light, verzálky, `tracking-[0.2em]`, `#f0ece6`,
+    hover zlatá (`group/vizeon`); `withClaim` = zlatá linka + „Vize. Vývoj. Výsledky." (Inter 9px).
+    `VIZEON_CAP_HEIGHT_EM = 0.625` (změřeno canvasem v prohlížeči, ne odhad 0,63).
+  - `components/brand/BrandLockup.tsx` (nový soubor, `components/brand/AltenoMark.tsx` **smazán**):
+    `ALTENO × VIZEON`, celý lockup řízený jedním `font-size` (sm 18px, md 26px, lg 26px/md:37px),
+    SVG ALTENO má výšku odvozenou z výšky verzálek (vychází 13,5 / 19,6 / 27,9 px), řádek
+    `items-baseline` + SVG posunuté `top` o část pod účařím loga. `role="group"`,
+    `aria-label="ALTENO ve spolupráci s VIZEON"`, ALTENO jako `<a target="_blank" rel="noopener"
+    aria-label="ALTENO (otevře alteno.cz)">` jen s `altenoHref`, VIZEON vede na `/`.
+  - Nasazení: **Hero** (`BrandLockup sm` + „Weby a automatizace pod jednou střechou ·
+    Automatizace →", `fadeIn` delay 1.1 mezi CTA 1.0 a odznaky 1.2); **AltenoBand** (`lg`);
+    **panel Automatizace v liště** (`NavIntro` v `NavDropdown.tsx`: lockup `sm` + „Automatizace a AI
+    ve spolupráci s ALTENO.", sdílený i mobilní skupinou v `Navbar.tsx`; klik na VIZEON zavře
+    panel/menu); **Footer** („Rodina značek" = lockup `sm` + původní text s odkazem na
+    `/automatizace`); **hub** (lockup `lg` + `withClaim` nad eyebrowem a H1, „Rodina značek" s novým
+    lockupem `md`); **podstránky** (lockup `sm` v řádku s eyebrowem, na mobilu pod ním).
+  - `lib/alteno.ts`: nová kampaň `nav-dropdown` (panel v liště i mobilní menu; žádná existující
+    nesedí). Hub hero `automatizace-hero`, podstránky `automatizace-<slug>` (typovaná mapa).
+  - **Oprava reduced motion v `AltenoBand.tsx`** (nalezeno v S4): `revealInstant` jako v `Reveal`.
+  - OG obrázky: titulek/podtitulek „ALTENO × VIZEON" už mají hub i `[slug]` (S4/S5), beze změny.
+- Ověřeno (`next start -p 3100`, `<scratchpad>/pw/verify-s7.js`, `zoom.js`):
+  - `npx tsc --noEmit` 0, `npm run build` prošel (124 stránek, jen stará hláška Cache-Control).
+  - Optická výška a účaří na všech místech a velikostech: verzálky ALTENO vs VIZEON 11,24/11,25,
+    16,24/16,25, 23,11/23,13 px; rozdíl účaří 0,00–0,01 px.
+  - Hero: lockup nad ohybem na 1440×900 (spodek 704), 1024×768 (671), 390×844 (666).
+  - AltenoBand pod reduced motion: nadpis i lockup opacity 1 (dřív 0), 1440 i 390.
+  - Panel v liště (1440, hover): lockup + věta na jednom řádku, oddělovač, 4 služby; klik na
+    VIZEON vede na `/` a panel je zavřený. Mobil 390: lockup + věta nahoře v rozbalené skupině.
+  - Odkazy ALTENO: `https://www.alteno.cz/?utm_source=vizeon&utm_medium=cross-sell&utm_campaign=…`
+    (`nav-dropdown`, `home-banner-logo`, `footer`, `automatizace-hero`, `automatizace-rodina`,
+    `automatizace-<slug>` ×4). Hero záměrně bez odkazu ven (viz odchylky).
+  - Tvar loga ve 14 px (3× zoom) odpovídá `ALT/public/alteno-logo.png`: A bez příčky, tyrkysový
+    rovnoběžník, oddělené horní rameno E, široké O. Kontrast: #F4F4F5 na #080808/#0e0e0e.
+  - Horizontální scroll 0 všude (hero 1440/1024/390, hub 1440/768/390, 4 podstránky 1440/390,
+    footer 1280/390, mobilní menu). Konzole bez chyb. `grep AltenoMark` prázdný,
+    `TODO(ALTENO-LOGO)` i `TODO(S7)` pryč.
+  - Screenshoty: `<scratchpad>/pw/shots/` (hero-*, band-*, dropdown-1440, mobile-menu-390,
+    footer-*, hub-*, slug-*, zoom-*).
+- Neověřeno (a proč): jen Chromium; klávesnicový průchod lockupem v panelu jsem netestoval
+  zvlášť (dva odkazy navíc v pořadí Tabu, patří do QA v S8).
+- Odchylky od zadání a důvod:
+  1. **`public/vizeon-logo.png` jsem nezkopíroval** a JSON-LD `logo` (dnes `favicon.ico`) jsem
+     neměnil: bitmapa z alteno nese **starý claim „Web. Design. Výsledky."**, uživatel ho
+     přejmenoval na „Vize. Vývoj. Výsledky.". Až bude bitmapa s novým claimem, patří do
+     `Organization.logo` (splní minimum 112×112).
+  2. Lockup v Hero **nemá odkaz na alteno.cz** (`altenoHref` nevyplněn): zachovává původní
+     záměr Hero („návštěvník hero sekce ještě nemá důvod odcházet"), ven vede až pás a footer.
+  3. Zarovnání log na **účaří** (`items-baseline` + posun SVG), ne `items-center`: zadání chce
+     stejné účaří, `items-center` by ho u textu vs. SVG nezaručilo.
+  4. Z hubu zmizel rámeček „Sesterská značka + AltenoMark" pod leadem: lockup nad H1 říká totéž,
+     potřetí by to bylo navíc.
+  5. Věta v panelu je `whitespace-nowrap` (panel je o ~30 px širší), jinak zbylo „ALTENO." samo
+     na druhém řádku. Na mobilu se claim pod VIZEON prostrká méně (`tracking-[0.12em]`), aby
+     linka nepřesahovala slovo.
+  6. „×" je zvednutý `relative -top-[0.3em]` na střed verzálek (na účaří působil jako tečka dole).
+- Pro další session (S8):
+  - **S6 i S7 jsou nezacommitované** a v `Footer.tsx`, `Navbar.tsx`, `Hero.tsx` se mísí
+    s nesouvisejícími změnami uživatele (claim, nový H1 homepage). Před S8 commit.
+  - Druhé `<h1>VIZEON</h1>` v DOM je hlavička chat widgetu n8n (S5), lockup s tím nesouvisí.
+  - `AutomationAccordion.tsx` stále existuje (hub ho nepoužívá od S5), mazání patří do S8.
+- Navržená commit zpráva: `feat(automatizace): lockup ALTENO × VIZEON se skutečným logem ALTENO na pěti místech (S7)`
+
+### S8 (2026-10-01)
+- Výchozí stav: S7 hotová a zapsaná, ale **S6 ani S7 nejsou zacommitované** (poslední commit S5
+  `00b09a8`). Uživatel řekl „S8" bez commitu, S8 proto pracuje ve stejném pracovním stromu. Změny S8
+  jsou až na `app/automatizace/page.tsx` v souborech, na které S6/S7 nesahaly.
+- Hotovo:
+  - **Přepis kotev** `/automatizace#<id>` → `/automatizace/<slug>`: `lib/data/services.tsx` (odkaz
+    v popisu AI chatbota; čipy `AUTOMATION_HIGHLIGHT` se generují z `automationIndex`, takže názvy
+    a pořadí jsou stejné jako v menu, „Automatizace" → „Automatizace procesů"),
+    `app/sluzby/ai-chatbot/page.tsx`, `app/web-pro-remeslniky/page.tsx`,
+    `app/web-pro-realitni-maklere/page.tsx`, `app/web-pro-ucetni/page.tsx` (tady i text odkazu:
+    „popisuje stránka o automatizaci procesů" místo „stránka automatizace a AI", odkaz už nevede na
+    hub). Ostatní věty sedí beze změny. `grep -rn "automatizace#" app components lib` je prázdný.
+  - **Úklid:** smazán `components/AutomationAccordion.tsx` (nic ho neimportovalo, výslovně v zadání).
+    `AUTOMATION_SERVICES` v `lib/data/automation.tsx` zkrácen na `id`/`title`/`summary` (jediný
+    odběratel je JSON-LD hubu); popisy, scénáře, čipy, callouty, `priceNote`, oborové odkazy a CTA
+    byly po smazání accordionu mrtvé (**odsouhlaseno uživatelem**, texty zůstávají v gitu, `7c490a9`).
+    `AltenoMark` smazala už S7. `AutomationFAQ` zůstává.
+  - **Staré kotvy (odsouhlaseno uživatelem):** `components/automation/LegacyHashRedirect.tsx`
+    (klientský, na hubu): `#ai-agenti` atd. → `router.replace("/automatizace/<slug>")`, neznámá kotva
+    zůstává na hubu. Slugy z `automationIndex`.
+- QA matice (`next start -p 3100`, Playwright Chromium 1.63, skripty `<scratchpad>/pw/qa-*.js`):
+
+  | Oblast | Výsledek | Poznámka |
+  |---|---|---|
+  | `npx tsc --noEmit` | ✔ | 0 chyb |
+  | `npm run build` | ✔ | 124 stránek (4 slugy + 4 OG), jen stará hláška Cache-Control |
+  | Lint | ✔ (shodné se S0) | `next lint` v Next 16 neexistuje, nepoužívá se |
+  | Scény × 390/768/1024/1280/1440 (4 stránky) | ✔ | 20/20: autoplay, všechny 3 varianty doběhnou, paket vždy uvnitř cíle (0–12 px od středu; 12 px = známý posun 3D náklonu při najetí myší), horizontální scroll 0, 0 prvků vylezlých z výřezu, konzole 0 chyb, 3D náklon jen od `md` |
+  | Obsah scén | ✔ | Konzole „mimo pravidla" → předání; Flow zlaté jen `core` uzly (0× zlatý `tool` během běhu), log 4 řádky; Chat 3. otázka bez zdroje → „v podkladech není" + předání; Telefon 3. hovor → předání |
+  | Reduced motion (4 stránky × 390/1440) | ✔ | koncový stav hned (0–2 ms), 0 letů paketu, 0 nekonečných animací; sekce detailu po vstupu do výřezu viditelné hned bez pohybu |
+  | Smyčky | ✔ | po doběhu každé varianty 0 běžících nekonečných animací |
+  | Scény mimo výřez | ✔ | 1440×380 a 390×420: 3 s bez spuštění (0 letů), po scrollu se spustí samy |
+  | Detail sekce × 1440/1280/1024/768/390 (+390 reduced) | ✔ | Pain 0 zlatých prvků, Benefit 6–53; `pain-jolt`/`benefit-lift` na hover (pod reduced `none`); bento 4/6 + 1 + 3 od `lg`, na 768 hlavní karta přes šířku + 2×2, na 390 sloupec; kolečka na lince; 0 prázdných boxů; scroll 0 |
+  | Klávesnice: tlačítka variant | ✔ | fokusovatelná (19 Tabů od začátku stránky), `:focus-visible` platí, Enter i mezerník spouští variantu; fokus = výchozí kroužek prohlížeče (viz postřeh 2) |
+  | Klávesnice: navbar + dropdown | ✔ | Automatizace → chevron → (Enter) → ALTENO → VIZEON → 5 položek → Obory, panel se při odchodu zavře |
+  | Dropdown + mobilní menu (kritéria S6) | ✔ | `verify-nav.js` 48/48 |
+  | Co-branding 5 míst (kritéria S7) | ✔ | `verify-s7.js`: verzálky ALTENO/VIZEON 11,24/11,25 až 23,11/23,13 px, účaří Δ ≤ 0,01 px, Hero nad ohybem (1440/1024/390), odkazy s UTM, AltenoBand pod reduced motion viditelný |
+  | Hub | ✔ | 4 karty, zvýraznění, hover, klik na každou → správná podstránka (1440/1024/390 + reduced) |
+  | Staré kotvy | ✔ | 4× přesměrování na podstránku, neznámá kotva zůstane, Zpět vede na předchozí stránku (bez smyčky) |
+  | SEO podstránek | ✔ | SSR HTML: H1, lead a 100 % textů (pain/how/panely/use cases/benefits/FAQ); title, description = lead, absolutní canonical; JSON-LD parsuje (BreadcrumbList, Service, FAQPage), FAQ 1:1; sitemap 4 URL; `opengraph-image` 200 PNG (ai-agenti i ostatní) |
+  | Výkon: First Load JS | ✔ | vs. S5 baseline (worktree `00b09a8`): +3,2 kB gzip na stránku (≈ 1 %), podstránky 321,6 kB, hub 318,9 kB, homepage 399,0 kB (z 395,8) |
+  | Výkon: prefetch | ⚠ | na desktopu Next přednačítá kód odkazů v liště; každá trasa nese vlastní kopii Navbaru/Footeru (16,1 → 19,4 kB), takže přednačtené JS po načtení stránky +33 až 44 kB. Neblokuje vykreslení (idle prefetch), mobil +3 až 23 kB |
+  | Regrese (/, /sluzby, /cena-tvorby-webu, /o-mne, /kontakt, /zakaziq, 3× web-pro-*, /sluzby/ai-chatbot) | ✔ | 1440/390: výška lišty stejná jako S5 (80/64; web-pro-* mají vlastní vyšší hlavičku, také beze změny), H1 na stejné pozici kromě homepage (−43/−49 px: hero je vertikálně centrované, lockup S7 + nový podnadpis uživatele) a stránek automatizace (lockup nad H1 z S7, záměr); scroll 0, konzole 0 chyb; čipy na /sluzby vedou na 4 podstránky, 0 vnořených `<a>` |
+  | Obsah | ✔ | v `<main>` podstránek žádná cena ani telefonní číslo (+420 je jen kontakt VIZEON ve footeru), „Připravuji" jen u voice, každá scéna má předání člověku |
+  | Safari / WebKit | neověřeno | WebKit 26.6 stažen, ale lokálně CSP `upgrade-insecure-requests` přepíše `http://localhost` na https a stránka se načte bez CSS/JS (Chromium localhost vyjímá, na produkci https nevadí). Běh s `bypassCSP` uživatel zamítl. |
+  | Firefox, skutečný dotykový tablet | neověřeno | jen emulace v Chromiu |
+
+- Screenshoty: `<scratchpad>/pw/shots/` (scény `<slug>-<šířka>[-reduced].png`, detail `detail-*`,
+  hub `hub-grid-*`, navbar `navbar-*`, dropdown `dropdown-1440.png`, mobil `mobile-menu-390*`, footer,
+  regrese `regrese-*`) a `shots/final/` (scény během/hotovo 1440 i 390, hero, čipy /sluzby).
+- Neověřeno (a proč): Safari/WebKit a Firefox (viz tabulka); vizuálně jsem prohlédl jen vzorek
+  screenshotů (hero 390, scéna voice během hovoru, dropdown, mobilní menu, footer, čipy), zbytek měřením.
+- Odchylky od zadání a důvod:
+  1. Čipy `AUTOMATION_HIGHLIGHT` nejsou jen přepsané URL, ale generované z `automationIndex`
+     (jeden zdroj s menu; jediná viditelná změna je popisek „Automatizace procesů").
+  2. Paměťový systém projektu (`memory/`, skill `project-memory-system`) v repu neexistuje, zápis
+     rozhodnutí proto jen sem; do `CLAUDE.md` nic nepřibylo.
+- Postřehy pro majitele (beze změny kódu):
+  1. Titulek voice stránky „Voice agenti: AI na telefonní hovory (připravuju)" (z alteno) používá
+     hovorové „připravuju", štítek na stránce je „Připravuji".
+  2. VIZEON nemá globální `:focus-visible` styl (alteno má zlatý 2px outline), celý web včetně scén
+     používá výchozí modrobílý kroužek prohlížeče. Je viditelný; případné sjednocení na zlatou by se
+     týkalo celého webu.
+  3. Tlačítko „Automatizace a AI – zjistit více" na /sluzby a texty na /web-pro-ucetni obsahují
+     pomlčky jako spojky (starší texty mimo tuto práci).
+  4. Druhé `<h1>VIZEON</h1>` (hlavička chat widgetu n8n) po hydrataci, viz S5.
+- Otevřená TODO pro majitele: `TODO(CENA-BALICKU)` v `lib/data/automation.tsx` (cena balíčků web +
+  automatizace), `TODO(CENA-RAG)` v `lib/data/pricing.ts` (vlastní vstupní cena RAG),
+  `public/vizeon-logo.png` s novým claimem pro `Organization.logo` (S7), ověření v Safari.
+- Shrnutí celé práce: 4 služby Automatizace jsou podstránky `/automatizace/<slug>`, data
+  v `lib/data/automation-pages.ts` (+ lehký `automation-index.ts` pro menu), scény a ilustrace
+  v `components/automation/`, lockup ALTENO × VIZEON v `components/brand/`, menu v `lib/nav.ts`
+  + `components/NavDropdown.tsx`.
+- Navržená commit zpráva: `feat(automatizace): kotvy na podstránky, úklid accordionu a přesměrování starých odkazů (S8)`
+
+### Uzavření (2026-10-01)
+- S6, S7 a S8 zacommitované jedním commitem (sahají do stejných souborů: `Navbar.tsx`, `Footer.tsx`,
+  `NavDropdown.tsx`, `app/automatizace/page.tsx`, takže je nešlo čistě rozdělit po sessions).
+- Do commitu **nejdou** nesouvisející změny uživatele: claim „Vize. Vývoj. Výsledky." (gdpr, podminky,
+  tvorba-webu-pro-zivnostniky, IntroAnimation, PillarChrome, Navbar, Footer, mobile-version-kontext,
+  PROMPT), nové titulky/description homepage (`app/layout.tsx`, `app/page.tsx`) a nový H1 + podnadpis
+  v `Hero.tsx`. Ve smíšených souborech (Navbar, Footer, Hero) jsou zacommitované jen hunky automatizace,
+  uživatelovy řádky zůstaly v pracovním stromu.
+- Ověřeno před commitem: index vyexportovaný samostatně → `npx tsc --noEmit` 0 chyb; `npm run build`
+  v pracovním stromu prošel (124/124 stránek; stroj byl vytížený, několik stránek se generovalo na
+  druhý pokus kvůli limitu 60 s, ne kvůli chybě); `grep "automatizace#"`, `AutomationAccordion`,
+  `AltenoMark`, `TODO(S…)` v `app components lib` prázdné.
+- Drobnost: v `app/automatizace/[slug]/page.tsx` dorovnané odsazení vnořeného bloku eyebrowu (beze
+  změny chování).
+- Otevřená TODO pro majitele zůstávají (viz S8): `TODO(CENA-BALICKU)`, `TODO(CENA-RAG)`,
+  `public/vizeon-logo.png` s novým claimem pro `Organization.logo`, ověření v Safari/Firefoxu.
