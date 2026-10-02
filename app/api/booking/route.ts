@@ -19,11 +19,15 @@ const supabase = createClient(
 const ZAKAZIQ_ENDPOINT = 'https://project-iq-sigma.vercel.app/api/public/booking';
 
 const ZAKAZIQ_PROJECT_TYPE: Record<ServiceKey, string> = {
-  weby:        'Web na míru',
-  grafika:     'Grafický design',
-  chatbot:     'AI Chatbot',
-  systemy:     'Systém na míru',
-  technicke:   'Technické služby',
+  weby:         'Web na míru',
+  eshop:        'E-shop',
+  automatizace: 'Automatizace a AI',
+  chatbot:      'AI Chatbot',
+  aplikace:     'Webová aplikace',
+  systemy:      'Systém na míru',
+  grafika:      'Grafický design',
+  technicke:    'Technické služby',
+  seo:          'SEO optimalizace',
   individualni: 'Jiné',
 };
 

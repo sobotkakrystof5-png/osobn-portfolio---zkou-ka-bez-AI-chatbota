@@ -9,10 +9,14 @@ import {
   ChevronRight,
   Loader2,
   Globe,
+  ShoppingBag,
+  Workflow,
+  AppWindow,
   Palette,
   Bot,
   CalendarClock,
   Wrench,
+  Search,
   MessageCircle,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -58,10 +62,14 @@ function PriceDisplay({ subName }: { subName: string }) {
 /* ─── Icon map ──────────────────────────────────────────── */
 const iconMap: Record<string, LucideIcon> = {
   Globe,
+  ShoppingBag,
+  Workflow,
+  AppWindow,
   Palette,
   Bot,
   CalendarClock,
   Wrench,
+  Search,
   MessageCircle,
 };
 
@@ -606,7 +614,10 @@ export default function BookingModal({
       {/* Cena — zobrazí se ihned po výběru sub-služby */}
       <AnimatePresence mode="wait">
         {data.subService && (
-          <PriceDisplay key={data.subService} subName={data.subService} />
+          <PriceDisplay
+            key={data.subService}
+            subName={selectedSubDef?.priceName ?? data.subService}
+          />
         )}
       </AnimatePresence>
 
