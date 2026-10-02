@@ -8,6 +8,7 @@ import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
 import { cn } from "@/lib/utils";
 import type { NavGroup } from "@/lib/nav";
+import { Alteno } from "@/components/brand/BrandName";
 
 // Rozbalovátko v liště. Port `NavDropdown` z alteno
 // (components/layout/Navbar.tsx), chování převzaté beze změny, jen vzhled
@@ -45,7 +46,7 @@ export function NavIntro({ className }: { className?: string }) {
     <div className={cn("flex flex-col gap-2.5 normal-case tracking-normal", className)}>
       <BrandLockup size="sm" altenoHref={altenoUrl("/", "nav-dropdown")} />
       <p className="font-inter font-light text-[12px] leading-[1.6] text-[#8a8070] whitespace-nowrap">
-        Automatizace a AI ve spolupráci s ALTENO.
+        Automatizace a AI ve spolupráci s <Alteno />.
       </p>
     </div>
   );

@@ -7,6 +7,7 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { altenoUrl } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Alteno } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -46,20 +47,19 @@ export default function OMnePage() {
       <div className={cn(t.container.page, "pb-16 md:pb-24")}>
         <section aria-labelledby="alteno" className="-mt-12 md:-mt-20 mb-14">
           <h2 id="alteno" className={cn(t.h2Page, "mb-4")}>
-            Druhá značka: ALTENO
+            Sesterská značka: <Alteno font="cormorant" />
           </h2>
           <p className={t.body}>
-            Kromě webů dělám automatizaci firemních procesů a AI, a to pod značkou{" "}
+            Automatizaci firemních procesů a AI řeší sesterská značka{" "}
             <a
               href={altenoUrl("/", "o-mne")}
               target="_blank"
               rel="noopener"
               className={t.link}
             >
-              ALTENO ↗
+              <Alteno /> ↗
             </a>
-            . Není to jiná firma ani partner, za oběma značkami stojím já a stejné IČO. Když si u
-            mě necháte postavit web a zároveň řešíte, kolik času vám bere opakovaná práce kolem
+            . Když si u mě necháte postavit web a zároveň řešíte, kolik času vám bere opakovaná práce kolem
             něj, probereme obojí najednou. Co všechno se dá automatizovat, popisuje stránka{" "}
             <Link href="/automatizace" className={t.link}>
               automatizace a AI

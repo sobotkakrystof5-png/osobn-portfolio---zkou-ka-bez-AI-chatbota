@@ -20,6 +20,7 @@ import { getServiceDemo, type ServiceDemo } from "@/lib/data/automation-demos";
 import { altenoUrl, type AltenoCampaign } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Alteno } from "@/components/brand/BrandName";
 
 // Podstránka jedné ze 4 služeb sekce Automatizace. Port struktury
 // alteno.cz/sluzby/[slug] v designu VIZEON (zadání:
@@ -194,7 +195,7 @@ export default async function AutomationServicePage({ params }: Props) {
               na mobilu lockup pod eyebrowem. */}
           <div className="mt-8 mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
             <div className="flex flex-wrap items-center gap-3">
-              <p className={t.eyebrow}>— Automatizace by ALTENO</p>
+              <p className={t.eyebrow}>— Automatizace by <Alteno /></p>
               {page.comingSoon ? (
                 <span className="font-inter font-medium text-[10px] tracking-[0.1em] uppercase px-2.5 py-[3px] text-[#c9a84c] border border-[rgba(201,168,76,0.4)]">
                   Připravuji

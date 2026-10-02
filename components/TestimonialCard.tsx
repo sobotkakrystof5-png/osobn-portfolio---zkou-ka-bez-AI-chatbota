@@ -1,5 +1,6 @@
 import { ArrowUpRight, Star } from "lucide-react";
 import type { Testimonial } from "@/lib/data/testimonials";
+import { brandText } from "@/components/brand/BrandName";
 
 export function TestimonialCard({ quote, name, url, urlLabel }: Testimonial) {
   return (
@@ -12,7 +13,7 @@ export function TestimonialCard({ quote, name, url, urlLabel }: Testimonial) {
     >
       <span className="absolute top-6 left-8 text-[#c9a84c]/30 font-cormorant text-[72px] leading-none select-none" aria-hidden="true">&ldquo;</span>
       <p className="font-inter font-light text-[15px] md:text-[17px] text-[#c8c0b4] leading-[1.9] mt-8 mb-8">
-        {quote}
+        {brandText(quote)}
       </p>
       <div className="mt-auto flex items-center justify-between gap-4 pt-4 border-t border-[#c9a84c]/10">
         <div>

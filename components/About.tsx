@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn, slideLeft, slideRight, stagger, viewport } from "@/lib/animations";
+import { Vizeon } from "@/components/brand/BrandName";
 
 export default function About() {
   return (
@@ -28,7 +29,7 @@ export default function About() {
               </div>
             </div>
             <p className="mt-4 font-inter font-medium text-[10px] tracking-[0.15em] text-[#c9a84c] uppercase">
-              Kryštof Sobotka · Zakladatel VIZEON · Česká republika
+              Kryštof Sobotka · Zakladatel <Vizeon /> · Česká republika
             </p>
           </motion.div>
 

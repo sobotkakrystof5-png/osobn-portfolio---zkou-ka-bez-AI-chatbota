@@ -68,11 +68,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "VIZEON | Tvorba webů, AI chatboti a grafika",
+    default: "Weby a e-shopy na míru pro firmy a živnostníky | VIZEON",
     template: "%s | VIZEON",
   },
   description:
-    "Tvorba webů na míru pro živnostníky a malé firmy. Bez šablon, hotovo za 10 dní. Weby, které přivádějí zákazníky, ne jen návštěvníky.",
+    "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
   keywords: [
     "tvorba webů",
     "tvorba webu na míru",
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "cs_CZ",
     url: "https://vizeon.cz",
-    title: "VIZEON — Web. Design. Výsledky.",
+    title: "Weby a e-shopy na míru pro firmy a živnostníky | VIZEON",
     description:
       "Jeden člověk. Přímá komunikace. Weby které prodávají, ne jen existují.",
     siteName: "VIZEON",

@@ -34,7 +34,7 @@ Po otevření hamburger menu (fullscreen overlay přes celou obrazovku) **cookie
 
 ### 3. První položka menu se překrývá s logem v hlavičce
 
-V otevřeném menu se text první položky („O mně", vykreslený velkým `font-cormorant` řezem) vizuálně protíná s logem „VIZEON" a podtitulkem „WEB. DESIGN. VÝSLEDKY." v headeru nad ním.
+V otevřeném menu se text první položky („O mně", vykreslený velkým `font-cormorant` řezem) vizuálně protíná s logem „VIZEON" a podtitulkem „VIZE. VÝVOJ. VÝSLEDKY." v headeru nad ním.
 
 **Příčina v kódu:** Header (`position: fixed`, výška `h-16`/`h-20`) a fullscreen menu overlay nejsou navzájem odsazené — menu začíná hned od `top: 0` a první `flex` položka se počítá do vertikálního centrování bez rezervy na výšku headeru.
 

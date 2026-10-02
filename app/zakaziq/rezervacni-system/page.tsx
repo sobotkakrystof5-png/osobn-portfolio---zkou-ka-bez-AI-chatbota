@@ -6,6 +6,7 @@ import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Vizeon } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -54,7 +55,7 @@ export default function RezervacniSystemPage() {
         <PageHeader
           eyebrow="Rezervační systém"
           h1="Rezervační systém, díky kterému si konzultaci domluvíte sami"
-          lead="ZakazIQ v sobě má vlastní rezervační funkci — jakmile jste v systému, další konzultaci s VIZEON si domluvíte na pár kliknutí, bez telefonátu a bez čekání, až se ozvu zpátky."
+          lead="ZakazIQ v sobě má vlastní rezervační funkci — jakmile jste v systému, další konzultaci s <Vizeon /> si domluvíte na pár kliknutí, bez telefonátu a bez čekání, až se ozvu zpátky."
         />
 
         <div className="space-y-14">
@@ -86,7 +87,7 @@ export default function RezervacniSystemPage() {
             <div className="space-y-6">
               <div>
                 <h3 className={cn(t.h3, "mb-1.5")}>Musím se do ZakazIQ registrovat zvlášť?</h3>
-                <p className={t.body}>Ne, po objednání první konzultace přes VIZEON vás do systému přiřadím automaticky. Nic navíc řešit nemusíte.</p>
+                <p className={t.body}>Ne, po objednání první konzultace přes <Vizeon /> vás do systému přiřadím automaticky. Nic navíc řešit nemusíte.</p>
               </div>
               <div>
                 <h3 className={cn(t.h3, "mb-1.5")}>Je rezervační systém v ZakazIQ to samé, co rezervační systém pro můj web?</h3>

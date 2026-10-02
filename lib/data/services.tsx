@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, Bot, CalendarClock, Palette, Wrench, Search, Workflow } from "lucide-react";
+import { Globe, ShoppingBag, AppWindow, CalendarClock, Palette, Wrench, Search, Workflow } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { automationIndex } from "@/lib/data/automation-index";
@@ -13,6 +13,10 @@ export type ServiceCategory = {
   packages: string[];
   /** Podstránka s podrobným popisem a nabídkou služby. */
   href: string;
+  /** Text výzvy dole na kartě, výchozí „Zjistit více →“. */
+  cta?: string;
+  /** Místo `packages` vykreslí proklikávací čipy (podstránky služby). */
+  links?: { label: string; href: string }[];
 };
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
@@ -32,32 +36,58 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     ],
     href: "/sluzby/tvorba-webovych-stranek",
   },
+  // E-shop zatím nemá vlastní podstránku ani ceník, karta proto vede rovnou
+  // na kontakt. Až podstránka vznikne, stačí změnit `href` a smazat `cta`.
   {
-    icon: Bot,
-    title: "AI Chatbot",
-    subtitle: "Zákaznická podpora · Rezervace · FAQ na webu",
+    icon: ShoppingBag,
+    title: "E-shopy na míru",
+    subtitle: "Menší e-shop · Platby · Doprava · Objednávky",
+    description:
+      "E-shop, ve kterém se dobře nakupuje i na mobilu. Produkty, platby, doprava a potvrzení objednávek nastavím tak, aby vám prodej běžel bez ručního přepisování.",
+    packages: ["E-shop na míru", "Platební brána", "Doprava a výdejní místa", "Automatické potvrzení objednávek"],
+    href: "/kontakt",
+    cta: "Poptat e-shop →",
+  },
+  // Automatizace (značka ALTENO) hned za weby a e-shopy: web přivede
+  // zákazníky, automatizace obslouží, co přijde. Čipy = 4 podstránky
+  // /automatizace/[slug] ze stejného indexu jako menu, ať se nerozejdou.
+  {
+    icon: Workflow,
+    title: "Automatizace a AI",
+    subtitle: "AI agenti · Procesy · Chatboti · Voice agenti",
+    description:
+      "Odpovědi zákazníkům, doklady a připomínky nemusíte řešit ručně. Tuhle část přebírá automatizace, kterou stavím pod sesterskou značkou ALTENO.",
+    badge: "ALTENO",
+    packages: [],
+    links: automationIndex.map((page) => ({
+      label: page.title,
+      href: `/automatizace/${page.slug}`,
+    })),
+    href: "/automatizace",
+    cta: "Celá nabídka automatizace →",
+  },
+  // Webové aplikace zatím nemají vlastní podstránku, karta vede na kontakt
+  // (stejně jako e-shopy). Chatbota už pokrývá karta Automatizace a AI
+  // (podstránka /automatizace/chatboti-rag); /sluzby/ai-chatbot dál existuje.
+  {
+    icon: AppWindow,
+    title: "Webové aplikace a SaaS",
+    subtitle: "Klientské portály · Interní systémy · SaaS pro firmy",
     description: (
       <>
-        Chatbot napojený na váš web, který odpovídá zákazníkům 24/7, sbírá poptávky a
-        odbavuje běžné dotazy. Ideální pro{" "}
-        <Link href="/web-pro-kadernictvi" className="relative z-30 text-[#c9a84c] hover:underline">
-          kadeřnictví
-        </Link>{" "}
-        nebo{" "}
-        <Link href="/web-pro-remeslniky" className="relative z-30 text-[#c9a84c] hover:underline">
-          řemeslníky
-        </Link>
-        , kteří nemají čas odpovídat na každou zprávu ručně. Pokud má chatbot hledat odpovědi ve
-        větším množství podkladů, řeší to{" "}
-        <Link href="/automatizace/chatboti-rag" className="relative z-30 text-[#c9a84c] hover:underline">
-          chatboti a RAG
+        Aplikace na míru, které firmám nahradí tabulky a e‑maily: klientský portál, interní
+        systém, dashboard nebo vlastní SaaS produkt. Jak to vypadá v praxi, ukazuje můj klientský
+        portál{" "}
+        <Link href="/zakaziq" className="relative z-30 text-[#c9a84c] hover:underline">
+          ZakazIQ
         </Link>
         .
       </>
     ),
     badge: "Novinka",
-    packages: ["FAQ chatbot na míru", "Chatbot napojený na rezervace", "Sběr a kvalifikace poptávek"],
-    href: "/sluzby/ai-chatbot",
+    packages: ["Klientský portál", "Interní systém", "Dashboard a reporty", "SaaS produkt na míru"],
+    href: "/kontakt",
+    cta: "Poptat aplikaci →",
   },
   {
     icon: CalendarClock,
@@ -112,24 +142,3 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     href: "/sluzby/seo-optimalizace",
   },
 ];
-
-/**
- * Automatizace je v gridu služeb sedmá, ale vykresluje se jako široký pruh pod
- * ním (md:col-span-3), ne jako sedmá dlaždice — ve třech sloupcích by zůstala
- * na vlastním řádku sama. Zároveň je to jediná položka pod jinou značkou, což
- * pruh dává najevo líp než další stejná karta.
- */
-export const AUTOMATION_HIGHLIGHT = {
-  icon: Workflow,
-  badge: "ALTENO",
-  title: "Automatizace a AI",
-  description:
-    "Web přivede zákazníky, ale odpovědi, doklady a připomínky pak řešíte ručně. Tuhle část přebírá automatizace, kterou stavím pod sesterskou značkou ALTENO.",
-  href: "/automatizace",
-  // Čipy = 4 podstránky /automatizace/[slug]; názvy a pořadí ze stejného
-  // indexu jako menu, ať se nerozejdou.
-  chips: automationIndex.map((page) => ({
-    label: page.title,
-    href: `/automatizace/${page.slug}`,
-  })),
-} as const;

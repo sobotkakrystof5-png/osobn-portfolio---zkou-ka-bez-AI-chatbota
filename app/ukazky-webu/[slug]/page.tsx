@@ -9,6 +9,7 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { projects } from "@/lib/data/portfolio";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { brandText } from "@/components/brand/BrandName";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -71,7 +72,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <article className="pb-20 md:pb-28">
         <div className={cn(t.container.page, "pt-8 md:pt-10")}>
           <p className={t.eyebrow}>— {project.category}</p>
-          <h1 className={cn(t.h1, "mt-4 mb-8 max-w-3xl")}>{project.title}</h1>
+          <h1 className={cn(t.h1, "mt-4 mb-8 max-w-3xl")}>{brandText(project.title, "cormorant")}</h1>
         </div>
 
         <div className="relative w-full max-w-6xl mx-auto mb-12 md:mb-16 aspect-[16/10] md:aspect-[21/9] overflow-hidden border border-white/[0.08]">

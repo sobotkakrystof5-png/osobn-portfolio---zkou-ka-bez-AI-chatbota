@@ -723,7 +723,7 @@ session pro layout**, proto je samostatně.
    Smaž komentáře o tokenech `zinc-100`/`brand-turquoise`, které ve VIZEON neplatí, ponech ty o tvaru.
 2. **`components/brand/VizeonLogo.tsx`**: wordmark VIZEON shodný se stávajícím logem v `Navbar.tsx`:
    Cormorant light, `uppercase`, široký prostrk (`tracking-[0.2em]`), barva `#f0ece6`; volitelně
-   (`withClaim`, jen velikost `lg`) pod ním **tenká zlatá linka** a claim „Web. Design. Výsledky."
+   (`withClaim`, jen velikost `lg`) pod ním **tenká zlatá linka** a claim „Vize. Vývoj. Výsledky."
    (Inter, 9px, uppercase, `text-[#8a8070]`). Zkopíruj `ALT/public/vizeon-logo.png` (kulaté logo,
    256×256) do `public/vizeon-logo.png`. Použij ho **jen** tam, kde je potřeba bitmapa (OG obrázek, případně
    JSON-LD `logo`/`image`, pokud taková vlastnost v repu už existuje). Ve vodorovném lockupu jej nepoužívej.

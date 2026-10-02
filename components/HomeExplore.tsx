@@ -7,6 +7,7 @@ import type { LucideIcon } from "lucide-react";
 import { fadeUp, stagger, cardEntrance, viewport } from "@/lib/animations";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Vizeon, brandText } from "@/components/brand/BrandName";
 
 type Card = {
   href: string;
@@ -75,7 +76,7 @@ const cards: Card[] = [
     label: "Automatizace",
     icon: Workflow,
     tagline: "Web přivede zákazníky. Zbytek udělá automatizace.",
-    body: "Potvrzení poptávek, odpovědi na běžné dotazy nebo zápisy do tabulek můžou běžet samy. Stavím je pod sesterskou značkou ALTENO.",
+    body: "Potvrzení poptávek, odpovědi na běžné dotazy nebo zápisy do tabulek můžou běžet samy. Staví je sesterská značka ALTENO.",
     span: "md:col-span-4",
     brandTag: "by ALTENO",
   },
@@ -91,11 +92,11 @@ export default function HomeExplore() {
         </motion.p>
         <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className={cn(t.h2Page, "mb-6 max-w-2xl")}>
-          Prozkoumejte <span className="tracking-[0.12em]">VIZEON</span>
+          Prozkoumejte <Vizeon font="cormorant" />
         </motion.h2>
         <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
           className={cn(t.lead, "max-w-2xl mb-16")}>
-          Poznejte VIZEON, náš přístup k práci, nabízené služby, realizované projekty i způsob,
+          Poznejte <Vizeon />, náš přístup k práci, nabízené služby, realizované projekty i způsob,
           jakým probíhá spolupráce. Nechybí ani transparentní ceník a klientský portál ZakazIQ.
         </motion.p>
 
@@ -111,7 +112,7 @@ export default function HomeExplore() {
 
                 {card.brandTag && (
                   <span className="absolute top-5 right-5 font-inter font-light text-[9px] uppercase tracking-[0.18em] text-[#c9a84c]/50">
-                    {card.brandTag}
+                    {brandText(card.brandTag)}
                   </span>
                 )}
 
@@ -126,7 +127,7 @@ export default function HomeExplore() {
                   {card.tagline}
                 </p>
                 <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.75] mb-4">
-                  {card.body}
+                  {brandText(card.body)}
                 </p>
 
                 <span className="mt-auto pt-2 inline-flex items-center gap-1.5 font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300">

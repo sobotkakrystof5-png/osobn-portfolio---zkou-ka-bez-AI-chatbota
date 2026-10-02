@@ -7,6 +7,7 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { getSortedPosts } from "@/lib/data/blog";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Vizeon } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -71,7 +72,7 @@ export default function BlogPage() {
                       V
                     </span>
                     <span className="font-inter font-medium text-[10px] uppercase tracking-[0.12em] text-[#8a8070]">
-                      VIZEON <span className="mx-1 text-white/20">·</span>
+                      <Vizeon /> <span className="mx-1 text-white/20">·</span>
                       {new Date(post.date).toLocaleDateString("cs-CZ")}
                       <span className="mx-1 text-white/20">·</span>
                       {post.readingMinutes} min

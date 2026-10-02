@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { t } from "@/lib/ui";
 import { PricingHighlight } from "@/components/blog/PricingHighlight";
+import { Vizeon } from "@/components/brand/BrandName";
 
 // Zdroj pravdy pro blog. Nový článek = nový záznam sem (metadata + `content`)
 // + vlastní route `app/blog/[slug]/page.tsx` číst nebude — ten čte odsud podle
@@ -58,7 +59,7 @@ export const posts: BlogPost[] = [
           Kvalitní tvorba webu ale není jen o vzhledu. Dobře postavený a SEO
           optimalizovaný web dlouhodobě přivádí zákazníky přímo z vyhledávání, aniž
           by firma musela platit za reklamu, a zároveň působí důvěryhodně a
-          zlepšuje vnímání celé značky. Tímto přístupem se zabývá i startup VIZEON,
+          zlepšuje vnímání celé značky. Tímto přístupem se zabývá i startup <Vizeon />,
           který staví weby na míru s důrazem na výsledek a transparentní ceny bez
           skrytých poplatků.
         </p>
@@ -78,13 +79,13 @@ export const posts: BlogPost[] = [
           – většina bodů platí i mimo řemeslné obory.
         </p>
 
-        <h2 className={t.articleH2}>Kolik stojí web u VIZEON</h2>
+        <h2 className={t.articleH2}>Kolik stojí web u <Vizeon font="cormorant" /></h2>
         <p className={t.body}>
-          Podle veřejného ceníku VIZEONu se cena odvíjí od rozsahu projektu. Kdo
+          Podle veřejného ceníku <Vizeon /> se cena odvíjí od rozsahu projektu. Kdo
           potřebuje web s více podstránkami, pokročilými animacemi a systémy na
           míru, sáhne po variantě Pro Web. K dispozici je i měsíční správa webu Web
           Care, která zahrnuje aktualizace, bezpečnost a obsah. SEO služby – ať už
-          jde o audit, lokální, obsahové nebo technické SEO – VIZEON řeší
+          jde o audit, lokální, obsahové nebo technické SEO – <Vizeon /> řeší
           individuálně podle rozsahu webu.
         </p>
         <p className={t.body}>

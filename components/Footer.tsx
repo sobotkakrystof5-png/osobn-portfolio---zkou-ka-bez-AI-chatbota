@@ -7,6 +7,7 @@ import { fadeUp, viewport } from "@/lib/animations";
 import { NAV_LINKS, AUTOMATION_NAV_ITEMS } from "@/lib/nav";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
+import { Alteno, Vizeon } from "@/components/brand/BrandName";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (
@@ -55,7 +56,7 @@ export default function Footer() {
                 VIZEON
               </span>
               <span className="font-inter font-light text-[10px] uppercase tracking-[0.25em] text-[#8a8070] mt-0.5">
-                Web. Design. Výsledky.
+                Vize. Vývoj. Výsledky.
               </span>
             </Link>
             <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.7] max-w-xs mt-4">
@@ -71,11 +72,11 @@ export default function Footer() {
               </p>
               <BrandLockup size="sm" altenoHref={altenoUrl("/", "footer")} className="mb-3" />
               <p className="font-inter font-light text-[12px] text-[#8a8070] leading-[1.7]">
-                Weby dělám pod VIZEONEM,{" "}
+                Weby dělám pod značkou <Vizeon />,{" "}
                 <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
                   automatizaci firemních procesů
                 </Link>{" "}
-                pod značkou ALTENO. Za oběma stojí jeden člověk.
+                dodává sesterská značka <Alteno />.
               </p>
             </div>
           </motion.div>
@@ -185,7 +186,7 @@ export default function Footer() {
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-inter font-light text-[12px] text-[#3d3830]">
-            © 2026 VIZEON. Všechna práva vyhrazena.
+            © 2026 <Vizeon />. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <Link

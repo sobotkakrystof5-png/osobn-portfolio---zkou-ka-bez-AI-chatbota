@@ -6,6 +6,7 @@ import { fadeUp, cardEntrance, staggerDramatic, viewport } from "@/lib/animation
 import { PRICING_CATEGORIES, type PricingItem } from "@/lib/data/pricing";
 import { PriceLabel } from "@/components/PriceLabel";
 import { altenoUrl } from "@/lib/alteno";
+import { Alteno, brandText } from "@/components/brand/BrandName";
 
 /** Jediná kategorie s poznámkou pod kartami — realizuje ji sesterská značka. */
 const AUTOMATION_CATEGORY = "Automatizace a AI (ALTENO)";
@@ -44,7 +45,7 @@ function ServiceCard({ item }: { item: PricingItem }) {
                 : "text-[#c9a84c] border border-[rgba(201,168,76,0.4)] badge-outline-glow"
             }`}
           >
-            {item.badge}
+            {brandText(item.badge)}
           </span>
         )}
       </div>
@@ -109,7 +110,7 @@ export default function Pricing() {
             <div key={gi}>
               <h3 className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#3d3830] mb-5 flex items-center gap-2">
                 <group.icon size={14} className="text-[#c9a84c]/60" aria-hidden="true" />
-                {group.category}
+                {brandText(group.category)}
               </h3>
               <motion.div
                 variants={staggerDramatic}
@@ -139,7 +140,7 @@ export default function Pricing() {
                     rel="noopener"
                     className="text-[#c9a84c] hover:underline"
                   >
-                    kalkulačce na ALTENO ↗
+                    kalkulačce na <Alteno /> ↗
                   </a>
                   .
                 </p>

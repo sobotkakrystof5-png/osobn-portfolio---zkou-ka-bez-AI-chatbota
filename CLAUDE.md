@@ -1,3 +1,27 @@
+# Pravidlo značek: VIZEON a ALTENO vždy ve stylu svého loga
+
+**Platí vždy a všude na webu.** Kdekoli se ve viditelném textu objeví slovo VIZEON nebo ALTENO
+(věta, nadpis, eyebrow, štítek, badge, patička, data ve `lib/data/*`), sází se ve stylu svého loga,
+nikdy jako obyčejné slovo v písmu okolního textu.
+
+- **V JSX** použij `<Vizeon />` / `<Alteno />` z `components/brand/BrandName.tsx`. Velikost se dědí
+  z okolního `font-size`. V nadpisech v Cormorantu přidej `font="cormorant"` (default je Inter),
+  jinak verzálky značky nesedí na verzálky okolního textu.
+- **Ve stringu z dat nebo props** obal render místo do `brandText(text)` (stejný soubor). Data
+  zůstávají stringy, aby šla dál do metadat a JSON-LD.
+- **VIZEON** = `VizeonLogo` (Cormorant light, verzálky, prostrk 0,2 em, krémová `#f0ece6`).
+  **ALTENO** = vektorový wordmark `AltenoLogo` (světlá písmena + tyrkysový akcent). Nikdy ho
+  nepřepisuj textem ani nepřebarvuj.
+- **Neskloňuj.** Místo „pod VIZEONEM“ nebo „od VIZEONU“ piš „pod značkou VIZEON“ a podobně.
+  Logo nemá koncovky.
+- **Spolubranding** obou značek vedle sebe = `BrandLockup` (`components/brand/BrandLockup.tsx`).
+- **Výjimky** (tam, kde styl technicky nejde, zůstává prostý text): `<title>` a metadata, OG `alt`,
+  JSON-LD, `aria-label`, `alt` obrázků, e-maily (`lib/email.ts`, `app/api/*`), ICS v `BookingModal`,
+  zprávy chat widgetu (n8n), komentáře v kódu a **URL adresy**: jakákoli viditelná adresa webu
+  nebo e-mailu (`vizeon.cz`, `www.alteno.cz`, `https://…`, `vizeon.cz/gdpr`, `info@vizeon.cz`)
+  zůstává obyčejný text, nikdy logo. `brandText()` je přeskakuje sám (výskyt následovaný `.tld`). Admin (světlé
+  pozadí) používá jen písmo loga, ne barvu.
+
 # n8n-MCP — instrukce pro tento projekt
 
 Tento projekt má nakonfigurovaný [n8n-mcp](https://github.com/czlonkowski/n8n-mcp) server (viz `.mcp.json`) —

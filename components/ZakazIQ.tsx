@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MessageCircle, Star, CalendarCheck, LayoutDashboard } from "lucide-react";
 import { fadeUp, stagger, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
+import { Vizeon, brandText } from "@/components/brand/BrandName";
 
 const features = [
   {
@@ -148,7 +149,7 @@ export default function ZakazIQ() {
               variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
               className="font-inter font-normal text-[18px] md:text-[22px] text-[#e8e3dc] leading-[1.75] mt-10"
             >
-              ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes VIZEON se automaticky dostanete do systému. Odtud probíhá veškerá spolupráce.
+              ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes <Vizeon /> se automaticky dostanete do systému. Odtud probíhá veškerá spolupráce.
             </motion.p>
           </div>
 
@@ -271,7 +272,7 @@ export default function ZakazIQ() {
                     {item.label}
                   </p>
                   <p className="font-inter font-light text-[11px] text-[#8a8070] tracking-[0.03em]">
-                    {item.sub}
+                    {brandText(item.sub)}
                   </p>
                 </div>
               </motion.div>

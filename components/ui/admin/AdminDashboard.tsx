@@ -131,7 +131,7 @@ export default function AdminDashboard() {
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="font-bold text-lg">VIZEON</span>
+            <span className="font-cormorant font-light text-xl uppercase tracking-[0.2em]">VIZEON</span>
             <span className="text-gray-300">|</span>
             <span className="text-sm text-gray-500">Admin</span>
           </div>

@@ -39,14 +39,14 @@ const ReferencesSection = dynamic(() => import("@/components/ReferencesSection")
 // /sluzby/tvorba-webu-pro-firmy, ať si homepage nekanibalizuje pozice s
 // vlastními podstránkami (viz cluster.md finding 6).
 export const metadata: Metadata = {
-  title: "VIZEON — weby na míru pro živnostníky a malé firmy",
+  title: { absolute: "Weby a e-shopy na míru pro firmy a živnostníky | VIZEON" },
   description:
-    "Weby, které přivádějí zákazníky, ne jen návštěvníky. Tvorba webu na míru za 5–21 dní, bez šablon, transparentní ceník od 4 999 Kč. Weby, AI chatboti a grafika pro živnostníky a malé firmy v ČR.",
+    "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
   alternates: { canonical: "https://vizeon.cz" },
   openGraph: {
-    title: "VIZEON — weby na míru pro živnostníky a malé firmy",
+    title: "Weby a e-shopy na míru pro firmy a živnostníky | VIZEON",
     description:
-      "Weby, které přivádějí zákazníky, ne jen návštěvníky. Bez šablon, hotovo za 5–21 dní.",
+      "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
     url: "https://vizeon.cz",
     type: "website",
   },

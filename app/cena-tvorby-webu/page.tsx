@@ -5,6 +5,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Alteno, Vizeon } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -73,7 +74,7 @@ const jsonLd = {
           name: "Kolik stojí automatizace a AI?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Automatizace začíná na 4 999 Kč a pevnou cenu znáte předem. Prvních 14 dní po spuštění máte podporu zdarma, potom si můžete vzít průběžnou podporu jako měsíční paušál. Cenu AI agentů a chatbotů určuje rozsah, dostanete ji v nabídce po konzultaci. Tuhle část dělám pod sesterskou značkou ALTENO.",
+            text: "Automatizace začíná na 4 999 Kč a pevnou cenu znáte předem. Prvních 14 dní po spuštění máte podporu zdarma, potom si můžete vzít průběžnou podporu jako měsíční paušál. Cenu AI agentů a chatbotů určuje rozsah, dostanete ji v nabídce po konzultaci. Tuhle část realizuje sesterská značka ALTENO.",
           },
         },
       ],
@@ -94,7 +95,7 @@ export default function CenaTvorbyWebuPage() {
               Proč je cena nižší než u agentury
             </h2>
             <p className={cn(t.body, "mb-6")}>
-              VIZEON není agentura s týmem projektových manažerů a subdodavatelů — design i vývoj
+              <Vizeon /> není agentura s týmem projektových manažerů a subdodavatelů — design i vývoj
               řeším sám, od první schůzky až po předání hotového webu.
             </p>
             <div className="space-y-6">
@@ -185,7 +186,7 @@ export default function CenaTvorbyWebuPage() {
                   Automatizace začíná na 4 999 Kč a pevnou cenu znáte předem. Prvních 14 dní po
                   spuštění máte podporu zdarma, potom si můžete vzít průběžnou podporu jako měsíční
                   paušál. Cenu AI agentů a chatbotů určuje rozsah, dostanete ji v nabídce po
-                  konzultaci. Tuhle část dělám pod sesterskou značkou ALTENO, podrobnosti najdete
+                  konzultaci. Tuhle část realizuje sesterská značka <Alteno />, podrobnosti najdete
                   na stránce{" "}
                   <Link href="/automatizace" className={t.link}>
                     automatizace a AI

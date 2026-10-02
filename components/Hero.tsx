@@ -49,7 +49,7 @@ export default function Hero() {
     return () => { window.removeEventListener("resize", resize); cancelAnimationFrame(id); };
   }, []);
 
-  const words = ["Web", "pro", "firmu,", "který", "spojuje", "moderní", "design", "a", "SEO", "optimalizaci"];
+  const words = ["Weby", "a", "e-shopy,", "které", "spojují", "moderní", "design,", "SEO", "a", "automatizaci", "procesů."];
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#080808]" aria-label="Úvodní sekce">
@@ -88,11 +88,11 @@ export default function Hero() {
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-24 sm:pt-28 md:pt-24 pb-12 sm:pb-14 md:pb-20">
         <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
           className="font-cormorant font-light leading-[1.12] text-[38px] sm:text-[48px] md:text-[62px] lg:text-[76px] text-[#f0ece6] mb-5 md:mb-6"
-          aria-label="Web pro firmu, který spojuje moderní design a SEO optimalizaci">
+          aria-label="Weby a e-shopy, které spojují moderní design, SEO a automatizaci procesů.">
           {words.map((word, i) => (
             <Fragment key={i}>
               <motion.span variants={fadeUp}
-                className={`inline-block ${i >= 8 ? "text-shimmer" : ""}`}>
+                className={`inline-block ${i >= 7 ? "text-shimmer" : ""}`}>
                 {word}
               </motion.span>
               {/* Mezera jako reálný text uzel MIMO inline-block span (ne jen CSS
@@ -109,7 +109,7 @@ export default function Hero() {
 
         <motion.h2 variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
           className="font-inter font-light text-[15px] md:text-[17px] leading-[1.7] text-[#8a8070] max-w-lg mx-auto mb-8 md:mb-10 text-left">
-          Tvorba webu pro firmy a živnostníky na míru. Moderní web s profesionálním designem a SEO optimalizací webu, který pomáhá získávat nové zákazníky.
+          Pro živnostníky a malé i střední firmy stavím komplexní řešení na míru: weby a e-shopy, automatizaci procesů a AI chatboty. Komunikujete přímo se mnou, od první konzultace až po spuštění.
         </motion.h2>
 
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}

@@ -19,6 +19,7 @@ import { automationPages } from "@/lib/data/automation-pages";
 import { altenoUrl } from "@/lib/alteno";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Alteno, Vizeon } from "@/components/brand/BrandName";
 
 // Stránka záměrně necílí na hlavní fráze ALTENA ("automatizace firemních
 // procesů", "AI agenti na míru") — ty patří alteno.cz a VIZEON by si s vlastní
@@ -31,12 +32,12 @@ export function generateMetadata(): Metadata {
     // „| VIZEON" („… | VIZEON × ALTENO | VIZEON").
     title: { absolute: "Automatizace a AI pro majitele webu | VIZEON × ALTENO" },
     description:
-      "Automatizace poptávek z webu, chatboti a AI agenti pro živnostníky a malé firmy. Web i automatizace od jednoho dodavatele, od 4 999 Kč, konzultace zdarma.",
+      "Automatizace poptávek z webu, chatboti a AI agenti pro živnostníky a malé firmy. Web i automatizace na sebe navazují, od 4 999 Kč, konzultace zdarma.",
     alternates: { canonical: "https://vizeon.cz/automatizace" },
     openGraph: {
       title: "Automatizace a AI pro majitele webu | VIZEON × ALTENO",
       description:
-        "Web přivede zákazníky, automatizace se postará o to, co následuje. Jeden člověk, dvě značky, konzultace zdarma.",
+        "Web přivede zákazníky, automatizace se postará o to, co následuje. Spolupráce VIZEON × ALTENO, konzultace zdarma.",
       url: "https://vizeon.cz/automatizace",
       type: "website",
     },
@@ -101,18 +102,17 @@ export default function AutomatizacePage() {
         {/* Spolupráce dvou značek jako první věc sekce, ještě nad H1. */}
         <BrandLockup
           size="lg"
-          withClaim
           altenoHref={altenoUrl("/", "automatizace-hero")}
           className="mt-6 md:mt-0 mb-10 md:mb-12"
         />
-        <p className={cn(t.eyebrow, "mb-4")}>— Automatizace by ALTENO</p>
+        <p className={cn(t.eyebrow, "mb-4")}>— Automatizace by <Alteno /></p>
         <h1 className={cn(t.h1, "mb-6 max-w-3xl")}>
           Automatizace pro firmy, které mají web hotový
         </h1>
         <p className={cn(t.lead, "max-w-2xl mb-10")}>
           Web vám přivede zákazníky. Automatizace se postará o všechno, co následuje: potvrzení
-          poptávek, odpovědi na běžné dotazy, zápisy do tabulek, připomínky. Stavím ji pod značkou
-          ALTENO, vy mluvíte pořád se stejným člověkem.
+          poptávek, odpovědi na běžné dotazy, zápisy do tabulek, připomínky. Dodává ji sesterská
+          značka <Alteno /> a plynule navazuje na web, který stavím pod značkou <Vizeon />.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4">
@@ -125,7 +125,7 @@ export default function AutomatizacePage() {
             rel="noopener"
             className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#f0ece6] border border-white/10 px-8 py-4 hover:border-white/20 hover:bg-white/5 transition-colors duration-300 text-center"
           >
-            Prohlédnout ALTENO ↗
+            Prohlédnout <Alteno /> ↗
           </a>
         </div>
       </div>
@@ -232,7 +232,7 @@ export default function AutomatizacePage() {
         {/* Rodina značek */}
         <section aria-labelledby="rodina">
           <h2 id="rodina" className={cn(t.h2Page, "mb-5")}>
-            Jeden člověk, dvě značky
+            Dvě značky, jedno řešení
           </h2>
           <BrandLockup
             size="md"
@@ -240,8 +240,8 @@ export default function AutomatizacePage() {
             altenoHref={altenoUrl("/", "automatizace-rodina")}
           />
           <p className={cn(t.body, "max-w-2xl mb-6")}>
-            Web stavím pod značkou VIZEON, automatizaci pod značkou ALTENO. Za oběma stojím já.
-            Máte jeden kontakt, jednu komunikaci a jeden klientský portál{" "}
+            Web stavím pod značkou <Vizeon />, automatizaci dodává sesterská značka <Alteno />. Obě značky
+            spolu úzce spolupracují, takže máte jednu komunikaci a jeden klientský portál{" "}
             <Link href="/zakaziq" className={t.link}>
               ZakazIQ
             </Link>
@@ -249,7 +249,7 @@ export default function AutomatizacePage() {
           </p>
           <p className={t.body}>
             <Link href="/ukazky-webu/alteno" className={t.link}>
-              Podívejte se, jak vypadá web, který jsem pro ALTENO postavil
+              Podívejte se, jak vypadá web, který jsem pro <Alteno /> postavil
             </Link>
             .
           </p>

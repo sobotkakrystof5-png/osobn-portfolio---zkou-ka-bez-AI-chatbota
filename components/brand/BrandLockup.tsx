@@ -28,6 +28,8 @@ const SIZES = {
   md: "text-[26px]",
   // Na mobilu by lg (~450 px) přeteklo 390px displej, proto do md jen md.
   lg: "text-[26px] md:text-[37px]",
+  // Pruh spolupráce na homepage (AltenoBand); větší až od lg, kde je místo.
+  xl: "text-[26px] md:text-[37px] lg:text-[52px]",
 } as const;
 
 export function BrandLockup({

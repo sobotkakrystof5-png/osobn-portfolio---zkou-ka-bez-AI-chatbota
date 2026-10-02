@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Phone, Mail } from "lucide-react";
+import { Vizeon } from "@/components/brand/BrandName";
 
 // Sdílená hlavička/patička pro samostatné oborové stránky — kopíruje
 // strukturu a styl z app/tvorba-webu-pro-zivnostniky/page.tsx, ať nové
@@ -14,7 +15,7 @@ export function PillarHeader() {
             VIZEON
           </span>
           <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#3d3830]">
-            Web. Design. Výsledky.
+            Vize. Vývoj. Výsledky.
           </span>
         </Link>
         <Link
@@ -74,7 +75,7 @@ export function PillarFooter() {
     <footer className="border-t border-white/[0.05]">
       <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="font-inter font-light text-[12px] text-[#3d3830]">
-          © 2026 VIZEON. Všechna práva vyhrazena.
+          © 2026 <Vizeon />. Všechna práva vyhrazena.
         </p>
         <div className="flex items-center gap-4">
           <Link

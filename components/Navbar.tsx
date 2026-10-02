@@ -134,7 +134,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex flex-col leading-none group shrink-0" aria-label="VIZEON">
             <span className="font-cormorant font-light text-[22px] tracking-widest text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">VIZEON</span>
-            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#8a8070]">Web. Design. Výsledky.</span>
+            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#8a8070]">Vize. Vývoj. Výsledky.</span>
           </Link>
 
           {/* Desktop nav až od xl (1280 px), pod tím hamburger. Změřeno v S6

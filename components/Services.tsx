@@ -3,9 +3,10 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { fadeUp, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
-import { AUTOMATION_HIGHLIGHT, SERVICE_CATEGORIES } from "@/lib/data/services";
+import { SERVICE_CATEGORIES } from "@/lib/data/services";
 import { useRef } from "react";
 import type { MouseEvent, ReactNode } from "react";
+import { brandText } from "@/components/brand/BrandName";
 
 /* ─── 3D Tilt card ──────────────────────────────────── */
 // Karta je "stretched link" — skutečný <a href> přes celou plochu (z-20),
@@ -144,14 +145,17 @@ export default function Services() {
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6"
+          className="grid grid-cols-1 md:grid-cols-6 gap-5 md:gap-6"
         >
+          {/* Šest sloupců: první dvě řady po třech kartách (span 2), poslední
+              dvě karty po polovině (span 3), ať na konci nezůstane díra. */}
           {SERVICE_CATEGORIES.map((s, i) => (
             <motion.div
               key={i}
               variants={cardEntrance}
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 320, damping: 26 }}
+              className={i >= 6 ? "md:col-span-3" : "md:col-span-2"}
             >
               <TiltCard
                 ariaLabel={`${s.title} – zjistit více`}
@@ -196,7 +200,7 @@ export default function Services() {
                           : "text-[#c9a84c] border border-[rgba(201,168,76,0.4)] badge-outline-glow"
                       }`}
                     >
-                      {s.badge}
+                      {brandText(s.badge)}
                     </span>
                   )}
                 </div>
@@ -236,8 +240,21 @@ export default function Services() {
                   {s.description}
                 </p>
 
-                {/* Balíčky jako tagy — jen názvy */}
-                {s.packages && (
+                {/* Podstránky služby jako proklikávací čipy (z-30 nad
+                    stretched linkem karty), jinak balíčky jako tagy. */}
+                {s.links ? (
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {s.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="relative z-30 font-inter font-light text-[10px] text-[#8a8070] border border-white/[0.07] px-2 py-0.5 bg-white/[0.015] hover:text-[#f0ece6] hover:border-[rgba(201,168,76,0.4)] transition-colors duration-300"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
                   <div className="flex flex-wrap gap-1.5 mb-5 relative z-10">
                     {s.packages.map((pkg, j) => {
                       const name = pkg.split(" — ")[0].split(" (")[0];
@@ -254,73 +271,12 @@ export default function Services() {
                 )}
 
                 <p className="font-inter font-light text-[11px] tracking-[0.1em] uppercase text-[#c9a84c]/40 group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300 relative z-10">
-                  Zjistit více →
+                  {s.cta ?? "Zjistit více →"}
                 </p>
               </TiltCard>
             </motion.div>
           ))}
 
-          {/* Sedmá služba jako široký pruh přes všechny tři sloupce — jako
-              dlaždice by ve třech sloupcích zůstala na řádku sama. Karta je
-              stejný "stretched link" jako ostatní (z-20), odkazové čipy uvnitř
-              leží nad ním (z-30). */}
-          <motion.div
-            variants={cardEntrance}
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 320, damping: 26 }}
-            className="md:col-span-3"
-          >
-            <TiltCard
-              ariaLabel="Automatizace a AI – zjistit více"
-              href={AUTOMATION_HIGHLIGHT.href}
-              className="group relative glass-panel glass-panel-hover p-7 md:p-8 cursor-pointer overflow-hidden"
-            >
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: "linear-gradient(120deg, #141414 0%, #0d0d0d 100%)" }}
-                aria-hidden="true"
-              />
-              <div className="card-shimmer-line absolute top-0 left-0 right-0 h-[1px] pointer-events-none" aria-hidden="true" />
-
-              {/* `relative` bez z-indexu ze stejného důvodu jako u popisu
-                  karet výš — čipy uvnitř potřebují přebít stretched link. */}
-              <div className="relative flex flex-col md:flex-row md:items-start gap-6 md:gap-10">
-                <div className="shrink-0">
-                  <span className="inline-block font-inter font-medium text-[10px] tracking-[0.1em] uppercase px-2.5 py-[3px] text-[#c9a84c] border border-[rgba(201,168,76,0.4)] mb-5">
-                    {AUTOMATION_HIGHLIGHT.badge}
-                  </span>
-                  <div className="relative w-10 h-10 border border-[rgba(201,168,76,0.15)] flex items-center justify-center group-hover:border-[rgba(201,168,76,0.45)] transition-colors duration-300">
-                    <AUTOMATION_HIGHLIGHT.icon size={17} className="text-[#c9a84c]" aria-hidden="true" />
-                  </div>
-                </div>
-
-                <div className="flex-1">
-                  <h3 className="font-cormorant font-light text-[22px] md:text-[25px] text-[#f0ece6] mb-3 leading-tight">
-                    {AUTOMATION_HIGHLIGHT.title}
-                  </h3>
-                  <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.75] mb-5 max-w-2xl">
-                    {AUTOMATION_HIGHLIGHT.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {AUTOMATION_HIGHLIGHT.chips.map((chip) => (
-                      <Link
-                        key={chip.href}
-                        href={chip.href}
-                        className="relative z-30 font-inter font-light text-[11px] text-[#8a8070] border border-white/[0.07] px-2.5 py-1 bg-white/[0.015] hover:text-[#f0ece6] hover:border-[rgba(201,168,76,0.4)] transition-colors duration-300"
-                      >
-                        {chip.label}
-                      </Link>
-                    ))}
-                  </div>
-
-                  <p className="font-inter font-light text-[11px] tracking-[0.1em] uppercase text-[#c9a84c]/40 group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300">
-                    Celá nabídka automatizace →
-                  </p>
-                </div>
-              </div>
-            </TiltCard>
-          </motion.div>
         </motion.div>
       </div>
     </section>

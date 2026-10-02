@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { fadeUp, stagger, cardEntrance, viewport } from "@/lib/animations";
 import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/lib/data/portfolio";
+import { brandText } from "@/components/brand/BrandName";
 
 export default function Portfolio() {
   return (
@@ -50,7 +51,7 @@ export default function Portfolio() {
                     {p.category}
                   </p>
                   <h3 className="font-cormorant font-light text-[24px] md:text-[26px] text-[#f0ece6] mb-2 leading-tight">
-                    {p.title}
+                    {brandText(p.title, "cormorant")}
                   </h3>
                   <p className="font-inter font-light text-[13px] text-[#a89c8a] leading-[1.6] mb-4 line-clamp-2">
                     {p.description}

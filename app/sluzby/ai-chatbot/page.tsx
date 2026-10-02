@@ -6,6 +6,7 @@ import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import { Alteno } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -115,7 +116,7 @@ export default function AiChatbotPage() {
               <Link href="/automatizace/chatboti-rag" className={t.link}>
                 chatboti a RAG
               </Link>{" "}
-              pod mou druhou značkou ALTENO.
+              pod sesterskou značkou <Alteno />.
             </p>
           </section>
 

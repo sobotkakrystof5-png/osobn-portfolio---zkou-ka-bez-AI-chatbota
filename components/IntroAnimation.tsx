@@ -6,7 +6,7 @@ import { useScrollLock } from "@/hooks/useScrollLock";
 import { safeStorageGet, safeStorageSet } from "@/lib/utils";
 
 const LETTERS = ["V", "I", "Z", "E", "O", "N"];
-const WORDS   = ["Web.", "Design.", "Výsledky."];
+const WORDS   = ["Vize.", "Vývoj.", "Výsledky."];
 
 export default function IntroAnimation() {
   const [visible, setVisible] = useState(true);

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import { getIndustryBySlug } from "@/lib/data/industries";
+import { Vizeon } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -200,7 +201,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
               VIZEON
             </span>
             <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#3d3830]">
-              Web. Design. Výsledky.
+              Vize. Vývoj. Výsledky.
             </span>
           </Link>
           <Link
@@ -377,7 +378,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
       <footer className="border-t border-white/[0.05]">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-inter font-light text-[12px] text-[#3d3830]">
-            © 2026 VIZEON. Všechna práva vyhrazena.
+            © 2026 <Vizeon />. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <Link

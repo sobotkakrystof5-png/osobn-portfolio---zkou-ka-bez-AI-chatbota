@@ -9,14 +9,14 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Služby — weby, AI chatboti, systémy a grafika",
+    title: "Služby — weby, e-shopy, automatizace a AI",
     description:
-      "Nabízím živnostníkům a malým firmám weby na míru, AI chatboty, rezervační systémy, grafický design, technické služby i automatizaci.",
+      "Nabízím živnostníkům a firmám weby a e-shopy na míru, automatizaci a AI, webové aplikace a SaaS, rezervační systémy, grafický design i technické služby.",
     alternates: { canonical: "https://vizeon.cz/sluzby" },
     openGraph: {
-      title: "Služby — weby, AI chatboti, systémy a grafika | VIZEON",
+      title: "Služby — weby, e-shopy, automatizace a AI | VIZEON",
       description:
-        "Weby, AI chatboti, systémy na míru, grafika i technické služby najdete na jednom místě, s jedním kontaktem.",
+        "Weby, e-shopy, automatizace a AI, webové aplikace, systémy na míru, grafika i technické služby najdete na jednom místě, s jedním kontaktem.",
       url: "https://vizeon.cz/sluzby",
       type: "website",
     },
