@@ -128,7 +128,6 @@ const jsonLd = {
       "@id": "https://vizeon.cz/#organization",
       name: "VIZEON",
       url: "https://vizeon.cz",
-      telephone: "+420604837333",
       email: "info@vizeon.cz",
       // TODO: nahradit reálným logem ≥112×112px, až vznikne design asset —
       // aktuální favicon.ico je 32×32 a nesplňuje Google minimum pro Organization.logo.

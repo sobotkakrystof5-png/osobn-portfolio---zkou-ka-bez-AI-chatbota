@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Vizeon } from "@/components/brand/BrandName";
 
 // Sdílená hlavička/patička pro samostatné oborové stránky — kopíruje
@@ -34,14 +34,6 @@ export function PillarHeader() {
             Nezávazná poptávka:
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
-            <a
-              href="tel:+420604837333"
-              className="flex items-center gap-1.5 font-inter font-medium text-[12px] text-[#f0ece6] hover:text-[#c9a84c] transition-colors duration-300"
-              aria-label="Zavolat +420 604 837 333"
-            >
-              <Phone size={12} className="text-[#c9a84c] shrink-0" aria-hidden="true" />
-              +420 604 837 333
-            </a>
             <a
               href="https://wa.me/420604837333"
               target="_blank"

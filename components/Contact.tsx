@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { Mail, Phone, Loader2, CheckCircle } from "lucide-react";
+import { Mail, Loader2, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { fadeUp, slideLeft, slideRight, stagger, viewport } from "@/lib/animations";
 
@@ -127,18 +127,6 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
               <a href="mailto:info@vizeon.cz" className="flex items-center gap-3 group" aria-label="Email">
                 <Mail size={15} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-light text-[14px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300 break-all">info@vizeon.cz</span>
-              </a>
-              <a href="tel:+420604837333"
-                className="flex items-center gap-3 group border border-white/[0.05] hover:border-[rgba(201,168,76,0.35)] hover:bg-[rgba(201,168,76,0.04)] px-4 py-3 -mx-4 transition-all duration-300"
-                aria-label="Zavolat +420 604 837 333">
-                <Phone size={15} className="text-[#c9a84c] shrink-0 group-hover:animate-[wiggle_0.4s_ease-in-out]" />
-                <div className="flex-1">
-                  <span className="font-inter font-medium text-[15px] text-[#f0ece6] block tracking-wide">+420 604 837 333</span>
-                  <span className="font-inter font-light text-[11px] text-[#3d3830] group-hover:text-[#c9a84c]/60 transition-colors duration-300">WhatsApp · Klikněte pro hovor</span>
-                </div>
-                <span className="font-inter font-light text-[11px] tracking-[0.1em] uppercase text-[#c9a84c]/0 group-hover:text-[#c9a84c] transition-all duration-300 shrink-0">
-                  Zavolat →
-                </span>
               </a>
               <a href="https://wa.me/420604837333" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group" aria-label="WhatsApp">
                 <WhatsAppIcon size={15} className="text-[#c9a84c] shrink-0" />

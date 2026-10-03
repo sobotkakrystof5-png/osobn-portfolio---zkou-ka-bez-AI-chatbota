@@ -66,12 +66,6 @@ export default function PodminkyPage() {
                 </a>
               </li>
               <li>
-                <span className="text-[#f0ece6]">Telefon: </span>
-                <a href="tel:+420604837333" className="hover:text-[#f0ece6] transition-colors">
-                  +420 604 837 333
-                </a>
-              </li>
-              <li>
                 <span className="text-[#f0ece6]">Web: </span>
                 <a href="https://vizeon.cz" className="text-[#c9a84c] hover:underline">
                   vizeon.cz

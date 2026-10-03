@@ -10,12 +10,12 @@ export function generateMetadata(): Metadata {
   return {
     title: "Kontakt — nezávazná konzultace zdarma",
     description:
-      "Poptávka webu na míru pro živnostníky a malé firmy. Napište přes formulář, zavolejte nebo napište na WhatsApp. Odpovídám do 24 hodin, konzultace je vždy zdarma.",
+      "Poptávka webu na míru pro živnostníky a malé firmy. Napište přes formulář, e-mail nebo WhatsApp. Odpovídám do 24 hodin, konzultace je vždy zdarma.",
     alternates: { canonical: "https://vizeon.cz/kontakt" },
     openGraph: {
       title: "Kontakt — nezávazná konzultace zdarma | VIZEON",
       description:
-        "Poptávka webu na míru. Formulář, telefon nebo WhatsApp. Odpovídám do 24 hodin, konzultace je vždy zdarma.",
+        "Poptávka webu na míru. Formulář, e-mail nebo WhatsApp. Odpovídám do 24 hodin, konzultace je vždy zdarma.",
       url: "https://vizeon.cz/kontakt",
       type: "website",
     },

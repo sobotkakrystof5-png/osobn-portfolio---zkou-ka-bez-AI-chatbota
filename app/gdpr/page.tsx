@@ -65,12 +65,6 @@ export default function GdprPage() {
                   info@vizeon.cz
                 </a>
               </li>
-              <li>
-                <span className="text-[#f0ece6]">Telefon: </span>
-                <a href="tel:+420604837333" className="hover:text-[#f0ece6] transition-colors">
-                  +420 604 837 333
-                </a>
-              </li>
             </ul>
           </section>
 

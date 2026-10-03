@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 import { fadeUp, viewport } from "@/lib/animations";
 import { NAV_LINKS, AUTOMATION_NAV_ITEMS } from "@/lib/nav";
 import { BrandLockup } from "@/components/brand/BrandLockup";
@@ -126,15 +126,6 @@ export default function Footer() {
                 <Mail size={13} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-light text-[13px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300 break-all">
                   info@vizeon.cz
-                </span>
-              </a>
-              <a href="tel:+420604837333" className="flex items-center gap-2 group" aria-label="Zavolat +420 604 837 333">
-                <Phone size={13} className="text-[#c9a84c] shrink-0" />
-                <span className="font-inter font-light text-[13px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300">
-                  +420 604 837 333
-                </span>
-                <span className="font-inter font-light text-[10px] tracking-[0.08em] uppercase text-[#c9a84c]/0 group-hover:text-[#c9a84c]/70 transition-all duration-300">
-                  · zavolat
                 </span>
               </a>
               <a
