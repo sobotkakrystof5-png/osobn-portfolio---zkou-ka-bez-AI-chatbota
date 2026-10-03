@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { Mail, Loader2, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { fadeUp, slideLeft, slideRight, stagger, viewport } from "@/lib/animations";
+import PhoneReveal from "@/components/PhoneReveal";
 
 function FacebookIcon({ size = 16, className }: { size?: number; className?: string }) {
   return (
@@ -119,6 +120,7 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
                 <Mail size={15} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-light text-[14px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300 break-all">info@vizeon.cz</span>
               </a>
+              <PhoneReveal iconSize={15} />
               <a href="https://www.instagram.com/vizeon_official/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group" aria-label="Instagram">
                 <InstagramIcon size={15} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-light text-[14px] text-[#8a8070] group-hover:text-[#f0ece6] transition-colors duration-300">Instagram</span>
