@@ -27,21 +27,13 @@ export function PillarHeader() {
       </div>
 
       {/* Trvalá kontaktní lišta — tyhle stránky dřív neměly žádnou cestu ke
-          kontaktu (nav, formulář, tel/WhatsApp), viz SXO audit finding 2. */}
+          kontaktu (nav, formulář, telefon), viz SXO audit finding 2. */}
       <div className="border-t border-white/[0.04] bg-[#0c0c0c]">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-2.5 flex flex-wrap items-center justify-center sm:justify-between gap-x-6 gap-y-1.5">
           <p className="hidden sm:block font-inter font-light text-[11px] text-[#5a5148] shrink-0">
             Nezávazná poptávka:
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
-            <a
-              href="https://wa.me/420604837333"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-inter font-medium text-[12px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
-            >
-              WhatsApp
-            </a>
             <a
               href="mailto:info@vizeon.cz"
               className="hidden xs:flex items-center gap-1.5 font-inter font-light text-[12px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"

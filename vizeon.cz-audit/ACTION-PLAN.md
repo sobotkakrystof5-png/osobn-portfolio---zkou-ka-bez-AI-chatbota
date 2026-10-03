@@ -6,7 +6,7 @@ Ordered by real-world impact. Each item tags its source file(s). Items marked **
 
 ## Phase 1: Critical Fixes (this week)
 
-1. **Add a conversion path to all 19 `/web-pro-*` pages** — `tel:+420604837333`, WhatsApp link, `mailto:info@vizeon.cz`, and a link to `/kontakt`, at minimum in a persistent header/footer on `components/pillar/MicroServicePage.tsx` (covers 15 pages) plus the 4 custom pages. Currently these pages have no nav, no form, no contact link at all.
+1. **Add a conversion path to all 19 `/web-pro-*` pages** — `tel:+420 XXX XXX XXX`, WhatsApp link, `mailto:info@vizeon.cz`, and a link to `/kontakt`, at minimum in a persistent header/footer on `components/pillar/MicroServicePage.tsx` (covers 15 pages) plus the 4 custom pages. Currently these pages have no nav, no form, no contact link at all.
    *Source: sxo.md Finding 2. Effort: small. Impact: highest-leverage conversion fix in this audit.*
 
 2. **Fix `MicroServicePage.tsx`'s `hubHref` default** from `/web-pro-remeslniky` to `/tvorba-webu-pro-zivnostniky` (the real pillar), and remove the `"/"` (homepage) override on the 5 pages that currently skip the hub entirely (autoservisy, fotografy, fitness-trenery, realitni-maklere, kosmeticky).

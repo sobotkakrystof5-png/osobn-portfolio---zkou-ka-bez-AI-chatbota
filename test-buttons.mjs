@@ -161,7 +161,7 @@ const TOMORROW = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD
     serviceName: "Weby",
     subService:  "Promo Page",
     name:        "Jan Testovací",
-    phone:       "+420604837333",
+    phone:       "+420000000000",
     email:       "jan@test.cz",
     note:        "Testovací poznámka.",
     date:        TOMORROW,
@@ -190,7 +190,7 @@ const TOMORROW = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD
   const r = await post("/api/booking", {
     service: "weby",
     name:    "J",
-    phone:   "+420604837333",
+    phone:   "+420000000000",
     email:   "jan@test.cz",
     date:    TOMORROW,
     slot:    "10:00 – 10:30",
@@ -216,7 +216,7 @@ const TOMORROW = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD
   const r = await post("/api/booking", {
     service: "weby",
     name:    "Jan Novák",
-    phone:   "+420604837333",
+    phone:   "+420000000000",
     email:   "jan@test.cz",
     date:    "01.06.2026",
     slot:    "10:00 – 10:30",
@@ -229,7 +229,7 @@ const TOMORROW = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD
   const r = await post("/api/booking", {
     service: "weby",
     name:    "Jan Novák",
-    phone:   "+420604837333",
+    phone:   "+420000000000",
     email:   "jan@test.cz",
     date:    TOMORROW,
     slot:    "",
@@ -242,7 +242,7 @@ const TOMORROW = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD
   const r = await post("/api/booking", {
     service: "weby",
     name:    "Jan Novák",
-    phone:   "+420604837333",
+    phone:   "+420000000000",
     email:   "not-an-email",
     date:    TOMORROW,
     slot:    "10:00 – 10:30",

@@ -123,7 +123,7 @@ B) Manuální checklist mimo kód, přesně a akčně, v tomto pořadí:
       /ukazky-webu, /cena-tvorby-webu a nově přidaných blog článků.
    2. Google Business Profile — založit, vyplnit kategorii "Tvorba
       webových stránek" / "Grafické studio", adresu/oblast působení,
-      telefon +420604837333, web vizeon.cz, nahrát fotky, propojit s
+      telefon +420 XXX XXX XXX, web vizeon.cz, nahrát fotky, propojit s
       profilem na Facebooku/Instagramu. Po prvních zakázkách požádat
       klienty o recenzi.
    3. Registrace do českých katalogů: Firmy.cz, Zlaté stránky,

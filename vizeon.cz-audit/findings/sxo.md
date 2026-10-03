@@ -24,7 +24,7 @@ Method: pages fetched via `render_page.py --mode auto` (homepage, `/web-pro-truh
 
 ### 2. No conversion mechanism on the trade pages — no phone, no WhatsApp, no email, no form, no site navigation
 **Severity: CRITICAL**
-**Evidence:** `/web-pro-truhlare` has **no `<nav>` element and no `<form>` element** at all (confirmed via grep on rendered HTML). `grep -o 'href="tel:'`, `'mailto:'`, `'wa.me'` all return zero matches — the same searches on the homepage and `/sluzby/seo-optimalizace` correctly return `tel:+420604837333` and `mailto:info@vizeon.cz`. The trade page's only 3 internal links are: home, `/cena-tvorby-webu` ("Podívat se na ceník"), and two sibling trade pages. There is no path from this page to `/kontakt`, and no way to call, WhatsApp, or email directly from the page itself.
+**Evidence:** `/web-pro-truhlare` has **no `<nav>` element and no `<form>` element** at all (confirmed via grep on rendered HTML). `grep -o 'href="tel:'`, `'mailto:'`, `'wa.me'` all return zero matches — the same searches on the homepage and `/sluzby/seo-optimalizace` correctly return `tel:+420 XXX XXX XXX` and `mailto:info@vizeon.cz`. The trade page's only 3 internal links are: home, `/cena-tvorby-webu` ("Podívat se na ceník"), and two sibling trade pages. There is no path from this page to `/kontakt`, and no way to call, WhatsApp, or email directly from the page itself.
 **Recommendation:** Add a persistent header/footer (with phone + WhatsApp + `/kontakt` link) to the `/web-pro-*` template, or at minimum a dedicated "Nezávazná poptávka" CTA block with tel:/WhatsApp links matching the rest of the site.
 
 ### 3. Price positioning ("od 4 999 Kč") sits far below the SERP-consensus range and creates a trust barrier for the firm-owner comparison persona

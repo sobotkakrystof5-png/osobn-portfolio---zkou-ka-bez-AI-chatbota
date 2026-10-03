@@ -51,7 +51,7 @@ entity.
       "@id": "https://vizeon.cz/#organization",
       "name": "VIZEON",
       "url": "https://vizeon.cz",
-      "telephone": "+420604837333",
+      "telephone": "+420 XXX XXX XXX",
       "email": "info@vizeon.cz",
       "logo": "https://vizeon.cz/logo.png",
       "areaServed": { "@type": "Country", "name": "Česká republika" },
