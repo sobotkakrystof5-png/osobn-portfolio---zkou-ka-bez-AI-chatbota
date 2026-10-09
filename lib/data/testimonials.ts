@@ -27,6 +27,13 @@ export const testimonials: Testimonial[] = [
     url: "https://www.malirske-nateracske-prace-litomerice.cz",
     urlLabel: "malirske-nateracske-prace-litomerice.cz",
   },
+  {
+    quote:
+      "Děkujeme za realizaci nového webu. Váš přístup byl velmi vstřícný a ochotný. Výsledek splnil naše očekávání.",
+    name: "Josef Antoš",
+    url: "https://www.zamecnictvimb.cz",
+    urlLabel: "zamecnictvimb.cz",
+  },
 ];
 
 // Používá se JEN v ReferencesSection na homepage, ne v components/Testimonials.tsx.

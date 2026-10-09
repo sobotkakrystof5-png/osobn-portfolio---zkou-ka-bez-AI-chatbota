@@ -13,6 +13,23 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "zamecnictvi-mb",
+    title: "Zámečnictví MB",
+    category: "Zámečnictví & Kovovýroba",
+    stack: ["HTML5", "CSS3", "JavaScript"],
+    description: "Firemní web pro zámečnickou firmu z Března u Mladé Boleslavi, která od roku 1999 vyrábí ocelové konstrukce, brány, ploty, schodiště a zábradlí na míru. Cílem bylo ukázat přesnou kovovýrobu a kompletní servis od návrhu po montáž a přivést nové poptávky.",
+    highlights: [
+      "Přehled služeb — ocelové konstrukce, brány a ploty, schodiště, zábradlí i atypická výroba",
+      "Galerie realizací rozdělená podle kategorií",
+      "Důraz na 25 let zkušeností a servis od zaměření po montáž",
+      "Poptávkový formulář pro nezávazné poptávky",
+    ],
+    url: "https://www.zamecnictvimb.cz",
+    image: "/portfolio/zamecnictvimb.jpg",
+    alt: "Firemní web pro Zámečnictví MB — kovovýroba na míru, Březno u Mladé Boleslavi",
+    internalLink: { text: "Chcete podobný web pro řemeslníky?", href: "/web-pro-remeslniky" },
+  },
+  {
     slug: "schovinox",
     title: "Schovinox",
     category: "Zámečnictví & Kovovýroba",
@@ -94,6 +111,22 @@ export const projects: Project[] = [
     url: "https://www.alteno.cz",
     image: "/portfolio/alteno.jpg",
     alt: "Firemní web pro ALTENO — automatizace procesů a AI agenti pro firmy",
+  },
+  {
+    slug: "prvotka",
+    title: "Prvotka",
+    category: "FinTech & Účetnictví",
+    stack: ["Next.js", "React", "Tailwind CSS"],
+    description: "Vlastní startup pro účetní kanceláře: aplikace na míru, která převádí faktury z PDF, skenů i fotek do formátu ISDOC pro účetní program. Web má srozumitelně vysvětlit úsporu času a přivést kanceláře na úvodní hovor.",
+    highlights: [
+      "Kalkulačka úspor pro rychlý odhad ušetřeného času",
+      "Ukázky zpracování faktury krok po kroku",
+      "Podpora exportu pro POHODA, Money S3, ABRA, HELIOS a PREMIER",
+      "Časté dotazy a kontaktní formulář pro domluvení hovoru",
+    ],
+    url: "https://prvotka.cz",
+    image: "/portfolio/prvotka.jpg",
+    alt: "Prvotka — vlastní produkt pro převod faktur do ISDOC pro účetní kanceláře",
   },
   {
     slug: "estatiq",
