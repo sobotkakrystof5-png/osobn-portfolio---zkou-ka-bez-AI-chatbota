@@ -8,6 +8,13 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
+      "S prací jsme byli maximálně spokojeni. Od začátku byla spolupráce velmi příjemná, komunikace bezproblémová a přístup profesionální. Velmi si vážíme ochoty, vstřícnosti a snahy vyjít nám ve všem vstříc. Webové stránky jsou krásně zpracované a splnily naše očekávání. Moc děkujeme za skvělou práci, trpělivost a profesionální přístup. Určitě můžeme spolupráci doporučit všem, kteří hledají spolehlivého člověka pro tvorbu webových stránek.",
+    name: "Studnářství Petráň",
+    url: "https://www.studnarstvi-petran.cz",
+    urlLabel: "studnarstvi-petran.cz",
+  },
+  {
+    quote:
       "Spolupráce s Kryštofem z Vizeon na našem novém a skvělém webu u-cerhu.cz byla konstruktivní, rychlá a hlavně zábavná. Doporučím všem ve svém okolí. Jen tak dál a přeji hodně úspěchů, Kryštofe.",
     name: "Jiří Bartoň",
     url: "https://www.u-cerhu.cz",

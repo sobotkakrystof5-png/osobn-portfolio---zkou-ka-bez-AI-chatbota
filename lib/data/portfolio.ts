@@ -13,6 +13,23 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "studnarstvi-petran",
+    title: "Studnářství Petráň",
+    category: "Studnařství & Vodní zdroje",
+    stack: ["HTML5", "CSS3", "JavaScript"],
+    description: "Prezentační web pro studnařskou firmu, která po celé ČR realizuje kopané studny, pečuje o vrtané i kopané studny a vyhledává prameny vody. Cílem bylo přehledně ukázat služby a skutečné realizace a usnadnit zákazníkům přímý kontakt s majitelem firmy.",
+    highlights: [
+      "Přehled služeb — kopané studny, servis vrtaných studní a vyhledávání pramene",
+      "Galerie skutečných realizací a reference zákazníků",
+      "Postup spolupráce ve čtyřech srozumitelných krocích",
+      "Přímý kontakt na majitele firmy a přehled častých dotazů",
+    ],
+    url: "https://www.studnarstvi-petran.cz",
+    image: "/portfolio/studnarstvi-petran.jpg",
+    alt: "Web Studnářství Petráň — kopané studny a servis studní po celé ČR",
+    internalLink: { text: "Chcete podobný web pro studnaře?", href: "/web-pro-studnare" },
+  },
+  {
     slug: "zamecnictvi-mb",
     title: "Zámečnictví MB",
     category: "Zámečnictví & Kovovýroba",
