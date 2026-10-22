@@ -7,7 +7,6 @@ import { BookingProvider } from "@/context/BookingContext";
 import { Toaster } from "react-hot-toast";
 import ClientBooking from "./ClientBooking";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import N8nChatWidget from "@/components/N8nChatWidgetLoader";
 import CookieBanner from "@/components/CookieBanner";
 
 // Safari s vypnutým "Block All Cookies" hodí synchronní SecurityError na
@@ -211,7 +210,6 @@ export default function RootLayout({
               },
             }}
           />
-          <N8nChatWidget />
           <CookieBanner />
         </BookingProvider>
         <GoogleAnalytics gaId="G-J5FMJYTGCK" />

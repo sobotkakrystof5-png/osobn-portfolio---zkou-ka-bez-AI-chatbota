@@ -17,9 +17,7 @@ export default function CookieBanner() {
     }
   }, []);
 
-  // Dokud je lišta vidět, schovej plovoucí chat bublinu (viz
-  // body.cookie-banner-visible v components/n8n-chat-theme.css), ať s ní
-  // nekoliduje v pravém dolním rohu.
+  // Dokud je lišta vidět, nese body třídu cookie-banner-visible (viz globals.css).
   useEffect(() => {
     document.body.classList.toggle("cookie-banner-visible", visible);
     return () => document.body.classList.remove("cookie-banner-visible");

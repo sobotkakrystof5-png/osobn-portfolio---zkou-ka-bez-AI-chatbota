@@ -24,14 +24,12 @@
      tlačítko, kterým se menu zavírá, je DOM potomek headeru —
      kdyby menu leželo nad headerem, tlačítko by bylo neklikatelné.
      Menu je přesto plná neprůhledná vrstva, takže i tak vizuálně
-     překryje cookie lištu a chat bublinu pod sebou. */
-  --z-chat-widget:    40;
+     překryje cookie lištu pod sebou. */
   --z-cookie-banner:  45;
   --z-mobile-menu:    50;
   --z-header:         55;
   --z-modal-backdrop: 60;
   --z-modal:          61;
-  --z-chat-window:    70;
 }
 
 /* ─── Modal max-height: dvh se safe fallbackem na vh ────────
@@ -51,14 +49,6 @@
       max-height: 90dvh;
     }
   }
-}
-
-/* ─── Overlay coordination ──────────────────────────────────
-   Nastavuje se z hooks/useScrollLock.ts při otevření libovolného
-   modalu / mobilního menu — schová plovoucí chat bublinu, ať
-   nekoliduje s CTA tlačítky v modalu ani s menu. */
-body.overlay-open #n8n-chat {
-  display: none !important;
 }
 
 /* ─── Cookie lišta: rezerva na spodku stránky ────────────────

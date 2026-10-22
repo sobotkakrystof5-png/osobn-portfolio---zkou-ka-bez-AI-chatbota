@@ -76,10 +76,8 @@ const nextConfig = {
             value: "max-age=63072000; includeSubDomains; preload",
           },
           // CSP — defense-in-depth. 'unsafe-inline'/'unsafe-eval' na script-src jsou
-          // potřeba kvůli Next.js inline hydration scriptům, JSON-LD blokům a @n8n/chat
-          // (Vue runtime); 'unsafe-inline' na style-src kvůli Tailwind/Framer Motion.
-          // Chat widget volá jen same-origin /api/chat (viz N8nChatWidget.tsx), takže
-          // n8n instance samotná není v connect-src potřeba.
+          // potřeba kvůli Next.js inline hydration scriptům, JSON-LD blokům;
+          // 'unsafe-inline' na style-src kvůli Tailwind/Framer Motion.
           {
             key: "Content-Security-Policy",
             value: [
