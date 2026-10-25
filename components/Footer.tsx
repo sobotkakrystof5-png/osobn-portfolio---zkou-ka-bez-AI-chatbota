@@ -8,7 +8,6 @@ import { NAV_LINKS, AUTOMATION_NAV_ITEMS } from "@/lib/nav";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
 import { Alteno, Vizeon } from "@/components/brand/BrandName";
-import PhoneReveal from "@/components/PhoneReveal";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (
@@ -120,7 +119,6 @@ export default function Footer() {
                   info@vizeon.cz
                 </span>
               </a>
-              <PhoneReveal />
               <a
                 href="https://www.facebook.com/profile.php?id=100086439650056"
                 target="_blank"

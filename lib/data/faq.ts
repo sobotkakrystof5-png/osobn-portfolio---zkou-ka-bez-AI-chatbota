@@ -7,7 +7,7 @@ export const faqs: FaqItem[] = [
   { question: "Co je zahrnuto v ceně?", answer: "Design, kód, mobilní verze, základní SEO, testování a předání. Žádné skryté poplatky, žádné dodatečné faktury." },
   { question: "Mohu web po předání spravovat sám?", answer: "Ano. Předám vám přístupy a krátký návod. Případně se postaráme o správu za 999 Kč/měsíc. Vy se starejte o byznys, já o web." },
   { question: "Co když se mi výsledek nebude líbit?", answer: "To se nestane, protože průběžně konzultujeme a upravujeme. Ale pokud by přesto nastal problém, opravím vše, dokud nejste 100% spokojeni." },
-  { question: "Pracuješ i mimo ČR?", answer: "Ano. Pracuji online pro klienty po celé ČR i zahraničí. Komunikace probíhá přes telefon, WhatsApp nebo video hovor, ať jste kdekoliv." },
+  { question: "Pracuješ i mimo ČR?", answer: "Ano. Pracuji online pro klienty po celé ČR i zahraničí. Komunikace probíhá přes e-mail nebo video hovor, ať jste kdekoliv." },
   { question: "Jak mi nový web nebo grafika pomůže zvýšit tržby?", answer: "Web navržený na míru pro vaše zákazníky, s jasnou strukturou a cestou k objednávce, přivádí víc poptávek než šablonový web, který jen 'existuje'. Stejně tak sjednocená grafika (logo, vizitky, sociální sítě) zvyšuje důvěru a tím i konverze. Víc lidí, kteří web nebo profil navštíví, se pak promění v zákazníky." },
   { question: "Řešíte i placenou reklamu (PPC)?", answer: "Ne, placenou reklamu na Googlu nebo Seznamu jako službu nenabízím. Zaměřuju se na SEO optimalizaci — dlouhodobý, přirozený růst návštěvnosti, který na rozdíl od reklamy nezmizí ve chvíli, kdy přestanete platit. Víc o tom najdete na stránce SEO optimalizace." },
 ];
