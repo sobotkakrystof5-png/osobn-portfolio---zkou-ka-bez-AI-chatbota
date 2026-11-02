@@ -20,8 +20,12 @@ const config: Config = {
         "bg-card":       "#111111",
         "bg-elevated":   "#161616",
         "text-primary":  "#f0ece6",
-        "text-secondary":"#8a8070",
-        "text-muted":    "#3d3830",
+        // Kontrast na #0e0e0e: secondary ~10:1, muted ~7:1. Dřív byl
+        // vedlejší text #8a8070 v tenkém řezu a drobné popisky #3d3830
+        // (1,7:1), obojí špatně čitelné (zpětná vazba z konzultace 11/2026).
+        // Druhé zesvětlení 2. 11. 2026: web musí přečíst i starší lidé.
+        "text-secondary":"#c3bbad",
+        "text-muted":    "#a39a8b",
       },
       fontFamily: {
         cormorant: ["var(--font-cormorant)", "Georgia", "serif"],

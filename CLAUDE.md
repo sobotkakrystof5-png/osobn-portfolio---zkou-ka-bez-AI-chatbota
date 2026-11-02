@@ -16,11 +16,19 @@ nikdy jako obyčejné slovo v písmu okolního textu.
   Logo nemá koncovky.
 - **Spolubranding** obou značek vedle sebe = `BrandLockup` (`components/brand/BrandLockup.tsx`).
 - **Výjimky** (tam, kde styl technicky nejde, zůstává prostý text): `<title>` a metadata, OG `alt`,
-  JSON-LD, `aria-label`, `alt` obrázků, e-maily (`lib/email.ts`, `app/api/*`), ICS v `BookingModal`,
+  JSON-LD, `aria-label`, `alt` obrázků, e-maily (`lib/email.ts`, `app/api/*`),
   zprávy chat widgetu (n8n), komentáře v kódu a **URL adresy**: jakákoli viditelná adresa webu
   nebo e-mailu (`vizeon.cz`, `www.alteno.cz`, `https://…`, `vizeon.cz/gdpr`, `info@vizeon.cz`)
   zůstává obyčejný text, nikdy logo. `brandText()` je přeskakuje sám (výskyt následovaný `.tld`). Admin (světlé
   pozadí) používá jen písmo loga, ne barvu.
+
+# taste-skill (`design-taste-frontend`)
+
+Projektově nainstalovaný v `.claude/skills/design-taste-frontend/` ([Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill),
+MIT, viz `.claude/LICENSE-taste-skill`). Na webu VIZEON ho používej na kompozici, rytmus sekcí,
+anti-slop pravidla a kontrolu screenshotů, **ne** na výběr identity: `draw.mjs` nelosuj nové palety
+ani písma. Identita VIZEON (Cormorant + Inter, krémová `#f0ece6`, tmavé pozadí, pravidlo značek výše)
+je pevně daná. Fotky ze skillu (picsum, archivy) na produkční web jen se souhlasem.
 
 # n8n-MCP — instrukce pro tento projekt
 

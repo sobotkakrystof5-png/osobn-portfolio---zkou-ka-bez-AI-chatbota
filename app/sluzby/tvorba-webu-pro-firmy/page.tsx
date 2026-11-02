@@ -80,7 +80,7 @@ export default function TvorbaWebuProFirmyPage() {
             <>
               Firemní web řeším jinak než web pro jednotlivého živnostníka — obvykle jde o víc
               podstránek, prezentaci týmu nebo oddělení a strukturu, která dodá důvěryhodnost při
-              jednání s klienty i partnery. Hledáte spíš rychlou vizitku pro sebe? Podívejte se na{" "}
+              jednání s klienty i partnery. Hledáte spíš jednoduchou jednostránkovou prezentaci? Podívejte se na{" "}
               <Link href="/sluzby/tvorba-webovych-stranek" className={t.link}>
                 tvorbu webových stránek na míru
               </Link>
@@ -136,8 +136,7 @@ export default function TvorbaWebuProFirmyPage() {
             <h2 id="cena" className={cn(t.h2Page, "mb-4")}>Kolik stojí web pro firmu</h2>
             <p className={t.body}>
               Pro firemní web s víc podstránkami se nejčastěji hodí Pro Web od 14 999 Kč, u rozsáhlejší
-              struktury s víc odděleními cenu upřesníme podle rozsahu. Průběžnou správu pak řeší
-              Web Care za 999 Kč/měsíc. Kompletní ceník najdete na{" "}
+              struktury s víc odděleními cenu upřesníme podle rozsahu. Kompletní ceník najdete na{" "}
               <Link href="/cena-tvorby-webu" className={t.link}>samostatné stránce s ceníkem</Link>.
             </p>
           </section>

@@ -29,7 +29,7 @@ export default function VizeonLogo({
       {withClaim ? (
         <>
           <span aria-hidden="true" className="mt-[0.3em] h-px w-full bg-[#c9a84c]/50" />
-          <span className="mt-[0.35em] font-inter font-light text-[9px] uppercase tracking-[0.12em] md:tracking-[0.25em] text-[#8a8070] whitespace-nowrap">
+          <span className="mt-[0.35em] font-inter font-normal text-[9px] uppercase tracking-[0.12em] md:tracking-[0.25em] text-text-secondary whitespace-nowrap">
             Vize. Vývoj. Výsledky.
           </span>
         </>

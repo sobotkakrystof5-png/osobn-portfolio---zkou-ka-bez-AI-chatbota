@@ -13,7 +13,7 @@ interface MobileModalProps {
   maxWidthClassName?: string;
 }
 
-// Sdílený "shell" pro BookingModal a FirstClientModal — backdrop, scroll
+// "Shell" pro FirstClientModal — backdrop, scroll
 // lock (viz hooks/useScrollLock), close tlačítko a jeden zdroj pravdy pro
 // to, jak modal vypadá na mobilu (fullscreen, 100dvh) vs. na desktopu
 // (vycentrovaná karta, max-h-[90dvh]).

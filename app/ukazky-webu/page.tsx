@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Portfolio from "@/components/Portfolio";
 import { PageShell } from "@/components/layout/PageShell";
+import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
-import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
     title: "Ukázky webů a reference od klientů",
     description:
-      "Ukázky webů pro živnostníky a malé firmy, které jsem vytvořil, a upřímné reference od klientů. Žádné agenturní portfolio plné loga. Skutečné projekty, skutečné výsledky.",
+      "Ukázky webů pro živnostníky a malé firmy, které jsme vytvořili, na počítači i v mobilu. Skutečné projekty, skutečné výsledky a upřímné reference od klientů.",
     alternates: { canonical: "https://vizeon.cz/ukazky-webu" },
     openGraph: {
       title: "Ukázky webů a reference od klientů | VIZEON",
@@ -41,11 +40,12 @@ export default function UkazkyWebuPage() {
       <AnalyticsTracker page="/ukazky-webu" />
       <Portfolio />
 
-      <div className={cn(t.container.page, "pb-16 md:pb-24")}>
-        <div className="mt-14">
-          <Link href="/" className={t.backLink}>
-            ← Zpět na hlavní stránku
-          </Link>
+      <div className={t.container.page}>
+        <div className="pb-20 md:pb-28">
+          <ClosingCTA
+            heading="Chcete být další v řadě?"
+            subheading="Nezávazná konzultace zdarma. Probereme váš byznys a doporučíme, co dává smysl."
+          />
         </div>
       </div>
     </PageShell>

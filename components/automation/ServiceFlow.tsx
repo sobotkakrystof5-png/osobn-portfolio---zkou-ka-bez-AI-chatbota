@@ -235,7 +235,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                 nikdy neviděl — tady je třetí průběh ten, který končí
                 u člověka, tedy obchodně nejdůležitější. */}
             <div className="min-w-0">
-              <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+              <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                 {demo.labels.picker}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -269,7 +269,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                         <span className="block font-medium text-[#f0ece6]">
                           {item.title}
                         </span>
-                        <span className="text-xs text-[#8a8070]">
+                        <span className="text-xs text-text-secondary">
                           {item.note}
                         </span>
                       </span>
@@ -315,11 +315,11 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                 {/* Stav stojí hned za popiskem, ne u pravého okraje
                     sloupce. U okraje seděl těsně vedle popisku sousedního
                     panelu a obojí se četlo jako jeden řádek. */}
-                <p className="mb-2 flex items-baseline gap-2 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                <p className="mb-2 flex items-baseline gap-2 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                   {demo.labels.log}
                   <span
                     className={`transition-colors ${
-                      isRunning ? "text-accent" : "text-[#8a8070]"
+                      isRunning ? "text-accent" : "text-text-secondary"
                     }`}
                   >
                     · {status}
@@ -353,7 +353,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                         <span className="shrink-0 text-[#b8b0a2]">
                           {step.log.tool}
                         </span>
-                        <span className="min-w-0 text-[#8a8070]">
+                        <span className="min-w-0 text-text-secondary">
                           {step.log.text}
                         </span>
                       </li>
@@ -363,7 +363,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
               </div>
 
               <div className="flex min-w-0 flex-col">
-                <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                   {demo.labels.result}
                 </p>
                 <div className="flex flex-1 flex-col gap-2.5 rounded-sm border border-white/[0.08] bg-[#0e0e0e]/85 p-3.5 md:[transform:translateZ(16px)]">
@@ -379,7 +379,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                       <p className="text-base font-medium leading-snug text-[#f0ece6]">
                         {run.result.title}
                       </p>
-                      <p className="text-sm leading-relaxed text-[#8a8070]">
+                      <p className="text-sm leading-relaxed text-text-secondary">
                         {run.result.text}
                       </p>
 
@@ -388,7 +388,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                           u konzole — bez něj řetěz slibuje automatizaci,
                           která zvládne všechno sama. */}
                       {run.handoff ? (
-                        <span className="inline-flex items-start gap-1.5 rounded-sm border border-white/[0.12] bg-[#161616]/70 px-2 py-1 font-inter uppercase tracking-[0.1em] text-xs leading-snug text-[#8a8070]">
+                        <span className="inline-flex items-start gap-1.5 rounded-sm border border-white/[0.12] bg-[#161616]/70 px-2 py-1 font-inter uppercase tracking-[0.1em] text-xs leading-snug text-text-secondary">
                           <PersonIcon
                             aria-hidden
                             className="mt-px h-3 w-3 shrink-0 text-accent"
@@ -409,7 +409,7 @@ export default function ServiceFlow({ demo }: { demo: FlowDemo }) {
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm leading-relaxed text-[#8a8070]">
+                    <p className="text-sm leading-relaxed text-text-secondary">
                       {demo.idleSay}
                     </p>
                   )}
@@ -528,12 +528,12 @@ function FlowNodeCard({
       <p className="mb-1.5 flex items-baseline gap-1.5 font-inter text-xs uppercase tracking-[0.15em] md:min-h-[2.8rem]">
         <span
           className={`shrink-0 transition-colors ${
-            reached ? "text-accent" : "text-[#8a8070]"
+            reached ? "text-accent" : "text-text-secondary"
           }`}
         >
           {index + 1}
         </span>
-        <span className="min-w-0 text-[#8a8070]">{caption}</span>
+        <span className="min-w-0 text-text-secondary">{caption}</span>
       </p>
 
       <div

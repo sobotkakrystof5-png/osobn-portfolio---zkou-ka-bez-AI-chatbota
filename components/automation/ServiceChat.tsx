@@ -244,7 +244,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                       className={`font-inter text-xs uppercase tracking-wide ${
                         isSearching || isAnswering
                           ? "text-accent"
-                          : "text-[#8a8070]"
+                          : "text-text-secondary"
                       }`}
                     >
                       {status}
@@ -322,7 +322,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                           </span>
                         ) : null}
                         {activeTurn.handoff ? (
-                          <span className="inline-flex items-center gap-1.5 rounded-sm border border-white/[0.12] bg-[#161616]/70 px-2 py-1 font-inter uppercase tracking-[0.1em] text-xs text-[#8a8070]">
+                          <span className="inline-flex items-center gap-1.5 rounded-sm border border-white/[0.12] bg-[#161616]/70 px-2 py-1 font-inter uppercase tracking-[0.1em] text-xs text-text-secondary">
                             <PersonIcon
                               aria-hidden
                               className="h-3 w-3 shrink-0 text-accent"
@@ -340,7 +340,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                 </div>
 
                 <div className="border-t border-white/[0.08] pt-3">
-                  <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                  <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                     {demo.labels.picker}
                   </p>
                   {/* Zalamování, ne vodorovný scroll. Třetí dotaz je ten,
@@ -365,7 +365,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                           className={`rounded-full border px-3 py-1.5 text-left text-xs leading-snug transition-colors ${
                             selected
                               ? "border-accent/55 bg-accent/10 text-[#f0ece6]"
-                              : "border-white/[0.08] bg-[#0e0e0e]/85 text-[#8a8070] hover:border-white/[0.12] hover:text-[#f0ece6]"
+                              : "border-white/[0.08] bg-[#0e0e0e]/85 text-text-secondary hover:border-white/[0.12] hover:text-[#f0ece6]"
                           }`}
                         >
                           {turn.question}
@@ -383,7 +383,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                   aria-hidden
                   className="flex items-center gap-2 rounded-sm border border-white/[0.08] bg-[#080808]/60 px-3 py-2"
                 >
-                  <span className="flex-1 truncate text-sm text-[#8a8070]">
+                  <span className="flex-1 truncate text-sm text-text-secondary">
                     Napište zprávu…
                   </span>
                   <SendIcon className="h-4 w-4 shrink-0 text-[#6f665a]" />
@@ -397,13 +397,13 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
               className="flex min-w-0 flex-col md:[transform:translateZ(14px)]"
             >
               <div className="mb-2.5 flex items-baseline justify-between gap-2">
-                <p className="font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                <p className="font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                   {demo.labels.base}
                 </p>
                 <p
                   className={`font-inter uppercase tracking-[0.1em] text-xs transition-colors ${
                     missed
-                      ? "text-[#8a8070]"
+                      ? "text-text-secondary"
                       : isSearching
                         ? "text-accent"
                         : "text-transparent"
@@ -440,7 +440,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                         <span className="min-w-0 flex-1 truncate text-sm font-medium text-[#f0ece6]">
                           {source.title}
                         </span>
-                        <span className="shrink-0 font-inter uppercase tracking-[0.1em] text-xs text-[#8a8070]">
+                        <span className="shrink-0 font-inter uppercase tracking-[0.1em] text-xs text-text-secondary">
                           {source.note}
                         </span>
                       </div>
@@ -453,7 +453,7 @@ export default function ServiceChat({ demo }: { demo: ChatDemo }) {
                         className={`mt-2 text-xs leading-relaxed transition-colors duration-300 ${
                           lit
                             ? "rounded-sm bg-accent/10 px-1.5 py-1 text-[#e0dbd2]"
-                            : "px-1.5 py-1 text-[#8a8070]"
+                            : "px-1.5 py-1 text-text-secondary"
                         }`}
                       >
                         {source.passage}

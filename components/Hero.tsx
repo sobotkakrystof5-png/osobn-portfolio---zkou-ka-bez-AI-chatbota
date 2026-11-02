@@ -108,7 +108,7 @@ export default function Hero() {
         </motion.h1>
 
         <motion.h2 variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
-          className="font-inter font-light text-[15px] md:text-[17px] leading-[1.7] text-[#8a8070] max-w-lg mx-auto mb-8 md:mb-10 text-left">
+          className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.7] text-text-secondary max-w-lg mx-auto mb-8 md:mb-10 text-left">
           Pro živnostníky a malé i střední firmy stavím komplexní řešení na míru: weby a e-shopy, automatizaci procesů a AI chatboty. Komunikujete přímo se mnou, od první konzultace až po spuštění.
         </motion.h2>
 
@@ -117,9 +117,9 @@ export default function Hero() {
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
           </CTAButton>
-          <Link href="/sluzby"
+          <Link href="/ukazky-webu"
             className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#f0ece6] border border-white/10 px-8 py-4 hover:border-white/20 hover:bg-white/5 transition-all duration-300 w-full sm:w-auto text-center">
-            Zobrazit služby
+            Ukázky webů
           </Link>
         </motion.div>
 
@@ -127,9 +127,9 @@ export default function Hero() {
             Logo ALTENO tu záměrně NENÍ odkaz ven: návštěvník hero sekce ještě
             nemá důvod odcházet, „Automatizace →" vede dovnitř webu. */}
         <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.1 }}
-          className="flex flex-col items-center gap-2.5 mb-7">
+          className="flex flex-col items-center gap-2.5">
           <BrandLockup size="sm" />
-          <p className="font-inter font-light text-[12px] text-[#8a8070]">
+          <p className="font-inter font-normal text-[12px] text-text-secondary">
             Weby a automatizace pod jednou střechou ·{" "}
             <Link href="/automatizace" className="text-[#c9a84c] hover:underline">
               Automatizace →
@@ -137,35 +137,6 @@ export default function Hero() {
           </p>
         </motion.div>
 
-        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.2 }}
-          className="flex items-center justify-center flex-wrap gap-x-3 gap-y-2">
-          {[
-            { text: "Precizní práce", icon: "✓" },
-            { text: "Kvalitní provedení", icon: "✓" },
-            { text: "Flexibilní přístup", icon: "✓" },
-          ].map((item, i) => (
-            <motion.span
-              key={i}
-              className="inline-flex items-center gap-[5px] px-3 py-[5px] font-inter font-medium text-[10px] uppercase tracking-[0.18em] border"
-              style={{
-                color: "#c9a84c",
-                borderColor: "rgba(201,168,76,0.25)",
-                background: "rgba(201,168,76,0.05)",
-              }}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 + i * 0.12, duration: 0.4 }}
-              whileHover={{
-                borderColor: "rgba(201,168,76,0.55)",
-                background: "rgba(201,168,76,0.1)",
-                y: -1,
-              }}
-            >
-              <span style={{ color: "rgba(201,168,76,0.6)", fontSize: "9px" }}>{item.icon}</span>
-              {item.text}
-            </motion.span>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

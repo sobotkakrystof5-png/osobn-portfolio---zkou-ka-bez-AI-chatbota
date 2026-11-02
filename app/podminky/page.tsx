@@ -20,13 +20,13 @@ export default function PodminkyPage() {
             <span className="font-cormorant font-light text-[22px] tracking-widest text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">
               VIZEON
             </span>
-            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#3d3830]">
+            <span className="font-inter font-normal text-[9px] uppercase tracking-[0.25em] text-text-muted">
               Vize. Vývoj. Výsledky.
             </span>
           </Link>
           <Link
             href="/"
-            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300"
+            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-text-secondary hover:text-[#f0ece6] transition-colors duration-300"
           >
             ← Zpět na web
           </Link>
@@ -42,11 +42,11 @@ export default function PodminkyPage() {
         <h1 className="font-cormorant font-light text-[36px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-3">
           Obchodní podmínky
         </h1>
-        <p className="font-inter font-light text-[13px] text-[#3d3830] mb-14">
+        <p className="font-inter font-normal text-[13px] text-text-muted mb-14">
           Platnost od 1. 1. 2026 · Tyto obchodní podmínky upravují vztahy mezi poskytovatelem a klientem.
         </p>
 
-        <div className="space-y-12 font-inter font-light text-[14px] text-[#8a8070] leading-[1.85]">
+        <div className="space-y-12 font-inter font-normal text-[14px] text-text-secondary leading-[1.85]">
 
           {/* Section 1 */}
           <section aria-labelledby="poskytovatel">
@@ -379,7 +379,7 @@ export default function PodminkyPage() {
         <div className="mt-16 pt-8 border-t border-white/[0.05]">
           <Link
             href="/"
-            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300"
+            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-text-secondary hover:text-[#f0ece6] transition-colors duration-300"
           >
             ← Zpět na úvodní stránku
           </Link>
@@ -389,20 +389,20 @@ export default function PodminkyPage() {
       {/* Minimal footer */}
       <footer className="border-t border-white/[0.05]">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-inter font-light text-[12px] text-[#3d3830]">
+          <p className="font-inter font-normal text-[12px] text-text-muted">
             © 2026 <Vizeon /> — Kryštof Sobotka. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <Link
               href="/gdpr"
-              className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
+              className="font-inter font-normal text-[12px] text-text-muted hover:text-text-secondary transition-colors duration-300"
             >
               Ochrana osobních údajů
             </Link>
-            <span className="font-inter font-light text-[12px] text-[#2a2520]" aria-hidden="true">·</span>
+            <span className="font-inter font-normal text-[12px] text-text-muted" aria-hidden="true">·</span>
             <Link
               href="/podminky"
-              className="font-inter font-light text-[12px] text-[#c9a84c]"
+              className="font-inter font-normal text-[12px] text-[#c9a84c]"
               aria-current="page"
             >
               Obchodní podmínky

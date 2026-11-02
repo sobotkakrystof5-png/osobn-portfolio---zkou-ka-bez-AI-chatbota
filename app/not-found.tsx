@@ -26,7 +26,7 @@ export default function NotFound() {
       <h2 className="font-cormorant font-light text-[32px] md:text-[48px] leading-[1.1] text-[#f0ece6] mb-4 relative -mt-8 md:-mt-12">
         Stránka nenalezena.
       </h2>
-      <p className="font-inter font-light text-[15px] text-[#8a8070] mb-10 max-w-sm relative leading-[1.75]">
+      <p className="font-inter font-normal text-[15px] text-text-secondary mb-10 max-w-sm relative leading-[1.75]">
         Tato stránka neexistuje nebo byla přesunuta.
       </p>
       <Link

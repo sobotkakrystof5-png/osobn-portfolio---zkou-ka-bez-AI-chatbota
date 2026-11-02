@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Pricing from "@/components/Pricing";
 import { PageShell } from "@/components/layout/PageShell";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PriceTable } from "@/components/services/PriceTable";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { Alteno, Vizeon } from "@/components/brand/BrandName";
 
+// Stránka o ceně webu. Kompletní ceník všech služeb je od 11/2026 v přehledu
+// Služby a ceník (/sluzby), tady zůstávají jen weby a texty k ceně.
+
 export function generateMetadata(): Metadata {
   return {
     title: "Cena tvorby webu na míru",
     description:
-      "Cena tvorby webu na míru pro živnostníky, transparentní ceník od 4 999 Kč, hotovo do 3 týdnů. Weby, grafika i správa sítí.",
+      "Cena tvorby webu na míru pro živnostníky a malé firmy. Transparentní ceník od 4 999 Kč bez skrytých poplatků, co je v ceně a co ne.",
     alternates: { canonical: "https://vizeon.cz/cena-tvorby-webu" },
     openGraph: {
       title: "Ceník — cena tvorby webu na míru | VIZEON",
@@ -50,7 +54,7 @@ const jsonLd = {
           name: "Proč je cena nižší než u agentur?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Protože weby dělám sám, bez agenturní režie, subdodavatelů a lidí navíc mezi vámi a tím, kdo web reálně staví. Ušetřené náklady na provoz se promítají přímo do ceny.",
+            text: "Protože nejsme agentura. Nemáme agenturní režii, subdodavatele ani lidi navíc mezi vámi a tím, kdo web reálně staví. Ušetřené náklady na provoz se promítají přímo do ceny.",
           },
         },
         {
@@ -58,7 +62,7 @@ const jsonLd = {
           name: "Co je v ceně zahrnuté?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Responzivní design, základní on-page SEO, dohodnutý počet úprav do finálního schválení a zaškolení ke správě obsahu. Hosting, doménu a průběžnou správu webu po spuštění řešíte zvlášť — na správu nabízím službu Web Care od 999 Kč/měsíc.",
+            text: "Responzivní design, základní on-page SEO, dohodnutý počet úprav do finálního schválení a zaškolení ke správě obsahu. Hosting a doménu řešíte zvlášť, s výběrem i nastavením ale poradíme. Drobné úpravy po spuštění uděláme jako jednorázový technický zásah.",
           },
         },
         {
@@ -86,17 +90,48 @@ export default function CenaTvorbyWebuPage() {
   return (
     <PageShell jsonLd={jsonLd}>
       <AnalyticsTracker page="/cena-tvorby-webu" />
-      <Pricing />
+      <div className={cn(t.container.page, "pt-16 md:pt-24 pb-16 md:pb-24")}>
+        <PageHeader
+          eyebrow="Cena webu"
+          h1="Cena webu na míru."
+          lead={
+            <>
+              Ceník je veřejný a stejný pro každého klienta, cena se odvíjí jen od rozsahu práce.
+              Pokud řešíte konkrétní obor, mrkněte i na{" "}
+              <Link href="/tvorba-webu-pro-zivnostniky" className={t.link}>
+                tvorbu webu pro živnostníky
+              </Link>
+              . Co všechno cenu ovlivňuje, rozebíráme v článku{" "}
+              <Link href="/blog/kolik-stoji-tvorba-webu-2026" className={t.link}>
+                Kolik stojí tvorba webových stránek v roce 2026
+              </Link>
+              .
+            </>
+          }
+        />
 
-      <div className={cn(t.container.page, "pb-16 md:pb-24")}>
         <div className="space-y-14">
+          <section aria-labelledby="cenik-webu">
+            <h2 id="cenik-webu" className={cn(t.h2Page, "mb-6")}>
+              Ceník webů
+            </h2>
+            <PriceTable categories={["Weby"]} />
+            <p className={cn(t.body, "mt-6")}>
+              Ceny e-shopů, aplikací, automatizací, grafiky a dalších služeb najdete v přehledu{" "}
+              <Link href="/sluzby" className={t.link}>
+                služby a ceník
+              </Link>
+              .
+            </p>
+          </section>
+
           <section aria-labelledby="proc-levneji">
             <h2 id="proc-levneji" className={cn(t.h2Page, "mb-6")}>
               Proč je cena nižší než u agentury
             </h2>
             <p className={cn(t.body, "mb-6")}>
-              <Vizeon /> není agentura s týmem projektových manažerů a subdodavatelů — design i vývoj
-              řeším sám, od první schůzky až po předání hotového webu.
+              <Vizeon /> není agentura s týmem projektových manažerů a subdodavatelů. Design i vývoj
+              děláme sami, od první schůzky až po předání hotového webu.
             </p>
             <div className="space-y-6">
               <div className="border-l border-white/[0.06] pl-5">
@@ -109,14 +144,14 @@ export default function CenaTvorbyWebuPage() {
               <div className="border-l border-white/[0.06] pl-5">
                 <h3 className={cn(t.h3, "mb-1.5")}>Přímá komunikace</h3>
                 <p className={t.body}>
-                  Píšete rovnou mně. Dotazy a drobné úpravy řešíme na místě, bez předávání mezi
-                  obchodníkem a vývojářem.
+                  Píšete rovnou nám, lidem, kteří web staví. Dotazy a drobné úpravy řešíme na místě,
+                  bez předávání mezi obchodníkem a vývojářem.
                 </p>
               </div>
               <div className="border-l border-white/[0.06] pl-5">
-                <h3 className={cn(t.h3, "mb-1.5")}>Jeden člověk od návrhu po spuštění</h3>
+                <h3 className={cn(t.h3, "mb-1.5")}>Od návrhu po spuštění v jedněch rukou</h3>
                 <p className={t.body}>
-                  Design, kód i nasazení mám na starosti sám — méně lidí v procesu znamená míň
+                  Design, kód i nasazení máme na starosti sami. Méně lidí v procesu znamená méně
                   prostoru pro nedorozumění a rychlejší postup.
                 </p>
               </div>
@@ -132,7 +167,7 @@ export default function CenaTvorbyWebuPage() {
                 <h3 className={cn(t.h3, "mb-3")}>Co je v ceně</h3>
                 <ul className={cn(t.body, "space-y-2 list-disc list-inside")}>
                   <li>Responzivní design pro mobil, tablet i desktop</li>
-                  <li>Základní on-page SEO — meta popisky, strukturovaná data, rychlost načítání</li>
+                  <li>Základní on-page SEO: meta popisky, strukturovaná data, rychlost načítání</li>
                   <li>Dohodnutý počet kol úprav do finálního schválení</li>
                   <li>Zaškolení ke správě obsahu po předání webu</li>
                   <li>Testování napříč zařízeními a prohlížeči před spuštěním</li>
@@ -141,11 +176,9 @@ export default function CenaTvorbyWebuPage() {
               <div>
                 <h3 className={cn(t.h3, "mb-3")}>Co v ceně není</h3>
                 <ul className={cn(t.body, "space-y-2 list-disc list-inside")}>
-                  <li>Hosting a doména — vlastníte je vy, s výběrem i nastavením ale poradím</li>
+                  <li>Hosting a doménu vlastníte vy, s výběrem i nastavením ale poradíme</li>
                   <li>Copywriting nebo focení nad rámec podkladů, které sami dodáte</li>
-                  <li>
-                    Průběžná správa webu po spuštění — řeší samostatná služba Web Care od 999 Kč/měsíc
-                  </li>
+                  <li>Úpravy po spuštění webu, ty děláme jako jednorázový technický zásah</li>
                   <li>Úpravy nad rámec už schválené nabídky</li>
                 </ul>
               </div>
@@ -160,17 +193,18 @@ export default function CenaTvorbyWebuPage() {
               <div>
                 <h3 className={cn(t.h3, "mb-1.5")}>Proč je cena nižší než u agentur?</h3>
                 <p className={t.body}>
-                  Protože weby dělám sám, bez agenturní režie, subdodavatelů a lidí navíc mezi
-                  vámi a tím, kdo web reálně staví. Ušetřené náklady na provoz se promítají přímo
-                  do ceny.
+                  Protože nejsme agentura. Nemáme agenturní režii, subdodavatele ani lidi navíc
+                  mezi vámi a tím, kdo web reálně staví. Ušetřené náklady na provoz se promítají
+                  přímo do ceny.
                 </p>
               </div>
               <div>
                 <h3 className={cn(t.h3, "mb-1.5")}>Co je v ceně zahrnuté?</h3>
                 <p className={t.body}>
                   Responzivní design, základní on-page SEO, dohodnutý počet úprav do finálního
-                  schválení a zaškolení ke správě obsahu. Hosting, doménu a průběžnou správu webu
-                  po spuštění řešíte zvlášť — na správu nabízím službu Web Care od 999 Kč/měsíc.
+                  schválení a zaškolení ke správě obsahu. Hosting a doménu řešíte zvlášť, s výběrem
+                  i nastavením ale poradíme. Drobné úpravy po spuštění uděláme jako jednorázový
+                  technický zásah.
                 </p>
               </div>
               <div>

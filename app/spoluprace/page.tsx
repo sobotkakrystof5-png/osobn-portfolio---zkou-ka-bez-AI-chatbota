@@ -9,13 +9,13 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Jak probíhá spolupráce — 7 kroků od nápadu ke spuštění",
+    title: "Jak probíhá spolupráce — 4 kroky od nápadu ke spuštění",
     description:
-      "Sedm kroků od první konzultace po bezpečné předání webu. Víte přesně, co se děje a kdy. Žádné černé skříňky, žádné čekání bez informací.",
+      "Čtyři kroky od první konzultace po spuštění a předání webu. Víte přesně, co se děje a kdy. Žádné černé skříňky, žádné čekání bez informací.",
     alternates: { canonical: "https://vizeon.cz/spoluprace" },
     openGraph: {
       title: "Jak probíhá spolupráce | VIZEON",
-      description: "Sedm kroků od nápadu ke spuštění zahrnuje první konzultaci, návrh, tvorbu i bezpečné předání webu.",
+      description: "Čtyři kroky od nápadu ke spuštění: konzultace zdarma, návrh na míru, tvorba webu a jeho předání.",
       url: "https://vizeon.cz/spoluprace",
       type: "website",
     },

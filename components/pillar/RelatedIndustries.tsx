@@ -22,7 +22,7 @@ export function RelatedIndustries({ slugs }: { slugs: string[] }) {
           <Link
             key={industry.slug}
             href={`/${industry.slug}`}
-            className="font-inter font-light text-[13px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
+            className="font-inter font-normal text-[13px] text-text-secondary hover:text-[#c9a84c] transition-colors duration-300"
           >
             {industry.name} →
           </Link>

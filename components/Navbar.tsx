@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { stagger, fadeIn } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
-import NavDropdown, { NavIntro } from "@/components/NavDropdown";
+import NavDropdown from "@/components/NavDropdown";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { NAV_STRUCTURE, isNavGroup, type NavGroup } from "@/lib/nav";
 
@@ -36,7 +36,7 @@ function MobileNavGroup({ group, onNavigate }: { group: NavGroup; onNavigate: ()
           aria-controls={listId}
           aria-label={`Podnabídka ${group.label}`}
           onClick={() => setExpanded((value) => !value)}
-          className="absolute left-full top-1/2 -translate-y-1/2 ml-1 flex h-11 w-11 items-center justify-center text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
+          className="absolute left-full top-1/2 -translate-y-1/2 ml-1 flex h-11 w-11 items-center justify-center text-text-secondary hover:text-[#c9a84c] transition-colors duration-300"
         >
           <ChevronDown aria-hidden strokeWidth={1.25}
             className={`h-6 w-6 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} />
@@ -54,24 +54,14 @@ function MobileNavGroup({ group, onNavigate }: { group: NavGroup; onNavigate: ()
             className="overflow-hidden"
           >
             <ul className="flex flex-col items-center gap-1 pt-4">
-              {group.intro ? (
-                <li
-                  className="pb-3"
-                  onClick={(event) => {
-                    if ((event.target as Element).closest("a[href^='/']")) onNavigate();
-                  }}
-                >
-                  <NavIntro className="items-center text-center" />
-                </li>
-              ) : null}
               {group.items.map((item) => (
                 <li key={`${item.href}-${item.label}`}>
                   <Link href={item.href} onClick={onNavigate}
-                    className="flex min-h-11 items-center gap-2 font-inter font-normal text-[13px] uppercase tracking-[0.1em] text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300">
+                    className="flex min-h-11 items-center gap-2 font-inter font-normal text-[13px] uppercase tracking-[0.1em] text-text-secondary hover:text-[#f0ece6] transition-colors duration-300">
                     {item.label}
                     {item.comingSoon ? (
                       <span className="border border-accent/40 text-accent text-[10px] uppercase px-1.5 py-0.5 leading-none tracking-[0.08em]">
-                        Připravuji
+                        Připravujeme
                       </span>
                     ) : null}
                   </Link>
@@ -134,42 +124,30 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex flex-col leading-none group shrink-0" aria-label="VIZEON">
             <span className="font-cormorant font-light text-[22px] tracking-widest text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">VIZEON</span>
-            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#8a8070]">Vize. Vývoj. Výsledky.</span>
+            <span className="font-inter font-normal text-[9px] uppercase tracking-[0.25em] text-text-secondary">Vize. Vývoj. Výsledky.</span>
           </Link>
 
-          {/* Desktop nav až od xl (1280 px), pod tím hamburger. Změřeno v S6
-              (AUTOMATIZACE-PROGRESS.md): 10 položek včetně dvou chevronů má
-              ~645 px textu + 9 mezer, vedle loga (~157 px) a paddingu. Už
-              původní lišta (bez Automatizace) při 768–1023 px přetékala mimo
-              obrazovku (Blog, FAQ, Kontakt uříznuté) a při 1280 px ořízla CTA;
-              s Automatizací chybělo 35–330 px a ubráním mezer se to vyřešit
-              nedalo. Rozhodnutí majitele: hamburger do 1279 px.
-              gap-6 (24 px) na všech šířkách: s CTA (od 1440 px) zbývá ~63 px
-              rezervy, dřívější 2xl:gap-12 by se s Automatizací nevešel ani tam
-              (kontejner je max 92rem, takže místa nad 1472 px nepřibývá).
-              whitespace-nowrap: bez toho se "O mně" (jediná položka se
-              skutečnou mezerou v textu) v tísni zalamovalo na dva řádky. */}
+          {/* Desktop nav od xl (1280 px), pod tím hamburger. Lišta má od
+              11/2026 7 položek a CTA (lib/nav.ts: Weby, E-shopy,
+              Automatizace…); s logem a CTA se do 1024 px nevejdou.
+              whitespace-nowrap: položky se v tísni nesmí zalomit na dva
+              řádky („O nás"). */}
           <nav className="hidden xl:flex items-center gap-6" aria-label="Hlavní navigace">
             {NAV_STRUCTURE.map((entry) =>
               isNavGroup(entry) ? (
                 <NavDropdown key={entry.href} {...entry} />
               ) : (
                 <Link key={entry.href} href={entry.href}
-                  className="font-inter font-normal text-[12px] tracking-[0.08em] text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300 uppercase whitespace-nowrap">
+                  className="font-inter font-normal text-[12px] tracking-[0.08em] text-text-secondary hover:text-[#f0ece6] transition-colors duration-300 uppercase whitespace-nowrap">
                   {entry.label}
                 </Link>
               )
             )}
           </nav>
 
-          {/* CTA — v liště až od 1440 px: při 1280–1439 px se vedle loga
-              a 10 položek nevejde (1280 px: chybí ~100 px), viz komentář
-              u navigace. Pod 1280 px je CTA v hamburger menu. Plná
-              zlatá výplň (místo dřívějšího obrysu — bez 1px borderu je i o
-              chlup užší) + whitespace-nowrap, ať je to jasně hlavní CTA
-              navbaru a text se nikdy nezalomí. Padding zvětšený jen mírně
-              (px-5→px-6, py-2.5→py-3). */}
-          <CTAButton className="hidden min-[1440px]:inline-flex shrink-0 whitespace-nowrap font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-3 hover:bg-[#d4b968] transition-all duration-300">
+          {/* CTA je od xl v liště, pod ním v hamburger menu. Plná zlatá výplň, ať je to jasně hlavní CTA lišty;
+              whitespace-nowrap, ať se text nikdy nezalomí. */}
+          <CTAButton className="hidden xl:inline-flex shrink-0 whitespace-nowrap font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-3 hover:bg-[#d4b968] transition-all duration-300">
             Konzultace zdarma
           </CTAButton>
 

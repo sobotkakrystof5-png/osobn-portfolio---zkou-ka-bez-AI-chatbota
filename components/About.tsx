@@ -29,7 +29,7 @@ export default function About() {
               </div>
             </div>
             <p className="mt-4 font-inter font-medium text-[10px] tracking-[0.15em] text-[#c9a84c] uppercase">
-              Kryštof Sobotka · Zakladatel <Vizeon /> · Česká republika
+              Kryštof · Zakladatel <Vizeon /> · Česká republika
             </p>
           </motion.div>
 
@@ -39,19 +39,19 @@ export default function About() {
             <h1 className="font-cormorant font-light text-[32px] md:text-[48px] leading-[1.1] text-[#f0ece6]">
               Za svou prací si stojím. Od začátku až do výsledku.
             </h1>
-            <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
-              Jmenuji se Kryštof Sobotka. Jsem mladý podnikatel studující v Německu a weby na míru stavím už několik let – věřím, že technologie mají smysl tehdy, když lidem zefektivňují práci a pomáhají jim posouvat se dál.
+            <p className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.8] text-text-secondary">
+              Jmenuji se Kryštof. Jsem mladý podnikatel studující v Německu a weby na míru stavím už několik let – věřím, že technologie mají smysl tehdy, když lidem zefektivňují práci a pomáhají jim posouvat se dál.
             </p>
-            <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
+            <p className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.8] text-text-secondary">
               AI vnímám jako nástroj, ne jako náhradu za přemýšlení a kreativitu. Každý projekt proto řeším osobně od prvního nápadu až po poslední detail, s důrazem na funkčnost a skutečný přínos pro vaše podnikání.
             </p>
-            <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
+            <p className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.8] text-text-secondary">
               Weby stavím na moderním technickém základu – Next.js, React, TypeScript, Tailwind CSS a Framer Motion – který zajišťuje rychlost i prostor pro detail v animacích. Za tu dobu jsem takhle postavil několik reálných projektů pro klienty z různých oborů, od kovovýroby po wellness studia.
             </p>
-            <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
+            <p className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.8] text-text-secondary">
               Stejný přístup mě přivedl k automatizaci rutinních procesů a implementaci AI do firem. V současnosti pracuji na novém startupu v této oblasti.
             </p>
-            <p className="font-inter font-light text-[15px] md:text-[17px] leading-[1.8] text-[#8a8070]">
+            <p className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.8] text-text-secondary">
               Studium v Německu ve mně posílilo důraz na preciznost, důslednost a kvalitu. Tyto hodnoty přenáším do každé své práce.
             </p>
             <p className="font-inter font-medium text-[15px] md:text-[17px] leading-[1.8] text-[#f0ece6]">

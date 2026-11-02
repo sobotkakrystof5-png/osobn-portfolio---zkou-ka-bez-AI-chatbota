@@ -1,10 +1,10 @@
-// Jediný zdroj navigace pro Navbar i Footer. Dřív měla každá komponenta
-// vlastní hardcoded pole (a rozcházela se — Footer neměl ZakazIQ).
+// Jediný zdroj navigace pro Navbar i Footer.
 //
-// NAV_STRUCTURE je lišta: 10 položek nejvyšší úrovně, dvě z nich skupiny
-// s rozbalovacím panelem (Automatizace, Blog). FAQ je od S6 pod Blogem, aby
-// se lišta s novou položkou Automatizace vešla do šířky 768–1279 px.
-// Footer potřebuje plochý seznam, proto NAV_LINKS je odvozený, ne vlastní pole.
+// NAV_STRUCTURE je lišta. Od 11/2026 v ní jsou služby rozdělené podle oboru
+// v pořadí Weby, E-shopy (každý jedna podstránka) a Automatizace
+// (rozbalovací nabídka se 4 podstránkami). Přehled služeb s ceníkem (/sluzby) a ostatní
+// služby (SEO, systémy na míru, grafika…) jsou v patičce a na /sluzby.
+// Jak to probíhá, Obory, Blog a FAQ jsou jen v patičce (FOOTER_LINKS).
 import { automationIndex } from "@/lib/data/automation-index";
 
 export type NavLinkItem = {
@@ -20,10 +20,6 @@ export type NavGroup = {
   /** Kam vede text skupiny v liště (chevron vedle něj jen rozbaluje). */
   href: string;
   items: NavLinkItem[];
-  /** Úvodní blok nahoře v panelu (spolupráce ALTENO × VIZEON). */
-  intro?: boolean;
-  /** Footer místo odkazu na skupinu vypíše všechny její položky. */
-  expandInFooter?: boolean;
 };
 
 export type NavEntry = NavLinkItem | NavGroup;
@@ -40,38 +36,39 @@ export const AUTOMATION_NAV_ITEMS: NavLinkItem[] = automationIndex.map((page) =>
 }));
 
 export const NAV_STRUCTURE: NavEntry[] = [
-  { label: "O mně", href: "/o-mne" },
-  { label: "Služby", href: "/sluzby" },
+  { label: "Weby", href: "/sluzby/tvorba-webovych-stranek" },
+  { label: "E-shopy", href: "/sluzby/tvorba-e-shopu" },
   {
     label: "Automatizace",
     href: "/automatizace",
-    intro: true,
     items: [
       { label: "Přehled automatizací", href: "/automatizace", separatorAfter: true },
       ...AUTOMATION_NAV_ITEMS,
     ],
   },
-  { label: "Obory", href: "/tvorba-webu-pro-zivnostniky" },
-  { label: "Spolupráce", href: "/spoluprace" },
-  { label: "Projekty", href: "/ukazky-webu" },
-  { label: "Ceník", href: "/cena-tvorby-webu" },
   { label: "ZakazIQ", href: "/zakaziq" },
-  {
-    label: "Blog",
-    href: "/blog",
-    expandInFooter: true,
-    items: [
-      { label: "Blog", href: "/blog" },
-      { label: "FAQ", href: "/faq" },
-    ],
-  },
+  { label: "Projekty", href: "/ukazky-webu" },
+  { label: "O nás", href: "/o-mne" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
 export type NavLink = { label: string; href: string };
 
-export const NAV_LINKS: NavLink[] = NAV_STRUCTURE.flatMap((entry) =>
-  isNavGroup(entry) && entry.expandInFooter
-    ? entry.items.map(({ label, href }) => ({ label, href }))
-    : [{ label: entry.label, href: entry.href }]
-);
+/** Patička: položky lišty bez Automatizace (ta má vlastní sloupec) a k nim
+ *  stránky, které se do lišty nevešly. */
+export const FOOTER_LINKS: NavLink[] = [
+  { label: "Služby a ceník", href: "/sluzby" },
+  ...NAV_STRUCTURE.filter((entry) => !isNavGroup(entry)).map(({ label, href }) => ({ label, href })),
+  { label: "Cena webu", href: "/cena-tvorby-webu" },
+  { label: "Správa webu", href: "/sluzby/sprava-webu" },
+  { label: "Jak to probíhá", href: "/spoluprace" },
+  { label: "Obory", href: "/tvorba-webu-pro-zivnostniky" },
+  { label: "Blog", href: "/blog" },
+  { label: "FAQ", href: "/faq" },
+];
+
+/** Sloupec Automatizace v patičce: hub a jeho podstránky. */
+export const FOOTER_AUTOMATION_LINKS: NavLinkItem[] = [
+  { label: "Přehled automatizací", href: "/automatizace" },
+  ...AUTOMATION_NAV_ITEMS,
+];

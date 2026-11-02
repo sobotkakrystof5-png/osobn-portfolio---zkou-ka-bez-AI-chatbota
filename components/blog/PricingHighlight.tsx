@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 // Vizuální náhled ceníku pro vložení do článků o cenách/rozpočtu. Čte přímo
 // z lib/data/pricing.ts, takže čísla nikdy nejdou z ladu se skutečným ceníkem.
 
-const WEB_TIER_IDS = ["micro", "vizitka", "promo", "proweb", "webcare"];
+const WEB_TIER_IDS = ["micro", "promo", "proweb"];
 
 export function PricingHighlight() {
   const tiers =
@@ -17,7 +17,7 @@ export function PricingHighlight() {
 
   return (
     <div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {tiers.map((tier) => (
           <div
             key={tier.id}
@@ -45,7 +45,7 @@ export function PricingHighlight() {
 
       <Link
         href="/cena-tvorby-webu"
-        className="group mt-4 inline-flex items-center gap-1.5 font-inter font-medium text-[12px] uppercase tracking-[0.08em] text-[#8a8070] transition-colors duration-300 hover:text-[#c9a84c]"
+        className="group mt-4 inline-flex items-center gap-1.5 font-inter font-medium text-[12px] uppercase tracking-[0.08em] text-text-secondary transition-colors duration-300 hover:text-[#c9a84c]"
       >
         Zobrazit celý ceník <ArrowUpRight size={13} aria-hidden="true" />
       </Link>

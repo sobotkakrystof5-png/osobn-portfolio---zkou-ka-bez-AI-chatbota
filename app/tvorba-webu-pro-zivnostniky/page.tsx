@@ -43,7 +43,7 @@ const jsonLd = {
           name: "Vyplatí se web, i když mám jen pár desítek zákazníků měsíčně?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Ano, právě u malého počtu zákazníků měsíčně se každá ztracená poptávka počítá. I jednoduchá Online Vizitka nahradí klasickou vizitku i profil na sociálních sítích a působí důvěryhodněji než odkaz jen na Facebook.",
+            text: "Ano, právě u malého počtu zákazníků měsíčně se každá ztracená poptávka počítá. I jednoduchá jednostránková Promo Page nahradí klasickou vizitku i profil na sociálních sítích a působí důvěryhodněji než odkaz jen na Facebook.",
           },
         },
         {
@@ -59,7 +59,7 @@ const jsonLd = {
           name: "Zvládnu si web po předání spravovat sám?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Ano. Dostanete přístupy a krátký návod na běžné úpravy, jako jsou texty, ceník nebo fotky. Pokud na to nemáte čas, nabízím i měsíční správu webu za 999 Kč/měsíc.",
+            text: "Ano. Dostanete přístupy a krátký návod na běžné úpravy, jako jsou texty, ceník nebo fotky. Pokud na to nemáte čas, úpravu uděláme za vás.",
           },
         },
         {
@@ -169,7 +169,7 @@ const oboryGroups = [
 const faqs = [
   {
     q: "Vyplatí se web, i když mám jen pár desítek zákazníků měsíčně?",
-    a: "Ano, právě u malého počtu zákazníků měsíčně se každá ztracená poptávka počítá. I jednoduchá Online Vizitka nahradí klasickou vizitku i profil na sociálních sítích a působí důvěryhodněji než odkaz jen na Facebook.",
+    a: "Ano, právě u malého počtu zákazníků měsíčně se každá ztracená poptávka počítá. I jednoduchá jednostránková Promo Page nahradí klasickou vizitku i profil na sociálních sítích a působí důvěryhodněji než odkaz jen na Facebook.",
   },
   {
     q: "Čím se web na míru liší od webu ze stavebnice?",
@@ -177,7 +177,7 @@ const faqs = [
   },
   {
     q: "Zvládnu si web po předání spravovat sám?",
-    a: "Ano. Dostanete přístupy a krátký návod na běžné úpravy, jako jsou texty, ceník nebo fotky. Pokud na to nemáte čas, nabízím i měsíční správu webu za 999 Kč/měsíc.",
+    a: "Ano. Dostanete přístupy a krátký návod na běžné úpravy, jako jsou texty, ceník nebo fotky. Pokud na to nemáte čas, úpravu uděláme za vás.",
   },
   {
     q: "Co když nevím, jaké texty a fotky na web dát?",
@@ -200,13 +200,13 @@ export default function TvorbaWebuProZivnostnikyPage() {
             <span className="font-cormorant font-light text-[22px] tracking-widest text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">
               VIZEON
             </span>
-            <span className="font-inter font-light text-[9px] uppercase tracking-[0.25em] text-[#3d3830]">
+            <span className="font-inter font-normal text-[9px] uppercase tracking-[0.25em] text-text-muted">
               Vize. Vývoj. Výsledky.
             </span>
           </Link>
           <Link
             href="/"
-            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300"
+            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-text-secondary hover:text-[#f0ece6] transition-colors duration-300"
           >
             ← Zpět na web
           </Link>
@@ -220,7 +220,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
         <h1 className="font-cormorant font-light text-[36px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-6 max-w-2xl">
           Tvorba webu pro živnostníky, který vám přivádí zákazníky
         </h1>
-        <p className="font-inter font-light text-[16px] md:text-[18px] leading-[1.85] text-[#8a8070] max-w-2xl mb-16">
+        <p className="font-inter font-normal text-[16px] md:text-[18px] leading-[1.85] text-text-secondary max-w-2xl mb-16">
           Řada živnostníků v Česku podniká bez webu, nebo s webem, který si před lety poskládali
           ve stavebnici a od té doby se ho nikdo nedotkl. Zákazník mezitím hledá řemeslníka,
           kadeřnici nebo účetní na mobilu, porovná tři nabídky za minutu a vybere tu, která
@@ -228,7 +228,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
           Dělám ho rychle a srozumitelně, bez šablon, které vypadají jako stovky jiných stránek.
         </p>
 
-        <div className="space-y-14 font-inter font-light text-[15px] text-[#8a8070] leading-[1.85]">
+        <div className="space-y-14 font-inter font-normal text-[15px] text-text-secondary leading-[1.85]">
           {/* Šablona vs. na míru */}
           <section aria-labelledby="sablona">
             <h2 id="sablona" className="font-cormorant font-light text-[26px] md:text-[36px] text-[#f0ece6] mb-4">
@@ -267,8 +267,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
               <li><span className="text-[#f0ece6]">Předání</span> — dostanete přístupy, krátký návod a web je online.</li>
             </ol>
             <p className="mt-5">
-              Rozsah určuje i termín: Online Vizitka je hotová do 5 pracovních dní, Promo Page do
-              10 dní, Pro Web s více podstránkami do 3 týdnů. Termín znáte dopředu. Žádná
+              Rozsah určuje i termín: Promo Page je hotová do 10 pracovních dní, Pro Web s více podstránkami do 3 týdnů. Termín znáte dopředu. Žádná
               překvapení uprostřed projektu.
             </p>
           </section>
@@ -313,7 +312,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
                         <Link
                           key={slug}
                           href={`/${slug}`}
-                          className="font-inter font-light text-[14px] text-[#8a8070] hover:text-[#c9a84c] transition-colors duration-300"
+                          className="font-inter font-normal text-[14px] text-text-secondary hover:text-[#c9a84c] transition-colors duration-300"
                         >
                           {industry.name} →
                         </Link>
@@ -332,8 +331,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
             </h2>
             <p>
               Cena se odvíjí od rozsahu, ne od toho, jak dobře umíte vyjednávat. Ceník je
-              veřejný a stejný pro každého. Jednostránková Online Vizitka začíná na 7 499 Kč,
-              Promo Page (landing page) na 9 999 Kč a Pro Web s více podstránkami na 14 999 Kč.
+              veřejný a stejný pro každého. Jednostránková Promo Page (landing page) začíná na 9 999 Kč a Pro Web s více podstránkami na 14 999 Kč.
               Přesný aktuální ceník i to, co je v ceně zahrnuté, najdete{" "}
               <Link href="/cena-tvorby-webu" className="text-[#c9a84c] hover:underline">
                 v ceníku
@@ -367,7 +365,7 @@ export default function TvorbaWebuProZivnostnikyPage() {
         <div className="mt-14">
           <Link
             href="/"
-            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-[#8a8070] hover:text-[#f0ece6] transition-colors duration-300"
+            className="font-inter font-normal text-[12px] tracking-[0.08em] uppercase text-text-secondary hover:text-[#f0ece6] transition-colors duration-300"
           >
             ← Zpět na hlavní stránku
           </Link>
@@ -377,20 +375,20 @@ export default function TvorbaWebuProZivnostnikyPage() {
       {/* Minimal footer */}
       <footer className="border-t border-white/[0.05]">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-inter font-light text-[12px] text-[#3d3830]">
+          <p className="font-inter font-normal text-[12px] text-text-muted">
             © 2026 <Vizeon />. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <Link
               href="/gdpr"
-              className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
+              className="font-inter font-normal text-[12px] text-text-muted hover:text-text-secondary transition-colors duration-300"
             >
               Ochrana osobních údajů
             </Link>
-            <span className="font-inter font-light text-[12px] text-[#2a2520]" aria-hidden="true">·</span>
+            <span className="font-inter font-normal text-[12px] text-text-muted" aria-hidden="true">·</span>
             <Link
               href="/podminky"
-              className="font-inter font-light text-[12px] text-[#3d3830] hover:text-[#8a8070] transition-colors duration-300"
+              className="font-inter font-normal text-[12px] text-text-muted hover:text-text-secondary transition-colors duration-300"
             >
               Obchodní podmínky
             </Link>

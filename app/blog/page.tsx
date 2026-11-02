@@ -71,14 +71,14 @@ export default function BlogPage() {
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#c9a84c]/40 font-cormorant font-light text-[12px] text-[#c9a84c]">
                       V
                     </span>
-                    <span className="font-inter font-medium text-[10px] uppercase tracking-[0.12em] text-[#8a8070]">
+                    <span className="font-inter font-medium text-[10px] uppercase tracking-[0.12em] text-text-secondary">
                       <Vizeon /> <span className="mx-1 text-white/20">·</span>
                       {new Date(post.date).toLocaleDateString("cs-CZ")}
                       <span className="mx-1 text-white/20">·</span>
                       {post.readingMinutes} min
                     </span>
                   </div>
-                  <span className="inline-flex shrink-0 items-center gap-1.5 font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-[#8a8070] group-hover:text-[#c9a84c] transition-colors duration-300">
+                  <span className="inline-flex shrink-0 items-center gap-1.5 font-inter font-medium text-[12px] tracking-[0.08em] uppercase text-text-secondary group-hover:text-[#c9a84c] transition-colors duration-300">
                     Číst <ArrowUpRight size={13} aria-hidden="true" />
                   </span>
                 </div>

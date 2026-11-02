@@ -140,7 +140,7 @@ export default function IntroAnimation() {
             {WORDS.map((word, i) => (
               <motion.span
                 key={word}
-                className="font-inter font-light uppercase text-[#6b5e50]"
+                className="font-inter font-normal uppercase text-[#6b5e50]"
                 style={{
                   fontSize: "clamp(0.6rem, 1.4vw, 0.8rem)",
                   letterSpacing: "0.28em",

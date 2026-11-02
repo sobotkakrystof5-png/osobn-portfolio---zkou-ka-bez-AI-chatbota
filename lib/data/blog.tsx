@@ -114,7 +114,7 @@ export const posts: BlogPost[] = [
         <h2 className={t.articleH2}>Kolik trvá tvorba webu</h2>
         <p className={t.body}>
           Termín dodání se odvíjí od rozsahu podobně jako cena. Jednodušší weby,
-          jako je Online Vizitka, bývají hotové v řádu jednotek pracovních dní, u
+          jako je Micro Page, bývají hotové v řádu jednotek pracovních dní, u
           rozsáhlejších projektů s vlastním systémem nebo pokročilejší
           funkcionalitou počítejte obvykle s termínem do tří týdnů. Konkrétní
           termín by měl být součástí nabídky od začátku, aby se v průběhu prací
@@ -187,10 +187,9 @@ export const posts: BlogPost[] = [
         <p className={t.body}>
           Cena se u řemeslníků obvykle odvíjí od toho, kolik podstránek a jak
           rozsáhlou galerii web potřebuje. Pro jednoho řemeslníka s galerií
-          realizací a poptávkovým formulářem často stačí Online Vizitka od 7 499
-          Kč, u rozsáhlejší prezentace s víc podstránkami nebo přehledem několika
-          řemesel najednou se hodí Promo Page od 9 999 Kč nebo Pro Web od 14 999
-          Kč. Kompletní a aktuální ceník najdete na{" "}
+          realizací a poptávkovým formulářem často stačí Promo Page od 9 999 Kč,
+          u rozsáhlejší prezentace s víc podstránkami nebo přehledem několika
+          řemesel najednou se hodí Pro Web od 14 999 Kč. Kompletní a aktuální ceník najdete na{" "}
           <Link href="/cena-tvorby-webu" className={t.link}>
             stránce s ceníkem
           </Link>
@@ -204,8 +203,8 @@ export const posts: BlogPost[] = [
         <h2 className={t.articleH2}>Jak dlouho má tvorba trvat</h2>
         <p className={t.body}>
           Řemeslníci obvykle nemůžou čekat na web měsíce – poptávky přicházejí
-          denně a konkurence nespí. Online Vizitka s galerií bývá hotová do 5
-          pracovních dní, Promo Page do 10 dní. Pokud vám dodavatel nedokáže
+          denně a konkurence nespí. Promo Page s galerií bývá hotová do 10
+          pracovních dní, Pro Web do 3 týdnů. Pokud vám dodavatel nedokáže
           termín odhadnout ani orientačně, nebo mluví jen o "pár týdnech" bez
           konkrétnějšího čísla, je to důvod ptát se dál.
         </p>
@@ -235,7 +234,6 @@ export const posts: BlogPost[] = [
           správu obvykle nepotřebujete. Vyplatí se tam, kde web běžně upravujete –
           přidáváte fotky nových realizací, měníte ceník nebo chcete jistotu, že
           web zůstane zabezpečený a aktuální i bez toho, abyste to sami hlídali.
-          U VIZEONu tuhle variantu řeší Web Care.
         </p>
 
         <h2 className={t.articleH2}>Mobilní zobrazení není bonus, je základ</h2>

@@ -117,10 +117,14 @@ body {
    mezi písmeny prakticky mizí, takže vizuálně splyne s původním, na text
    ořezaným efektem, i když technicky ořezaný není. Funguje čistě přes tuto
    třídu, beze změny značení na místech použití (viz components/About.tsx,
-   které z jiných důvodů needitujeme). */
+   které z jiných důvodů needitujeme).
+   `vertical-align: bottom`: inline-block s overflow:hidden má účaří na spodní
+   hraně boxu, takže zlaté slovo uprostřed věty skákalo nad řádek (o ~0,2 em).
+   Zarovnání k okraji řádku vrací účaří tam, kde ho má okolní text. */
 .text-shimmer {
   position: relative;
   display: inline-block;
+  vertical-align: bottom;
   overflow: hidden;
   background: linear-gradient(90deg, #c9a84c 0%, #c9a84c 25%, #f7e48a 50%, #c9a84c 75%, #c9a84c 100%);
   -webkit-background-clip: text;
@@ -141,6 +145,22 @@ body {
 @keyframes shimmerSweep {
   0%, 15%  { transform: translateX(-150%); }
   65%, 100% { transform: translateX(150%); }
+}
+
+/* Shimmer pro pásy se zlatou září v pozadí: tam by obdélník z `::after`
+   přes záři prosvítal a slovo přebil. Tady jede světlo jen uvnitř písmen
+   (posun gradientu), takže slovo zůstává pořád čitelné. */
+.text-gleam {
+  background: linear-gradient(100deg, #c9a84c 0%, #c9a84c 40%, #fff1bf 50%, #c9a84c 60%, #c9a84c 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textGleam 5s ease-in-out infinite;
+}
+@keyframes textGleam {
+  0%, 20%   { background-position: 100% 0; }
+  70%, 100% { background-position: 0 0; }
 }
 
 /* ─── Glow pulse ───────────────────────────────────────
@@ -351,11 +371,19 @@ body {
   to   { opacity: 1; transform: none; }
 }
 
+/* Průběh kroku v telefonu na oborových stránkách (components/industry/
+   JourneyPhone.tsx). Délku nastavuje komponenta inline podle kroku. */
+@keyframes journey-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* Scéna Voice agentů se pod reduced-motion vykreslí rovnou dokončená
      a do stavu `speaking` se nedostane. Tohle je pojistka. */
   .animate-voice-wave,
   .animate-nav-panel-in,
+  .text-gleam,
   .group:hover .pain-jolt {
     animation: none;
   }

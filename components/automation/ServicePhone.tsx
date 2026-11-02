@@ -283,7 +283,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                 <div className="rounded-[1.5rem] border border-white/[0.08] bg-[#080808]/70 px-4 py-5">
                   <p
                     className={`text-center font-inter text-xs uppercase tracking-wide transition-colors ${
-                      callLive ? "text-accent" : "text-[#8a8070]"
+                      callLive ? "text-accent" : "text-text-secondary"
                     }`}
                   >
                     {status}
@@ -309,7 +309,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                       className={`relative grid h-16 w-16 place-items-center rounded-full border transition-colors duration-300 ${
                         callLive
                           ? "border-accent/45 bg-accent/10 text-accent"
-                          : "border-white/[0.08] bg-[#0e0e0e] text-[#8a8070]"
+                          : "border-white/[0.08] bg-[#0e0e0e] text-text-secondary"
                       }`}
                     >
                       <PhoneIcon aria-hidden className="h-6 w-6" />
@@ -357,7 +357,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
               </div>
 
               <div>
-                <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                <p className="mb-2 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                   {demo.labels.picker}
                 </p>
                 {/* Zalamování, ne vodorovný scroll. Třetí hovor je ten,
@@ -397,12 +397,12 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                         <span className="min-w-0">
                           <span
                             className={`block text-xs font-medium leading-snug ${
-                              selected ? "text-[#f0ece6]" : "text-[#8a8070]"
+                              selected ? "text-[#f0ece6]" : "text-text-secondary"
                             }`}
                           >
                             {call.title}
                           </span>
-                          <span className="block font-inter uppercase tracking-[0.1em] text-xs leading-snug text-[#8a8070]">
+                          <span className="block font-inter uppercase tracking-[0.1em] text-xs leading-snug text-text-secondary">
                             {call.note}
                           </span>
                         </span>
@@ -418,7 +418,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
               {/* Rozpoznaný záměr = druhý krok `how`. Řádek drží výšku
                   i prázdný, aby se scéna při rozsvícení štítku nehýbala. */}
               <div className="flex min-h-[1.75rem] items-center gap-2">
-                <p className="font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                <p className="font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                   {demo.labels.intent}
                 </p>
                 <span
@@ -438,7 +438,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                   <p className="text-sm font-medium text-[#f0ece6]">
                     {demo.labels.transcript}
                   </p>
-                  <p className="font-inter uppercase tracking-[0.1em] text-xs text-[#8a8070]">
+                  <p className="font-inter uppercase tracking-[0.1em] text-xs text-text-secondary">
                     {demo.actor}
                   </p>
                 </div>
@@ -462,7 +462,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                                 : "self-end rounded-br-sm border-white/[0.12] bg-[#161616]/80"
                             }`}
                           >
-                            <span className="mb-0.5 block font-inter text-xs uppercase tracking-[0.12em] text-[#8a8070]">
+                            <span className="mb-0.5 block font-inter text-xs uppercase tracking-[0.12em] text-text-secondary">
                               {isAgent ? demo.actor : "Volající"}
                             </span>
                             {current ? typed : line.text}
@@ -483,7 +483,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                       {activeCall.handoff ? (
                         <span
                           role="status"
-                          className={`inline-flex items-center gap-1.5 self-start rounded-sm border border-white/[0.12] bg-[#161616]/70 px-2 py-1 font-inter uppercase tracking-[0.1em] text-xs text-[#8a8070] transition-[opacity,transform] duration-300 ${
+                          className={`inline-flex items-center gap-1.5 self-start rounded-sm border border-white/[0.12] bg-[#161616]/70 px-2 py-1 font-inter uppercase tracking-[0.1em] text-xs text-text-secondary transition-[opacity,transform] duration-300 ${
                             resultShown
                               ? "translate-y-0 opacity-100"
                               : "translate-y-1 opacity-0"
@@ -498,7 +498,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                       ) : null}
                     </>
                   ) : (
-                    <p className="text-sm leading-relaxed text-[#8a8070]">
+                    <p className="text-sm leading-relaxed text-text-secondary">
                       {demo.idleSay}
                     </p>
                   )}
@@ -515,7 +515,7 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                     : "border-white/[0.08] bg-[#0e0e0e]/85"
                 }`}
               >
-                <p className="font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+                <p className="font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                   {demo.labels.result}
                 </p>
 
@@ -530,14 +530,14 @@ export default function ServicePhone({ demo }: { demo: PhoneDemo }) {
                   <p className="mt-2 text-sm font-medium text-[#f0ece6]">
                     {activeCall ? activeCall.result.title : "—"}
                   </p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#8a8070]">
+                  <p className="mt-1.5 text-sm leading-relaxed text-text-secondary">
                     {activeCall ? activeCall.result.text : ""}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {activeCall?.result.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-sm border border-white/[0.08] bg-[#080808]/60 px-2 py-0.5 font-inter uppercase tracking-[0.1em] text-xs text-[#8a8070]"
+                        className="rounded-sm border border-white/[0.08] bg-[#080808]/60 px-2 py-0.5 font-inter uppercase tracking-[0.1em] text-xs text-text-secondary"
                       >
                         {tag}
                       </span>

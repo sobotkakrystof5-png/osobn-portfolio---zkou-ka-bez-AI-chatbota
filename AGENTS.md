@@ -16,7 +16,7 @@ nikdy jako obyčejné slovo v písmu okolního textu.
   Logo nemá koncovky.
 - **Spolubranding** obou značek vedle sebe = `BrandLockup` (`components/brand/BrandLockup.tsx`).
 - **Výjimky** (tam, kde styl technicky nejde, zůstává prostý text): `<title>` a metadata, OG `alt`,
-  JSON-LD, `aria-label`, `alt` obrázků, e-maily (`lib/email.ts`, `app/api/*`), ICS v `BookingModal`,
+  JSON-LD, `aria-label`, `alt` obrázků, e-maily (`lib/email.ts`, `app/api/*`),
   zprávy chat widgetu (n8n), komentáře v kódu a **URL adresy**: jakákoli viditelná adresa webu
   nebo e-mailu (`vizeon.cz`, `www.alteno.cz`, `https://…`, `vizeon.cz/gdpr`, `info@vizeon.cz`)
   zůstává obyčejný text, nikdy logo. `brandText()` je přeskakuje sám (výskyt následovaný `.tld`). Admin (světlé

@@ -107,7 +107,7 @@ export default function ZakazIQ() {
             <ZakazIQLogo size="hero" />
           </div>
 
-          <p className="font-inter font-semibold text-[17px] md:text-[19px] uppercase tracking-[0.25em] text-[#8a8070] mb-2">
+          <p className="font-inter font-semibold text-[17px] md:text-[19px] uppercase tracking-[0.25em] text-text-secondary mb-2">
             Komunikační a rezervační systém
           </p>
         </motion.div>
@@ -172,7 +172,7 @@ export default function ZakazIQ() {
                 className="w-full h-auto object-cover"
               />
             </div>
-            <p className="font-inter font-light text-[11px] text-[#8a8070] tracking-[0.06em] text-center uppercase">
+            <p className="font-inter font-normal text-[11px] text-text-secondary tracking-[0.06em] text-center uppercase">
               Ukázka vašeho klientského prostředí
             </p>
           </motion.div>
@@ -217,7 +217,7 @@ export default function ZakazIQ() {
                 <h3 className="font-cormorant font-light text-[22px] md:text-[24px] text-[#f0ece6] mb-3 leading-tight relative z-10">
                   {f.title}
                 </h3>
-                <p className="font-inter font-light text-[13px] text-[#8a8070] leading-[1.75] relative z-10">
+                <p className="font-inter font-normal text-[13px] text-text-secondary leading-[1.75] relative z-10">
                   {f.description}
                 </p>
               </div>
@@ -271,7 +271,7 @@ export default function ZakazIQ() {
                   <p className="font-inter font-medium text-[13px] text-[#f0ece6] mb-1 leading-tight">
                     {item.label}
                   </p>
-                  <p className="font-inter font-light text-[11px] text-[#8a8070] tracking-[0.03em]">
+                  <p className="font-inter font-normal text-[11px] text-text-secondary tracking-[0.03em]">
                     {brandText(item.sub)}
                   </p>
                 </div>
@@ -288,7 +288,7 @@ export default function ZakazIQ() {
           <CTAButton className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-7 py-3 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
             Konzultace zdarma → ZakazIQ
           </CTAButton>
-          <p className="font-inter font-light text-[12px] text-[#8a8070]">
+          <p className="font-inter font-normal text-[12px] text-text-secondary">
             Po objednání vás automaticky přidám do systému ZakazIQ.
           </p>
         </motion.div>

@@ -51,7 +51,6 @@ const jsonLd = {
 const items = [
   { name: "Přesměrování domény", price: PRICE_BY_NAME["Přesměrování domény"], desc: "Nastavení DNS a přesměrování staré adresy na novou, bez výpadku." },
   { name: "Přelinkování domény", price: PRICE_BY_NAME["Přelinkování domény"], desc: "Migrace webu na jinou doménu tak, aby si Google zachoval pozice a odkazy fungovaly dál." },
-  { name: "Web Care", price: PRICE_BY_NAME["Web Care"], desc: "Průběžná správa, aktualizace a bezpečnost hotového webu." },
   { name: "Technický zásah", price: PRICE_BY_NAME["Technický zásah"], desc: "Jednorázová oprava, úprava nebo drobná změna na existujícím webu." },
 ];
 
@@ -99,7 +98,6 @@ export default function TechnickeSluzbyPage() {
             <p className={t.body}>
               Přesměrování, přelinkování i jednorázové zásahy jsou vždy na dotaz. Cena záleží na
               rozsahu práce a na tom, s jakým poskytovatelem domény nebo hostingu pracujeme.
-              Pravidelná měsíční údržba Web Care má pevnou cenu 999 Kč/měsíc.
             </p>
           </section>
         </div>

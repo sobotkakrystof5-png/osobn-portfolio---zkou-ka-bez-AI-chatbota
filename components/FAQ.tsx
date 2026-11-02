@@ -33,7 +33,7 @@ function FAQItem({ faq, isOpen, onToggle, index }: { faq: typeof faqs[0]; isOpen
         style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
       >
         <div className="overflow-hidden">
-          <p className="font-inter font-light text-[14px] text-[#8a8070] leading-[1.85] pb-5 pt-3">{faq.answer}</p>
+          <p className="font-inter font-normal text-[14px] text-text-secondary leading-[1.85] pb-5 pt-3">{faq.answer}</p>
         </div>
       </div>
     </motion.div>

@@ -35,7 +35,7 @@ export default function Testimonials() {
             viewport={viewport}
             className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-8 max-w-2xl"
           >
-            Co o nás <span className="text-shimmer">řekli</span>.
+            Co o nás <span className="text-shimmer">říkají klienti.</span>
           </motion.h2>
 
           <motion.p
@@ -43,7 +43,7 @@ export default function Testimonials() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
-            className="font-inter font-light text-[16px] md:text-[18px] text-[#8a8070] max-w-2xl mb-12 leading-[1.9]"
+            className="font-inter font-normal text-[16px] md:text-[18px] text-text-secondary max-w-2xl mb-12 leading-[1.9]"
           >
             Stavím portfolio referencí krok za krokem. Každému projektu věnuji{" "}
             <span className="text-[#f0ece6]">

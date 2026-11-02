@@ -28,3 +28,17 @@ export function safeStorageSet(storage: Storage, key: string, value: string): vo
     // nebude persistovat, ale appka musí zůstat funkční.
   }
 }
+
+/** Začátek textu po celých větách (konec věty = . ? ! před mezerou), na
+ *  kartách, kde se celý odstavec nevejde. Krátká první věta („Máte stovky
+ *  smluv?“) sama nedává smysl, proto se bere i další, dokud text nemá
+ *  aspoň `min` znaků. */
+export function firstSentence(text: string, min = 50): string {
+  const sentences = text.match(/.*?[.!?](?=\s|$)|.+$/g) ?? [text]
+  let out = ""
+  for (const sentence of sentences) {
+    out = (out + " " + sentence.trim()).trim()
+    if (out.length >= min) break
+  }
+  return out
+}

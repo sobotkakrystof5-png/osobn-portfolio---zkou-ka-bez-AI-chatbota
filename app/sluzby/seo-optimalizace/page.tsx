@@ -121,7 +121,7 @@ export default function SeoOptimalizacePage() {
                 {p.title}
               </h2>
               <p className={cn(t.body, "mb-3")}>{p.text}</p>
-              <span className="font-inter font-light text-[11px] tracking-[0.08em] uppercase text-[#c9a84c]/70 group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300 inline-block">
+              <span className="font-inter font-normal text-[11px] tracking-[0.08em] uppercase text-[#c9a84c]/70 group-hover:text-[#c9a84c] group-hover:translate-x-1 transition-all duration-300 inline-block">
                 Zjistit víc →
               </span>
             </Link>

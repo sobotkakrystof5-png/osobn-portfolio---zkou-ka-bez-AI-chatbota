@@ -14,7 +14,7 @@ const services = PRICING_CATEGORIES.map((category) => ({
 })).filter((group) => group.items.length > 0);
 
 const inputCls =
-  "w-full bg-[#0e0e0e] border border-white/[0.07] text-[#f0ece6] font-inter font-light text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] transition-colors placeholder-[#3d3830]";
+  "w-full bg-[#0e0e0e] border border-white/[0.07] text-[#f0ece6] font-inter font-normal text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] transition-colors placeholder-text-muted";
 
 const stepVariants = {
   enter:  { opacity: 0, x: 40  },
@@ -138,18 +138,18 @@ export default function FirstClientModal({ open, onClose }: Props) {
                 <h2 className="font-cormorant font-light text-[36px] md:text-[44px] text-[#f0ece6] leading-tight mb-2">
                   Pojďme do toho společně.
                 </h2>
-                <p className="font-inter font-light text-[14px] text-[#8a8070]">
+                <p className="font-inter font-normal text-[14px] text-text-secondary">
                   Vyberte si službu, o kterou máte zájem, a pošlete mi poptávku.
                 </p>
               </div>
 
-              <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-[#8a8070] mb-4">
+              <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-text-secondary mb-4">
                 Vyber službu
               </p>
               <div className="space-y-5 mb-8">
                 {services.map((group) => (
                   <div key={group.group}>
-                    <p className="font-inter font-normal text-[10px] uppercase tracking-[0.12em] text-[#3d3830] mb-2">
+                    <p className="font-inter font-normal text-[10px] uppercase tracking-[0.12em] text-text-muted mb-2">
                       {group.group}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -181,7 +181,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
 
               {needsVariant && (
                 <div className="mb-8">
-                  <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-[#8a8070] mb-4">
+                  <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-text-secondary mb-4">
                     Vyber variantu Micro Page
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -245,7 +245,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                   aria-hidden="true"
                 />
                 <div className="flex-1">
-                  <p className="font-inter font-normal text-[10px] uppercase tracking-[0.15em] text-[#8a8070] mb-0.5">
+                  <p className="font-inter font-normal text-[10px] uppercase tracking-[0.15em] text-text-secondary mb-0.5">
                     Vybrána služba
                   </p>
                   <p className="font-inter font-semibold text-[14px] text-[#f0ece6] mb-1">
@@ -260,20 +260,20 @@ export default function FirstClientModal({ open, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => { setStep(0); setError(null); }}
-                  className="font-inter font-light text-[11px] text-[#8a8070] hover:text-[#f0ece6] underline underline-offset-2 transition-colors shrink-0"
+                  className="font-inter font-normal text-[11px] text-text-secondary hover:text-[#f0ece6] underline underline-offset-2 transition-colors shrink-0"
                 >
                   Změnit
                 </button>
               </motion.div>
 
               <form onSubmit={handleSubmit} noValidate>
-                <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-[#8a8070] mb-4">
+                <p className="font-inter font-normal text-[11px] uppercase tracking-[0.15em] text-text-secondary mb-4">
                   Kontaktní údaje &amp; termín konzultace
                 </p>
                 <div className="space-y-3 mb-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="fc-date" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5 flex items-center gap-1.5">
+                      <label htmlFor="fc-date" className="block font-inter font-normal text-[11px] uppercase tracking-[0.1em] text-text-secondary mb-1.5 flex items-center gap-1.5">
                         <Calendar size={11} className="text-[#c9a84c]" aria-hidden="true" />
                         Preferovaný datum
                       </label>
@@ -286,7 +286,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                       />
                     </div>
                     <div>
-                      <label htmlFor="fc-time" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5 flex items-center gap-1.5">
+                      <label htmlFor="fc-time" className="block font-inter font-normal text-[11px] uppercase tracking-[0.1em] text-text-secondary mb-1.5 flex items-center gap-1.5">
                         <Clock size={11} className="text-[#c9a84c]" aria-hidden="true" />
                         Preferovaný čas
                       </label>
@@ -302,7 +302,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="fc-name" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5">
+                      <label htmlFor="fc-name" className="block font-inter font-normal text-[11px] uppercase tracking-[0.1em] text-text-secondary mb-1.5">
                         Jméno *
                       </label>
                       <input
@@ -317,7 +317,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                       />
                     </div>
                     <div>
-                      <label htmlFor="fc-email" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5">
+                      <label htmlFor="fc-email" className="block font-inter font-normal text-[11px] uppercase tracking-[0.1em] text-text-secondary mb-1.5">
                         Email *
                       </label>
                       <input
@@ -334,8 +334,8 @@ export default function FirstClientModal({ open, onClose }: Props) {
                   </div>
 
                   <div>
-                    <label htmlFor="fc-phone" className="block font-inter font-light text-[11px] uppercase tracking-[0.1em] text-[#8a8070] mb-1.5">
-                      Telefon <span className="normal-case text-[#3d3830]">(volitelné)</span>
+                    <label htmlFor="fc-phone" className="block font-inter font-normal text-[11px] uppercase tracking-[0.1em] text-text-secondary mb-1.5">
+                      Telefon <span className="normal-case text-text-muted">(volitelné)</span>
                     </label>
                     <input
                       id="fc-phone"
@@ -391,32 +391,32 @@ export default function FirstClientModal({ open, onClose }: Props) {
               </h2>
 
               <div className="w-full border border-white/[0.06] bg-[#0e0e0e] p-4 text-left">
-                <p className="font-inter font-normal text-[10px] uppercase tracking-[0.15em] text-[#8a8070] mb-3">
+                <p className="font-inter font-normal text-[10px] uppercase tracking-[0.15em] text-text-secondary mb-3">
                   Souhrn poptávky
                 </p>
                 <div className="space-y-1.5">
                   <div className="flex justify-between">
-                    <span className="font-inter font-light text-[12px] text-[#8a8070]">Služba</span>
+                    <span className="font-inter font-normal text-[12px] text-text-secondary">Služba</span>
                     <span className="font-inter font-medium text-[12px] text-[#f0ece6]">{selectedService?.name}{variant ? ` — ${variant}` : ""}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="font-inter font-light text-[12px] text-[#8a8070]">Cena</span>
+                    <span className="font-inter font-normal text-[12px] text-text-secondary">Cena</span>
                     <span className="font-inter font-medium text-[12px] text-[#c9a84c]">{selectedService && <PriceLabel price={selectedService.price} />}</span>
                   </div>
                   {date && (
                     <div className="flex justify-between">
-                      <span className="font-inter font-light text-[12px] text-[#8a8070]">Termín konzultace</span>
+                      <span className="font-inter font-normal text-[12px] text-text-secondary">Termín konzultace</span>
                       <span className="font-inter font-medium text-[12px] text-[#f0ece6]">{date}{time ? ` v ${time}` : ""}</span>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span className="font-inter font-light text-[12px] text-[#8a8070]">Kontakt</span>
+                    <span className="font-inter font-normal text-[12px] text-text-secondary">Kontakt</span>
                     <span className="font-inter font-medium text-[12px] text-[#f0ece6]">{email}</span>
                   </div>
                 </div>
               </div>
 
-              <p className="font-inter font-light text-[15px] text-[#8a8070] max-w-sm leading-[1.75]">
+              <p className="font-inter font-normal text-[15px] text-text-secondary max-w-sm leading-[1.75]">
                 Ozvu se ti do <span className="text-[#f0ece6]">24 hodin</span>. Těším se na spolupráci.
               </p>
 
@@ -429,7 +429,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
                 </button>
                 <button
                   onClick={handleClose}
-                  className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#8a8070] border border-white/[0.1] px-6 py-3 hover:border-white/[0.25] hover:text-[#f0ece6] transition-all duration-300"
+                  className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-text-secondary border border-white/[0.1] px-6 py-3 hover:border-white/[0.25] hover:text-[#f0ece6] transition-all duration-300"
                 >
                   Zavřít
                 </button>

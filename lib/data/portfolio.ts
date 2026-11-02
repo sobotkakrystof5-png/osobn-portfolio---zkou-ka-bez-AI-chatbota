@@ -1,7 +1,26 @@
+import { screenMeta } from "./portfolio-screens";
+
+export type ProjectGroup = "remesla" | "sluzby" | "produkty";
+
+export const projectGroups: { id: ProjectGroup; label: string }[] = [
+  { id: "remesla", label: "Řemesla a výroba" },
+  { id: "sluzby", label: "Služby a osobní brand" },
+  { id: "produkty", label: "Vlastní produkty" },
+];
+
 export type Project = {
   slug: string;
   title: string;
   category: string;
+  /** Jedna krátká věta do karty v přehledu projektů. */
+  tagline: string;
+  /** Typ webu, např. „Firemní web“ nebo „Landing page“. */
+  kind: string;
+  group: ProjectGroup;
+  /** Barva podsvícení mockupu, převzatá z palety webu klienta. */
+  accent: string;
+  /** Tři krátké štítky pod názvem projektu. */
+  tags: string[];
   stack: string[];
   description: string;
   highlights: string[];
@@ -16,6 +35,11 @@ export const projects: Project[] = [
     slug: "studnarstvi-petran",
     title: "Studnářství Petráň",
     category: "Studnařství & Vodní zdroje",
+    tagline: "Kopané studny po celé ČR, přehledně a s přímým kontaktem na majitele.",
+    kind: "Firemní web",
+    group: "remesla",
+    accent: "#b0703a",
+    tags: ["Web na míru", "Galerie realizací", "Reference"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Prezentační web pro studnařskou firmu, která po celé ČR realizuje kopané studny, pečuje o vrtané i kopané studny a vyhledává prameny vody. Cílem bylo přehledně ukázat služby a skutečné realizace a usnadnit zákazníkům přímý kontakt s majitelem firmy.",
     highlights: [
@@ -33,6 +57,11 @@ export const projects: Project[] = [
     slug: "zamecnictvi-mb",
     title: "Zámečnictví MB",
     category: "Zámečnictví & Kovovýroba",
+    tagline: "Kovovýroba na míru od roku 1999, od zaměření po montáž.",
+    kind: "Firemní web",
+    group: "remesla",
+    accent: "#5a7fa3",
+    tags: ["Web na míru", "Galerie realizací", "Poptávkový formulář"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Firemní web pro zámečnickou firmu z Března u Mladé Boleslavi, která od roku 1999 vyrábí ocelové konstrukce, brány, ploty, schodiště a zábradlí na míru. Cílem bylo ukázat přesnou kovovýrobu a kompletní servis od návrhu po montáž a přivést nové poptávky.",
     highlights: [
@@ -50,6 +79,11 @@ export const projects: Project[] = [
     slug: "schovinox",
     title: "Schovinox",
     category: "Zámečnictví & Kovovýroba",
+    tagline: "Zakázková kovovýroba se 40letou rodinnou tradicí a vlastními produkty na grilování.",
+    kind: "Firemní web",
+    group: "remesla",
+    accent: "#d23a2e",
+    tags: ["Web na míru", "Produkty na grilování", "Next.js"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Firemní web pro zakázkovou kovovýrobu pod vedením pana Schovánka: zámečnictví, svařování a broušení, to vše s 40letou rodinnou zkušeností. Cílem bylo lépe prezentovat firmu a prodávat vlastní produkty na grilování.",
     highlights: [
@@ -67,6 +101,11 @@ export const projects: Project[] = [
     slug: "u-cerhu",
     title: "U Cerhů",
     category: "Svatby & Ubytování",
+    tagline: "Svatby a ubytování na statku v Českém ráji.",
+    kind: "Landing page",
+    group: "sluzby",
+    accent: "#7d8c3c",
+    tags: ["Landing page", "Fotogalerie", "Poptávky svateb"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Landing page pro statek v Kněžmostě. Cílem bylo získat více zakázek na svatby a ubytování v Českém ráji.",
     highlights: [
@@ -83,6 +122,11 @@ export const projects: Project[] = [
     slug: "masaze-kestner",
     title: "Masáže Tomáš Kestner",
     category: "Wellness & Osobní brand",
+    tagline: "Masér s 20 lety praxe, z toho 7 u profesionálního fotbalu.",
+    kind: "Prezentační web",
+    group: "sluzby",
+    accent: "#c47a4f",
+    tags: ["Osobní brand", "Ceník služeb", "Objednávky"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Prezentační web pro maséra s 20 lety praxe, 7 z toho u profesionálního fotbalu FK Mladá Boleslav. Cílem bylo vybudovat důvěru a přivést nové klienty na objednávku.",
     highlights: [
@@ -100,6 +144,11 @@ export const projects: Project[] = [
     slug: "malirske-prace-litomerice",
     title: "Michal Varchol — Malířské práce",
     category: "Malířství & Natěračství",
+    tagline: "Malíř a lakýrník z Litoměřic, galerie zakázek v pěti kategoriích.",
+    kind: "Firemní web",
+    group: "remesla",
+    accent: "#c39a5f",
+    tags: ["Web na míru", "Galerie realizací", "Pronájem lešení"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Firemní web pro malíře a lakýrníka s 20 lety praxe v Litoměřicích a okolí. Prezentuje malby interiérů, fasádní nátěry, renovace dřevěných fasád i pronájem lešení, s galerií rozdělenou podle typu zakázky.",
     highlights: [
@@ -117,6 +166,11 @@ export const projects: Project[] = [
     slug: "alteno",
     title: "ALTENO",
     category: "AI & Automatizace procesů",
+    tagline: "Automatizace a AI agenti pro firmy, vysvětlené srozumitelně.",
+    kind: "Firemní web",
+    group: "produkty",
+    accent: "#2ec4b6",
+    tags: ["Next.js", "Oborové stránky", "Blog"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Firemní web pro studio, které automatizuje rutinní firemní procesy pomocí AI agentů, chatbotů a propojování systémů. Cílem bylo srozumitelně vysvětlit automatizaci a přivést firmy na nezávaznou konzultaci.",
     highlights: [
@@ -133,6 +187,11 @@ export const projects: Project[] = [
     slug: "prvotka",
     title: "Prvotka",
     category: "FinTech & Účetnictví",
+    tagline: "Faktury z PDF, skenů i fotek rovnou do účetního programu.",
+    kind: "Produktový web",
+    group: "produkty",
+    accent: "#3f8a64",
+    tags: ["Vlastní startup", "Kalkulačka úspor", "Next.js"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Vlastní startup pro účetní kanceláře: aplikace na míru, která převádí faktury z PDF, skenů i fotek do formátu ISDOC pro účetní program. Web má srozumitelně vysvětlit úsporu času a přivést kanceláře na úvodní hovor.",
     highlights: [
@@ -149,6 +208,11 @@ export const projects: Project[] = [
     slug: "estatiq",
     title: "EstatIQ",
     category: "PropTech & Správa nemovitostí",
+    tagline: "Správa nájmů, plateb a dokumentů na jednom místě.",
+    kind: "Produktový web",
+    group: "produkty",
+    accent: "#34d399",
+    tags: ["SaaS", "Waitlist", "Prelaunch"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Vlastní SaaS produkt pro správu nemovitostí: platební automatizace, evidence dokumentů a daňový export. Aktuálně v prelaunch fázi s early access waitlistem.",
     highlights: [
@@ -165,6 +229,11 @@ export const projects: Project[] = [
     slug: "auf-gehts",
     title: "Auf Gehts",
     category: "Vzdělávání & Osobní brand",
+    tagline: "Osobní brand lektora němčiny, postavený na důvěře a prvním kontaktu.",
+    kind: "Osobní web",
+    group: "sluzby",
+    accent: "#d4a63a",
+    tags: ["Osobní brand", "Next.js", "Animace"],
     stack: ["Next.js", "TypeScript", "Framer Motion"],
     description: "Osobní brand web pro lektora němčiny. Zaměřeno na důvěru a první kontakt.",
     highlights: [
@@ -178,3 +247,25 @@ export const projects: Project[] = [
     alt: "Osobní web na míru pro lektora němčiny Auf Gehts — příklad webu pro živnostníka",
   },
 ];
+
+export type ProjectScreens = {
+  /** První obrazovka na MacBooku. */
+  desktop: string;
+  /** Celá stránka pro posouvání v detailu, `null` u projektu bez screenshotů. */
+  full: { src: string; width: number; height: number } | null;
+  /** Obrazovky na iPhonu, shora dolů. */
+  mobile: string[];
+};
+
+// Screenshoty z scripts/capture-portfolio.mjs. Nový projekt, který se ještě
+// nefotil, dostane do MacBooku obrázek z `image` a telefon se u něj nezobrazí.
+export function projectScreens(project: Project): ProjectScreens {
+  const meta = screenMeta[project.slug];
+  if (!meta) return { desktop: project.image, full: null, mobile: [] };
+  const base = `/portfolio/screens/${project.slug}`;
+  return {
+    desktop: `${base}-desktop.jpg`,
+    full: { src: `${base}-desktop-full.jpg`, ...meta.full },
+    mobile: Array.from({ length: meta.mobile }, (_, i) => `${base}-mobile-${i + 1}.jpg`),
+  };
+}

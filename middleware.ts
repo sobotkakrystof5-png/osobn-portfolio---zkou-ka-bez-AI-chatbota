@@ -57,7 +57,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Jen pro naše API endpointy
-  if (!pathname.startsWith('/api/contact') && !pathname.startsWith('/api/booking')) {
+  if (!pathname.startsWith('/api/contact')) {
     return NextResponse.next();
   }
 
@@ -71,14 +71,15 @@ export function middleware(req: NextRequest) {
     const preflight = new NextResponse(null, { status: 204 });
     if (isDev || isAllowedOrigin(origin)) {
       preflight.headers.set('Access-Control-Allow-Origin', origin ?? '*');
-      preflight.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      preflight.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
       preflight.headers.set('Access-Control-Allow-Headers', 'Content-Type');
     }
     return preflight;
   }
 
-  // 1. Dovolí GET (pro dostupné sloty) a POST
-  if (req.method !== 'POST' && req.method !== 'GET') {
+  // 1. Kontaktní formulář posílá jen POST. GET pro volné termíny skončil
+  //    s rezervačním oknem a /api/booking (11/2026).
+  if (req.method !== 'POST') {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
@@ -88,15 +89,11 @@ export function middleware(req: NextRequest) {
   }
 
   // 3. Rate limiting — max 10 requestů za 10 minut per IP.
-  //    Počítadlo je oddělené pro booking a contact (scope v klíči), aby
-  //    odeslání jednoho formuláře nevyčerpávalo limit toho druhého.
   const ip =
     req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
     req.headers.get('x-real-ip') ??
     'unknown';
-  const scope = pathname.startsWith('/api/booking') ? 'booking' : 'contact';
-
-  if (isRateLimited(`${scope}:${ip}`, 10, 10 * 60 * 1000)) {
+  if (isRateLimited(`contact:${ip}`, 10, 10 * 60 * 1000)) {
     return NextResponse.json(
       { error: 'Příliš mnoho požadavků. Zkuste to prosím za chvíli.' },
       {
@@ -118,5 +115,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/contact', '/api/booking'],
+  matcher: ['/api/contact'],
 };

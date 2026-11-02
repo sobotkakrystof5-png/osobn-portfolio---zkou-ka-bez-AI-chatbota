@@ -1,4 +1,4 @@
-import { Globe, Palette, Bot, CalendarClock, Wrench, Search, Workflow } from "lucide-react";
+import { Globe, Palette, Bot, CalendarClock, Wrench, Search, Workflow, ShoppingBag } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type PricingItem = {
@@ -21,6 +21,12 @@ export type PricingCategory = {
   items: PricingItem[];
 };
 
+/** Název jediného balíčku e-shopu (stránka /sluzby/tvorba-e-shopu bere cenu podle něj). */
+export const ESHOP_PACKAGE = "E-shop na míru";
+
+/** Položka s pevnou cenou „od“ v kategorii automatizací (hub /automatizace bere cenu podle ní). */
+export const AUTOMATION_PACKAGE = "Automatizace";
+
 export const PRICING_CATEGORIES: PricingCategory[] = [
   {
     category: "Weby",
@@ -38,20 +44,10 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
         includeInQuickInquiry: true,
       },
       {
-        id: "vizitka",
-        name: "Online Vizitka",
-        subtitle:
-          "Jméno, logo, kontakt a krátké představení firmy. Bez prodejního tlaku a CTA tlačítek. Jen informuje, že existujete a jste snadno dohledatelní a kontaktovatelní.",
-        price: "od 7 499 Kč",
-        includeInQuickInquiry: true,
-      },
-      {
         id: "promo",
         name: "Promo Page",
         subtitle: "Landing page: jedna stránka, maximální dojem",
         price: "od 9 999 Kč",
-        featured: true,
-        badge: "Nejoblíbenější",
         includeInQuickInquiry: true,
       },
       {
@@ -59,13 +55,25 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
         name: "Pro Web",
         subtitle: "Více stránek, pokročilé animace a systémy na míru",
         price: "od 14 999 Kč",
+        featured: true,
+        badge: "Nejoblíbenější",
         includeInQuickInquiry: true,
       },
+    ],
+  },
+  // E-shop je jeden balíček s cenou „od“. Kolik nakonec stojí, záleží na
+  // počtu produktů, logistice, skladu a náročnosti (stránka /sluzby/tvorba-e-shopu).
+  {
+    category: "E-shopy",
+    emoji: "🛒",
+    icon: ShoppingBag,
+    items: [
       {
-        id: "webcare",
-        name: "Web Care",
-        subtitle: "Správa webu: aktualizace, bezpečnost, obsah",
-        price: "999 Kč/měs",
+        id: "eshop",
+        name: ESHOP_PACKAGE,
+        subtitle: "Shopify nebo vlastní kód, platby, doprava, sklad a spuštění",
+        price: "od 29 990 Kč",
+        includeInQuickInquiry: true,
       },
     ],
   },
@@ -210,7 +218,7 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
     items: [
       {
         id: "automatizace",
-        name: "Automatizace",
+        name: AUTOMATION_PACKAGE,
         subtitle: "Pevná cena předem, 14 dní podpory po spuštění zdarma.",
         price: "od 4 999 Kč",
         includeInQuickInquiry: true,
@@ -234,11 +242,11 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
       {
         id: "voice-agenti",
         name: "Voice agenti",
-        subtitle: "Hlasový agent, který zvedne telefon. Zatím ho stavím, u klientů ho nenasazuji.",
+        subtitle: "Hlasový agent, který zvedne telefon. Zatím ho stavíme, u klientů ho nenasazujeme.",
         // Místo ceny nese pole stav služby — PriceLabel řetězec bez prefixu
         // "od " vypíše beze změny. Badge se záměrně nepřidává, jinak by na
-        // kartě stálo slovo "Připravuji" dvakrát.
-        price: "Připravuji",
+        // kartě stálo slovo "Připravujeme" dvakrát.
+        price: "Připravujeme",
       },
     ],
   },
@@ -246,6 +254,26 @@ export const PRICING_CATEGORIES: PricingCategory[] = [
 
 export function formatKc(amount: number) {
   return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kč`;
+}
+
+/** Položky vybraných kategorií ceníku, každá skupina zvlášť (pořadí podle `names`). */
+export function pricingGroups(names: string[]): PricingCategory[] {
+  return names.flatMap((name) => PRICING_CATEGORIES.filter((c) => c.category === name));
+}
+
+/** Částka jednorázové ceny v Kč. Měsíční paušály a ceny bez čísla vrací null. */
+function oneOffAmount(price: string): number | null {
+  if (price.includes("/měs")) return null;
+  const match = price.match(/(\d[\d\s]*)\s*Kč/);
+  return match ? Number(match[1].replace(/\s/g, "")) : null;
+}
+
+/** Nejnižší jednorázová cena napříč kategoriemi („od 4 999 Kč“), nebo null. */
+export function startingPrice(names: string[]): string | null {
+  const amounts = pricingGroups(names)
+    .flatMap((group) => group.items.map((item) => oneOffAmount(item.price)))
+    .filter((amount): amount is number => amount !== null);
+  return amounts.length ? `od ${formatKc(Math.min(...amounts))}` : null;
 }
 
 /** Jeden zdroj pravdy pro cenu podle názvu služby — nahrazuje ručně sync. kopie. */

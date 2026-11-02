@@ -4,8 +4,8 @@ import VizeonLogo, { VIZEON_CAP_HEIGHT_EM } from "@/components/brand/VizeonLogo"
 import { cn } from "@/lib/utils";
 
 // Lockup „ALTENO × VIZEON": oba plné wordmarky, ALTENO v barvách svého loga,
-// VIZEON krémový. Jediná komponenta pro všech pět míst spolubrandingu
-// (Hero, AltenoBand, panel Automatizace v liště, Footer, /automatizace).
+// VIZEON krémový. Jediná komponenta pro všechna místa spolubrandingu
+// (Hero, Footer, /automatizace).
 //
 // OPTICKÁ VÝŠKA A ÚČAŘÍ: celý lockup se řídí jedním `font-size` (SIZES).
 // VIZEON je text, takže jeho verzálky měří VIZEON_CAP_HEIGHT_EM. ALTENO je
@@ -28,8 +28,6 @@ const SIZES = {
   md: "text-[26px]",
   // Na mobilu by lg (~450 px) přeteklo 390px displej, proto do md jen md.
   lg: "text-[26px] md:text-[37px]",
-  // Pruh spolupráce na homepage (AltenoBand); větší až od lg, kde je místo.
-  xl: "text-[26px] md:text-[37px] lg:text-[52px]",
 } as const;
 
 export function BrandLockup({
@@ -69,7 +67,7 @@ export function BrandLockup({
         </span>
       )}
       {/* `-top` zvedá „×" z účaří na střed výšky verzálek obou slov. */}
-      <span aria-hidden="true" className="relative -top-[0.3em] mx-[0.45em] font-inter font-light text-[0.6em] text-[#8a8070]">
+      <span aria-hidden="true" className="relative -top-[0.3em] mx-[0.45em] font-inter font-normal text-[0.6em] text-text-secondary">
         ×
       </span>
       <Link href="/" aria-label="VIZEON" className="group/vizeon flex">

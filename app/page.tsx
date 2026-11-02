@@ -4,31 +4,29 @@ import IntroAnimation from "@/components/IntroAnimation";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
-import StatementBlock from "@/components/StatementBlock";
-import HomeExplore from "@/components/HomeExplore";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { HOME_FAQ } from "@/lib/data/home-faq";
 
-// Below-the-fold, ale reference/citace mají SEO hodnotu (E-E-A-T) — ssr
-// zůstává zapnuté (výchozí next/dynamic chování), takže text zákazníků
-// je pořád v prvotním HTML pro crawlery. Dynamic import jen vyčlení
-// samotnou sekci (framer-motion varianty, data referencí) do vlastního
-// chunku mimo hlavní bundle homepage — viz
-// vizeon.cz-audit/findings/performance.md Finding 1/2. `loading` skeleton
-// se reálně uplatní jen při klientské navigaci (SSR už text vykreslí).
-// Pruh se sesterskou značkou leží až pod HomeExplore, takže se do hlavního
-// bundlu homepage nemusí načítat rovnou — stejný důvod jako u referencí níž.
-// SSR zůstává zapnuté, text pruhu je tedy v prvotním HTML.
-const AltenoBand = dynamic(() => import("@/components/AltenoBand"));
+// Sekce pod ohybem jdou přes next/dynamic do vlastních chunků mimo hlavní
+// bundle homepage (viz vizeon.cz-audit/findings/performance.md Finding 1/2).
+// SSR zůstává zapnuté (výchozí chování next/dynamic), takže jejich text je
+// v prvotním HTML pro crawlery. U referencí na tom záleží kvůli E-E-A-T.
+// `loading` skeleton se reálně uplatní jen při klientské navigaci.
+const OfferDashboard = dynamic(() => import("@/components/OfferDashboard"));
+const MoreThanWeb = dynamic(() => import("@/components/MoreThanWeb"));
+const OurValues = dynamic(() => import("@/components/OurValues"));
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const HomeFAQ = dynamic(() => import("@/components/HomeFAQ"));
 
 const ReferencesSection = dynamic(() => import("@/components/ReferencesSection"), {
   loading: () => (
-    <section aria-hidden="true" className="py-20 md:py-28 bg-[#0e0e0e] overflow-hidden">
+    <section aria-hidden="true" className="py-20 md:py-28 bg-[#080808] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="h-4 w-24 bg-white/[0.04] mb-4" />
         <div className="h-10 w-2/3 max-w-md bg-white/[0.04] mb-12" />
-        <div className="h-[280px] bg-white/[0.03]" />
+        <div className="h-[480px] bg-white/[0.03]" />
       </div>
     </section>
   ),
@@ -52,19 +50,35 @@ export const metadata: Metadata = {
   },
 };
 
+// FAQPage jen pro dotazy z homepage. Organizace a web jsou v JSON-LD layoutu.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: HOME_FAQ.flatMap((group) =>
+    group.items.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  ),
+};
+
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <AnalyticsTracker page="/" />
       <IntroAnimation />
       <Navbar />
       <main id="main-content">
         <Hero />
         <SocialProof />
+        <OfferDashboard />
+        <MoreThanWeb />
         <ReferencesSection />
-        <StatementBlock />
-        <HomeExplore />
-        <AltenoBand />
+        <OurValues />
+        <HowItWorks variant="home" />
+        <HomeFAQ />
         <Contact headingLevel="h2" />
       </main>
       <Footer />

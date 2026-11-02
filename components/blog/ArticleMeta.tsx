@@ -38,7 +38,7 @@ export function ArticleMeta({
           <span className="font-cormorant font-light text-[16px] tracking-[0.04em] text-[#f0ece6] group-hover:text-[#c9a84c] transition-colors duration-300">
             VIZEON
           </span>
-          <span className="font-inter font-light text-[9px] uppercase tracking-[0.22em] text-[#8a8070]">
+          <span className="font-inter font-normal text-[9px] uppercase tracking-[0.22em] text-text-secondary">
             Vydavatel
           </span>
         </span>
@@ -46,7 +46,7 @@ export function ArticleMeta({
 
       <span className="hidden xs:block h-8 w-px bg-white/10" aria-hidden="true" />
 
-      <p className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-[#8a8070]">
+      <p className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-text-secondary">
         Vydáno {formatted} <span className="mx-1.5 text-white/20">·</span> {readingMinutes} min čtení
       </p>
     </div>

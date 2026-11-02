@@ -3,9 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { BookingProvider } from "@/context/BookingContext";
 import { Toaster } from "react-hot-toast";
-import ClientBooking from "./ClientBooking";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import CookieBanner from "@/components/CookieBanner";
 
@@ -58,9 +56,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+// Variabilní Inter (bez výčtu řezů): jeden soubor pokryje všechny váhy,
+// takže font-semibold/bold je skutečný řez, ne dopočítané ztučnění.
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -144,7 +143,6 @@ const jsonLd = {
         "Zvýšení tržeb a konverzí",
       ],
       sameAs: [
-        "https://www.facebook.com/profile.php?id=100086439650056",
         "https://www.instagram.com/vizeon_official/",
         // TODO: až vznikne Google Business Profile, doplnit sem jeho Google Maps
         // URL (formát https://maps.app.goo.gl/... nebo g.page/...) — posílí to
@@ -162,7 +160,6 @@ const jsonLd = {
       url: "https://vizeon.cz",
       logo: "https://vizeon.cz/favicon.ico",
       sameAs: [
-        "https://www.facebook.com/profile.php?id=100086439650056",
         "https://www.instagram.com/vizeon_official/",
       ],
     },
@@ -194,24 +191,21 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <BookingProvider>
-          <a href="#main-content" className="skip-to-content">
-            Přejít na obsah
-          </a>
-          {children}
-          <ClientBooking />
-          <Toaster
-            position="bottom-center"
-            toastOptions={{
-              style: {
-                background: "#1a1a1a",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,0.1)",
-              },
-            }}
-          />
-          <CookieBanner />
-        </BookingProvider>
+        <a href="#main-content" className="skip-to-content">
+          Přejít na obsah
+        </a>
+        {children}
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            style: {
+              background: "#1a1a1a",
+              color: "#fff",
+              border: "1px solid rgba(255,255,255,0.1)",
+            },
+          }}
+        />
+        <CookieBanner />
         <GoogleAnalytics gaId="G-J5FMJYTGCK" />
       </body>
     </html>

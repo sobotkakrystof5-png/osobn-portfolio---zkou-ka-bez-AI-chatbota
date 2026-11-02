@@ -175,7 +175,7 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
           <div className="relative grid gap-3 md:gap-5 md:[transform-style:preserve-3d] md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)_minmax(0,0.92fr)]">
             {/* ---------- vstup: fronta případů ---------- */}
             <div className="min-w-0">
-              <p className="mb-2.5 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+              <p className="mb-2.5 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                 {demo.labels.input}
               </p>
               <div className="flex gap-2 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0">
@@ -212,7 +212,7 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
                         <span className="block font-medium text-[#f0ece6]">
                           {item.title}
                         </span>
-                        <span className="text-xs text-[#8a8070]">
+                        <span className="text-xs text-text-secondary">
                           {item.note}
                         </span>
                       </span>
@@ -268,7 +268,7 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
                     <p className="text-sm font-medium text-[#f0ece6]">{demo.actor}</p>
                     <p
                       className={`font-inter text-xs uppercase tracking-wide ${
-                        isWorking ? "text-accent" : "text-[#8a8070]"
+                        isWorking ? "text-accent" : "text-text-secondary"
                       }`}
                     >
                       {phase === "idle"
@@ -303,8 +303,8 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
                         key={`${activeCase.id}-${step.tool}-${i}`}
                         className={`flex items-center gap-2.5 font-inter uppercase tracking-[0.1em] text-xs transition-[opacity,transform] duration-300 ${
                           shown
-                            ? "translate-y-0 text-[#8a8070] opacity-100"
-                            : "translate-y-1 text-[#8a8070] opacity-0"
+                            ? "translate-y-0 text-text-secondary opacity-100"
+                            : "translate-y-1 text-text-secondary opacity-0"
                         }`}
                       >
                         <StepIcon
@@ -322,11 +322,11 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
 
             {/* ---------- výstup ---------- */}
             <div className="flex min-w-0 flex-col">
-              <p className="mb-2.5 font-inter text-xs uppercase tracking-[0.15em] text-[#8a8070]">
+              <p className="mb-2.5 font-inter text-xs uppercase tracking-[0.15em] text-text-secondary">
                 {demo.labels.output}
               </p>
               <div className="flex flex-1 flex-col gap-2.5 rounded-sm border border-white/[0.08] bg-[#0e0e0e]/85 p-3.5 md:[transform:translateZ(18px)]">
-                <p className="font-inter text-xs uppercase tracking-[0.14em] text-[#8a8070]">
+                <p className="font-inter text-xs uppercase tracking-[0.14em] text-text-secondary">
                   Výsledek
                 </p>
                 <div
@@ -340,7 +340,7 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
                       <p className="text-base font-medium leading-snug text-[#f0ece6]">
                         {activeCase.result.title}
                       </p>
-                      <p className="text-sm leading-relaxed text-[#8a8070]">
+                      <p className="text-sm leading-relaxed text-text-secondary">
                         {activeCase.result.text}
                       </p>
                       <div className="mt-auto flex flex-wrap gap-1.5">
@@ -357,7 +357,7 @@ export default function ServiceConsole({ demo }: { demo: ConsoleDemo }) {
                   ) : null}
                 </div>
                 {activeCase ? null : (
-                  <p className="text-sm text-[#8a8070]">zatím nic</p>
+                  <p className="text-sm text-text-secondary">zatím nic</p>
                 )}
               </div>
             </div>

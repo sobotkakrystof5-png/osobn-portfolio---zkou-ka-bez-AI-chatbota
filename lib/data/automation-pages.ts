@@ -5,7 +5,8 @@
 // pořadí v poli je zároveň pořadí v menu.
 //
 // TYP ZÁMĚRNĚ NEMÁ POLE PRO CENU a nikdy ho mít nebude. Podstránky
-// neuvádějí žádnou částku ani rozmezí; cenu řeší odkaz na /cena-tvorby-webu.
+// neuvádějí žádnou částku ani rozmezí; cenu řeší hub /automatizace
+// a odkaz na ceník (/sluzby#automatizace).
 // Tvar dat to má vynucovat, ne až kontrola v code review.
 //
 // Ze stejného důvodu tu není ani `href` služby. Cíl odkazu je šablona
@@ -117,7 +118,7 @@ export type Service = {
   /**
    * Služba existuje jako směr, ne jako hotová nabídka (dnes jen
    * "voice-agenti"). Karta na hubu i podstránka to musí viditelně přiznat
-   * štítkem „Připravuji" a scéna mluví v budoucím čase. Obchodní tvrzení
+   * štítkem „Připravujeme" a scéna mluví v budoucím čase. Obchodní tvrzení
    * majitele, nevypínat. Nepřítomnost pole znamená běžnou, hotovou službu.
    */
   comingSoon?: boolean;
@@ -216,7 +217,7 @@ export const automationPages: Service[] = [
       ],
     },
     whatWeConnect: {
-      text: "Napojuju agenta na vaše systémy (CRM, e-mail, dokumentaci) a modely jako Claude nebo ChatGPT. Propojovací vrstvu stavím buď v n8n, nebo rovnou vlastním kódem v Pythonu, podle toho, co je pro daný případ spolehlivější. Nasazení běží na vašich datech, typicky přes Docker.",
+      text: "Napojujeme agenta na vaše systémy (CRM, e-mail, dokumentaci) a modely jako Claude nebo ChatGPT. Propojovací vrstvu stavíme buď v n8n, nebo rovnou vlastním kódem v Pythonu, podle toho, co je pro daný případ spolehlivější. Nasazení běží na vašich datech, typicky přes Docker.",
       tools: ["Claude", "ChatGPT", "n8n", "Python", "Docker"],
     },
     miniFaq: [
@@ -236,7 +237,7 @@ export const automationPages: Service[] = [
     summary:
       "Doklady, e-maily, přepisy i pravidelné rozesílky proběhnou samy, v n8n i vlastním kódem.",
     seoTitle: "Automatizace firemních procesů (n8n i na míru kódem)",
-    lead: "Opakující se práce, která dnes zabírá čas týmu, proběhne sama. Stavím ji v n8n, nebo rovnou kódem v Pythonu, podle toho, co se pro váš případ vyplatí víc.",
+    lead: "Opakující se práce, která dnes zabírá čas týmu, proběhne sama. Stavíme ji v n8n, nebo rovnou kódem v Pythonu, podle toho, co se pro váš případ vyplatí víc.",
     pain: [
       {
         text: "Doklady chodí e-mailem, datovou schránkou i papírově a někdo je musí ručně přepsat do systému.",
@@ -266,7 +267,7 @@ export const automationPages: Service[] = [
       },
       {
         title: "Zpracuje se správným nástrojem",
-        text: "Jednodušší tok postavím v n8n nebo Make. Složitější logiku, kde se vyplatí větší kontrola nebo výkon, napíšu přímo kódem v Pythonu. Volím podle úlohy, ne podle zvyku.",
+        text: "Jednodušší tok postavíme v n8n nebo Make. Složitější logiku, kde se vyplatí větší kontrola nebo výkon, napíšeme přímo kódem v Pythonu. Volíme podle úlohy, ne podle zvyku.",
       },
       {
         title: "Výsledek jde dál",
@@ -313,7 +314,7 @@ export const automationPages: Service[] = [
         art: "pravidelne-rozesilky",
       },
       {
-        text: "Řešení stavím na nástroji, který se pro daný případ reálně vyplatí, ne jen na jednom, který zrovna umím.",
+        text: "Řešení stavíme na nástroji, který se pro daný případ reálně vyplatí, ne jen na jednom, který zrovna umíme.",
         art: "spravny-nastroj",
       },
     ],
@@ -324,7 +325,7 @@ export const automationPages: Service[] = [
       ],
     },
     whatWeConnect: {
-      text: "Propojuju e-mail, účetní systém, CRM, banku i e-shop. Jednodušší toky stavím v n8n nebo Make, složitější logiku přímo kódem.",
+      text: "Propojujeme e-mail, účetní systém, CRM, banku i e-shop. Jednodušší toky stavíme v n8n nebo Make, složitější logiku přímo kódem.",
       tools: ["n8n", "Make", "Python"],
     },
     miniFaq: [
@@ -428,7 +429,7 @@ export const automationPages: Service[] = [
       ],
     },
     whatWeConnect: {
-      text: "Propojuju web, znalostní bázi a helpdesk. Chatbot staví na modelech jako Claude nebo ChatGPT.",
+      text: "Propojujeme web, znalostní bázi a helpdesk. Chatbot staví na modelech jako Claude nebo ChatGPT.",
       tools: ["Claude", "ChatGPT"],
     },
     miniFaq: [
@@ -450,9 +451,9 @@ export const automationPages: Service[] = [
     slug: "voice-agenti",
     title: "Voice agenti",
     summary:
-      "AI, která zvedá telefon a běžný hovor dotáhne sama. Právě ji stavím.",
-    seoTitle: "Voice agenti: AI na telefonní hovory (připravuju)",
-    lead: "AI agent, který umí telefonovat: zvedne hovor, rozumí, o co jde, a běžný případ vyřídí stejně, jako by u telefonu seděl člověk. Tuhle službu právě stavím.",
+      "AI, která zvedá telefon a běžný hovor dotáhne sama. Právě ji stavíme.",
+    seoTitle: "Voice agenti: AI na telefonní hovory (připravujeme)",
+    lead: "AI agent, který umí telefonovat: zvedne hovor, rozumí, o co jde, a běžný případ vyřídí stejně, jako by u telefonu seděl člověk. Tuhle službu právě stavíme.",
     comingSoon: true,
     pain: [
       {
@@ -542,13 +543,13 @@ export const automationPages: Service[] = [
       ],
     },
     whatWeConnect: {
-      text: "Voice agent se napojuje na vaši telefonní linku, kalendář a CRM. Rozumí mluvené řeči a reaguje hlasem v reálném čase, stejně jako u textových agentů rozhoduje podle pravidel, která pro váš provoz nastavím.",
+      text: "Voice agent se napojuje na vaši telefonní linku, kalendář a CRM. Rozumí mluvené řeči a reaguje hlasem v reálném čase, stejně jako u textových agentů rozhoduje podle pravidel, která pro váš provoz nastavíme.",
       tools: [],
     },
     miniFaq: [
       {
         q: "Je tahle služba už dostupná?",
-        a: "Právě ji stavím. Pokud vás zajímá mezi prvními, ozvěte se a probereme, jak by mohla fungovat konkrétně u vás.",
+        a: "Právě ji stavíme. Pokud vás zajímá mezi prvními, ozvěte se a probereme, jak by mohla fungovat konkrétně u vás.",
       },
       {
         q: "V čem se liší od chatbota?",
@@ -556,7 +557,7 @@ export const automationPages: Service[] = [
       },
       {
         q: "Kdy bude služba hotová?",
-        a: "Termín zatím nepotvrzuju. Nechte mi kontakt a ozvu se, jakmile bude připravená k nasazení.",
+        a: "Termín zatím nepotvrzujeme. Nechte nám kontakt a ozveme se, jakmile bude připravená k nasazení.",
       },
     ],
   },

@@ -4,11 +4,7 @@ import { Fragment, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { BrandLockup } from "@/components/brand/BrandLockup";
-import { altenoUrl } from "@/lib/alteno";
-import { cn } from "@/lib/utils";
 import type { NavGroup } from "@/lib/nav";
-import { Alteno } from "@/components/brand/BrandName";
 
 // Rozbalovátko v liště. Port `NavDropdown` z alteno
 // (components/layout/Navbar.tsx), chování převzaté beze změny, jen vzhled
@@ -29,7 +25,7 @@ import { Alteno } from "@/components/brand/BrandName";
 // z rozbalovátka vidí i vyhledávač bez JavaScriptu.
 //
 // ODCHYLKA OD ALTENO: spouštěč je dvojice. Text je `Link` na `href` skupiny
-// (/automatizace, /blog zůstávají prokliknutelné jako dřív), chevron vedle
+// (/sluzby zůstává prokliknutelná jako dřív), chevron vedle
 // je tlačítko, které panel přepíná. Klávesnice má tedy dva tab-stopy.
 
 // Zpoždění, než se panel po opuštění myší zavře. Pokrývá šikmý přejezd
@@ -37,22 +33,7 @@ import { Alteno } from "@/components/brand/BrandName";
 // jako prodleva, a dost dlouhé na běžný přejezd myší.
 const CLOSE_DELAY_MS = 150;
 
-/**
- * Úvodní blok skupiny s `intro: true` (Automatizace): lockup ALTENO × VIZEON
- * a jedna věta. Sdílí ho panel v liště i mobilní menu (Navbar.tsx).
- */
-export function NavIntro({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex flex-col gap-2.5 normal-case tracking-normal", className)}>
-      <BrandLockup size="sm" altenoHref={altenoUrl("/", "nav-dropdown")} />
-      <p className="font-inter font-light text-[12px] leading-[1.6] text-[#8a8070] whitespace-nowrap">
-        Automatizace a AI ve spolupráci s <Alteno />.
-      </p>
-    </div>
-  );
-}
-
-export default function NavDropdown({ label, href, items, intro }: NavGroup) {
+export default function NavDropdown({ label, href, items }: NavGroup) {
   const [open, setOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -142,7 +123,7 @@ export default function NavDropdown({ label, href, items, intro }: NavGroup) {
         href={href}
         onClick={() => setOpen(false)}
         className={`font-inter font-normal text-[12px] tracking-[0.08em] hover:text-[#f0ece6] transition-colors duration-300 uppercase whitespace-nowrap ${
-          open ? "text-[#f0ece6]" : "text-[#8a8070]"
+          open ? "text-[#f0ece6]" : "text-text-secondary"
         }`}
       >
         {label}
@@ -165,7 +146,7 @@ export default function NavDropdown({ label, href, items, intro }: NavGroup) {
           setOpen((value) => !value);
         }}
         className={`flex items-center justify-center hover:text-[#f0ece6] transition-colors duration-300 ${
-          open ? "text-[#f0ece6]" : "text-[#8a8070]"
+          open ? "text-[#f0ece6]" : "text-text-secondary"
         }`}
       >
         <ChevronDown
@@ -179,33 +160,18 @@ export default function NavDropdown({ label, href, items, intro }: NavGroup) {
           odjetí. */}
       <div id={panelId} hidden={!open} className="absolute left-0 top-full z-50 pt-2.5">
         <ul className="min-w-64 animate-nav-panel-in bg-[#0e0e0e] border border-white/[0.06] p-1.5 text-left shadow-lg shadow-black/40">
-          {intro ? (
-            <>
-              {/* Klik na VIZEON v lockupu (interní odkaz na /) panel zavře
-                  stejně jako položky. Odkaz ALTENO otevírá novou kartu. */}
-              <li
-                className="px-3 pt-2.5 pb-2.5"
-                onClick={(event) => {
-                  if ((event.target as Element).closest("a[href^='/']")) setOpen(false);
-                }}
-              >
-                <NavIntro />
-              </li>
-              <li aria-hidden className="-mx-1.5 my-1.5 h-px bg-white/[0.06]" />
-            </>
-          ) : null}
           {items.map((item) => (
             <Fragment key={`${item.href}-${item.label}`}>
               <li>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 font-inter font-normal text-[12px] uppercase tracking-[0.08em] whitespace-nowrap text-[#8a8070] transition-colors duration-300 hover:text-[#f0ece6] hover:bg-white/[0.04] focus-visible:text-[#f0ece6] focus-visible:bg-white/[0.04]"
+                  className="flex items-center gap-2 px-3 py-2 font-inter font-normal text-[12px] uppercase tracking-[0.08em] whitespace-nowrap text-text-secondary transition-colors duration-300 hover:text-[#f0ece6] hover:bg-white/[0.04] focus-visible:text-[#f0ece6] focus-visible:bg-white/[0.04]"
                 >
                   {item.label}
                   {item.comingSoon ? (
                     <span className="border border-accent/40 text-accent text-[10px] uppercase px-1.5 py-0.5 leading-none tracking-[0.08em]">
-                      Připravuji
+                      Připravujeme
                     </span>
                   ) : null}
                 </Link>

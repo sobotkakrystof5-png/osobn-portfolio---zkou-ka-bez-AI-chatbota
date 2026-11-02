@@ -12,13 +12,23 @@ import { cn } from "@/lib/utils";
 // přes grid-template-rows, ne podmíněným mountem. Crawlery a AI enginy, které
 // čtou vykreslený text, tak vidí všechny odpovědi, ne jen tu otevřenou.
 
-export default function AutomationFAQ() {
+type FaqItem = { question: string; answer: string };
+
+/** Bez `items` vypíše FAQ hubu /automatizace. Podstránky předávají vlastní
+ *  otázky a `idPrefix`, ať se id na stránce nepotkají. */
+export default function AutomationFAQ({
+  items = AUTOMATION_FAQ,
+  idPrefix = "automatizace-faq",
+}: {
+  items?: FaqItem[];
+  idPrefix?: string;
+} = {}) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const reduced = useReducedMotion() ?? false;
 
   return (
     <div className="max-w-3xl">
-      {AUTOMATION_FAQ.map((faq, i) => {
+      {items.map((faq, i) => {
         const isOpen = openIndex === i;
         return (
           <motion.div
@@ -32,16 +42,16 @@ export default function AutomationFAQ() {
             className="border-b border-white/[0.05] last:border-b-0"
           >
             <button
-              id={`automatizace-faq-btn-${i}`}
+              id={`${idPrefix}-btn-${i}`}
               type="button"
               aria-expanded={isOpen}
-              aria-controls={`automatizace-faq-panel-${i}`}
+              aria-controls={`${idPrefix}-panel-${i}`}
               onClick={() => setOpenIndex(isOpen ? null : i)}
               className="w-full min-h-[44px] flex items-center justify-between gap-6 py-5 text-left group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#c9a84c]"
             >
               <span
                 className={cn(
-                  "font-inter font-medium text-[14px] transition-colors duration-300",
+                  "font-inter font-medium text-[16px] transition-colors duration-300",
                   isOpen ? "text-[#c9a84c]" : "text-[#f0ece6] group-hover:text-[#c9a84c]",
                 )}
               >
@@ -55,9 +65,9 @@ export default function AutomationFAQ() {
             </button>
 
             <div
-              id={`automatizace-faq-panel-${i}`}
+              id={`${idPrefix}-panel-${i}`}
               role="region"
-              aria-labelledby={`automatizace-faq-btn-${i}`}
+              aria-labelledby={`${idPrefix}-btn-${i}`}
               className="grid transition-[grid-template-rows] duration-300 ease-out"
               style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
             >
