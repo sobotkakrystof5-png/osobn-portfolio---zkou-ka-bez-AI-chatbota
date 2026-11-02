@@ -181,14 +181,14 @@ const PLATFORMS = [
     icon: ShoppingBag,
     name: "Shopify",
     when: "Pro většinu e-shopů",
-    text: "Osvědčený systém, rychlý start a hotové doplňky skoro na cokoli. E-shop si snadno spravujete sami.",
+    text: "Osvědčený systém s rychlým startem, který si snadno spravujete sami.",
     points: ["Rychlé spuštění", "Snadná správa", "Doplňky na míru"],
   },
   {
     icon: Code2,
     name: "Vlastní kód",
     when: "Když šablona nestačí",
-    text: "E-shop napsaný přesně pro váš byznys. Funkce, které žádný systém nemá, a maximální rychlost.",
+    text: "E-shop napsaný přesně pro váš byznys, s funkcemi, které žádný systém nemá.",
     points: ["Funkce na míru", "Maximální rychlost", "Napojení na vaše systémy"],
   },
 ];

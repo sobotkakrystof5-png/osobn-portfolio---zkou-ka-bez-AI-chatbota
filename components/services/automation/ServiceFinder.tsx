@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 
 // „Co vás zdržuje nejvíc?“: klient vybere svou bolest a vpravo uvidí
 // službu, která ji řeší, s odkazem na její podstránku. Výběr se sám
-// střídá, dokud klient neklikne (stejně jako PlatformHub u e-shopů).
+// střídá, dokud klient neklikne.
 // Název a stav služby jdou z lehkého lib/data/automation-index.ts, summary
 // posílá stránka ze serveru (plné automation-pages.ts do klientského JS
 // netaháme). Fajfky shrnují kroky „Jak to funguje“ podstránky.

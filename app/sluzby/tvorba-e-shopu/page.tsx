@@ -6,11 +6,9 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { PriceLabel } from "@/components/PriceLabel";
 import { EshopHeroVisual } from "@/components/services/eshop/EshopHeroVisual";
-import { OrderJourney } from "@/components/services/eshop/OrderJourney";
-import { PlatformHub } from "@/components/services/eshop/PlatformHub";
-import { ShippingConfigurator } from "@/components/services/eshop/ShippingConfigurator";
 import { EshopPricing, PlatformChoice } from "@/components/services/eshop/EshopPricing";
 import { LaunchTimeline } from "@/components/services/eshop/LaunchTimeline";
+import { OrderJourney } from "@/components/services/eshop/OrderJourney";
 import { EshopAdsBand } from "@/components/services/eshop/EshopAdsBand";
 import { EshopStickyCTA } from "@/components/services/eshop/EshopStickyCTA";
 import { ESHOP_PACKAGE, PRICE_BY_NAME } from "@/lib/data/pricing";
@@ -18,9 +16,10 @@ import { SectionHead } from "@/components/services/SectionHead";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
-// Stránka E-shopy (přepis 11/2026): místo odstavců cesta jedné objednávky,
-// platforma se vším napojeným, vyzkoušitelná doprava a jedna cena s tím,
-// od čeho se odvíjí. Motto: e-shop je základ e-commerce, reklama ho rozjede.
+// Stránka E-shopy (zjednodušeno 11/2026): hero s živou objednávkou, cesta
+// objednávky v jednom interaktivním panelu (nese i platby, dopravu, sklad,
+// faktury a reklamy), jedna cena, Shopify nebo kód, spolupráce a reklama.
+// Motto: e-shop je základ e-commerce, reklama ho rozjede.
 // Cena je v lib/data/pricing.ts (kategorie „E-shopy“).
 
 const PRICE = PRICE_BY_NAME[ESHOP_PACKAGE];
@@ -123,26 +122,6 @@ export default function TvorbaEshopuPage() {
             lead="Od kliknutí na Koupit po balík u dveří. Každou zastávku nastavíme za vás."
           />
           <OrderJourney />
-        </section>
-
-        <section aria-labelledby="platforma" className={sectionGap}>
-          <SectionHead
-            id="platforma"
-            eyebrow="Vše v jedné platformě"
-            title="Jeden e-shop. Všechno napojené."
-            lead="Platby, doprava, sklad, faktury i reklamy běží v jednom systému. Vy máte jeden přehled a jednoho partnera, který to celé zná."
-          />
-          <PlatformHub />
-        </section>
-
-        <section aria-labelledby="logistika" className={sectionGap}>
-          <SectionHead
-            id="logistika"
-            eyebrow="Logistika"
-            title="Doprava, jakou chtějí vaši zákazníci"
-            lead="Vyzkoušejte si to: vyberte dopravce a podívejte se, co uvidí zákazník v pokladně. Napojení, štítky i sledování zásilek nastavíme my."
-          />
-          <ShippingConfigurator />
         </section>
 
         <section aria-labelledby="cena" className={sectionGap}>

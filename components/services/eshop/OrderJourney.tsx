@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Check, CreditCard, Package, PackageCheck, ReceiptText, Repeat, ShoppingCart, Truck } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue } from "framer-motion";
+import { Check, CreditCard, Package, PackageCheck, Pause, Play, ReceiptText, Repeat, ShoppingCart, Truck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { usePrefersReducedMotion } from "@/components/automation/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
 
-// „Jak to funguje“ jako cesta jedné objednávky od košíku po návrat zákazníka.
-// Na desktopu stojí vpravo přilepená scéna: balíček jede po trati zastávek
-// a pod ní se ukazuje, co se na zastávce právě děje. Aktivní je krok, který
-// při scrollu protne střed okna. Na mobilu má každý krok scénu přímo u sebe.
+// „Jak to funguje“ jako cesta jedné objednávky od košíku po návrat zákazníka,
+// v jednom panelu: nahoře trať zastávek, pod ní co nastavíme a vpravo scéna,
+// co se na zastávce právě děje. Balíček jede po trati plynule a stálou
+// rychlostí, na každé zastávce se přepne obsah. Z Návratu se obloukem nad
+// tratí vrátí na Nákup a jede dál, takže smyčka nikde nestojí ani neskáče.
+// Klik na zastávku k ní balíček doveze a zastaví, tlačítko pod scénou
+// smyčku pozastaví a znovu pustí. Čipy „co nastavíme“ nesou i to, co dřív
+// měl hub platformy a konfigurátor dopravy.
 // Údaje ve scénách jsou ukázkové (objednávka, ceny dopravy).
 type Step = {
   icon: LucideIcon;
@@ -27,7 +31,7 @@ const STEPS: Step[] = [
     station: "Nákup",
     title: "Zákazník nakoupí",
     text: "E-shop, ve kterém se dobře nakupuje, hlavně na mobilu. Rychlý, přehledný a s košíkem bez zbytečných kroků.",
-    we: ["Design na míru", "Produkty a kategorie", "Košík a pokladna"],
+    we: ["Design na míru", "Produkty a varianty", "Košík a pokladna", "Připomenutí opuštěného košíku"],
     scene: {
       title: "Košík",
       rows: [["Lněná zástěra", "1 290 Kč"], ["Doprava · Zásilkovna", "79 Kč"], ["Celkem", "1 369 Kč"]],
@@ -38,7 +42,7 @@ const STEPS: Step[] = [
     icon: CreditCard,
     station: "Platba",
     title: "Zaplatí, jak mu to vyhovuje",
-    text: "Kartou, převodem nebo na dobírku, rovnou v objednávce. Peníze odcházejí na váš účet.",
+    text: "Kartou, převodem nebo na dobírku, rovnou v objednávce. Peníze jdou přímo na váš účet.",
     we: ["Platební brána", "Karta i převod", "Dobírka"],
     scene: {
       title: "Platba",
@@ -51,7 +55,7 @@ const STEPS: Step[] = [
     station: "Zpracování",
     title: "Objednávka se zpracuje sama",
     text: "Zákazník dostane potvrzení, vy fakturu a přehled objednávek. Nic se nepřepisuje ručně.",
-    we: ["Automatické e-maily", "Faktury", "Přehled objednávek"],
+    we: ["Automatické e-maily", "Faktury", "Napojení na fakturační systém", "Přehled objednávek"],
     scene: {
       title: "Objednávka #1043",
       rows: [["Potvrzení zákazníkovi", "odesláno"], ["Faktura", "vystavena"], ["Sklad", "upozorněn"]],
@@ -63,7 +67,7 @@ const STEPS: Step[] = [
     station: "Sklad",
     title: "Zboží se zabalí",
     text: "Balíte sami, nebo objednávka rovnou odejde do balicího skladu, který zboží vychystá a zabalí za vás.",
-    we: ["Skladové zásoby", "Balicí sklad", "Tisk štítků"],
+    we: ["Skladové zásoby", "Hlídání docházejícího zboží", "Balicí sklad", "Tisk štítků"],
     scene: {
       title: "Sklad",
       rows: [["Vychystáno", "1 ks"], ["Zabaleno", "hotovo"], ["Štítek dopravce", "vytištěn"]],
@@ -74,8 +78,8 @@ const STEPS: Step[] = [
     icon: Truck,
     station: "Doprava",
     title: "Dopravce doručí",
-    text: "Zásilkovna, Balíkovna, PPL nebo DPD. Zákazník si v pokladně vybere a pak sleduje, kde je jeho balík.",
-    we: ["Dopravci a výdejní místa", "Ceny dopravy", "Sledování zásilek"],
+    text: "Zásilkovna, Balíkovna, PPL, DPD, GLS i osobní odběr. Zákazník si v pokladně vybere a pak sleduje, kde je jeho balík.",
+    we: ["Výdejní místa a Z-BOXy", "Ceny dopravy podle košíku", "Sledování zásilek"],
     scene: {
       title: "Zásilka",
       rows: [["Převzato dopravcem", "dnes"], ["Zákazník dostal odkaz", "ke sledování"], ["Výdejní místo", "zítra"]],
@@ -87,7 +91,7 @@ const STEPS: Step[] = [
     station: "Návrat",
     title: "Zákazník se vrátí",
     text: "Reklama a e-maily přivedou nové zákazníky i ty, kteří už u vás nakoupili.",
-    we: ["Google a Meta reklamy", "Remarketing", "Měření prodejů"],
+    we: ["Google a Meta reklamy", "Produktový feed", "Remarketing", "Měření prodejů"],
     scene: {
       title: "Další nákup",
       rows: [["Reklama na Instagramu", "zobrazena"], ["Návrat do e-shopu", "z reklamy"], ["Druhá objednávka", "1 290 Kč"]],
@@ -97,6 +101,34 @@ const STEPS: Step[] = [
 ];
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Časování smyčky: mezi zastávkami jede balíček STEP_MS, oblouk zpět trvá
+// RETURN_MS (po tu dobu je vidět Návrat). Klik dojede za SEEK_MS.
+const LAST = STEPS.length - 1;
+const STEP_MS = 3500;
+const FORWARD_MS = LAST * STEP_MS;
+const RETURN_MS = 3500;
+const CYCLE_MS = FORWARD_MS + RETURN_MS;
+const SEEK_MS = 900;
+const PACKAGE = 36;
+
+const wrap = (time: number) => ((time % CYCLE_MS) + CYCLE_MS) % CYCLE_MS;
+const easeInOut = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+
+type Frame = { x: number; lift: number; step: number; returning: boolean };
+
+/** Kde je balíček v čase smyčky: x 0–1 po trati, lift 0–1 nad ní. */
+function frameAt(time: number): Frame {
+  if (time < FORWARD_MS) {
+    const position = time / STEP_MS;
+    return { x: position / LAST, lift: 0, step: Math.floor(position), returning: false };
+  }
+  // Oblouk po půlelipse. Úhel nabírá na krajích rychleji a nahoře zpomalí,
+  // takže vzlet i přistání navazují na rychlost po trati.
+  const tau = (time - FORWARD_MS) / RETURN_MS;
+  const theta = Math.PI * (tau + Math.sin(2 * Math.PI * tau) / (4 * Math.PI));
+  return { x: (1 + Math.cos(theta)) / 2, lift: Math.sin(theta), step: LAST, returning: true };
+}
 
 /** Karta s tím, co se na zastávce děje: tři řádky se postupně odškrtnou. */
 function SceneCard({ step, reduced }: { step: Step; reduced: boolean }) {
@@ -147,163 +179,217 @@ function SceneCard({ step, reduced }: { step: Step; reduced: boolean }) {
 
 export function OrderJourney() {
   const reduced = usePrefersReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const arcRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { margin: "-20% 0px" });
+
   const [active, setActive] = useState(0);
-  const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [reached, setReached] = useState(1);
+  const [returning, setReturning] = useState(false);
+  // null = klient ještě nerozhodl, pak platí výchozí stav (při omezeném
+  // pohybu stojí smyčka, dokud ji klient sám nepustí).
+  const [pausedByUser, setPausedByUser] = useState<boolean | null>(null);
+  const paused = pausedByUser ?? reduced;
+  const playing = !paused && inView;
 
-  // Aktivní je krok, který protíná pruh uprostřed okna.
+  const time = useRef(0);
+  const size = useRef({ width: 0, arc: 0 });
+  const seek = useRef<{ from: number; to: number; start: number } | null>(null);
+  const shown = useRef({ active: 0, reached: 1, returning: false });
+
+  const packageX = useMotionValue(-PACKAGE / 2);
+  const packageY = useMotionValue(0);
+  const fill = useMotionValue(0);
+
+  // Pohyb jde přes motion values (bez renderu), React se dozví jen o změně
+  // zastávky, takže se renderuje párkrát za smyčku, ne v každém snímku.
+  const draw = useCallback(
+    (at: number) => {
+      const frame = frameAt(at);
+      packageX.set(frame.x * size.current.width - PACKAGE / 2);
+      packageY.set(-frame.lift * size.current.arc);
+      fill.set(frame.x);
+
+      const last = shown.current;
+      const reachedNow = frame.returning ? Math.floor(frame.x * LAST + 0.001) + 1 : frame.step + 1;
+      if (!seek.current && frame.step !== last.active) {
+        last.active = frame.step;
+        setActive(frame.step);
+      }
+      if (reachedNow !== last.reached) {
+        last.reached = reachedNow;
+        setReached(reachedNow);
+      }
+      if (frame.returning !== last.returning) {
+        last.returning = frame.returning;
+        setReturning(frame.returning);
+      }
+    },
+    [packageX, packageY, fill]
+  );
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const index = stepRefs.current.indexOf(entry.target as HTMLLIElement);
-          if (index >= 0) setActive(index);
-        }
-      },
-      { rootMargin: "-48% 0px -48% 0px" }
-    );
-    stepRefs.current.forEach((element) => element && observer.observe(element));
+    const measure = () => {
+      size.current = { width: trackRef.current?.offsetWidth ?? 0, arc: arcRef.current?.offsetHeight ?? 0 };
+      draw(time.current);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (trackRef.current) observer.observe(trackRef.current);
+    if (arcRef.current) observer.observe(arcRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [draw]);
 
-  const goTo = (index: number) => {
-    stepRefs.current[index]?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+  useAnimationFrame((_, delta) => {
+    if (seek.current) {
+      const { from, to, start } = seek.current;
+      const k = Math.min((performance.now() - start) / SEEK_MS, 1);
+      if (k >= 1) seek.current = null;
+      time.current = k >= 1 ? wrap(to) : wrap(from + (to - from) * easeInOut(k));
+      draw(time.current);
+      return;
+    }
+    if (!playing) return;
+    // Po návratu do záložky přijde velký skok v čase, ten neposíláme dál.
+    time.current = wrap(time.current + Math.min(delta, 100));
+    draw(time.current);
+  });
+
+  // Klik: balíček dojede k zastávce kratší cestou (i obloukem) a zastaví.
+  const choose = (index: number) => {
+    setPausedByUser(true);
+    shown.current.active = index;
+    setActive(index);
+    const target = index * STEP_MS;
+    if (reduced) {
+      time.current = target;
+      draw(target);
+      return;
+    }
+    const distance = wrap(target - time.current + CYCLE_MS / 2) - CYCLE_MS / 2;
+    seek.current = { from: time.current, to: time.current + distance, start: performance.now() };
   };
 
-  const progress = active / (STEPS.length - 1);
-
   return (
-    <div className="grid gap-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
-      <ol className="relative">
-        {/* Osa za kroužky kroků (na desktopu od prvního po poslední střed). */}
-        <span
-          aria-hidden="true"
-          className="absolute bottom-0 left-[21.5px] top-[22px] w-px bg-white/[0.08] lg:bottom-[32vh] lg:top-[32vh]"
-        />
-        {STEPS.map((step, index) => {
-          const Icon = step.icon;
-          const isActive = index === active;
-          return (
-            <li
-              key={step.title}
-              ref={(element) => {
-                stepRefs.current[index] = element;
-              }}
-              className={cn(
-                "relative flex flex-col justify-center pb-14 pl-16 last:pb-0 lg:min-h-[64vh] lg:pb-0",
-                "transition-opacity duration-500",
-                isActive ? "lg:opacity-100" : "lg:opacity-[0.35]"
-              )}
-            >
-              {/* Kroužek kroku na ose, rozsvícený po aktivní krok. */}
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-500 lg:top-1/2 lg:-translate-y-1/2",
-                  isActive || index < active
-                    ? "border-[#c9a84c] bg-[#c9a84c] text-[#080808]"
-                    : "border-white/15 bg-[#080808] text-text-muted"
-                )}
-              >
-                <Icon size={18} strokeWidth={1.5} />
-              </span>
+    <div ref={rootRef}>
+      <div className="relative pt-[104px] md:pt-[124px]">
+        {/* Trať mezi středy první a poslední zastávky. Nad ní dráha balíčku
+            a oblouk zpět; obojí se počítá od této linky. */}
+        <div ref={trackRef} aria-hidden="true" className="relative mx-[22px] h-px bg-white/10">
+          <motion.div className="absolute inset-y-0 left-0 w-full origin-left bg-[#c9a84c]" style={{ scaleX: fill }} />
 
-              <h3 className="font-cormorant font-light text-[30px] leading-[1.1] text-[#f0ece6] md:text-[36px]">{step.title}</h3>
-              <p className="mt-3 max-w-md font-inter text-[16px] leading-[1.75] text-text-secondary md:text-[17px]">{step.text}</p>
-              <ul className="mt-5 flex flex-wrap gap-2" aria-label="Co nastavíme">
-                {step.we.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center gap-1.5 border border-[#c9a84c]/25 bg-[#c9a84c]/[0.06] px-3 py-1.5 font-inter text-[13px] text-[#f0ece6]"
+          <div
+            ref={arcRef}
+            className={cn(
+              "absolute inset-x-0 bottom-[46px] h-9 border border-b-0 border-dashed transition-colors duration-700 md:h-14",
+              returning ? "border-[#c9a84c]/45" : "border-white/[0.09]"
+            )}
+            style={{ borderRadius: "50% 50% 0 0 / 100% 100% 0 0" }}
+          />
+
+          <motion.span
+            className="absolute left-0 top-[-64px] flex h-9 w-9 items-center justify-center rounded-full bg-[#c9a84c] shadow-[0_0_30px_rgba(201,168,76,0.55)]"
+            style={{ x: packageX, y: packageY }}
+          >
+            <Package size={16} strokeWidth={2} className="text-[#080808]" />
+          </motion.span>
+        </div>
+
+        <div className="relative mt-[-22px] flex justify-between">
+          {STEPS.map((step, index) => {
+            const Icon = step.icon;
+            const isActive = index === active;
+            return (
+              <button
+                key={step.station}
+                type="button"
+                onClick={() => choose(index)}
+                aria-label={`Ukázat krok: ${step.title}`}
+                aria-current={isActive ? "step" : undefined}
+                aria-controls="cesta-objednavky-detail"
+                className="group flex w-11 flex-col items-center gap-2 focus-visible:outline-none"
+              >
+                <span className="relative">
+                  {/* Při příjezdu balíčku se od zastávky rozejde kruh. */}
+                  {isActive && !reduced && (
+                    <motion.span
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-full border border-[#c9a84c]"
+                      initial={{ scale: 1, opacity: 0.7 }}
+                      animate={{ scale: 1.9, opacity: 0 }}
+                      transition={{ duration: 1.2, ease: "easeOut" }}
+                    />
+                  )}
+                  <span
+                    className={cn(
+                      "relative flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-500 group-hover:border-[#c9a84c] group-focus-visible:ring-2 group-focus-visible:ring-[#c9a84c]/60",
+                      isActive
+                        ? "border-[#c9a84c] bg-[#c9a84c] text-[#080808] shadow-[0_0_30px_rgba(201,168,76,0.45)]"
+                        : index < reached
+                          ? "border-[#c9a84c] bg-[#14110a] text-[#c9a84c]"
+                          : "border-white/15 bg-[#080808] text-text-muted"
+                    )}
                   >
-                    <Check size={12} strokeWidth={2.5} className="text-[#c9a84c]" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+                    <Icon size={17} strokeWidth={1.5} />
+                  </span>
+                </span>
+                <span
+                  className={cn(
+                    "hidden whitespace-nowrap font-inter text-[13px] transition-colors duration-500 sm:block",
+                    isActive ? "text-[#f0ece6]" : "text-text-muted"
+                  )}
+                >
+                  {step.station}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-              {/* Na mobilu a tabletu scéna přímo u kroku. Řádky bez vlastní
-                  animace (reduced), vjíždí celá karta, až na ni uživatel dojede. */}
+      <div id="cesta-objednavky-detail" className="mt-12 grid items-center gap-10 md:mt-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
+        {/* Texty všech zastávek leží přes sebe ve stejné buňce: panel má výšku
+            té nejdelší a při střídání pod ním nic neposkakuje. */}
+        <div className="grid">
+          {STEPS.map((step, index) => {
+            const isActive = index === active;
+            return (
               <motion.div
-                aria-hidden="true"
-                className="mt-7 max-w-md lg:hidden"
-                initial={reduced ? false : { opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, ease: EASE }}
+                key={step.title}
+                aria-hidden={!isActive}
+                className={cn("[grid-area:1/1]", !isActive && "pointer-events-none")}
+                initial={false}
+                animate={{ opacity: isActive ? 1 : 0, y: isActive || reduced ? 0 : 10 }}
+                transition={{ duration: reduced ? 0 : 0.5, delay: isActive && !reduced ? 0.2 : 0, ease: EASE }}
               >
-                <SceneCard step={step} reduced />
+                <p className="font-inter text-[12px] uppercase tracking-[0.14em] text-[#c9a84c] tabular-nums">
+                  {String(index + 1).padStart(2, "0")} / {String(STEPS.length).padStart(2, "0")} · {step.station}
+                </p>
+                <h3 className="mt-3 font-cormorant font-light text-[32px] leading-[1.1] text-[#f0ece6] md:text-[40px]">{step.title}</h3>
+                <p className="mt-3 max-w-lg font-inter text-[16px] leading-[1.7] text-text-secondary md:text-[17px]">{step.text}</p>
+                <ul className="mt-6 flex flex-wrap gap-2" aria-label="Co nastavíme">
+                  {step.we.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-1.5 border border-[#c9a84c]/25 bg-[#c9a84c]/[0.06] px-3 py-1.5 font-inter text-[13px] text-[#f0ece6]"
+                    >
+                      <Check size={12} strokeWidth={2.5} className="text-[#c9a84c]" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </motion.div>
-            </li>
-          );
-        })}
-      </ol>
+            );
+          })}
+        </div>
 
-      {/* Desktop: přilepená scéna s tratí zastávek. */}
-      <div className="hidden lg:block">
-        <div className="sticky top-[calc(50vh-250px)]">
-          <div className="relative px-2 pb-10 pt-20">
-            {/* Trať: šedá dráha, zlatá výplň po aktivní zastávku, balíček jede. */}
-            <div className="relative mx-[22px] h-px bg-white/10">
-              <motion.div
-                className="absolute inset-y-0 left-0 origin-left bg-[#c9a84c]"
-                style={{ width: "100%" }}
-                initial={false}
-                animate={{ scaleX: progress }}
-                transition={{ duration: reduced ? 0 : 0.7, ease: EASE }}
-              />
-              <motion.span
-                aria-hidden="true"
-                className="absolute -top-[64px] flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full bg-[#c9a84c] shadow-[0_0_30px_rgba(201,168,76,0.55)]"
-                initial={false}
-                animate={{ left: `${progress * 100}%` }}
-                transition={{ duration: reduced ? 0 : 0.7, ease: EASE }}
-              >
-                <Package size={16} strokeWidth={2} className="text-[#080808]" />
-              </motion.span>
-            </div>
-
-            <div className="relative mt-[-22px] flex justify-between">
-              {STEPS.map((step, index) => {
-                const Icon = step.icon;
-                const reached = index <= active;
-                return (
-                  <button
-                    key={step.station}
-                    type="button"
-                    onClick={() => goTo(index)}
-                    aria-label={`Ukázat krok: ${step.title}`}
-                    aria-current={index === active ? "step" : undefined}
-                    className="group flex w-11 flex-col items-center gap-2 focus-visible:outline-none"
-                  >
-                    <span
-                      className={cn(
-                        "flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-500 group-hover:border-[#c9a84c] group-focus-visible:ring-2 group-focus-visible:ring-[#c9a84c]/60",
-                        reached ? "border-[#c9a84c] bg-[#14110a] text-[#c9a84c]" : "border-white/15 bg-[#080808] text-text-muted"
-                      )}
-                    >
-                      <Icon size={17} strokeWidth={1.5} />
-                    </span>
-                    <span
-                      className={cn(
-                        "whitespace-nowrap font-inter text-[13px] transition-colors duration-500",
-                        index === active ? "text-[#f0ece6]" : "text-text-muted"
-                      )}
-                    >
-                      {step.station}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
+        <div className="relative">
+          <span aria-hidden="true" className="pointer-events-none absolute inset-x-10 inset-y-6 rounded-full bg-[#c9a84c]/[0.08] blur-3xl" />
           <div aria-hidden="true" className="relative min-h-[300px]">
-            <span className="pointer-events-none absolute inset-x-10 inset-y-6 rounded-full bg-[#c9a84c]/[0.08] blur-3xl" />
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                className="relative"
                 initial={reduced ? false : { opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={reduced ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -12 }}
@@ -312,6 +398,17 @@ export function OrderJourney() {
                 <SceneCard step={STEPS[active]} reduced={reduced} />
               </motion.div>
             </AnimatePresence>
+          </div>
+
+          <div className="relative mt-4 flex justify-end">
+            <button
+              type="button"
+              onClick={() => setPausedByUser(!paused)}
+              className="flex items-center gap-2 font-inter text-[12px] uppercase tracking-[0.12em] text-text-muted transition-colors duration-300 hover:text-[#f0ece6] focus-visible:text-[#f0ece6] focus-visible:outline-none"
+            >
+              {paused ? <Play size={13} strokeWidth={1.75} aria-hidden="true" /> : <Pause size={13} strokeWidth={1.75} aria-hidden="true" />}
+              {paused ? "Přehrát cestu" : "Pozastavit"}
+            </button>
           </div>
         </div>
       </div>
