@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import ZakazIQ from "@/components/ZakazIQ";
 import { PageShell } from "@/components/layout/PageShell";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
-import { t } from "@/lib/ui";
-import { cn } from "@/lib/utils";
-import { Alteno, Vizeon } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
@@ -41,20 +37,6 @@ export default function ZakazIQPage() {
     <PageShell jsonLd={jsonLd}>
       <AnalyticsTracker page="/zakaziq" />
       <ZakazIQ />
-
-      <div className={cn(t.container.page, "pb-16 md:pb-24")}>
-        <p className={cn(t.body, "mb-10 max-w-2xl")}>
-          Portál využívají obě značky. Ať řešíte web pod značkou <Vizeon />, nebo{" "}
-          <Link href="/automatizace" className={t.link}>
-            automatizaci pod značkou <Alteno />
-          </Link>
-          , stav zakázky vidíte na jednom místě.
-        </p>
-
-        <Link href="/" className={t.backLink}>
-          ← Zpět na hlavní stránku
-        </Link>
-      </div>
     </PageShell>
   );
 }

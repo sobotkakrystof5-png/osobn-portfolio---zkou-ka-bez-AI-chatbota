@@ -1,298 +1,205 @@
-"use client";
-
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { MessageCircle, Star, CalendarCheck, LayoutDashboard } from "lucide-react";
-import { fadeUp, stagger, cardEntrance, staggerDramatic, viewport } from "@/lib/animations";
+import Link from "next/link";
+import { ArrowRight, CalendarCheck, Database, LayoutDashboard, MessageCircle, MonitorSmartphone, Star, Workflow } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { CTAButton } from "@/components/CTAButton";
-import { Vizeon, brandText } from "@/components/brand/BrandName";
+import { Reveal } from "@/components/automation/Reveal";
+import { Alteno, Vizeon } from "@/components/brand/BrandName";
+import { ZakazIqMark, zakaziqWordmark } from "@/components/zakaziq/ZakazIqMark";
+import { ZakazIqMockup } from "@/components/zakaziq/ZakazIqMockup";
+import { ZakazIqSteps } from "@/components/zakaziq/ZakazIqSteps";
+import { t } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
-const features = [
+// Stránka /zakaziq ve stejném rozvržení jako na webu ALTENO (alteno-ref
+// app/zakaziq/page.tsx): vlevo produkt a co umí, vpravo nakloněná ukázka
+// rozhraní, pod tím kroky, technická architektura a proč vlastní produkt.
+// Barvy a písma podle VIZEON (zlatá, Cormorant v nadpisech sekcí).
+
+const FEATURES: { icon: LucideIcon; title: string; text: string }[] = [
   {
     icon: MessageCircle,
     title: "Komunikace o projektu",
-    description: "Společný prostor, kde se bavíme o každém detailu vašeho projektu. Žádné ztracené emaily. Vše na jednom místě.",
+    text: "Zadání, podklady i změny zůstávají na jedné kartě. Žádné dohledávání v e-mailech.",
   },
   {
     icon: Star,
     title: "Zpětná vazba",
-    description: "Klient mi může kdykoliv poslat připomínky, nápady nebo změny. Stačí napsat rovnou, bez zbytečného zdržení.",
+    text: "Připomínku nebo hodnocení nám pošlete přímo v systému, bez zdržení.",
   },
   {
     icon: CalendarCheck,
     title: "Konzultace na jedno kliknutí",
-    description: "Chcete prodiskutovat zlepšení projektu? Konzultaci si domluvíte přímo v systému. Bez volání, bez čekání.",
+    text: "Termín schůzky si vyberete sami. Systém hned zablokuje kalendář a pošle potvrzení.",
   },
   {
     icon: LayoutDashboard,
     title: "Přehled pro obě strany",
-    description: "Vy vidíte stav svého projektu. Já mám přehled o všech klientech a projektech. Pořádek, který šetří čas.",
+    text: "Vy vidíte stav své zakázky. My máme přehled o všech projektech najednou.",
   },
 ];
 
-function ZakazIQLogo({ size = "default" }: { size?: "default" | "hero" }) {
-  const svgSize = size === "hero" ? 96 : 44;
-  const rx = size === "hero" ? 20 : 10;
-  const scale = svgSize / 44;
-  return (
-    <div className={size === "hero" ? "flex flex-col items-center gap-5" : "flex items-center gap-3"} aria-label="ZakazIQ logo">
-      <svg
-        width={svgSize}
-        height={svgSize}
-        viewBox="0 0 44 44"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        style={size === "hero" ? { filter: "drop-shadow(0 0 32px rgba(30,58,110,0.7))" } : undefined}
-      >
-        <rect width="44" height="44" rx={rx / scale} fill="#1e3a6e" />
-        <rect x="10" y="10" width="10" height="10" rx="2" fill="white" />
-        <rect x="24" y="10" width="10" height="10" rx="2" fill="white" />
-        <rect x="10" y="24" width="10" height="10" rx="2" fill="white" />
-        <rect x="24" y="24" width="10" height="10" rx="2" fill="white" />
-      </svg>
-      <span
-        className={
-          size === "hero"
-            ? "font-inter font-semibold tracking-tight text-[#f0ece6] text-[52px] md:text-[72px] lg:text-[88px] leading-none"
-            : "font-inter font-semibold text-[22px] tracking-tight text-[#f0ece6]"
-        }
-      >
-        Zakaz
-        <span
-          className="text-[#5b83bd]"
-          style={{ textShadow: "0 0 14px rgba(91,131,189,0.3)" }}
-        >
-          IQ
-        </span>
-      </span>
-    </div>
-  );
-}
+const STEPS = [
+  {
+    title: "Objednáte konzultaci",
+    detail: (
+      <>
+        Zdarma přes <Vizeon />
+      </>
+    ),
+  },
+  { title: "Přiřazení do ZakazIQ", detail: "Automaticky, hned po konzultaci" },
+  { title: "Komunikace a zpětná vazba", detail: "Přímo v systému" },
+  { title: "Dokončení projektu", detail: "S přehledem na obou stranách" },
+];
+
+const STACK: { icon: LucideIcon; title: string; text: string }[] = [
+  {
+    icon: Workflow,
+    title: "n8n Workflow Engine",
+    text: "Řídí veškerou automatickou logiku, od odesílání e-mailů a SMS po synchronizaci kalendářů a zpracování webhooků.",
+  },
+  {
+    icon: Database,
+    title: "Neon PostgreSQL & Drizzle",
+    text: "Bezpečně ukládá data, historii zakázek, stavy i hodnocení s okamžitou odezvou.",
+  },
+  {
+    icon: MonitorSmartphone,
+    title: "Next.js & React 19",
+    text: "Rychlé klientské rozhraní, které funguje stejně dobře na mobilu i na počítači.",
+  },
+];
+
+const h2 = "font-cormorant font-light text-[34px] leading-[1.08] text-[#f0ece6] md:text-[46px]";
+const pad = (n: number) => String(n).padStart(2, "0");
 
 export default function ZakazIQ() {
   return (
-    <section id="zakaziq" className="py-28 md:py-40 bg-[#080808] relative overflow-hidden" aria-label="ZakazIQ">
-      {/* Ambient glow */}
+    <section id="zakaziq" aria-labelledby="zakaziq-h1" className="relative overflow-hidden">
       <div
-        className="absolute top-0 left-[20%] w-[700px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(30,58,110,0.12), transparent 65%)", filter: "blur(100px)" }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 right-[10%] w-[500px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(201,168,76,0.04), transparent 65%)", filter: "blur(90px)" }}
+        className="pointer-events-none absolute -right-[15%] top-[-5%] h-[680px] w-[680px] rounded-full bg-[#c9a84c]/[0.06] blur-[120px]"
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className={cn(t.container.wide, "relative pb-24 pt-28 md:pb-36 md:pt-36")}>
+        <Link href="/" className={t.backLink}>
+          ← Zpět na hlavní stránku
+        </Link>
 
-        {/* Header — logo jako hlavní dominanta */}
-        <motion.div
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="flex flex-col items-center text-center mb-6"
-        >
-          <p className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-10">
-            — Systém pro klienty
-          </p>
+        {/* ─── Hero: produkt vlevo, běžící rozhraní vpravo ─── */}
+        <div className="mt-10 grid grid-cols-1 gap-14 lg:grid-cols-12 lg:items-center">
+          <Reveal className="lg:col-span-6">
+            <span className="inline-flex items-center border border-[#c9a84c]/35 bg-[#c9a84c]/[0.06] px-3.5 py-1.5 font-inter text-[11px] font-medium uppercase tracking-[0.2em] text-[#c9a84c]">
+              Vlastní produkt
+            </span>
 
-          {/* Hlavní logo */}
-          <div className="relative mb-10">
-            {/* Ambient glow za logem */}
-            <div
-              className="absolute inset-0 -m-12 rounded-full pointer-events-none"
-              style={{ background: "radial-gradient(circle, rgba(30,58,110,0.25), transparent 70%)", filter: "blur(40px)" }}
-              aria-hidden="true"
-            />
-            <ZakazIQLogo size="hero" />
-          </div>
-
-          <p className="font-inter font-semibold text-[17px] md:text-[19px] uppercase tracking-[0.25em] text-text-secondary mb-2">
-            Komunikační a rezervační systém
-          </p>
-        </motion.div>
-
-        {/* 3 velká hesla + preview */}
-        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20 mb-16">
-
-          {/* Levý sloupec — hesla + popis */}
-          <div className="flex-1 min-w-0">
-            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
-              {[
-                { text: "Přímá komunikace", accent: false },
-                { text: "Zpětná vazba", accent: false },
-                { text: "Přehled", accent: true },
-              ].map((line, i) => {
-                const Heading = i === 0 ? "h1" : "h2";
-                return (
-                  <motion.div
-                    key={i}
-                    variants={fadeUp}
-                    className="flex items-baseline gap-5 border-b border-white/[0.04] py-5 first:pt-0 last:border-b-0 group"
-                  >
-                    <span className="font-cormorant font-light text-[11px] tracking-[0.2em] text-[#c9a84c]/40 w-6 shrink-0 select-none" aria-hidden="true">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <Heading
-                      className={`font-cormorant font-light text-[42px] md:text-[64px] lg:text-[78px] leading-[1.0] tracking-tight ${
-                        line.accent ? "text-shimmer" : "text-[#f0ece6]"
-                      } group-hover:translate-x-2 transition-transform duration-500`}
-                    >
-                      {line.text}
-                    </Heading>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-
-            <motion.p
-              variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-              className="font-inter font-normal text-[18px] md:text-[22px] text-[#e8e3dc] leading-[1.75] mt-10"
-            >
-              ZakazIQ je komunikační a rezervační systém, který přiřazuji každému svému klientovi. Po objednání konzultace přes <Vizeon /> se automaticky dostanete do systému. Odtud probíhá veškerá spolupráce.
-            </motion.p>
-          </div>
-
-          {/* Pravý sloupec — preview screenshot */}
-          <motion.div
-            variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-            className="w-full lg:w-[400px] xl:w-[460px] shrink-0 self-center flex flex-col items-center gap-4"
-          >
-            <div
-              className="relative w-full rounded-[32px] overflow-hidden border border-white/[0.08]"
-              style={{
-                boxShadow: "0 40px 100px rgba(0,0,0,0.55), 0 0 80px rgba(30,58,110,0.3), inset 0 1px 0 rgba(255,255,255,0.07)"
-              }}
-            >
-              <Image
-                src="/zakaziq-preview.png"
-                alt="Ukázka klientského prostředí ZakazIQ"
-                width={460}
-                height={860}
-                className="w-full h-auto object-cover"
-              />
+            <div className="mt-6 flex items-center gap-4">
+              <ZakazIqMark />
+              <h1
+                id="zakaziq-h1"
+                className={cn("pb-1 font-inter text-[44px] font-semibold leading-none tracking-tight sm:text-[56px]", zakaziqWordmark)}
+              >
+                ZakazIQ
+              </h1>
             </div>
-            <p className="font-inter font-normal text-[11px] text-text-secondary tracking-[0.06em] text-center uppercase">
-              Ukázka vašeho klientského prostředí
+            <p className="mt-4 font-inter text-[12px] font-medium uppercase tracking-[0.22em] text-text-muted">
+              Komunikační a rezervační systém
             </p>
-          </motion.div>
 
+            <p className={cn(t.lead, "mt-6 max-w-xl text-[#d6cebf]")}>
+              Systém, který jsme si postavili pro vlastní provoz. Řídí komunikaci, rezervace termínů i sběr zpětné
+              vazby bez jediného zbytečného e-mailu.
+            </p>
+
+            {/* Vlastnosti jako číslovaný seznam, ne nadpisy: osnovu nesou H2 sekcí níž */}
+            <ul className="mt-9 border-t border-white/[0.08]">
+              {FEATURES.map((f, i) => (
+                <li key={f.title} className="flex items-start gap-4 border-b border-white/[0.08] py-4">
+                  <span aria-hidden="true" className="mt-0.5 font-inter text-[12px] tabular-nums text-text-muted">
+                    {pad(i + 1)}
+                  </span>
+                  <f.icon size={19} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[#c9a84c]" aria-hidden="true" />
+                  <div>
+                    <p className="font-inter text-[16px] font-medium text-[#f0ece6]">{f.title}</p>
+                    <p className="mt-0.5 font-inter text-[15px] leading-[1.6] text-text-secondary">{f.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <CTAButton className="glow-pulse mt-9 inline-flex items-center justify-center gap-2 bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-semibold uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968] active:scale-[0.98]">
+              Chci podobný systém pro svou firmu
+              <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+            </CTAButton>
+            <p className="mt-4 max-w-md font-inter text-[13px] leading-[1.6] text-text-muted">
+              Žádná vymyšlená reference. ZakazIQ je systém, ve kterém s klienty skutečně pracujeme.
+            </p>
+          </Reveal>
+
+          {/* Náklon v perspektivě jen od lg, na mobilu karta stojí zpříma */}
+          <Reveal className="relative isolate lg:col-span-6">
+            <div aria-hidden="true" className="absolute -inset-8 -z-10 bg-[#c9a84c]/[0.07] blur-3xl" />
+            <div className="lg:[transform:perspective(1600px)_rotateY(-7deg)_rotateX(2deg)]">
+              <ZakazIqMockup />
+            </div>
+          </Reveal>
         </div>
 
-        {/* Feature cards */}
-        <motion.div
-          variants={staggerDramatic} initial="hidden" whileInView="visible" viewport={viewport}
-          className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-16"
-        >
-          {features.map((f, i) => (
-            <motion.div key={i} variants={cardEntrance} whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 320, damping: 26 }}>
-              <div className="group relative glass-panel glass-panel-hover p-7 h-full overflow-hidden">
-                {/* Top shimmer */}
-                <div className="card-shimmer-line absolute top-0 left-0 right-0 h-[1px] pointer-events-none" aria-hidden="true" />
+        {/* ─── Jak to funguje ─── */}
+        <Reveal className="glass-panel mt-24 p-7 md:mt-32 md:p-10">
+          <h2 className={h2}>Jak to funguje</h2>
+          <p className={cn(t.body, "mt-3")}>Od objednávky po dokončení běží vše na jednom místě.</p>
+          <ZakazIqSteps steps={STEPS} />
+        </Reveal>
 
-                {/* Hover glow */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: "radial-gradient(ellipse at 10% 0%, rgba(30,58,110,0.1), transparent 60%)" }}
-                  aria-hidden="true"
-                />
-
-                {/* Left accent */}
-                <div
-                  className="absolute left-0 top-8 bottom-8 w-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: "linear-gradient(to bottom, transparent, rgba(30,58,110,0.6), transparent)" }}
-                  aria-hidden="true"
-                />
-
-                {/* Icon */}
-                <div className="relative w-10 h-10 border border-[rgba(30,58,110,0.4)] flex items-center justify-center mb-6 group-hover:border-[rgba(30,58,110,0.8)] transition-all duration-300 z-10">
-                  <f.icon size={17} className="text-[#4a7fd4] group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ background: "rgba(30,58,110,0.08)" }}
-                    aria-hidden="true"
-                  />
-                </div>
-
-                <h3 className="font-cormorant font-light text-[22px] md:text-[24px] text-[#f0ece6] mb-3 leading-tight relative z-10">
-                  {f.title}
-                </h3>
-                <p className="font-inter font-normal text-[13px] text-text-secondary leading-[1.75] relative z-10">
-                  {f.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Flow — jak to funguje */}
-        <motion.div
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="glass-panel p-8 md:p-10 relative overflow-hidden"
-        >
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(135deg, rgba(30,58,110,0.06) 0%, transparent 60%)" }}
-            aria-hidden="true"
-          />
-
-          <p className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#4a7fd4] mb-6 relative z-10">
-            — Jak to funguje
-          </p>
-
-          <motion.div
-            variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}
-            className="grid grid-cols-1 md:grid-cols-4 gap-0 relative z-10"
-          >
-            {[
-              { step: "01", label: "Objednáte konzultaci", sub: "Zdarma přes VIZEON" },
-              { step: "02", label: "Přiřazení do ZakazIQ", sub: "Automaticky, okamžitě" },
-              { step: "03", label: "Komunikace & zpětná vazba", sub: "Přímo v systému" },
-              { step: "04", label: "Dokončení projektu", sub: "S přehledem na obou stranách" },
-            ].map((item, i, arr) => (
-              <motion.div key={i} variants={fadeUp} className="flex md:flex-col items-start md:items-start gap-4 md:gap-0 relative">
-                {/* Connector line (desktop) */}
-                {i < arr.length - 1 && (
-                  <div
-                    className="hidden md:block absolute top-[14px] left-[calc(50%+20px)] right-0 h-[1px]"
-                    style={{ background: "linear-gradient(to right, rgba(74,127,212,0.3), rgba(74,127,212,0.05))" }}
-                    aria-hidden="true"
-                  />
-                )}
-
-                <div className="flex items-center gap-3 md:mb-4">
-                  <span className="font-cormorant font-light text-[32px] md:text-[40px] text-[#1e3a6e]/60 leading-none select-none" aria-hidden="true">
-                    {item.step}
+        {/* ─── Technická architektura ─── */}
+        <Reveal className="mt-24 md:mt-32">
+          <h2 className={h2}>Technická architektura</h2>
+          <p className={cn(t.body, "mt-3")}>Žádné krabicové řešení. Tři vrstvy, každá dělá jednu věc.</p>
+          <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+            {STACK.map((s, i) => (
+              <div key={s.title} className="glass-panel glass-panel-hover flex flex-col p-7">
+                <div className="flex items-start justify-between">
+                  <span aria-hidden="true" className="font-cormorant text-[32px] font-light leading-none lining-nums text-[#c9a84c]">
+                    {pad(i + 1)}
                   </span>
-                  <div className="w-2 h-2 rounded-full bg-[#4a7fd4]/40 md:hidden shrink-0" aria-hidden="true" />
+                  <s.icon size={22} strokeWidth={1.25} className="text-[#c9a84c]/60" aria-hidden="true" />
                 </div>
-
-                <div className="md:mt-0">
-                  <p className="font-inter font-medium text-[13px] text-[#f0ece6] mb-1 leading-tight">
-                    {item.label}
-                  </p>
-                  <p className="font-inter font-normal text-[11px] text-text-secondary tracking-[0.03em]">
-                    {brandText(item.sub)}
-                  </p>
-                </div>
-              </motion.div>
+                <h3 className="mt-6 font-inter text-[17px] font-medium text-[#f0ece6]">{s.title}</h3>
+                <p className="mt-2 font-inter text-[15px] leading-[1.7] text-text-secondary">{s.text}</p>
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </Reveal>
 
-        {/* CTA */}
-        <motion.div
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-5"
-        >
-          <CTAButton className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#c9a84c] border border-[#c9a84c]/50 px-7 py-3 hover:bg-[#c9a84c] hover:text-[#080808] transition-all duration-300">
-            Konzultace zdarma → ZakazIQ
-          </CTAButton>
-          <p className="font-inter font-normal text-[12px] text-text-secondary">
-            Po objednání vás automaticky přidám do systému ZakazIQ.
-          </p>
-        </motion.div>
-
+        {/* ─── Proč vlastní produkt ─── */}
+        <Reveal className="glass-panel mt-24 p-8 md:mt-32 md:p-12">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5">
+              <h2 className={h2}>Proč vlastní produkt, ne reference</h2>
+              <p className="mt-4 font-inter text-[14px] text-text-muted">
+                — <Vizeon />
+              </p>
+              <CTAButton className="mt-7 inline-flex items-center gap-2 border border-[#c9a84c]/50 px-7 py-3.5 font-inter text-[13px] font-medium uppercase tracking-[0.1em] text-[#c9a84c] transition-colors duration-300 hover:bg-[#c9a84c] hover:text-[#080808]">
+                Nezávazná konzultace
+                <ArrowRight size={15} aria-hidden="true" />
+              </CTAButton>
+            </div>
+            <div className="space-y-5 lg:col-span-7">
+              <p className={cn(t.body, "text-[#d6cebf]")}>
+                ZakazIQ je naše vlastní dílo. Postavili jsme si ho pro vlastní provoz, protože jsme nechtěli ztrácet čas
+                ručním domlouváním termínů a nekonečnými e-maily.
+              </p>
+              <p className={t.body}>
+                Systém používají obě naše značky. Ať řešíte web pod značkou <Vizeon />, nebo{" "}
+                <Link href="/automatizace" className={t.link}>
+                  automatizaci pod značkou <Alteno />
+                </Link>
+                , stav zakázky vidíte na jednom místě.
+              </p>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
