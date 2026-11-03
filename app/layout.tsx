@@ -4,8 +4,9 @@ import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import CookieBanner from "@/components/CookieBanner";
+
+const GA_ID = "G-J5FMJYTGCK";
 
 // Safari s vypnutým "Block All Cookies" hodí synchronní SecurityError na
 // KAŽDÝ přístup k localStorage/sessionStorage — nejen náš vlastní kód (ten
@@ -48,6 +49,14 @@ const STORAGE_POLYFILL = `
   });
 })();
 `;
+
+// Když session intro homepage už viděla, označí <html> ještě před prvním
+// vykreslením, aby CSS nezobrazilo černé pozadí intra (.intro-backdrop
+// v globals.css, components/IntroAnimation.tsx). Musí být obyčejný inline
+// <script> v <head>: next/script beforeInteractive v App Routeru běží až
+// s bootstrapem Next.js, tedy po prvním vykreslení. Při zablokovaném
+// storage spadne do catch a intro se chová jako při první návštěvě.
+const INTRO_SEEN = `try{if(sessionStorage.getItem("vizeon_intro"))document.documentElement.setAttribute("data-intro-seen","")}catch(e){}`;
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -180,11 +189,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="cs" className={cn(cormorant.variable, inter.variable, "font-sans")}>
+    // suppressHydrationWarning: atribut data-intro-seen přidává inline skript
+    // před hydratací, React by jinak hlásil nesoulad atributů na <html>.
+    <html lang="cs" className={cn(cormorant.variable, inter.variable, "font-sans")} suppressHydrationWarning>
       <head>
         <Script id="safe-storage-polyfill" strategy="beforeInteractive">
           {STORAGE_POLYFILL}
         </Script>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SEEN }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -206,7 +218,15 @@ export default function RootLayout({
           }}
         />
         <CookieBanner />
-        <GoogleAnalytics gaId="G-J5FMJYTGCK" />
+        {/* GA až po načtení stránky (lazyOnload). <GoogleAnalytics> z
+            @next/third-parties ho vkládal jako afterInteractive i s <link
+            rel="preload"> v <head>: 180 kB skriptu tak na pomalém mobilu
+            soupeřilo o linku s CSS a fonty a posouvalo LCP. Init je stejný
+            jako v @next/third-parties. */}
+        <Script id="ga-init" strategy="lazyOnload">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
+        </Script>
+        <Script id="ga" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
       </body>
     </html>
   );

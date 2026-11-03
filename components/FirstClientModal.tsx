@@ -417,7 +417,7 @@ export default function FirstClientModal({ open, onClose }: Props) {
               </div>
 
               <p className="font-inter font-normal text-[15px] text-text-secondary max-w-sm leading-[1.75]">
-                Ozvu se ti do <span className="text-[#f0ece6]">24 hodin</span>. Těším se na spolupráci.
+                Ozvu se ti do <span className="text-[#f0ece6]">hodiny</span> a navrhnu dva termíny hovoru. Těším se na spolupráci.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">

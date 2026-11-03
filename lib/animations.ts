@@ -1,4 +1,17 @@
-import { Variants } from "framer-motion";
+import type { CSSProperties } from "react";
+import type { Variants } from "framer-motion";
+
+/**
+ * Inline styl pro CSS vstup `.hero-in` (app/globals.css) u obsahu nad ohybem.
+ * Hero se animuje v CSS, ne přes framer-motion, aby byl vidět hned po prvním
+ * vykreslení a nečekal na JS (LCP na mobilu). `ms` = zpoždění, `y` = posun v px.
+ */
+export function heroIn(ms = 0, y?: number): CSSProperties {
+  return {
+    "--hero-delay": `${ms}ms`,
+    ...(y !== undefined && { "--hero-y": `${y}px` }),
+  } as CSSProperties;
+}
 
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 45 },

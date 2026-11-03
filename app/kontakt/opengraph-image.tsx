@@ -7,6 +7,6 @@ export const contentType = "image/png";
 export default function Image() {
   return buildOgImage(
     "Kontakt — nezávazná konzultace zdarma",
-    "Poptávka webu · Odpověď do 24 hodin · Bez závazků"
+    "Poptávka webu · Odpověď do hodiny · Bez závazků"
   );
 }

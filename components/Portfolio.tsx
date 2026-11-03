@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { fadeUp, viewport } from "@/lib/animations";
+import { fadeUp, viewport, heroIn } from "@/lib/animations";
 import { projects, projectGroups, projectScreens, type Project, type ProjectGroup } from "@/lib/data/portfolio";
 import { testimonials } from "@/lib/data/testimonials";
 import { brandText } from "@/components/brand/BrandName";
@@ -63,11 +63,11 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 // Scéna je jen zvětšená klikací plocha k odkazu v nadpisu, proto je mimo pořadí tabulátoru.
-function StageLink({ project, variant }: { project: Project; variant: "card" | "feature" }) {
+function StageLink({ project, variant, priority }: { project: Project; variant: "card" | "feature"; priority?: boolean }) {
   return (
     <Link href={`/ukazky-webu/${project.slug}`} tabIndex={-1} aria-hidden="true" className="block">
       <CursorStage label="Detail">
-        <ProjectStage project={project} screens={projectScreens(project)} variant={variant} />
+        <ProjectStage project={project} screens={projectScreens(project)} variant={variant} priority={priority} />
       </CursorStage>
     </Link>
   );
@@ -107,7 +107,9 @@ function ProjectFeature({ project, index, flip }: { project: Project; index: num
   return (
     <article className="group grid items-center gap-8 lg:grid-cols-12 lg:gap-14">
       <div className={cn("lg:col-span-8", flip && "lg:order-2")}>
-        <StageLink project={project} variant="feature" />
+        {/* První projekt je na mobilu nad ohybem a jeho obrázek je LCP prvek
+            stránky: bez priority by se načítal líně (loading="lazy"). */}
+        <StageLink project={project} variant="feature" priority={index === 0} />
       </div>
       <div className="lg:col-span-4">
         <Meta index={index} project={project} />
@@ -173,18 +175,20 @@ export default function Portfolio() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="mb-12 md:mb-16">
           <div className="mb-10 md:mb-12">
-            <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-              className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
+            {/* Úvod stránky se animuje v CSS (.hero-in), ne přes whileInView: je nad
+                ohybem a s framer-motion by čekal na hydrataci JS (LCP na mobilu). */}
+            <p style={heroIn(0, 45)}
+              className="hero-in font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
               — Projekty
-            </motion.p>
-            <motion.h1 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-              className="font-cormorant font-light text-[40px] md:text-[64px] leading-[1.05] text-[#f0ece6] mb-5">
+            </p>
+            <h1 style={heroIn(80, 45)}
+              className="hero-in font-cormorant font-light text-[40px] md:text-[64px] leading-[1.05] text-[#f0ece6] mb-5">
               Výsledky mluví za vše.
-            </motion.h1>
-            <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-              className="font-inter font-normal text-[16px] md:text-[18px] text-text-secondary leading-[1.7] max-w-2xl">
+            </h1>
+            <p style={heroIn(160, 45)}
+              className="hero-in font-inter font-normal text-[16px] md:text-[18px] text-text-secondary leading-[1.7] max-w-2xl">
               Skutečné weby našich klientů i vlastní produkty. Na počítači i v mobilu, s detailem každého projektu.
-            </motion.p>
+            </p>
           </div>
 
           <div role="group" aria-label="Filtrovat projekty" className="-mx-6 overflow-x-auto px-6 md:mx-0 md:px-0">

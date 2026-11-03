@@ -28,6 +28,7 @@ import { JourneyPhone } from "@/components/industry/JourneyPhone";
 import { ShiftList } from "@/components/industry/ShiftList";
 import { SearchPanel } from "@/components/industry/SearchPanel";
 import { RevealGroup, RevealItem } from "@/components/industry/Motion";
+import { heroIn } from "@/lib/animations";
 import { INDUSTRY_PAGES, type IndustryPage } from "@/lib/data/industry-pages";
 import { projects, projectScreens } from "@/lib/data/portfolio";
 import { testimonials } from "@/lib/data/testimonials";
@@ -185,8 +186,11 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
           aria-hidden="true"
         />
         <div className={cn(t.container.wide, "relative grid items-center gap-16 pb-24 pt-28 md:pt-36 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 lg:pb-32")}>
-          <RevealGroup>
-            <RevealItem>
+          {/* Hero se animuje v CSS (.hero-in), ne přes RevealGroup: H1 a úvodní
+              text jsou LCP prvky a s framer-motion se na mobilu ukázaly až po
+              hydrataci JS. Zpoždění odpovídají dřívějšímu staggeru 40 + 80 ms. */}
+          <div>
+            <div className="hero-in" style={heroIn(40)}>
               <nav aria-label="Drobečková navigace" className="mb-8">
                 <ol className="flex flex-wrap items-center gap-1.5 font-inter text-[14px] text-text-muted">
                   <li>
@@ -200,19 +204,19 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
                   <li aria-current="page" className="text-text-secondary">{page.name}</li>
                 </ol>
               </nav>
-            </RevealItem>
-            <RevealItem>
+            </div>
+            <div className="hero-in" style={heroIn(120)}>
               <h1
                 id="hero-h1"
                 className="max-w-[17ch] font-cormorant font-light text-[40px] leading-[1.04] tracking-[-0.01em] text-[#f0ece6] sm:text-[52px] lg:text-[60px] xl:text-[66px]"
               >
                 {page.h1.lead} <span className="text-shimmer">{page.h1.accent}</span>
               </h1>
-            </RevealItem>
-            <RevealItem>
+            </div>
+            <div className="hero-in" style={heroIn(200)}>
               <p className={cn(t.lead, "mt-7 max-w-xl text-[#d6cebf]")}>{page.intro}</p>
-            </RevealItem>
-            <RevealItem className="mt-10 flex flex-col gap-3 sm:flex-row">
+            </div>
+            <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row" style={heroIn(280)}>
               <CTAButton className="glow-pulse inline-flex items-center justify-center gap-2 bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-semibold uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968] active:scale-[0.98]">
                 Nezávazná konzultace
                 <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
@@ -223,8 +227,8 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
               >
                 Kolik to stojí
               </a>
-            </RevealItem>
-            <RevealItem>
+            </div>
+            <div className="hero-in" style={heroIn(360)}>
               <ul className="mt-10 flex flex-wrap gap-x-7 gap-y-3 font-inter text-[15px] text-text-secondary">
                 {[`${plan.name} ${PRICE_BY_NAME[plan.name]}`, plan.delivery, "Na Googlu i Seznamu"].map((fact) => (
                   <li key={fact} className="flex items-center gap-2">
@@ -233,14 +237,12 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
                   </li>
                 ))}
               </ul>
-            </RevealItem>
-          </RevealGroup>
+            </div>
+          </div>
 
-          <RevealGroup>
-            <RevealItem>
-              <JourneyPhone scene={page.scene} />
-            </RevealItem>
-          </RevealGroup>
+          <div className="hero-in" style={heroIn(40)}>
+            <JourneyPhone scene={page.scene} />
+          </div>
         </div>
       </section>
 
@@ -619,7 +621,7 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
             </RevealItem>
             <RevealItem>
               <p className={cn(t.body, "mt-5")}>
-                Nenašli jste odpověď? Napište nám, ozveme se do 24 hodin.
+                Nenašli jste odpověď? Napište nám, ozveme se do hodiny.
               </p>
             </RevealItem>
             <RevealItem>
@@ -661,7 +663,7 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
           </RevealItem>
           <RevealItem>
             <p className="relative mx-auto mt-5 max-w-xl font-inter text-[17px] leading-[1.7] text-[#d6cebf]">
-              Nezávazná konzultace zdarma. Ozveme se do 24 hodin a doporučíme řešení, které dává smysl.
+              Nezávazná konzultace zdarma. Ozveme se do hodiny a navrhneme dva termíny hovoru.
             </p>
           </RevealItem>
           <RevealItem className="relative mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

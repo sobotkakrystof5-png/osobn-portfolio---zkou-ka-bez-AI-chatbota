@@ -7,7 +7,7 @@ import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 
 import type { MotionValue, Variants } from "framer-motion";
 import { Phone, Ruler, Code2, Rocket, ArrowRight, Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { fadeUp, revealInstant, slideLeft, slideRight, viewport } from "@/lib/animations";
+import { fadeUp, heroIn, revealInstant, slideLeft, slideRight, viewport } from "@/lib/animations";
 import { usePrefersReducedMotion } from "@/components/automation/usePrefersReducedMotion";
 import { CTAButton } from "@/components/CTAButton";
 import { StepStage } from "@/components/how-it-works/StepScenes";
@@ -103,6 +103,14 @@ export default function HowItWorks({ variant = "page" }: { variant?: "home" | "p
   const bg = isHome ? "bg-[#0e0e0e]" : "bg-[#080808]";
   const reduced = usePrefersReducedMotion();
   const reveal = reduced ? revealInstant : fadeUp;
+  // Na /spoluprace je úvod sekce hero nad ohybem: vstup v CSS (.hero-in), ať
+  // H1 nečeká na hydrataci JS (LCP na mobilu). Na homepage je sekce pod
+  // ohybem a dál se odhaluje při scrollu přes whileInView.
+  const enter = (ms: number) =>
+    isHome
+      ? { variants: reveal, initial: "hidden" as const, whileInView: "visible" as const, viewport }
+      : { initial: false as const, style: heroIn(ms, 45) };
+  const enterClass = isHome ? "" : "hero-in ";
 
   const timelineRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -164,12 +172,12 @@ export default function HowItWorks({ variant = "page" }: { variant?: "home" | "p
     <section id="jak-to-funguje" className={cn("overflow-x-clip py-24 md:py-36", bg)} aria-label="Jak to probíhá">
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         <div className="max-w-4xl md:mx-auto md:text-center">
-          <motion.p variants={reveal} initial="hidden" whileInView="visible" viewport={viewport}
-            className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
+          <motion.p {...enter(0)}
+            className={enterClass + "font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4"}>
             — Jak to probíhá
           </motion.p>
-          <Heading variants={reveal} initial="hidden" whileInView="visible" viewport={viewport}
-            className="font-cormorant font-light text-[36px] md:text-[60px] leading-[1.06] text-[#f0ece6] text-balance">
+          <Heading {...enter(80)}
+            className={enterClass + "font-cormorant font-light text-[36px] md:text-[60px] leading-[1.06] text-[#f0ece6] text-balance"}>
             Čtyři kroky od nápadu <em className="italic text-[#c9a84c]">ke&nbsp;spuštění.</em>
           </Heading>
           {/* Linku spouští obal: IntersectionObserver prvek se scaleX(0)
@@ -183,8 +191,8 @@ export default function HowItWorks({ variant = "page" }: { variant?: "home" | "p
               }}
             />
           </motion.div>
-          <motion.p variants={reveal} initial="hidden" whileInView="visible" viewport={viewport}
-            className="mt-7 font-inter font-normal text-[15px] md:text-[17px] text-text-secondary leading-[1.7] max-w-xl md:mx-auto">
+          <motion.p {...enter(160)}
+            className={enterClass + "mt-7 font-inter font-normal text-[15px] md:text-[17px] text-text-secondary leading-[1.7] max-w-xl md:mx-auto"}>
             Od prvního hovoru po spuštěný web. Vždy víte, co se děje a kdy.
           </motion.p>
         </div>

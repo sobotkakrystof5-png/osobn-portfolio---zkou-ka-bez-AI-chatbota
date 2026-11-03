@@ -378,13 +378,45 @@ body {
   to   { transform: scaleX(1); }
 }
 
+/* Vstup obsahu hero sekcí (nad ohybem) čistě v CSS. Běží hned po prvním
+   vykreslení, nečeká na stažení a hydrataci JS, takže LCP nastane ve chvíli
+   prvního snímku animace, ne až po framer-motion (na mobilu i 5+ s).
+   Zpoždění a posun nastavuje komponenta přes --hero-delay / --hero-y.
+   U hlavního textu držte zpoždění do ~300 ms, během něj je prvek průhledný.
+   Start z 0.01, ne z 0: Chrome (ověřeno ve 156) prvek, který se vykreslí
+   s opacity 0 a dál ho mění jen animace na compositoru, jako LCP vůbec
+   nezapočítá. LCP pak připadne čemukoli, co se vykreslí později (logo,
+   cookie lišta po hydrataci). Vizuálně je 0.01 totéž co 0. */
+@keyframes hero-in {
+  from { opacity: 0.01; transform: translateY(var(--hero-y, 24px)); }
+}
+.hero-in {
+  animation: hero-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--hero-delay, 0ms);
+}
+
+/* Černé pozadí intra na homepage už v serverovém HTML, ať se hero neukáže
+   na zlomek vteřiny dřív, než intro po hydrataci naběhne. Jen desktop:
+   na mobilu se intro nepouští (components/IntroAnimation.tsx). Atribut
+   data-intro-seen nastavuje inline skript v app/layout.tsx ještě před
+   vykreslením, když session intro už viděla. */
+.intro-backdrop {
+  display: none;
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  html:not([data-intro-seen]) .intro-backdrop {
+    display: block;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* Scéna Voice agentů se pod reduced-motion vykreslí rovnou dokončená
      a do stavu `speaking` se nedostane. Tohle je pojistka. */
   .animate-voice-wave,
   .animate-nav-panel-in,
   .text-gleam,
-  .group:hover .pain-jolt {
+  .group:hover .pain-jolt,
+  .hero-in {
     animation: none;
   }
   .benefit-lift {

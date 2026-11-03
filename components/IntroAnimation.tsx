@@ -29,9 +29,13 @@ export default function IntroAnimation() {
     // ~2.85s uzamčeného scrollu) mu vůbec nepouštíme, stejně jako v
     // sessionStorage větvi níže. Viz vizeon.cz-audit/findings/visual.md
     // Finding 1.
+    // Na mobilu (pod 768 px) se intro nepouští taky. Naběhne až po hydrataci,
+    // což je na pomalém telefonu i několik sekund po zobrazení hero, takže by
+    // už čtený obsah překrylo a zamklo scroll. Hranice sedí s .intro-backdrop
+    // v app/globals.css.
     if (
       typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 767px)").matches
     ) {
       setSkip(true);
       setLocked(false);
@@ -71,10 +75,19 @@ export default function IntroAnimation() {
     }
   };
 
-  // Nezobrazuj na serveru ani když session intro už viděla. Když `visible`
-  // spadne na false, AnimatePresence níže musí zůstat vyrenderovaná, ať
-  // stihne přehrát exit animaci a zavolat onExitComplete.
-  if (!mounted || skip) return null;
+  // Nezobrazuj, když session intro už viděla. Když `visible` spadne na false,
+  // AnimatePresence níže musí zůstat vyrenderovaná, ať stihne přehrát exit
+  // animaci a zavolat onExitComplete.
+  if (skip) return null;
+
+  // Server a první render klienta: jen černé pozadí intra. Stránka už není
+  // celá schovaná (app/template.tsx), takže bez něj by na desktopu hero
+  // problesklo dřív, než intro po hydrataci naběhne. Kdy je vidět, řeší
+  // CSS (.intro-backdrop): jen desktop bez reduced motion a jen když session
+  // intro ještě neviděla.
+  if (!mounted) {
+    return <div className="intro-backdrop fixed inset-0 z-[200] bg-[#080808]" aria-hidden="true" />;
+  }
 
   return (
     <AnimatePresence onExitComplete={handleExitComplete}>

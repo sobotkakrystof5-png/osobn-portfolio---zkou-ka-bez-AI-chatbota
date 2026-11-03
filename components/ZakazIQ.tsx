@@ -7,6 +7,7 @@ import { Alteno, Vizeon } from "@/components/brand/BrandName";
 import { ZakazIqMark, zakaziqWordmark } from "@/components/zakaziq/ZakazIqMark";
 import { ZakazIqMockup } from "@/components/zakaziq/ZakazIqMockup";
 import { ZakazIqSteps } from "@/components/zakaziq/ZakazIqSteps";
+import { heroIn } from "@/lib/animations";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -88,7 +89,9 @@ export default function ZakazIQ() {
 
         {/* ─── Hero: produkt vlevo, běžící rozhraní vpravo ─── */}
         <div className="mt-10 grid grid-cols-1 gap-14 lg:grid-cols-12 lg:items-center">
-          <Reveal className="lg:col-span-6">
+          {/* Hero nad ohybem se animuje v CSS (.hero-in), ne přes Reveal: s ním
+              by H1 a úvodní text čekaly na hydrataci JS (LCP na mobilu). */}
+          <div className="hero-in lg:col-span-6" style={heroIn(0, 45)}>
             <span className="inline-flex items-center border border-[#c9a84c]/35 bg-[#c9a84c]/[0.06] px-3.5 py-1.5 font-inter text-[11px] font-medium uppercase tracking-[0.2em] text-[#c9a84c]">
               Vlastní produkt
             </span>
@@ -134,15 +137,15 @@ export default function ZakazIQ() {
             <p className="mt-4 max-w-md font-inter text-[13px] leading-[1.6] text-text-muted">
               Žádná vymyšlená reference. ZakazIQ je systém, ve kterém s klienty skutečně pracujeme.
             </p>
-          </Reveal>
+          </div>
 
           {/* Náklon v perspektivě jen od lg, na mobilu karta stojí zpříma */}
-          <Reveal className="relative isolate lg:col-span-6">
+          <div className="hero-in relative isolate lg:col-span-6" style={heroIn(120, 45)}>
             <div aria-hidden="true" className="absolute -inset-8 -z-10 bg-[#c9a84c]/[0.07] blur-3xl" />
             <div className="lg:[transform:perspective(1600px)_rotateY(-7deg)_rotateX(2deg)]">
               <ZakazIqMockup />
             </div>
-          </Reveal>
+          </div>
         </div>
 
         {/* ─── Jak to funguje ─── */}

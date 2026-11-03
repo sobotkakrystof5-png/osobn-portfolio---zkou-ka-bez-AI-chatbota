@@ -8,6 +8,7 @@ import { FOOTER_LINKS, FOOTER_AUTOMATION_LINKS } from "@/lib/nav";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
 import { Alteno, Vizeon } from "@/components/brand/BrandName";
+import PhoneReveal from "@/components/PhoneReveal";
 
 function InstagramIcon({ size = 16 }: { size?: number }) {
   return (
@@ -110,6 +111,7 @@ export default function Footer() {
                   info@vizeon.cz
                 </span>
               </a>
+              <PhoneReveal />
               <a
                 href="https://www.instagram.com/vizeon_official/"
                 target="_blank"

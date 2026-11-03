@@ -15,7 +15,6 @@ import { HOME_FAQ } from "@/lib/data/home-faq";
 // v prvotním HTML pro crawlery. U referencí na tom záleží kvůli E-E-A-T.
 // `loading` skeleton se reálně uplatní jen při klientské navigaci.
 const OfferDashboard = dynamic(() => import("@/components/OfferDashboard"));
-const MoreThanWeb = dynamic(() => import("@/components/MoreThanWeb"));
 const OurValues = dynamic(() => import("@/components/OurValues"));
 const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
 const HomeFAQ = dynamic(() => import("@/components/HomeFAQ"));
@@ -73,9 +72,8 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <SocialProof />
-        <OfferDashboard />
-        <MoreThanWeb />
         <ReferencesSection />
+        <OfferDashboard />
         <OurValues />
         <HowItWorks variant="home" />
         <HomeFAQ />

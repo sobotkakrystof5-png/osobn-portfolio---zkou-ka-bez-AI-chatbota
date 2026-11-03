@@ -47,7 +47,7 @@ export default function AboutFinale() {
             Chcete být u toho?
           </motion.h2>
           <motion.p variants={reveal} className="mt-7 max-w-xl font-inter text-[17px] leading-[1.7] text-[#f0ece6]/90 md:text-[19px]">
-            Hledáte web, který vám přivede zákazníky, nebo místo v týmu, který teprve roste? Napište, odpovídám do 24 hodin.
+            Hledáte web, který vám přivede zákazníky, nebo místo v týmu, který teprve roste? Napište, odpovídám do hodiny.
           </motion.p>
           <motion.div variants={reveal} className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
             <CTAButton className="inline-flex bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-medium text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">

@@ -1,8 +1,16 @@
 'use client'
 
 import { useEffect, useRef, useCallback } from 'react'
-import { supabase } from '@/lib/supabase'
 import { safeStorageGet, safeStorageSet } from '@/lib/utils'
+
+// supabase-js (~57 kB gzip) se stáhne až s prvním eventem, ne v hlavním JS
+// každé stránky. Na mobilu to zdržovalo načtení i hydrataci. Import se
+// cachuje, další eventy už čekají jen na síť.
+let supabaseClient: Promise<typeof import('@/lib/supabase')['supabase']> | null = null
+function getSupabase() {
+  supabaseClient ??= import('@/lib/supabase').then((m) => m.supabase)
+  return supabaseClient
+}
 
 // ── Session ID (unikátní per návštěva, ne per tab) ──────
 function getSessionId(): string {
@@ -33,6 +41,7 @@ export function useAnalytics(page: string) {
   ) => {
     if (typeof window === 'undefined') return
     try {
+      const supabase = await getSupabase()
       await supabase.from('analytics_events').insert({
         session_id: sid.current,
         event_type: eventType,
@@ -96,7 +105,7 @@ export function useAnalytics(page: string) {
 export function useTrackClick(page: string) {
   const sid = useRef(getSessionId())
   return useCallback((element: string, section?: string, value?: string) => {
-    supabase.from('analytics_events').insert({
+    getSupabase().then((supabase) => supabase.from('analytics_events').insert({
       session_id: sid.current,
       event_type: 'click',
       page,
@@ -104,6 +113,6 @@ export function useTrackClick(page: string) {
       section: section ?? null,
       value: value ?? null,
       user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
-    }).then(() => {})
+    })).then(() => {}, () => {})
   }, [page])
 }

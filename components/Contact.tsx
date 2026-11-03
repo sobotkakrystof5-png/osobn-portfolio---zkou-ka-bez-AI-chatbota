@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { motion } from "framer-motion";
 import { Mail, Loader2, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { fadeUp, slideLeft, slideRight, stagger, viewport } from "@/lib/animations";
+import PhoneReveal from "@/components/PhoneReveal";
 
 function InstagramIcon({ size = 16, className }: { size?: number; className?: string }) {
   return (
@@ -19,20 +18,27 @@ function InstagramIcon({ size = 16, className }: { size?: number; className?: st
   );
 }
 
-const schema = z.object({
-  name:    z.string().min(2, "Zadejte prosím jméno"),
-  email:   z.string().email("Neplatná emailová adresa"),
-  phone:   z.string().optional(),
-  message: z.string().min(10, "Zpráva musí mít alespoň 10 znaků"),
-});
-type FormData = z.infer<typeof schema>;
+// Validace přes react-hook-form, ne zod: zod (~74 kB gzip) byl kvůli čtyřem
+// polím v hlavním JS každé stránky s formulářem a na mobilu zdržoval
+// načtení. Pravidla a hlášky odpovídají dřívějšímu zod schématu, server
+// validuje dál přes zod (app/api/contact/route.ts).
+type FormData = { name: string; email: string; phone?: string; message: string };
+
+// Stejný regex jako z.string().email() v zod 4 (zod/v4/core/regexes.js).
+const EMAIL_RE = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;
+
+const rules = {
+  name:    { validate: (v: string) => v.length >= 2 || "Zadejte prosím jméno" },
+  email:   { validate: (v: string) => EMAIL_RE.test(v) || "Neplatná emailová adresa" },
+  message: { validate: (v: string) => v.length >= 10 || "Zpráva musí mít alespoň 10 znaků" },
+};
 
 const inputClass = "w-full bg-[#111111] border border-white/[0.07] text-[#f0ece6] font-inter font-normal text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] focus-visible:ring-1 focus-visible:ring-[rgba(201,168,76,0.3)] transition-colors placeholder-text-muted";
 
 export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" | "h2" }) {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
   const Heading = motion[headingLevel];
 
   const onSubmit = async (data: FormData) => {
@@ -41,7 +47,7 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
       const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       if (!res.ok) { const j = (await res.json()) as { error?: string }; throw new Error(j.error ?? "Chyba"); }
       setSubmitted(true); reset();
-      toast.success("Děkujeme! Ozveme se do 24 hodin.");
+      toast.success("Děkujeme! Ozveme se do hodiny a navrhneme dva termíny hovoru.");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Odeslání se nezdařilo.");
     } finally { setSending(false); }
@@ -67,7 +73,7 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-start gap-4">
                 <CheckCircle size={40} className="text-[#c9a84c]" />
                 <h3 className="font-cormorant font-light text-[32px] text-[#f0ece6]">Zpráva odeslána!</h3>
-                <p className="font-inter font-normal text-[15px] text-text-secondary">Ozveme se vám do 24 hodin. Děkujeme za důvěru.</p>
+                <p className="font-inter font-normal text-[15px] text-text-secondary">Ozveme se vám do hodiny a navrhneme dva konkrétní termíny hovoru. Děkujeme za důvěru.</p>
                 <button onClick={() => setSubmitted(false)} className="mt-2 font-inter font-medium text-[13px] text-[#c9a84c] underline underline-offset-4 hover:no-underline transition-all">
                   Odeslat další zprávu
                 </button>
@@ -77,12 +83,12 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Jméno *</label>
-                    <input id="name" type="text" autoComplete="name" {...register("name")} className={inputClass} placeholder="Jan Novák" />
+                    <input id="name" type="text" autoComplete="name" {...register("name", rules.name)} className={inputClass} placeholder="Jan Novák" />
                     {errors.name && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.name.message}</p>}
                   </div>
                   <div>
                     <label htmlFor="email" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Email *</label>
-                    <input id="email" type="email" autoComplete="email" {...register("email")} className={inputClass} placeholder="jan@firma.cz" />
+                    <input id="email" type="email" autoComplete="email" {...register("email", rules.email)} className={inputClass} placeholder="jan@firma.cz" />
                     {errors.email && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.email.message}</p>}
                   </div>
                   <div>
@@ -91,7 +97,7 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
                   </div>
                   <div>
                     <label htmlFor="message" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Zpráva *</label>
-                    <textarea id="message" rows={5} {...register("message")} className={`${inputClass} resize-none`} placeholder="Ahoj, mám zájem o..." />
+                    <textarea id="message" rows={5} {...register("message", rules.message)} className={`${inputClass} resize-none`} placeholder="Ahoj, mám zájem o..." />
                     {errors.message && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.message.message}</p>}
                   </div>
                   <button type="submit" disabled={sending}
@@ -111,15 +117,16 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
                 <Mail size={15} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-normal text-[14px] text-text-secondary group-hover:text-[#f0ece6] transition-colors duration-300 break-all">info@vizeon.cz</span>
               </a>
+              <PhoneReveal iconSize={15} textSize={14} />
               <a href="https://www.instagram.com/vizeon_official/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group" aria-label="Instagram">
                 <InstagramIcon size={15} className="text-[#c9a84c] shrink-0" />
                 <span className="font-inter font-normal text-[14px] text-text-secondary group-hover:text-[#f0ece6] transition-colors duration-300">Instagram</span>
               </a>
               <div className="pt-4">
                 <p className="font-cormorant font-light text-[30px] leading-[1.25]">
-                  <span className="text-shimmer">Odpovídáme do 24 hodin.</span>
+                  <span className="text-shimmer">Odpovídáme do hodiny.</span>
                   <br />
-                  <span className="text-text-secondary">Každý den.</span>
+                  <span className="text-text-secondary">Hovor navrhneme ve dvou termínech.</span>
                 </p>
               </div>
             </div>

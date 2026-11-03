@@ -4,9 +4,8 @@ import { useRef } from "react";
 import type { PointerEvent } from "react";
 import Image from "next/image";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import type { Variants } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { fadeUp, revealInstant } from "@/lib/animations";
+import { heroIn } from "@/lib/animations";
 import { usePrefersReducedMotion } from "@/components/automation/usePrefersReducedMotion";
 import { Alteno, Vizeon } from "@/components/brand/BrandName";
 import { CTAButton } from "@/components/CTAButton";
@@ -23,8 +22,6 @@ const FACTS = [
   { value: "15+", label: "projektů od května 2026" },
   { value: "2", label: "vlastní značky" },
 ];
-
-const stagger: Variants = { hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
 
 function PhotoCard({ reduced }: { reduced: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -83,36 +80,38 @@ function PhotoCard({ reduced }: { reduced: boolean }) {
 
 export default function AboutHero() {
   const reduced = usePrefersReducedMotion();
-  const reveal = reduced ? revealInstant : fadeUp;
 
   return (
     <section aria-labelledby="o-nas-nadpis" className="relative bg-[#080808] pb-24 pt-32 md:pb-32 md:pt-44">
       <div className={cn(t.container.wide, "grid items-center gap-16 lg:grid-cols-12 lg:gap-16")}>
-        <motion.div variants={reduced ? {} : stagger} initial="hidden" animate="visible" className="lg:col-span-7">
-          <motion.h1
+        {/* Vstup v CSS (.hero-in), ne přes framer-motion: H1 a úvodní text jsou
+            LCP prvky a s JS animací se na mobilu ukázaly až po hydrataci.
+            Zpoždění odpovídají dřívějšímu staggeru 100 + 80 ms. */}
+        <div className="lg:col-span-7">
+          <h1
             id="o-nas-nadpis"
-            variants={reveal}
-            className="font-cormorant text-[46px] font-light leading-[0.98] tracking-[-0.015em] text-[#f0ece6] sm:text-[60px] md:text-[80px] lg:text-[86px]"
+            style={heroIn(100, 45)}
+            className="hero-in font-cormorant text-[46px] font-light leading-[0.98] tracking-[-0.015em] text-[#f0ece6] sm:text-[60px] md:text-[80px] lg:text-[86px]"
           >
             Teprve začínáme.
             <br />
             Míříme vysoko.
-          </motion.h1>
-          <motion.p variants={reveal} className="mt-8 max-w-xl font-inter text-[17px] leading-[1.7] text-[#f0ece6]/90 md:text-[19px]">
+          </h1>
+          <p style={heroIn(180, 45)} className="hero-in mt-8 max-w-xl font-inter text-[17px] leading-[1.7] text-[#f0ece6]/90 md:text-[19px]">
             Jsem Kryštof. Programovat jsem začal ve 14 letech, dnes studuji v Německu a stojím za značkami <Vizeon /> a <Alteno />.
             Každý projekt řeším osobně, od prvního nápadu po poslední detail.
-          </motion.p>
+          </p>
 
-          <motion.dl variants={reveal} className="mt-12 grid max-w-xl grid-cols-3 gap-6">
+          <dl style={heroIn(260, 45)} className="hero-in mt-12 grid max-w-xl grid-cols-3 gap-6">
             {FACTS.map((f) => (
               <div key={f.value} className="flex flex-col">
                 <dt className="order-2 mt-3 font-inter text-[14px] leading-[1.45] text-text-secondary md:text-[15px]">{f.label}</dt>
                 <dd className="order-1 font-cormorant text-[44px] font-light leading-none text-[#c9a84c] md:text-[60px]">{f.value}</dd>
               </div>
             ))}
-          </motion.dl>
+          </dl>
 
-          <motion.div variants={reveal} className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
+          <div style={heroIn(340, 45)} className="hero-in mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
             <CTAButton className="inline-flex bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-medium text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
               Nezávazná konzultace zdarma →
             </CTAButton>
@@ -123,12 +122,12 @@ export default function AboutHero() {
               Projít si cestu
               <ArrowDown size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5" />
             </a>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div variants={reveal} initial="hidden" animate="visible" className="lg:col-span-5">
+        <div style={heroIn(0, 45)} className="hero-in lg:col-span-5">
           <PhotoCard reduced={reduced} />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

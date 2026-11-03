@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { staggerFast, fadeIn, fadeUp } from "@/lib/animations";
+import { heroIn } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 
@@ -86,15 +86,18 @@ export default function Hero() {
         aria-hidden="true" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-24 sm:pt-28 md:pt-24 pb-12 sm:pb-14 md:pb-20">
-        <motion.h1 variants={staggerFast} initial="hidden" animate="visible"
+        {/* Vstup textu běží v CSS (.hero-in), ne přes framer-motion: H1 a podtitulek
+            jsou LCP prvky a s JS animací se na mobilu ukázaly až po hydrataci
+            (LCP 5–7 s). Proto i kratší zpoždění než dřív (podtitulek míval 0,8 s). */}
+        <h1
           className="font-cormorant font-light leading-[1.12] text-[38px] sm:text-[48px] md:text-[62px] lg:text-[76px] text-[#f0ece6] mb-5 md:mb-6"
           aria-label="Weby a e-shopy, které spojují moderní design, SEO a automatizaci procesů.">
           {words.map((word, i) => (
             <Fragment key={i}>
-              <motion.span variants={fadeUp}
-                className={`inline-block ${i >= 7 ? "text-shimmer" : ""}`}>
+              <span style={heroIn(i * 50, 45)}
+                className={`hero-in inline-block ${i >= 7 ? "text-shimmer" : ""}`}>
                 {word}
-              </motion.span>
+              </span>
               {/* Mezera jako reálný text uzel MIMO inline-block span (ne jen CSS
                   margin), ať plain-text extrakce (čtečky, Google, AI crawlery)
                   nečte slova slepená dohromady — viz SXO audit finding 5.
@@ -105,15 +108,15 @@ export default function Hero() {
               {i < words.length - 1 ? " " : ""}
             </Fragment>
           ))}
-        </motion.h1>
+        </h1>
 
-        <motion.h2 variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 0.8 }}
-          className="font-inter font-normal text-[15px] md:text-[17px] leading-[1.7] text-text-secondary max-w-lg mx-auto mb-8 md:mb-10 text-left">
+        <h2 style={heroIn(200, 0)}
+          className="hero-in font-inter font-normal text-[15px] md:text-[17px] leading-[1.7] text-text-secondary max-w-lg mx-auto mb-8 md:mb-10 text-left">
           Pro živnostníky a malé i střední firmy stavím komplexní řešení na míru: weby a e-shopy, automatizaci procesů a AI chatboty. Komunikujete přímo se mnou, od první konzultace až po spuštění.
-        </motion.h2>
+        </h2>
 
-        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.0 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
+        <div style={heroIn(350, 0)}
+          className="hero-in flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
             Nezávazná konzultace zdarma →
           </CTAButton>
@@ -121,13 +124,13 @@ export default function Hero() {
             className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#f0ece6] border border-white/10 px-8 py-4 hover:border-white/20 hover:bg-white/5 transition-all duration-300 w-full sm:w-auto text-center">
             Ukázky webů
           </Link>
-        </motion.div>
+        </div>
 
         {/* Spolupráce ALTENO × VIZEON hned pod hlavními CTA, ještě nad ohybem.
             Logo ALTENO tu záměrně NENÍ odkaz ven: návštěvník hero sekce ještě
             nemá důvod odcházet, „Automatizace →" vede dovnitř webu. */}
-        <motion.div variants={fadeIn} initial="hidden" animate="visible" transition={{ delay: 1.1 }}
-          className="flex flex-col items-center gap-2.5">
+        <div style={heroIn(450, 0)}
+          className="hero-in flex flex-col items-center gap-2.5">
           <BrandLockup size="sm" />
           <p className="font-inter font-normal text-[12px] text-text-secondary">
             Weby a automatizace pod jednou střechou ·{" "}
@@ -135,7 +138,7 @@ export default function Hero() {
               Automatizace →
             </Link>
           </p>
-        </motion.div>
+        </div>
 
       </div>
     </section>

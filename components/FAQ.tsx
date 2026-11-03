@@ -3,13 +3,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { fadeUp, viewport } from "@/lib/animations";
+import { fadeUp, heroIn, viewport } from "@/lib/animations";
 import { faqs } from "@/lib/data/faq";
 
+// Kolik prvních otázek je na mobilu nad ohybem. Ty se animují v CSS (.hero-in),
+// ne přes whileInView: jsou vidět hned po načtení a s framer-motion by čekaly
+// na hydrataci JS (otevřená první odpověď je LCP prvek stránky).
+const ABOVE_FOLD = 4;
+
 function FAQItem({ faq, isOpen, onToggle, index }: { faq: typeof faqs[0]; isOpen: boolean; onToggle: () => void; index: number }) {
-  return (
-    <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-      className="border-b border-white/[0.05] last:border-b-0">
+  const className = "border-b border-white/[0.05] last:border-b-0";
+  const content = (
+    <>
       <button id={`faq-btn-${index}`} aria-expanded={isOpen} aria-controls={`faq-panel-${index}`}
         onClick={onToggle} className="w-full flex items-center justify-between py-5 text-left group">
         <span className={`font-inter font-medium text-[14px] pr-8 transition-colors duration-300 ${isOpen ? "text-[#c9a84c]" : "text-[#f0ece6] group-hover:text-[#c9a84c]"}`}>
@@ -36,6 +41,15 @@ function FAQItem({ faq, isOpen, onToggle, index }: { faq: typeof faqs[0]; isOpen
           <p className="font-inter font-normal text-[14px] text-text-secondary leading-[1.85] pb-5 pt-3">{faq.answer}</p>
         </div>
       </div>
+    </>
+  );
+
+  if (index < ABOVE_FOLD) {
+    return <div className={`hero-in ${className}`} style={heroIn(160 + index * 60, 45)}>{content}</div>;
+  }
+  return (
+    <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport} className={className}>
+      {content}
     </motion.div>
   );
 }
@@ -46,14 +60,14 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-28 md:py-40 bg-[#080808]" aria-label="Časté dotazy">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
+        <p style={heroIn(0, 45)}
+          className="hero-in font-inter font-normal text-[11px] uppercase tracking-[0.2em] text-[#c9a84c] mb-4">
           — Časté dotazy
-        </motion.p>
-        <motion.h1 variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}
-          className="font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-14 max-w-2xl">
+        </p>
+        <h1 style={heroIn(80, 45)}
+          className="hero-in font-cormorant font-light text-[32px] md:text-[56px] leading-[1.1] text-[#f0ece6] mb-14 max-w-2xl">
           Odpovědi na vaše otázky.
-        </motion.h1>
+        </h1>
 
         <div className="max-w-3xl">
           {faqs.map((faq, i) => (
