@@ -5,7 +5,7 @@ import { Vizeon } from "@/components/brand/BrandName";
 export const metadata: Metadata = {
   title: "Ochrana osobních údajů (GDPR)",
   description:
-    "Informace o zpracování osobních údajů ve smyslu nařízení GDPR a zákona č. 110/2019 Sb. — VIZEON, Kryštof Sobotka.",
+    "Informace o zpracování osobních údajů ve smyslu nařízení GDPR a zákona č. 110/2019 Sb. — VIZEON, Kryštof.",
   alternates: { canonical: "https://vizeon.cz/gdpr" },
   robots: { index: false, follow: false },
 };
@@ -298,7 +298,7 @@ export default function GdprPage() {
       <footer className="border-t border-white/[0.05]">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-inter font-normal text-[12px] text-text-muted">
-            © 2026 <Vizeon /> — Kryštof Sobotka. Všechna práva vyhrazena.
+            © 2026 <Vizeon /> — Kryštof. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <Link

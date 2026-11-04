@@ -18,7 +18,7 @@ export default function FounderBlock() {
           <div className="relative aspect-[3/4] w-full max-w-[340px] mx-auto md:mx-0 overflow-hidden border border-[#c9a84c]/20">
             <Image
               src="/profil.jpg"
-              alt="Kryštof Sobotka, zakladatel VIZEON a tvůrce webů na míru pro živnostníky a malé firmy"
+              alt="Kryštof, zakladatel VIZEON a tvůrce webů na míru pro živnostníky a malé firmy"
               fill
               sizes="(min-width: 768px) 340px, 80vw"
               className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"

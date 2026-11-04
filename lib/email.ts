@@ -1,6 +1,6 @@
 const FALLBACK = {
   bookingNotification: "VIZEON Booking <onboarding@resend.dev>",
-  bookingConfirmation: "Krystof Sobotka - VIZEON <onboarding@resend.dev>",
+  bookingConfirmation: "Krystof - VIZEON <onboarding@resend.dev>",
   contact:             "VIZEON Kontakt <onboarding@resend.dev>",
 } as const;
 
@@ -45,7 +45,7 @@ export function buildClientConfirmationHtml(data: {
       <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 32px auto; background: #0d0d0d; color: #e8e8e8; border-radius: 14px; overflow: hidden;">
 
         <div style="padding: 40px 40px 28px; border-bottom: 1px solid #1f1f1f;">
-          <p style="margin: 0 0 6px; color: #c9a84c; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;">VIZEON · Kryštof Sobotka</p>
+          <p style="margin: 0 0 6px; color: #c9a84c; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;">VIZEON · Kryštof</p>
           <h1 style="margin: 0; font-size: 26px; font-weight: 300; line-height: 1.3; color: #ffffff;">Vaše rezervace<br>je potvrzena.</h1>
         </div>
 
@@ -98,7 +98,7 @@ export function buildClientConfirmationHtml(data: {
 
         <div style="padding: 20px 40px; border-top: 1px solid #1a1a1a; text-align: center;">
           <p style="margin: 0; color: #3a3a3a; font-size: 11px; letter-spacing: 1px;">
-            VIZEON · Kryštof Sobotka · vizeon.cz
+            VIZEON · Kryštof · vizeon.cz
           </p>
         </div>
 

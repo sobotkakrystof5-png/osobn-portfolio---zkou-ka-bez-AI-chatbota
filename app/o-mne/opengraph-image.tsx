@@ -7,6 +7,6 @@ export const contentType = "image/png";
 export default function Image() {
   return buildOgImage(
     "O nás — od prvního kódu k vlastní firmě",
-    "Kryštof Sobotka · Zakladatel VIZEON a ALTENO · Míříme do Německa"
+    "Kryštof · Zakladatel VIZEON a ALTENO · Míříme do Německa"
   );
 }

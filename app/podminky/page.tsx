@@ -5,7 +5,7 @@ import { Vizeon } from "@/components/brand/BrandName";
 export const metadata: Metadata = {
   title: "Obchodní podmínky",
   description:
-    "Obchodní podmínky poskytování webových a grafických služeb — VIZEON, Kryštof Sobotka. Platnost od 1. 1. 2026.",
+    "Obchodní podmínky poskytování webových a grafických služeb — VIZEON, Kryštof. Platnost od 1. 1. 2026.",
   alternates: { canonical: "https://vizeon.cz/podminky" },
   robots: { index: false, follow: false },
 };
@@ -390,7 +390,7 @@ export default function PodminkyPage() {
       <footer className="border-t border-white/[0.05]">
         <div className="max-w-4xl mx-auto px-6 md:px-12 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-inter font-normal text-[12px] text-text-muted">
-            © 2026 <Vizeon /> — Kryštof Sobotka. Všechna práva vyhrazena.
+            © 2026 <Vizeon /> — Kryštof. Všechna práva vyhrazena.
           </p>
           <div className="flex items-center gap-4">
             <Link

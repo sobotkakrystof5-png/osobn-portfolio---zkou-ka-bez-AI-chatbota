@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         description: post.description,
         datePublished: post.date,
         url: `https://vizeon.cz/blog/${post.slug}`,
-        author: { "@type": "Person", name: "Kryštof Sobotka" },
+        author: { "@type": "Person", name: "Kryštof" },
         publisher: { "@type": "Organization", name: "VIZEON", url: "https://vizeon.cz" },
       },
     ],
