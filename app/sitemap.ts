@@ -67,12 +67,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${base}/o-mne`,
-      lastModified: "2026-08-28",
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
       url: `${base}/sluzby`,
       lastModified: "2026-08-29",
       changeFrequency: "monthly",

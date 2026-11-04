@@ -13,6 +13,9 @@ export function generateMetadata(): Metadata {
     description:
       "Kryštof, zakladatel VIZEON a ALTENO. Programuje od 14 let, studuje v Německu a od května 2026 dokončil přes 15 projektů. Teď staví tým.",
     alternates: { canonical: "https://vizeon.cz/o-mne" },
+    // Stránka má zůstat mimo vyhledávače (přání majitele, 11/2026).
+    // Neblokovat v robots.txt, jinak Google noindex neuvidí.
+    robots: { index: false, follow: true },
     openGraph: {
       title: "O nás — od prvního kódu k vlastní firmě | VIZEON",
       description: "Kryštof, zakladatel VIZEON a ALTENO. Od prvního kódu ve 14 letech ke dvěma značkám a prvnímu týmu.",
