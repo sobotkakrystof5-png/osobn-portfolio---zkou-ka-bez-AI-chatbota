@@ -55,8 +55,8 @@ function PhotoCard({ reduced }: { reduced: boolean }) {
         />
         <div className="relative aspect-[4/5] overflow-hidden bg-[#16130e]" style={{ transform: "translateZ(0)" }}>
           <Image
-            src="/profil.jpg"
-            alt="Kryštof, zakladatel VIZEON a ALTENO"
+            src="/avatar.jpg"
+            alt="Kryštof, zakladatel VIZEON a ALTENO — ilustrovaný avatar"
             fill
             priority
             sizes="(min-width: 1024px) 420px, 90vw"
