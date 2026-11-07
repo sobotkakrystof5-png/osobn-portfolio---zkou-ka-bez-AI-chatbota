@@ -46,6 +46,15 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
+      "S panem Kryštofem Sobotkou jsem opět velmi spokojený. Je to již naše druhá spolupráce a všechno proběhlo na jedničku. Stránky vypadají skvěle, přesně podle mých představ. Oceňuji jeho vstřícnost, ochotu a profesionální přístup. Určitě doporučuji.",
+    excerpt:
+      "Je to již naše druhá spolupráce a všechno proběhlo na jedničku. Stránky vypadají skvěle, přesně podle mých představ.",
+    name: "Michal Varchol",
+    url: "https://likvidace-eternitu-azbestu-litomerice.cz",
+    urlLabel: "likvidace-eternitu-azbestu-litomerice.cz",
+  },
+  {
+    quote:
       "Děkujeme za realizaci nového webu. Váš přístup byl velmi vstřícný a ochotný. Výsledek splnil naše očekávání.",
     name: "Josef Antoš",
     url: "https://www.zamecnictvimb.cz",

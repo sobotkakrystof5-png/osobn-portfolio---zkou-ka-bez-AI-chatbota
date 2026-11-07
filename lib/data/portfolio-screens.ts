@@ -43,6 +43,13 @@ export const screenMeta: Record<string, { full: { width: number; height: number 
     },
     "mobile": 3
   },
+  "likvidace-eternitu-litomerice": {
+    "full": {
+      "width": 1800,
+      "height": 11905
+    },
+    "mobile": 3
+  },
   "alteno": {
     "full": {
       "width": 1800,
