@@ -25,6 +25,7 @@
      kdyby menu leželo nad headerem, tlačítko by bylo neklikatelné.
      Menu je přesto plná neprůhledná vrstva, takže i tak vizuálně
      překryje cookie lištu pod sebou. */
+  --z-sticky-cta:     40; /* plovoucí výzva v části ZakazIQ pro firmy */
   --z-cookie-banner:  45;
   --z-mobile-menu:    50;
   --z-header:         55;

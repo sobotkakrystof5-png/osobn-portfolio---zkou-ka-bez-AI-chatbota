@@ -5,17 +5,17 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { ZAKAZIQ_FAQ, ZAKAZIQ_PRICE, ZAKAZIQ_URL } from "@/lib/data/zakaziq";
 
 const DESCRIPTION =
-  "ZakazIQ je náš vlastní systém pro malé firmy: poptávky z webu, kalendář a rezervace, zákazníci s věrnostními kartami, zakázky, faktury a odhad daní v jedné aplikaci za 249 Kč měsíčně. Klienti VIZEON v něm sledují svůj projekt.";
+  "ZakazIQ je náš vlastní systém. Klienti VIZEON v něm mají klientský prostor k projektu: zprávy, etapy, faktury a konzultace na jednom místě. Malým firmám slouží jako aplikace na poptávky, kalendář, zákazníky, zakázky a faktury za 249 Kč měsíčně.";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "ZakazIQ — poptávky, kalendář a zákazníci v jedné aplikaci",
+    title: "ZakazIQ — klientský prostor a aplikace pro malé firmy",
     description: DESCRIPTION,
     alternates: { canonical: "https://vizeon.cz/zakaziq" },
     openGraph: {
-      title: "ZakazIQ — každá poptávka na svém místě | VIZEON",
+      title: "ZakazIQ — rychlejší projekty, spokojenější klienti | VIZEON",
       description:
-        "Poptávky z webu, kalendář, zákazníci, zakázky, faktury a odhad daní v jedné aplikaci pro malé firmy. 249 Kč měsíčně.",
+        "Klientský prostor ke každé zakázce a aplikace pro malé firmy: poptávky, kalendář, zákazníci, zakázky a faktury za 249 Kč měsíčně.",
       url: "https://vizeon.cz/zakaziq",
       type: "website",
     },

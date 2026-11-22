@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { sampleLabel, zq } from "@/components/zakaziq/dilky";
+import { sampleLabel, zq, zqCard } from "@/components/zakaziq/dilky";
 import { cn } from "@/lib/utils";
 
 // Devět částí aplikace ZakazIQ Workspace (ProjectIQ components/marketing/
@@ -204,13 +204,13 @@ export function ZakazIqModules() {
         <li
           key={m.title}
           className={cn(
-            "glass-panel flex flex-col p-6",
+            zqCard, "flex flex-col p-6",
             m.preview ? "md:col-span-2" : "md:col-span-1",
             m.span
           )}
         >
           <div className="flex items-baseline gap-3">
-            <span aria-hidden="true" className="font-cormorant text-[26px] font-light leading-none lining-nums text-[#c9a84c]">
+            <span aria-hidden="true" className="font-cormorant text-[26px] font-light leading-none lining-nums text-[#8aaee3]">
               {pad(i + 1)}
             </span>
             <h3 className="font-inter text-[17px] font-medium text-[#f0ece6]">{m.title}</h3>

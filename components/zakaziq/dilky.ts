@@ -38,5 +38,13 @@ export const zq = {
   reward: "text-[#ffd28a]",
 } as const;
 
+/** Karta v části „ZakazIQ pro firmy" na /zakaziq: zaoblená navy místo hranatého
+ *  glass-panelu VIZEON, aby byla část produktu vizuálně oddělená. */
+export const zqCard = "rounded-[24px] border border-[#1b3868]/80 bg-[#0c1a36]/55";
+
+/** Bílé tlačítko Dílků (button-inverse) pro výzvy v části produktu. */
+export const zqCta =
+  "inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-7 font-inter text-[15px] font-semibold text-[#0c1a36] transition-colors duration-200 hover:bg-[#dce7f7] active:scale-[0.98]";
+
 /** Štítek „Ukázka": fiktivní data musí být na stránce takhle označená (PRODUCT.md). */
 export const sampleLabel = "font-inter text-[12px] text-[#b8ceef]";

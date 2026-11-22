@@ -12,9 +12,15 @@ import { cn } from "@/lib/utils";
 
 type Step = { title: string; detail: ReactNode };
 
+// gold = část VIZEON (klientský prostor), navy = část ZakazIQ pro firmy
+const TONES = {
+  gold: { lit: "text-[#c9a84c]", line: "from-[#c9a84c] to-[#c9a84c]/50" },
+  navy: { lit: "text-[#8aaee3]", line: "from-[#8aaee3] to-[#8aaee3]/40" },
+} as const;
+
 const STAGGER_MS = 160;
 
-export function ZakazIqSteps({ steps }: { steps: Step[] }) {
+export function ZakazIqSteps({ steps, tone = "gold" }: { steps: Step[]; tone?: keyof typeof TONES }) {
   const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLOListElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
@@ -29,7 +35,7 @@ export function ZakazIqSteps({ steps }: { steps: Step[] }) {
               className={cn(
                 "font-cormorant text-[44px] font-light leading-none lining-nums tabular-nums transition-colors",
                 reduced ? "duration-0" : "duration-700",
-                lit ? "text-[#c9a84c]" : "text-white/20"
+                lit ? TONES[tone].lit : "text-white/20"
               )}
               style={reduced ? undefined : { transitionDelay: `${i * STAGGER_MS}ms` }}
             >
@@ -38,7 +44,7 @@ export function ZakazIqSteps({ steps }: { steps: Step[] }) {
             {i < steps.length - 1 && (
               <span className="hidden h-px flex-1 overflow-hidden bg-white/[0.08] lg:block">
                 <motion.span
-                  className="block h-full w-full origin-left bg-gradient-to-r from-[#c9a84c] to-[#c9a84c]/50"
+                  className={cn("block h-full w-full origin-left bg-gradient-to-r", TONES[tone].line)}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: lit ? 1 : 0 }}
                   transition={{
