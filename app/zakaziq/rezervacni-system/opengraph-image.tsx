@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return buildOgImage(
-    "Rezervační systém",
-    "Konzultace na jedno kliknutí · Bez volání"
+    "Rezervační systém ZakazIQ",
+    "Objednávky z webu do kalendáře · Potvrdíte jedním klikem"
   );
 }

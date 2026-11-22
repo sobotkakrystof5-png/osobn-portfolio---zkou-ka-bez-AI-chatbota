@@ -1,22 +1,46 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { ZakazIqCalendarDemo } from "@/components/zakaziq/ZakazIqCalendarDemo";
+import { ZAKAZIQ_PRICE } from "@/lib/data/zakaziq";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { Vizeon } from "@/components/brand/BrandName";
+
+// Rezervace v ZakazIQ pro firmy (kalendář, objednávací stránka /r, widget)
+// a konzultace z volných termínů v klientském prostoru (ProjectIQ R-126).
+// Dřív stránka tvrdila, že rezervace pro web klienta je samostatná aplikace
+// na míru. Dnes je to přímo ZakazIQ.
+
+const FAQ = [
+  {
+    question: "Potvrdí se termín sám?",
+    answer:
+      "Ne. Každá objednávka je nejdřív poptávka. Vy ji potvrdíte, nabídnete jiný čas, nebo odmítnete. Zákazník pak dostane e-mail.",
+  },
+  {
+    question: "Potřebuji k tomu web?",
+    answer:
+      "Ne. Stačí odkaz na objednávací stránku nebo QR kód na pultu. Když web máte, vložíte do něj jeden řádek kódu.",
+  },
+  {
+    question: "Kolik rezervační systém stojí?",
+    answer: `Rezervace jsou součástí ZakazIQ za ${ZAKAZIQ_PRICE} Kč měsíčně, spolu se zákazníky, zakázkami a fakturami. Prvních 14 dní je zdarma.`,
+  },
+];
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Rezervační systém — konzultace na jedno kliknutí v ZakazIQ",
+    title: "Rezervační systém pro malé firmy — ZakazIQ",
     description:
-      "Rezervační systém ZakazIQ — domluvte si konzultaci s VIZEON přímo v klientském portálu, bez volání a čekání na odpověď.",
+      "Rezervační systém ZakazIQ: zákazník si vybere termín na webu, přes odkaz nebo QR kód, vy ho jedním klikem potvrdíte. Potvrzení i připomínky jdou e-mailem samy. 249 Kč měsíčně.",
     alternates: { canonical: "https://vizeon.cz/zakaziq/rezervacni-system" },
     openGraph: {
       title: "Rezervační systém ZakazIQ | VIZEON",
-      description: "Konzultaci s VIZEON si domluvíte přímo v systému, bez volání a čekání.",
+      description: "Objednávky z webu rovnou do kalendáře. Potvrdíte jedním klikem.",
       url: "https://vizeon.cz/zakaziq/rezervacni-system",
       type: "website",
     },
@@ -41,10 +65,28 @@ const jsonLd = {
       provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/zakaziq/rezervacni-system",
-      description: "Rezervační funkce klientského portálu ZakazIQ pro domlouvání konzultací bez telefonování.",
+      description:
+        "Online rezervace pro malé firmy: objednávky z webu, odkazu nebo QR kódu se zařadí do kalendáře a majitel je potvrdí jedním klikem.",
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: FAQ.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: { "@type": "Answer", text: f.answer },
+      })),
     },
   ],
 };
+
+const FEATURES = [
+  "Objednávka z webu, odkazu nebo QR kódu",
+  "Čárkovaná poptávka, dokud ji nepotvrdíte",
+  "Služby, směny pracovníků a blokace",
+  "Jednomu pracovníkovi se termíny nepřekryjí",
+  "Potvrzení, změna i připomínka e-mailem",
+  "Neomezeně pracovníků v jednom kalendáři",
+];
 
 export default function RezervacniSystemPage() {
   return (
@@ -53,53 +95,63 @@ export default function RezervacniSystemPage() {
 
       <div className={cn(t.container.page, "pt-16 md:pt-24 pb-16 md:pb-24")}>
         <PageHeader
-          eyebrow="Rezervační systém"
-          h1="Rezervační systém, díky kterému si konzultaci domluvíte sami"
-          lead="ZakazIQ v sobě má vlastní rezervační funkci — jakmile jste v systému, další konzultaci s <Vizeon /> si domluvíte na pár kliknutí, bez telefonátu a bez čekání, až se ozvu zpátky."
+          eyebrow="ZakazIQ · Rezervace"
+          h1="Rezervační systém, ve kterém potvrzujete vy"
+          lead="Zákazník si vybere termín na webu, přes odkaz nebo QR kód. V kalendáři se objeví jako poptávka a vy ji jedním klikem potvrdíte."
         />
 
-        <div className="space-y-14">
-          <section aria-labelledby="jak">
-            <h2 id="jak" className={cn(t.h2Page, "mb-4")}>Jak rezervace v ZakazIQ funguje</h2>
-            <p className={t.body}>
-              Po první konzultaci vás přiřadím do systému ZakazIQ. Odtud si další konzultaci
-              domluvíte sami — vyberete si volný termín přímo v systému, ne přes e-mail nebo telefon.
-              Víc o tom, jak celý klientský portál funguje, najdete na stránce{" "}
-              <Link href="/zakaziq" className={t.link}>ZakazIQ</Link>.
+        <ZakazIqCalendarDemo />
+
+        <div className="mt-16 space-y-16">
+          <section aria-labelledby="umi">
+            <h2 id="umi" className={cn(t.h2Page, "mb-6")}>Co rezervace v ZakazIQ umí</h2>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {FEATURES.map((f) => (
+                <li key={f} className="glass-panel flex items-start gap-3 px-5 py-4 font-inter text-[15px] leading-[1.55] text-[#f0ece6]">
+                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-[6px] bg-[#c9a84c]/[0.12]">
+                    <Check size={13} strokeWidth={2.2} className="text-[#c9a84c]" aria-hidden="true" />
+                  </span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className={cn(t.body, "mt-6")}>
+              Rezervace jsou jen jedna část. Co dalšího v aplikaci máte, najdete na stránce{" "}
+              <Link href="/zakaziq#funkce" className={t.link}>
+                ZakazIQ
+              </Link>
+              .
             </p>
           </section>
 
-          <section aria-labelledby="pro-klienty">
-            <h2 id="pro-klienty" className={cn(t.h2Page, "mb-4")}>Rezervační systém i pro váš vlastní web</h2>
+          <section aria-labelledby="konzultace">
+            <h2 id="konzultace" className={cn(t.h2Page, "mb-4")}>Stejně si domlouváte konzultace s námi</h2>
             <p className={t.body}>
-              Kromě rezervací v ZakazIQ stavím rezervační systémy i přímo do webů klientů — třeba pro{" "}
+              Jako náš klient si konzultaci vyberete z volných termínů v klientském prostoru. Trvá 30 minut přes Google
+              Meet a změnit ji můžete do 24 hodin předem. Hodí se pro{" "}
               <Link href="/web-pro-kadernictvi" className={t.link}>kadeřnictví</Link>,{" "}
               <Link href="/web-pro-masery-a-wellness" className={t.link}>masérky a wellness</Link>{" "}
-              nebo{" "}
-              <Link href="/web-pro-fitness-trenery" className={t.link}>fitness trenéry</Link>, ať se
-              i vaši vlastní zákazníci objednávají sami. Přehled řešení najdete na stránce{" "}
-              <Link href="/sluzby/systemy-na-miru" className={t.link}>systémy na míru</Link>.
+              i{" "}
+              <Link href="/web-pro-fitness-trenery" className={t.link}>fitness trenéry</Link>.
             </p>
           </section>
 
           <section aria-labelledby="faq-rezervace">
             <h2 id="faq-rezervace" className={cn(t.h2Page, "mb-6")}>Časté otázky</h2>
             <div className="space-y-6">
-              <div>
-                <h3 className={cn(t.h3, "mb-1.5")}>Musím se do ZakazIQ registrovat zvlášť?</h3>
-                <p className={t.body}>Ne, po objednání první konzultace přes <Vizeon /> vás do systému přiřadím automaticky. Nic navíc řešit nemusíte.</p>
-              </div>
-              <div>
-                <h3 className={cn(t.h3, "mb-1.5")}>Je rezervační systém v ZakazIQ to samé, co rezervační systém pro můj web?</h3>
-                <p className={t.body}>Ne, jde o dvě různé věci. ZakazIQ slouží k domlouvání konzultací mezi vámi a mnou. Rezervační systém pro váš web řeším samostatně, jako webovou aplikaci na míru pro vaše vlastní zákazníky.</p>
-              </div>
+              {FAQ.map((f) => (
+                <div key={f.question}>
+                  <h3 className={cn(t.h3, "mb-1.5")}>{f.question}</h3>
+                  <p className={t.body}>{f.answer}</p>
+                </div>
+              ))}
             </div>
           </section>
         </div>
 
         <ClosingCTA
-          heading="Chcete rezervační systém i pro vlastní zákazníky?"
-          subheading="Nezávazná konzultace zdarma — probereme, jaké řešení sedí vašemu oboru."
+          heading="Chcete objednávky rovnou v kalendáři?"
+          subheading="Nezávazná konzultace zdarma. Ukážeme vám rezervace na vašem oboru."
         />
 
         <div className="mt-14">

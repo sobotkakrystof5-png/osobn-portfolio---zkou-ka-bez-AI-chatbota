@@ -81,14 +81,17 @@ a prodejnost webu. Cílem je, aby web víc prodával.
 1. Přepsat podstránky do „my": podstránky služeb (/sluzby/*), FAQ
    (oborové stránky hotové). Přehled /sluzby, /cena-tvorby-webu a data
    služeb a ceníku už jsou v „my". Blog a /o-mne můžou zůstat v první osobě.
-2. Přepsat /zakaziq. Dnes popisuje komunikační portál k projektu, nová nabídka je
-   systém na řízení podnikání klienta (klienti, zakázky, finance, vlastní úpravy,
-   přístup na doživotí).
+2. ~~Přepsat /zakaziq.~~ Hotovo 22. 11. 2026 podle repa ProjectIQ (PRODUCT.md,
+   landing zakaziq.cz, R-134): Workspace za 249 Kč/měs., klientský prostor,
+   „zrcadlo" (co klient zažije u nás, mají jeho zákazníci u něj), ukázky
+   v tmavých Dílkách. Přepsaná i /zakaziq/rezervacni-system a karty ZakazIQ
+   ve „Víc než web". „Přístup na doživotí" z webu zmizel: podle R-134 platí
+   klienti webu 249 Kč beze slevy, jen se 30 dny na vyzkoušení.
 3. Napojit kontaktní formulář na ZakazIQ. Rezervační okno posílalo poptávky do
    Supabase a ZakazIQ, formulář je teď posílá jen e-mailem.
 4. Doplnit screenshoty ZakazIQ do panelů v sekci „Víc než web"
    (`components/MoreThanWeb.tsx`).
-5. Vymezit „na doživotí" v obchodních podmínkách.
+5. ~~Vymezit „na doživotí" v obchodních podmínkách.~~ Odpadá, slib „na doživotí" z webu zmizel (viz bod 2).
 6. Ověřit, že „10+ spokojených klientů" odpovídá skutečnosti (portfolio má
    10 projektů včetně ALTENO).
 7. Průvodce „Nevíte, co chcete?" s kuponem na míru (odloženo).
