@@ -10,10 +10,16 @@ trojka výsledků, a jestli se tam vůbec dá prorazit.
 
 ## Co analyzovat
 
-Vezmi z `workspace/keywords.json` slova se `status` "nové" nebo "kandidát",
-záměrem informačním, srovnávacím, cenovým nebo návodovým, seřazená podle
-hledanosti a trendu. Přidej položky z `content/blog/_fronta.json`, které nemají
-brief. Za běh max 6 témat, nejdřív ta s nejvyšší poptávkou.
+Pořadí:
+1. **Všechny** položky z `content/blog/_fronta.json` se statusem `navrh` nebo
+   `schvaleno`, které ještě nemají brief (`workspace/serp/<slug>.md`, slug
+   z fronty). Stratég bez briefu nesmí téma schválit.
+2. Slova z `workspace/keywords.json` se `status` "nové" nebo "kandidát",
+   záměrem informačním, srovnávacím, cenovým nebo návodovým, seřazená podle
+   hledanosti, `seznam.count` a trendu.
+
+**Za běh zpracuj aspoň 8 témat** (nebo všechna dostupná, max 12). Stratég
+potřebuje vybrat 6 termínů na 14 dní a část témat vyjde jako nevhodná.
 
 ## Postup pro jedno téma
 

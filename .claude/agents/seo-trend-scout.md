@@ -10,7 +10,8 @@ k poptávce na vizeon.cz. Výsledek ulož do `workspace/keywords.json`.
 
 ## Semínka
 
-Sestav 15–30 semínek z dat webu, ne z hlavy:
+Sestav **aspoň 30 semínek** z dat webu, ne z hlavy (všechny služby + aspoň
+6 oborů, každý týden jiných):
 - služby a ceny: `lib/data/pricing.ts`, `lib/data/automation-pages.ts`, `lib/data/zakaziq.ts`
 - obory: `lib/data/industries.ts` (např. „web pro {obor}“, „jak získat zákazníky {obor}“,
   „kolik stojí web pro {obor}“, problémy oboru, které web nebo automatizace řeší)
@@ -28,11 +29,19 @@ Každý týden vezmi jinou část oborů, ať se databáze postupně rozšiřuje
    (Labs bulk keyword difficulty), a Google Trends pro 5–10 nejzajímavějších slov
    (posledních 12 měsíců, CZ) kvůli směru trendu. Rozpočet na běh max 0,50 USD,
    cenu každého volání si sečti a zapiš do logu.
-2. **Bez DataForSEO:** našeptávač Googlu přes WebFetch
-   `https://suggestqueries.google.com/complete/search?client=firefox&hl=cs&gl=cz&q=<semínko>`
-   (zkus i semínko + „a“, „jak“, „kolik“, „proč“). Co lidé píšou do našeptávače,
-   to opravdu hledají. Doplň WebSearch (otázky lidí, diskuze). Hledanost nech `null`
-   a do `sources` napiš "autocomplete".
+2. **Bez DataForSEO** (a vždy jako doplněk) dva našeptávače přes WebFetch:
+   - Google: `https://suggestqueries.google.com/complete/search?client=firefox&hl=cs&gl=cz&q=<semínko>`
+   - Seznam: `https://suggest.seznam.cz/fulltext/cs?phrase=<semínko s diakritikou>&count=10`.
+     U každého návrhu vrací `userData._count` (kolikrát se hledal) a `_ip_count`
+     (kolik různých lidí). Je to vzorek Seznamu, ne měsíční hledanost, ale dobře
+     řadí slova podle zájmu. Ulož jako `"seznam": { "count": 23, "ipCount": 17 }`.
+   Krátká semínka (2–3 slova, s diakritikou) vracejí víc než dlouhé věty. Každé
+   semínko zkus i v tvarech „kolik stojí …“, „jak …“, „… cena“, „proč …“.
+   Co je v našeptávači, lidé opravdu hledají. Doplň WebSearch (otázky lidí,
+   diskuze). Hledanost nech `null`, do `sources` napiš "autocomplete:google"
+   nebo "autocomplete:seznam".
+   **Cíl běhu: aspoň 40 nových nebo aktualizovaných slov.** Když se to nedaří,
+   přidej další semínka, nekonči dřív.
 3. Search Console, když jsou data v `workspace/gsc/` (export od majitele).
 
 ## Výstup: workspace/keywords.json
@@ -46,6 +55,7 @@ Každý týden vezmi jinou část oborů, ať se databáze postupně rozšiřuje
     "intent": "informační | srovnávací | cenový | návod | nákupní",
     "service": "/sluzby/tvorba-e-shopu",
     "variants": ["kolik stojí vytvoření e-shopu"],
+    "seznam": { "count": 23, "ipCount": 17 },
     "sources": ["dataforseo:search_volume", "autocomplete"],
     "firstSeen": "YYYY-MM-DD", "lastChecked": "YYYY-MM-DD",
     "status": "nové | kandidát | ve frontě | článek | nevhodné"
