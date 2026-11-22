@@ -36,7 +36,11 @@ Resend (s kódem chyby, ať jde zapsat ručně).
 - **Zájem a zdroj:** pilulky v `lib/lead.ts` (`INTERESTS`), předvýběr podle stránky, kde návštěvník klikl
   na `CTAButton` (`interestFromPath`), nebo z `?zajem=eshop` v adrese (odkazy z reklam). UTM, gclid, fbclid
   a vstupní stránku drží `LeadSourceCapture` v sessionStorage. Zájem, stránka a zdroj jdou na začátek zprávy.
-- **Konverze:** po odeslání GA4 událost `generate_lead` (`lead_interest`, `lead_page`).
+- **Tři kroky** (`components/LeadForm.tsx`): co (dlaždice) → kdy (`TIMELINES`), u prověrky adresa webu
+  (jde do ZakazIQ jako `companyUrl`) → kontakt. Známý zájem krok 1 přeskočí. Rozpracovaný formulář drží
+  sessionStorage `vizeon_lead_draft`, po odeslání se maže.
+- **Konverze:** GA4 `form_start` a `form_step` (kde lidé odpadají), po odeslání `generate_lead`
+  (`lead_interest`, `lead_page`).
 - **Test:** lokálně s klíčem v `.env.local` odešli formulář, v ZakazIQ › Napojený web se objeví zkušební poptávka.
 
 # taste-skill (`design-taste-frontend`)

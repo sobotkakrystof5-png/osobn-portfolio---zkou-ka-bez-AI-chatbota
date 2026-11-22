@@ -3,12 +3,47 @@
 import { useState, useEffect, useId, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { stagger, fadeIn } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
 import NavDropdown from "@/components/NavDropdown";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { NAV_STRUCTURE, isNavGroup, type NavGroup } from "@/lib/nav";
+import { interestFromPath, type InterestId } from "@/lib/lead";
+
+// Tlačítko v liště podle stránky. Text říká, co návštěvník po kliknutí dostane
+// (podle A/B testů vyhrává konkrétní popis nad obecným „Kontakt“ / „Začít“).
+// Cílíme na lidi s webem i bez něj, proto je výchozí obecné nacenění a formulář
+// nechá zájem vybrat. Prověrka zdarma jen tam, kde web mají (SEO, audit): v liště
+// ji nemá žádné z 26 českých studií, která jsme prošli (11/2026). „Prověřit“,
+// ne „audit“, aby se nepletla s placeným SEO auditem. Pod textem slib odpovědi
+// do hodiny ze stejného formuláře, konkurence slibuje nejrychleji 24 h.
+type NavCta = { label: string; interest: InterestId | null };
+const NAV_CTA_GENERIC: NavCta = { label: "Nacenit můj projekt", interest: null };
+const NAV_CTA_AUDIT: NavCta = { label: "Prověřit web zdarma", interest: "proverka" };
+const NAV_CTA_BY_INTEREST: Partial<Record<InterestId, NavCta>> = {
+  web: { label: "Nacenit web", interest: "web" },
+  eshop: { label: "Nacenit e-shop", interest: "eshop" },
+  automatizace: { label: "Navrhnout automatizaci", interest: "automatizace" },
+  marketing: NAV_CTA_AUDIT,
+  proverka: NAV_CTA_AUDIT,
+};
+
+// Úvodní stránka je pro všechny, i když tam formulář jinak předvybírá prověrku.
+function navCta(path: string): NavCta {
+  const interest = path === "/" ? null : interestFromPath(path);
+  return (interest && NAV_CTA_BY_INTEREST[interest]) || NAV_CTA_GENERIC;
+}
+
+function NavCtaContent({ label }: { label: string }) {
+  return (
+    <>
+      <span className="font-medium text-[13px] tracking-[0.1em] uppercase leading-tight">{label}</span>{" "}
+      <span className="font-normal text-[11px] tracking-[0.02em] leading-tight opacity-75">odpověď do hodiny</span>
+    </>
+  );
+}
 
 const MotionLink = motion(Link);
 
@@ -78,6 +113,7 @@ function MobileNavGroup({ group, onNavigate }: { group: NavGroup; onNavigate: ()
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const cta = navCta(usePathname());
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -147,8 +183,8 @@ export default function Navbar() {
 
           {/* CTA je od xl v liště, pod ním v hamburger menu. Plná zlatá výplň, ať je to jasně hlavní CTA lišty;
               whitespace-nowrap, ať se text nikdy nezalomí. */}
-          <CTAButton className="hidden xl:inline-flex shrink-0 whitespace-nowrap font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-3 hover:bg-[#d4b968] transition-all duration-300">
-            Chci plán a cenu
+          <CTAButton location="lista" interest={cta.interest} className="hidden xl:inline-flex shrink-0 flex-col items-center gap-0.5 whitespace-nowrap font-inter text-[#080808] bg-[#c9a84c] px-6 py-2 hover:bg-[#d4b968] transition-all duration-300">
+            <NavCtaContent label={cta.label} />
           </CTAButton>
 
           {/* Hamburger */}
@@ -184,8 +220,8 @@ export default function Navbar() {
                 )
               )}
               <motion.div variants={fadeIn} className="mt-4 xs:mt-6">
-                <CTAButton className="whitespace-nowrap font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-3.5 hover:bg-[#d4b968] transition-all duration-300">
-                  Chci plán a cenu
+                <CTAButton location="mobilni-menu" interest={cta.interest} className="inline-flex flex-col items-center gap-0.5 whitespace-nowrap font-inter text-[#080808] bg-[#c9a84c] px-8 py-2.5 hover:bg-[#d4b968] transition-all duration-300">
+                  <NavCtaContent label={cta.label} />
                 </CTAButton>
               </motion.div>
             </motion.nav>

@@ -7,9 +7,12 @@ import {
   describeLeadSource,
   EMAIL_RE,
   findInterest,
+  findTimeline,
   INTEREST_IDS,
   normalizePhone,
+  normalizeUrl,
   SOURCE_KEYS,
+  TIMELINE_IDS,
 } from "@/lib/lead";
 import { sendRequest, type ZakazIqIssue } from "@/lib/zakaziq";
 
@@ -23,6 +26,8 @@ const schema = z.object({
   message: text(1500).optional(),
   // Doplňkové údaje poptávku nikdy nezablokují: neplatná hodnota se zahodí.
   interest: z.enum(INTEREST_IDS).optional().catch(undefined),
+  timeline: z.enum(TIMELINE_IDS).optional().catch(undefined),
+  url: text(500).optional().catch(undefined),
   page: text(200).optional().catch(undefined),
   source: z.partialRecord(z.enum(SOURCE_KEYS), text(200)).optional().catch(undefined),
   website: z.string().max(500).optional(),
@@ -80,6 +85,7 @@ export async function POST(req: NextRequest) {
       email: lead.email,
       phone: lead.phone,
       message: composeMessage(lead),
+      companyUrl: companyUrl(lead),
       // Mimo produkci (lokálně, preview) se do ZakazIQ nic neposílá, ať se
       // Poptávky v adminu neplní testy.
       test: process.env.VERCEL_ENV !== "production",
@@ -104,10 +110,16 @@ export async function POST(req: NextRequest) {
   );
 }
 
-/** Zpráva do ZakazIQ: zájem, stránka a zdroj nahoře, pak text návštěvníka. */
+/** Adresa webu z kroku 2 u prověrky; neplatná se zahodí, poptávku neblokuje. */
+function companyUrl(lead: Lead): string | undefined {
+  return (lead.url && normalizeUrl(lead.url)) || undefined;
+}
+
+/** Zpráva do ZakazIQ: zájem, termín, stránka a zdroj nahoře, pak text návštěvníka. */
 function composeMessage(lead: Lead): string | undefined {
   const head = [
     lead.interest && `Zájem: ${findInterest(lead.interest)?.label}`,
+    lead.timeline && `Termín: ${findTimeline(lead.timeline)?.label}`,
     lead.page && `Stránka: ${lead.page}`,
     describeLeadSource(lead.source) && `Zdroj: ${describeLeadSource(lead.source)}`,
   ].filter(Boolean);
@@ -133,6 +145,8 @@ async function sendFallbackEmail(lead: Lead, zakazIqCode: string): Promise<boole
       ["E-mail", lead.email],
       ["Telefon", phone],
       ["Zájem", interest],
+      ["Termín", findTimeline(lead.timeline)?.label],
+      ["Web", companyUrl(lead)],
       ["Stránka", lead.page],
       ["Zdroj", source],
     ] as [string, string | undefined][]

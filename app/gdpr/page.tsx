@@ -263,6 +263,14 @@ export default function GdprPage() {
               banneru při první návštěvě. Analytická data zpracováváme pouze
               v anonymizované podobě.
             </p>
+            <p className="mt-4">
+              Když souhlas udělíte, spustí se nástroj Microsoft Clarity od společnosti
+              Microsoft. Zaznamenává, jak se po webu pohybujete (kliknutí, posouvání
+              stránky, pohyb myši), a pomáhá nám najít místa, kde se web špatně ovládá.
+              Text, který píšete do formulářů, Clarity skrývá. Bez souhlasu se nenačte.
+              Data může Microsoft zpracovávat i v USA v rámci EU-US Data Privacy
+              Framework.
+            </p>
           </section>
 
           {/* Section 10 */}

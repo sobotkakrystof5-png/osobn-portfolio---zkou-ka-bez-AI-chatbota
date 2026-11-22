@@ -22,6 +22,8 @@ export type ZakazIqRequest = {
   email: string;
   phone: string;
   message?: string;
+  /** Adresa webu klienta, admin ji připíše do popisu jako „Web: …“. */
+  companyUrl?: string;
   /**
    * Mimo produkci. Admin zkušební poptávky nezná, takže se nic neposílá:
    * jinak by se Poptávky v adminu plnily testy z preview a lokálu.
@@ -77,6 +79,7 @@ async function attempt(secret: string, data: ZakazIqRequest): Promise<Attempt> {
         // Admin bere nejvýš 30 znaků; formulář telefon už ověřil přes normalizePhone.
         phone: normalizePhone(data.phone) ?? data.phone,
         message: data.message,
+        companyUrl: data.companyUrl,
       }),
       cache: "no-store",
       redirect: "error",

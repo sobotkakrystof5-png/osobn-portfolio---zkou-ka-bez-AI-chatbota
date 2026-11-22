@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { safeStorageGet, safeStorageSet } from "@/lib/utils";
+import { loadClarity } from "@/lib/analytics";
 
 const STORAGE_KEY = "vizeon-cookie-consent";
 
@@ -11,6 +12,8 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const stored = safeStorageGet(localStorage, STORAGE_KEY);
+    // Clarity nahrává relace, proto jen se souhlasem (viz lib/analytics.ts).
+    if (stored === "accepted") loadClarity();
     if (!stored) {
       const t = setTimeout(() => setVisible(true), 2500);
       return () => clearTimeout(t);
@@ -23,7 +26,7 @@ export default function CookieBanner() {
     return () => document.body.classList.remove("cookie-banner-visible");
   }, [visible]);
 
-  const accept = () => { safeStorageSet(localStorage, STORAGE_KEY, "accepted"); setVisible(false); };
+  const accept = () => { safeStorageSet(localStorage, STORAGE_KEY, "accepted"); setVisible(false); loadClarity(); };
   const reject = () => { safeStorageSet(localStorage, STORAGE_KEY, "rejected"); setVisible(false); };
 
   return (

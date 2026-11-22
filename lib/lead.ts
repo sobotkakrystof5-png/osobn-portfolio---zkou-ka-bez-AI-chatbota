@@ -5,7 +5,7 @@
 import { safeStorageGet, safeStorageSet } from "@/lib/utils";
 
 export const INTERESTS = [
-  { id: "proverka", label: "Prověrka webu", cta: "Chci prověřit web zdarma", hint: "Adresa vašeho webu, např. www.vasefirma.cz" },
+  { id: "proverka", label: "Prověrka webu", cta: "Chci prověřit web zdarma", hint: "Co vás na webu trápí nebo co chcete zlepšit?" },
   { id: "web", label: "Nový web", cta: "Chci plán a cenu webu", hint: "Čím se živíte a máte už nějaký web?" },
   { id: "eshop", label: "E-shop", cta: "Chci cenu e-shopu", hint: "Co prodáváte a kolik máte zhruba produktů?" },
   { id: "automatizace", label: "Automatizace", cta: "Chci návrh automatizace", hint: "Co vás teď stojí nejvíc času?" },
@@ -20,6 +20,37 @@ export const DEFAULT_HINT = "Adresa vašeho webu, pokud ho máte, a co potřebuj
 
 export function findInterest(id: string | null | undefined) {
   return INTERESTS.find((i) => i.id === id) ?? null;
+}
+
+// Krok 2 formuláře: jak to spěchá. Majitel podle toho ví, komu volat dřív.
+export const TIMELINES = [
+  { id: "hned", label: "Co nejdřív" },
+  { id: "do-3-mesicu", label: "Do 3 měsíců" },
+  { id: "zjistuji", label: "Zatím zjišťuji" },
+] as const;
+
+export type TimelineId = (typeof TIMELINES)[number]["id"];
+export const TIMELINE_IDS = TIMELINES.map((t) => t.id) as [TimelineId, ...TimelineId[]];
+
+export function findTimeline(id: string | null | undefined) {
+  return TIMELINES.find((t) => t.id === id) ?? null;
+}
+
+/** U prověrky se v kroku 2 ptáme na adresu webu místo termínu. */
+export function asksForUrl(interest: InterestId | null): boolean {
+  return interest === "proverka";
+}
+
+/** Adresa webu od návštěvníka („vasefirma.cz“) jako https://…, jinak null. */
+export function normalizeUrl(raw: string): string | null {
+  const s = raw.trim().replace(/\s+/g, "");
+  if (!s) return null;
+  try {
+    const u = new URL(/^https?:\/\//i.test(s) ? s : `https://${s}`);
+    return /\.[a-z]{2,}$/i.test(u.hostname) ? u.href.replace(/\/$/, "") : null;
+  } catch {
+    return null;
+  }
 }
 
 // Zájem podle stránky, na které návštěvník klikl na CTA. Jedno místo místo
@@ -53,10 +84,12 @@ export function normalizePhone(raw: string): string | null {
 // ── Záměr z posledního kliknutí na CTA ──────────────────────────────────
 export const LEAD_INTENT_KEY = "vizeon_lead_intent";
 export const LEAD_INTENT_EVENT = "vizeon:lead-intent";
-export type LeadIntent = { interest: InterestId | null; from: string };
+/** cta = kde na stránce bylo tlačítko (lišta, menu, id sekce), jde do GA4 jako lead_cta. */
+export type LeadIntent = { interest: InterestId | null; from: string; cta?: string };
 
-export function rememberLeadIntent(path: string): void {
-  const intent: LeadIntent = { interest: interestFromPath(path), from: path };
+/** interest přebije zájem podle stránky; null = žádný předvýběr (obecné „Nacenit můj projekt“ v liště). */
+export function rememberLeadIntent(path: string, cta?: string, interest?: InterestId | null): void {
+  const intent: LeadIntent = { interest: interest !== undefined ? interest : interestFromPath(path), from: path, cta };
   safeStorageSet(sessionStorage, LEAD_INTENT_KEY, JSON.stringify(intent));
   window.dispatchEvent(new CustomEvent<LeadIntent>(LEAD_INTENT_EVENT, { detail: intent }));
 }
@@ -66,7 +99,7 @@ export function readLeadIntent(): LeadIntent | null {
     const raw = safeStorageGet(sessionStorage, LEAD_INTENT_KEY);
     const v = raw ? (JSON.parse(raw) as Partial<LeadIntent>) : null;
     if (!v || typeof v.from !== "string") return null;
-    return { from: v.from, interest: findInterest(v.interest)?.id ?? null };
+    return { from: v.from, interest: findInterest(v.interest)?.id ?? null, cta: typeof v.cta === "string" ? v.cta : undefined };
   } catch {
     return null;
   }
