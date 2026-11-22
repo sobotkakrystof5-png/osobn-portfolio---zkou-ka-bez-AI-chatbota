@@ -407,11 +407,11 @@ export default function ZakazIQ() {
                 Chcete projekt, u kterého víte, na čem jste?
               </p>
               <p className="mt-2 font-inter text-[15px] text-text-secondary">
-                Konzultace je zdarma a nezávazná. Klientský prostor dostanete k zakázce u <Vizeon />.
+                Ozveme se do hodiny. Klientský prostor dostanete k zakázce u <Vizeon />.
               </p>
             </div>
             <CTAButton className="inline-flex shrink-0 items-center gap-2 bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-semibold uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968] active:scale-[0.98]">
-              Chci konzultaci zdarma
+              Chci plán a cenu
               <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
             </CTAButton>
           </Reveal>
@@ -766,7 +766,7 @@ export default function ZakazIQ() {
 
         <ClosingCTA
           heading="Web s klientským prostorem, nebo aplikace pro vaši firmu?"
-          subheading="Nezávazná konzultace zdarma. Probereme, co vám pomůže víc."
+          subheading="Ozveme se do hodiny a probereme, co vám pomůže víc."
         />
       </section>
     </>

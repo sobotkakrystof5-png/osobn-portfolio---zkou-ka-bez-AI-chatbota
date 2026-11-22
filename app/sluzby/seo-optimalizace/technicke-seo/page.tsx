@@ -116,7 +116,8 @@ export default function TechnickeSeoPage() {
 
         <ClosingCTA
           heading="Chcete vědět, jestli web technicky brzdí vaše SEO?"
-          subheading="Nezávazná konzultace zdarma — probereme, kde přesně web ztrácí rychlost i pozice."
+          subheading="Ozveme se do hodiny a probereme, kde přesně web ztrácí rychlost i pozice."
+          buttonLabel="Prověřit můj web →"
         />
 
         <div className="mt-14">

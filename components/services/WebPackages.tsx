@@ -98,7 +98,7 @@ export function WebPackages() {
             </p>
             <p className="mt-2 font-inter font-normal text-[12px] uppercase tracking-[0.12em] text-text-muted">{pkg.delivery}</p>
             <CTAButton className="mt-7 flex w-full justify-center bg-[#c9a84c] px-6 py-4 font-inter font-medium text-[13px] uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-              Nezávazně poptat →
+              Chci plán a cenu webu →
             </CTAButton>
           </div>
         </li>

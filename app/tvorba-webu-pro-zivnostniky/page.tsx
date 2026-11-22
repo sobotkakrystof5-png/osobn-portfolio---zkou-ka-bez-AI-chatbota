@@ -358,7 +358,8 @@ export default function TvorbaWebuProZivnostnikyPage() {
 
         <ClosingCTA
           heading="Chcete web, který přivádí zákazníky, ne jen existuje?"
-          subheading="Nezávazná konzultace zdarma. Probereme váš obor a co váš web potřebuje."
+          subheading="Ozveme se do hodiny, probereme váš obor a co váš web potřebuje."
+          buttonLabel="Chci plán a cenu webu →"
         />
 
         {/* Back link */}

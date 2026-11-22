@@ -78,7 +78,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         <ClosingCTA
           heading="Líbí se vám, jak přemýšlím o webech?"
-          subheading="Nezávazná konzultace zdarma. Probereme váš byznys a doporučím, co dává smysl."
+          subheading="Ozveme se do hodiny, probereme váš byznys a doporučíme, co dává smysl."
         />
 
         <div className="mt-14">

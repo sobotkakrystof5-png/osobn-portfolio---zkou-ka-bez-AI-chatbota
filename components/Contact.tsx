@@ -97,7 +97,7 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
                   </div>
                   <div>
                     <label htmlFor="message" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Zpráva *</label>
-                    <textarea id="message" rows={5} {...register("message", rules.message)} className={`${inputClass} resize-none`} placeholder="Ahoj, mám zájem o..." />
+                    <textarea id="message" rows={5} {...register("message", rules.message)} className={`${inputClass} resize-none`} placeholder="Adresa vašeho webu, pokud ho máte, a co potřebujete…" />
                     {errors.message && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.message.message}</p>}
                   </div>
                   <button type="submit" disabled={sending}

@@ -44,7 +44,8 @@ export default function SpolupracePage() {
       <div className={cn(t.container.page, "pb-16 md:pb-24")}>
         <ClosingCTA
           heading="Připraveni začít?"
-          subheading="Nezávazná konzultace zdarma, první krok ke spuštění vašeho webu."
+          subheading="Prvním krokem je plán a cena. Ozveme se do hodiny."
+          buttonLabel="Chci plán a cenu webu →"
         />
 
         <div className="mt-14">

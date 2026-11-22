@@ -264,7 +264,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <div className={t.container.page}>
           <ClosingCTA
             heading="Líbí se vám tenhle styl?"
-            subheading="Nezávazná konzultace zdarma. Probereme váš byznys a doporučíme, co dává smysl."
+            subheading="Ozveme se do hodiny, probereme váš byznys a doporučíme, co dává smysl."
+          buttonLabel="Chci plán a cenu webu →"
           />
         </div>
       </article>

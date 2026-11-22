@@ -269,7 +269,7 @@ export default function HomeFAQ() {
                       {META[group.id].more} →
                     </Link>
                     <CTAButton className="bg-[#c9a84c] px-6 py-3 font-inter font-medium text-[12px] uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-                      Konzultace zdarma →
+                      Prověřit můj web zdarma →
                     </CTAButton>
                   </div>
                 </div>

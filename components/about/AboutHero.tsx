@@ -113,7 +113,7 @@ export default function AboutHero() {
 
           <div style={heroIn(340, 45)} className="hero-in mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
             <CTAButton className="inline-flex bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-medium text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-              Nezávazná konzultace zdarma →
+              Chci plán a cenu →
             </CTAButton>
             <a
               href="#cesta"

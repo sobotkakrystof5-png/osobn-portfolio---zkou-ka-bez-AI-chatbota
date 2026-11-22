@@ -38,12 +38,12 @@ const ReferencesSection = dynamic(() => import("@/components/ReferencesSection")
 export const metadata: Metadata = {
   title: { absolute: "Weby a e-shopy na míru pro firmy a živnostníky | VIZEON" },
   description:
-    "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
+    "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace a cena předem.",
   alternates: { canonical: "https://vizeon.cz" },
   openGraph: {
     title: "Weby a e-shopy na míru pro firmy a živnostníky | VIZEON",
     description:
-      "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
+      "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace a cena předem.",
     url: "https://vizeon.cz",
     type: "website",
   },

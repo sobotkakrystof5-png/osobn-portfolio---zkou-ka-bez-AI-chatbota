@@ -44,7 +44,8 @@ export default function UkazkyWebuPage() {
         <div className="pb-20 md:pb-28">
           <ClosingCTA
             heading="Chcete být další v řadě?"
-            subheading="Nezávazná konzultace zdarma. Probereme váš byznys a doporučíme, co dává smysl."
+            subheading="Ozveme se do hodiny, probereme váš byznys a doporučíme, co dává smysl."
+          buttonLabel="Chci plán a cenu webu →"
           />
         </div>
       </div>

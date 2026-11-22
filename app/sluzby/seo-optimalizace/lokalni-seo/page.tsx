@@ -163,7 +163,8 @@ export default function LokalniSeoPage() {
 
         <ClosingCTA
           heading="Chcete, aby vás lidé z okolí našli na Googlu i Seznamu?"
-          subheading="Nezávazná konzultace zdarma — probereme stav vašich profilů a co chybí."
+          subheading="Ozveme se do hodiny a probereme stav vašich profilů a co chybí."
+          buttonLabel="Prověřit můj web →"
         />
 
         <div className="mt-14">

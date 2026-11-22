@@ -151,7 +151,8 @@ export default function TvorbaWebovychStranekPage() {
 
         <ClosingCTA
           heading="Chcete web, který vydělává?"
-          subheading="Nezávazná konzultace zdarma. Probereme rozsah a doporučíme variantu, která dává smysl."
+          subheading="Ozveme se do hodiny, probereme rozsah a doporučíme variantu, která dává smysl."
+          buttonLabel="Chci plán a cenu webu →"
         />
 
         <div className="mt-14">

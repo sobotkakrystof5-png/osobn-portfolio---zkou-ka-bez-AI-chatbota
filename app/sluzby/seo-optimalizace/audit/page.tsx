@@ -136,7 +136,8 @@ export default function SeoAuditPage() {
 
         <ClosingCTA
           heading="Chcete vědět, co přesně brzdí váš web ve vyhledávání?"
-          subheading="Nezávazná konzultace zdarma — probereme rozsah webu a co audit odhalí."
+          subheading="Ozveme se do hodiny a probereme rozsah webu a co audit odhalí."
+          buttonLabel="Prověřit můj web →"
         />
 
         <div className="mt-14">

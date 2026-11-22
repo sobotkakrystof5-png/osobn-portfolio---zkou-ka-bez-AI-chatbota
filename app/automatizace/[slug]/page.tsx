@@ -222,7 +222,7 @@ export default async function AutomationServicePage({ params }: Props) {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <CTAButton className="glow-pulse flex justify-center bg-[#c9a84c] px-8 py-4 font-inter font-medium text-[13px] uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-                Konzultace zdarma →
+                Najít, co jde zautomatizovat →
               </CTAButton>
               <a
                 href={`#${sceneId}`}
@@ -466,7 +466,8 @@ export default async function AutomationServicePage({ params }: Props) {
         <Reveal className="mt-24 md:mt-32">
           <ClosingCTA
             heading="Zní to jako něco, co byste využili?"
-            subheading="Projdeme spolu na nezávazné konzultaci váš konkrétní provoz a řekneme vám na rovinu, jestli se automatizace vyplatí."
+            subheading="Projdeme spolu váš konkrétní provoz a řekneme vám na rovinu, jestli se automatizace vyplatí."
+            buttonLabel="Najít, co jde zautomatizovat →"
           />
 
           <div className="mt-10 flex flex-col items-center gap-3 text-center">

@@ -218,7 +218,7 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
             </div>
             <div className="hero-in mt-10 flex flex-col gap-3 sm:flex-row" style={heroIn(280)}>
               <CTAButton className="glow-pulse inline-flex items-center justify-center gap-2 bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-semibold uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968] active:scale-[0.98]">
-                Nezávazná konzultace
+                Chci plán a cenu webu
                 <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
               </CTAButton>
               <a
@@ -663,12 +663,12 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
           </RevealItem>
           <RevealItem>
             <p className="relative mx-auto mt-5 max-w-xl font-inter text-[17px] leading-[1.7] text-[#d6cebf]">
-              Nezávazná konzultace zdarma. Ozveme se do hodiny a navrhneme dva termíny hovoru.
+              Ozveme se do hodiny a navrhneme dva termíny hovoru.
             </p>
           </RevealItem>
           <RevealItem className="relative mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <CTAButton className="glow-pulse inline-flex items-center gap-2 bg-[#c9a84c] px-9 py-4 font-inter text-[14px] font-semibold uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968] active:scale-[0.98]">
-              Nezávazná konzultace zdarma
+              Chci plán a cenu webu
               <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
             </CTAButton>
             <Link

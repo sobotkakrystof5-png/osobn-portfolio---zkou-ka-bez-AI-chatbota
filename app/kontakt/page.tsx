@@ -8,14 +8,14 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Kontakt — nezávazná konzultace zdarma",
+    title: "Kontakt — plán a cena vašeho webu",
     description:
-      "Poptávka webu na míru pro živnostníky a malé firmy. Odpovídáme do hodiny a navrhneme dva termíny hovoru. Konzultace je vždy zdarma.",
+      "Poptávka webu na míru pro živnostníky a malé firmy. Odpovídáme do hodiny a navrhneme dva termíny hovoru. Plán a cenu probereme zdarma.",
     alternates: { canonical: "https://vizeon.cz/kontakt" },
     openGraph: {
-      title: "Kontakt — nezávazná konzultace zdarma | VIZEON",
+      title: "Kontakt — plán a cena vašeho webu | VIZEON",
       description:
-        "Poptávka webu na míru. Odpovídáme do hodiny a navrhneme dva termíny hovoru. Konzultace je zdarma.",
+        "Poptávka webu na míru. Odpovídáme do hodiny a navrhneme dva termíny hovoru. Plán a cena jsou zdarma.",
       url: "https://vizeon.cz/kontakt",
       type: "website",
     },

@@ -135,7 +135,8 @@ export default function AiChatbotPage() {
 
         <ClosingCTA
           heading="Chcete chatbota, který odbaví běžné dotazy za vás?"
-          subheading="Nezávazná konzultace zdarma. Probereme, co má chatbot umět, a pošlu konkrétní nabídku."
+          subheading="Ozveme se do hodiny, probereme, co má chatbot umět, a pošleme konkrétní nabídku."
+          buttonLabel="Navrhnout chatbota pro můj obor →"
         />
 
         <div className="mt-14">

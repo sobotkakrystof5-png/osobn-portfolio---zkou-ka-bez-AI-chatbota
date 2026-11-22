@@ -104,7 +104,7 @@ export default function TechnickeSluzbyPage() {
 
         <ClosingCTA
           heading="Potřebujete vyřešit technickou stránku webu?"
-          subheading="Nezávazná konzultace zdarma. Popište, co potřebujete, a pošlu konkrétní nabídku."
+          subheading="Popište, co potřebujete. Ozveme se do hodiny a pošleme konkrétní nabídku."
         />
 
         <div className="mt-14">

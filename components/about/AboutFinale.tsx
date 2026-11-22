@@ -51,7 +51,7 @@ export default function AboutFinale() {
           </motion.p>
           <motion.div variants={reveal} className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
             <CTAButton className="inline-flex bg-[#c9a84c] px-8 py-4 font-inter text-[14px] font-medium text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-              Nezávazná konzultace zdarma →
+              Chci plán a cenu →
             </CTAButton>
             <Link
               href="/kontakt"

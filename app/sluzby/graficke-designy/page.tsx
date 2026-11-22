@@ -101,7 +101,7 @@ export default function GrafickeDesignyPage() {
 
         <ClosingCTA
           heading="Chcete jednotný vizuál pro váš byznys?"
-          subheading="Nezávazná konzultace zdarma. Probereme, co přesně potřebujete."
+          subheading="Ozveme se do hodiny a probereme, co přesně potřebujete."
         />
 
         <div className="mt-14">

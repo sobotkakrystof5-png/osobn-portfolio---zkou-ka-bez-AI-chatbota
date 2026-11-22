@@ -117,7 +117,8 @@ export default function ObsahoveSeoPage() {
 
         <ClosingCTA
           heading="Chcete web, který roste v přirozeném vyhledávání i bez placené reklamy?"
-          subheading="Nezávazná konzultace zdarma — probereme, jaký obsah má pro váš obor smysl."
+          subheading="Ozveme se do hodiny a probereme, jaký obsah má pro váš obor smysl."
+          buttonLabel="Prověřit můj web →"
         />
 
         <div className="mt-14">

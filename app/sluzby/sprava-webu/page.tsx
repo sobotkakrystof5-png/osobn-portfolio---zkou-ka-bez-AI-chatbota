@@ -87,6 +87,7 @@ export default function SpravaWebuPage() {
         <ClosingCTA
           heading="Chcete mít o web postaráno?"
           subheading="Napište nám, co na webu nejčastěji měníte, a domluvíme rozsah správy."
+          buttonLabel="Chci správu webu →"
         />
 
         <div className="mt-14">

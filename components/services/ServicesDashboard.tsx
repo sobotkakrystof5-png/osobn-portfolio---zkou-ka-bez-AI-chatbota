@@ -229,7 +229,7 @@ export default function ServicesDashboard() {
 
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-white/[0.07] pt-6">
                 <CTAButton className="font-inter font-medium text-[12px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-3 hover:bg-[#d4b968] transition-colors duration-300">
-                  Nezávazná poptávka
+                  Chci plán a cenu
                 </CTAButton>
                 {service.href && (
                   <Link

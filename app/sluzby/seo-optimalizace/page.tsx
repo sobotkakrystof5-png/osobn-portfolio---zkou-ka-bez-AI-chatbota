@@ -231,7 +231,8 @@ export default function SeoOptimalizacePage() {
 
         <ClosingCTA
           heading="Chcete vědět, kde vás na Googlu i Seznamu hledají a nenajdou?"
-          subheading="Nezávazná konzultace zdarma — probereme, která část SEO má u vás nejvyšší prioritu."
+          subheading="Ozveme se do hodiny a probereme, která část SEO má u vás nejvyšší prioritu."
+          buttonLabel="Prověřit můj web →"
         />
 
         <div className="mt-14">

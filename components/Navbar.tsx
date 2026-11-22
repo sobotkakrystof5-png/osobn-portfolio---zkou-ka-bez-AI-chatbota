@@ -148,7 +148,7 @@ export default function Navbar() {
           {/* CTA je od xl v liště, pod ním v hamburger menu. Plná zlatá výplň, ať je to jasně hlavní CTA lišty;
               whitespace-nowrap, ať se text nikdy nezalomí. */}
           <CTAButton className="hidden xl:inline-flex shrink-0 whitespace-nowrap font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-3 hover:bg-[#d4b968] transition-all duration-300">
-            Konzultace zdarma
+            Chci plán a cenu
           </CTAButton>
 
           {/* Hamburger */}
@@ -185,7 +185,7 @@ export default function Navbar() {
               )}
               <motion.div variants={fadeIn} className="mt-4 xs:mt-6">
                 <CTAButton className="whitespace-nowrap font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-3.5 hover:bg-[#d4b968] transition-all duration-300">
-                  Konzultace zdarma
+                  Chci plán a cenu
                 </CTAButton>
               </motion.div>
             </motion.nav>

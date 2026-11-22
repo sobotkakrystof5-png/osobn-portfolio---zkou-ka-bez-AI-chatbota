@@ -158,7 +158,8 @@ export default function TvorbaWebuProFirmyPage() {
 
         <ClosingCTA
           heading="Chcete web, který firmě dodá důvěryhodnost při každém jednání?"
-          subheading="Nezávazná konzultace zdarma — probereme strukturu firmy a co má web obsahovat."
+          subheading="Ozveme se do hodiny a probereme strukturu firmy a co má web obsahovat."
+          buttonLabel="Chci plán a cenu webu →"
         />
 
         <div className="mt-14">

@@ -41,7 +41,7 @@ export function EshopStickyCTA({ price, endId = "eshop-zaver" }: { price: string
             <PriceLabel price={price} />
           </span>
           <CTAButton className="bg-[#c9a84c] px-5 py-3 font-inter font-medium text-[12px] uppercase tracking-[0.1em] text-[#080808]">
-            Konzultace zdarma
+            Chci cenu e-shopu
           </CTAButton>
         </motion.div>
       )}

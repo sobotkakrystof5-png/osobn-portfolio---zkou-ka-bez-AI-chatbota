@@ -69,7 +69,7 @@ export default function SluzbyPage() {
 
         <ClosingCTA
           heading="Nevíte, kterou službu potřebujete?"
-          subheading="Nezávazná konzultace zdarma. Probereme váš byznys a doporučíme, co dává smysl."
+          subheading="Ozveme se do hodiny, probereme váš byznys a doporučíme, co dává smysl."
         />
       </div>
     </PageShell>

@@ -54,7 +54,7 @@ export default function FaqPage() {
       <div className={cn(t.container.page, "pb-16 md:pb-24")}>
         <ClosingCTA
           heading="Nenašli jste odpověď na svou otázku?"
-          subheading="Napište mi, probereme vše osobně. Konzultace je vždy nezávazná a zdarma."
+          subheading="Napište nám a do hodiny se ozveme. Všechno probereme osobně."
         />
 
         <div className="mt-14">

@@ -265,7 +265,7 @@ export default function HowItWorks({ variant = "page" }: { variant?: "home" | "p
               {isHome ? (
                 <div className="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center lg:justify-center">
                   <CTAButton className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 text-center">
-                    Konzultace zdarma
+                    Prověřit můj web zdarma
                   </CTAButton>
                   <Link href="/spoluprace"
                     className="inline-flex items-center gap-2 font-inter font-medium text-[12px] tracking-[0.1em] uppercase text-[#c9a84c] hover:text-[#d4b968] transition-colors duration-300">

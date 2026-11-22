@@ -8,7 +8,7 @@ import { CTAButton } from "@/components/CTAButton";
 export function ClosingCTA({
   heading,
   subheading,
-  buttonLabel = "Nezávazná konzultace zdarma →",
+  buttonLabel = "Chci plán a cenu →",
 }: {
   heading: ReactNode;
   subheading: ReactNode;

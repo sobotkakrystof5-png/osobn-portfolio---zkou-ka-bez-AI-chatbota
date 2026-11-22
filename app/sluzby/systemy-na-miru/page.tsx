@@ -115,7 +115,8 @@ export default function SystemyNaMiruPage() {
 
         <ClosingCTA
           heading="Máte proces, který zabírá zbytečně moc času?"
-          subheading="Nezávazná konzultace zdarma. Probereme, jestli se to dá zautomatizovat."
+          subheading="Ozveme se do hodiny a probereme, jestli se to dá zautomatizovat."
+          buttonLabel="Najít, co jde zautomatizovat →"
         />
 
         <div className="mt-14">

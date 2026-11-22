@@ -1,12 +1,12 @@
 import { buildOgImage, ogImageSize } from "@/lib/ogImage";
 
-export const alt = "Kontakt — nezávazná konzultace zdarma | VIZEON";
+export const alt = "Kontakt — plán a cena vašeho webu | VIZEON";
 export const size = ogImageSize;
 export const contentType = "image/png";
 
 export default function Image() {
   return buildOgImage(
-    "Kontakt — nezávazná konzultace zdarma",
+    "Kontakt — plán a cena vašeho webu",
     "Poptávka webu · Odpověď do hodiny · Bez závazků"
   );
 }

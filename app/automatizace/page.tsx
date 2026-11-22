@@ -145,7 +145,7 @@ export default function AutomatizacePage() {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <CTAButton className="glow-pulse flex justify-center bg-[#c9a84c] px-8 py-4 font-inter font-medium text-[13px] uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-                Konzultace zdarma →
+                Najít, co jde zautomatizovat →
               </CTAButton>
               <a
                 href="#rozdil"
@@ -219,7 +219,8 @@ export default function AutomatizacePage() {
       <div id="automatizace-zaver" className={cn(t.container.wide, "pb-16 pt-24 md:pb-24 md:pt-32")}>
         <ClosingCTA
           heading="Máte web a chcete, aby za vás dělal víc?"
-          subheading="Nezávazná konzultace zdarma. Projdeme váš provoz a řekneme vám, co se vyplatí automatizovat jako první."
+          subheading="Ozveme se do hodiny, projdeme váš provoz a řekneme vám, co se vyplatí automatizovat jako první."
+          buttonLabel="Najít, co jde zautomatizovat →"
         />
 
         <div className="mt-14">

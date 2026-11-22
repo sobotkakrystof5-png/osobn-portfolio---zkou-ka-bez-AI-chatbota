@@ -118,7 +118,7 @@ export default function Hero() {
         <div style={heroIn(350, 0)}
           className="hero-in flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">
           <CTAButton className="glow-pulse font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-8 py-4 hover:bg-[#d4b968] transition-all duration-300 w-full sm:w-auto text-center">
-            Nezávazná konzultace zdarma →
+            Prověřit můj web zdarma →
           </CTAButton>
           <Link href="/ukazky-webu"
             className="font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#f0ece6] border border-white/10 px-8 py-4 hover:border-white/20 hover:bg-white/5 transition-all duration-300 w-full sm:w-auto text-center">

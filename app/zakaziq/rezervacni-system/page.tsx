@@ -151,7 +151,8 @@ export default function RezervacniSystemPage() {
 
         <ClosingCTA
           heading="Chcete objednávky rovnou v kalendáři?"
-          subheading="Nezávazná konzultace zdarma. Ukážeme vám rezervace na vašem oboru."
+          subheading="Ozveme se do hodiny a ukážeme vám rezervace na vašem oboru."
+          buttonLabel="Chci ukázku rezervací →"
         />
 
         <div className="mt-14">

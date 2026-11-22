@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     template: "%s | VIZEON",
   },
   description:
-    "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
+    "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace a cena předem.",
   keywords: [
     "tvorba webů",
     "tvorba webu na míru",

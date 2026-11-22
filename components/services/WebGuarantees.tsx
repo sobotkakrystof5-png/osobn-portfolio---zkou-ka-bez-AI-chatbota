@@ -61,7 +61,7 @@ export function WebGuaranteeBand() {
             Na projektu pracujeme do vaší úplné spokojenosti. Spokojenost zákazníků je pro nás zásadní.
           </p>
           <CTAButton className="mt-9 inline-flex bg-[#c9a84c] px-8 py-4 shadow-[0_0_44px_-8px_rgba(201,168,76,0.6)] font-inter font-medium text-[13px] uppercase tracking-[0.1em] text-[#080808] transition-all duration-300 hover:bg-[#d4b968]">
-            Nezávazná konzultace zdarma →
+            Chci plán a cenu webu →
           </CTAButton>
         </div>
 

@@ -100,7 +100,7 @@ export default function TvorbaEshopuPage() {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <CTAButton className="glow-pulse flex justify-center bg-[#c9a84c] px-8 py-4 font-inter font-medium text-[13px] uppercase tracking-[0.1em] text-[#080808] transition-colors duration-300 hover:bg-[#d4b968]">
-                Konzultace zdarma →
+                Chci cenu e-shopu →
               </CTAButton>
               <a
                 href="#jak-to-funguje"
@@ -158,7 +158,8 @@ export default function TvorbaEshopuPage() {
       <div id="eshop-zaver" className={cn(t.container.wide, "pb-16 md:pb-24")}>
         <ClosingCTA
           heading="Chcete prodávat online?"
-          subheading="Nezávazná konzultace zdarma. Probereme sortiment, dopravu a platby a řekneme vám přesnou cenu."
+          subheading="Ozveme se do hodiny, probereme sortiment, dopravu a platby a řekneme vám přesnou cenu."
+          buttonLabel="Chci cenu e-shopu →"
         />
 
         <div className="mt-14">
