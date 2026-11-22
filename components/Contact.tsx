@@ -1,12 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Mail, Loader2, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import { fadeUp, slideLeft, slideRight, stagger, viewport } from "@/lib/animations";
 import PhoneReveal from "@/components/PhoneReveal";
+import {
+  DEFAULT_CTA,
+  DEFAULT_HINT,
+  EMAIL_RE,
+  findInterest,
+  INTERESTS,
+  LEAD_INTENT_EVENT,
+  normalizePhone,
+  readLeadIntent,
+  readLeadSource,
+  type InterestId,
+  type LeadIntent,
+} from "@/lib/lead";
 
 function InstagramIcon({ size = 16, className }: { size?: number; className?: string }) {
   return (
@@ -18,36 +32,105 @@ function InstagramIcon({ size = 16, className }: { size?: number; className?: st
   );
 }
 
-// Validace přes react-hook-form, ne zod: zod (~74 kB gzip) byl kvůli čtyřem
+// Validace přes react-hook-form, ne zod: zod (~74 kB gzip) byl kvůli pár
 // polím v hlavním JS každé stránky s formulářem a na mobilu zdržoval
-// načtení. Pravidla a hlášky odpovídají dřívějšímu zod schématu, server
-// validuje dál přes zod (app/api/contact/route.ts).
-type FormData = { name: string; email: string; phone?: string; message: string };
-
-// Stejný regex jako z.string().email() v zod 4 (zod/v4/core/regexes.js).
-const EMAIL_RE = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;
+// načtení. Server validuje stejnými pravidly z lib/lead.ts přes zod
+// (app/api/contact/route.ts) a poptávku pošle do ZakazIQ.
+type FormData = { name: string; email: string; phone: string; message: string; website: string };
+type Issue = { field: string; message: string };
 
 const rules = {
-  name:    { validate: (v: string) => v.length >= 2 || "Zadejte prosím jméno" },
-  email:   { validate: (v: string) => EMAIL_RE.test(v) || "Neplatná emailová adresa" },
-  message: { validate: (v: string) => v.length >= 10 || "Zpráva musí mít alespoň 10 znaků" },
+  name:  { validate: (v: string) => v.trim().length >= 2 || "Zadejte prosím jméno" },
+  email: { validate: (v: string) => EMAIL_RE.test(v.trim()) || "Neplatná emailová adresa" },
+  phone: { validate: (v: string) => normalizePhone(v) !== null || "Zadejte prosím telefon, např. 777 123 456" },
 };
 
+const labelClass = "block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2";
 const inputClass = "w-full bg-[#111111] border border-white/[0.07] text-[#f0ece6] font-inter font-normal text-base md:text-[14px] px-4 py-3 outline-none focus:border-[rgba(201,168,76,0.4)] focus-visible:ring-1 focus-visible:ring-[rgba(201,168,76,0.3)] transition-colors placeholder-text-muted";
+
+const NEXT_STEPS = [
+  "Do hodiny se vám ozveme.",
+  "Navrhneme dva termíny krátkého hovoru.",
+  "Na hovoru probereme plán a cenu. Nezávazně.",
+];
+
+function newKey(): string {
+  return typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+/** Konverze pro GA4 a z ní pro Google Ads. gtag je z app/layout.tsx. */
+function trackLead(interest: InterestId | null, page: string) {
+  const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
+  gtag?.("event", "generate_lead", { lead_interest: interest ?? "neuvedeno", lead_page: page });
+}
 
 export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" | "h2" }) {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+  const [interest, setInterest] = useState<InterestId | null>(null);
+  const [fromPage, setFromPage] = useState<string | null>(null);
+  // Opakované odeslání stejných údajů po chybě nese stejný klíč, ZakazIQ
+  // pak poptávku nezaloží dvakrát. Změněné údaje dostanou klíč nový.
+  const lastAttempt = useRef<{ body: string; key: string } | null>(null);
+  const { register, handleSubmit, formState: { errors }, reset, setError } = useForm<FormData>();
   const Heading = motion[headingLevel];
+  const selected = findInterest(interest);
+
+  // Zájem předvybere ?zajem= v adrese (odkazy z reklam), jinak poslední
+  // kliknutí na CTA (lib/lead.ts). Na homepage CTA jen sjede k formuláři,
+  // proto se poslouchá i událost.
+  useEffect(() => {
+    const fromQuery = findInterest(new URLSearchParams(window.location.search).get("zajem"))?.id;
+    const intent = readLeadIntent();
+    if (fromQuery ?? intent?.interest) setInterest(fromQuery ?? intent?.interest ?? null);
+    if (intent) setFromPage(intent.from);
+
+    const onIntent = (e: Event) => {
+      const detail = (e as CustomEvent<LeadIntent>).detail;
+      if (detail.interest) setInterest(detail.interest);
+      setFromPage(detail.from);
+    };
+    window.addEventListener(LEAD_INTENT_EVENT, onIntent);
+    return () => window.removeEventListener(LEAD_INTENT_EVENT, onIntent);
+  }, []);
 
   const onSubmit = async (data: FormData) => {
     setSending(true);
+    const page = fromPage ?? window.location.pathname;
     try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      if (!res.ok) { const j = (await res.json()) as { error?: string }; throw new Error(j.error ?? "Chyba"); }
+      const body = JSON.stringify({
+        name: data.name.trim(),
+        email: data.email.trim(),
+        phone: data.phone.trim(),
+        message: data.message.trim() || undefined,
+        interest: interest ?? undefined,
+        page,
+        source: readLeadSource(),
+        website: data.website || undefined,
+      });
+      const key = lastAttempt.current?.body === body ? lastAttempt.current.key : newKey();
+      lastAttempt.current = { body, key };
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Idempotency-Key": key },
+        body,
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string; issues?: Issue[] };
+        for (const issue of j.issues ?? []) {
+          if (issue.field === "name" || issue.field === "email" || issue.field === "phone") {
+            setError(issue.field, { message: issue.message });
+          }
+        }
+        throw new Error(j.error ?? "Odeslání se nezdařilo.");
+      }
+      lastAttempt.current = null;
+      trackLead(interest, page);
       setSubmitted(true); reset();
-      toast.success("Děkujeme! Ozveme se do hodiny a navrhneme dva termíny hovoru.");
+      toast.success("Poptávka odeslána. Ozveme se do hodiny.");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Odeslání se nezdařilo.");
     } finally { setSending(false); }
@@ -70,40 +153,74 @@ export default function Contact({ headingLevel = "h1" }: { headingLevel?: "h1" |
           {/* Formulář */}
           <motion.div variants={slideLeft} className="md:col-span-3">
             {submitted ? (
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-start gap-4">
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-start gap-5" role="status">
                 <CheckCircle size={40} className="text-[#c9a84c]" />
-                <h3 className="font-cormorant font-light text-[32px] text-[#f0ece6]">Zpráva odeslána!</h3>
-                <p className="font-inter font-normal text-[15px] text-text-secondary">Ozveme se vám do hodiny a navrhneme dva konkrétní termíny hovoru. Děkujeme za důvěru.</p>
+                <h3 className="font-cormorant font-light text-[32px] text-[#f0ece6]">Poptávka odeslána. Děkujeme!</h3>
+                <ol className="space-y-3">
+                  {NEXT_STEPS.map((step, i) => (
+                    <li key={step} className="flex items-center gap-3 font-inter font-normal text-[15px] text-text-secondary">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[rgba(201,168,76,0.4)] font-inter text-[12px] tabular-nums text-[#c9a84c]">{i + 1}</span>
+                      {step}
+                    </li>
+                  ))}
+                </ol>
                 <button onClick={() => setSubmitted(false)} className="mt-2 font-inter font-medium text-[13px] text-[#c9a84c] underline underline-offset-4 hover:no-underline transition-all">
                   Odeslat další zprávu
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <div className="space-y-4">
+                <div className="space-y-5">
+                  <fieldset>
+                    <legend className={labelClass}>S čím vám pomůžeme?</legend>
+                    <div className="flex flex-wrap gap-2">
+                      {INTERESTS.map((item) => (
+                        <label key={item.id} className="cursor-pointer">
+                          <input type="radio" name="interest" value={item.id} checked={interest === item.id}
+                            onChange={() => setInterest(item.id)} className="peer sr-only" />
+                          <span className="inline-flex min-h-[44px] items-center rounded-full border border-white/[0.1] px-4 font-inter font-normal text-[14px] text-text-secondary transition-colors duration-200 hover:border-white/[0.2] hover:text-[#f0ece6] peer-checked:border-[rgba(201,168,76,0.6)] peer-checked:bg-[rgba(201,168,76,0.08)] peer-checked:text-[#f0ece6] peer-focus-visible:ring-1 peer-focus-visible:ring-[rgba(201,168,76,0.5)]">
+                            {item.label}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
                   <div>
-                    <label htmlFor="name" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Jméno *</label>
-                    <input id="name" type="text" autoComplete="name" {...register("name", rules.name)} className={inputClass} placeholder="Jan Novák" />
+                    <label htmlFor="name" className={labelClass}>Jméno *</label>
+                    <input id="name" type="text" autoComplete="name" aria-invalid={!!errors.name} {...register("name", rules.name)} className={inputClass} placeholder="Jan Novák" />
                     {errors.name && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.name.message}</p>}
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Email *</label>
-                    <input id="email" type="email" autoComplete="email" {...register("email", rules.email)} className={inputClass} placeholder="jan@firma.cz" />
-                    {errors.email && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.email.message}</p>}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-4">
+                    <div>
+                      <label htmlFor="email" className={labelClass}>E-mail *</label>
+                      <input id="email" type="email" autoComplete="email" aria-invalid={!!errors.email} {...register("email", rules.email)} className={inputClass} placeholder="jan@firma.cz" />
+                      {errors.email && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.email.message}</p>}
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className={labelClass}>Telefon *</label>
+                      <input id="phone" type="tel" autoComplete="tel" inputMode="tel" aria-invalid={!!errors.phone} {...register("phone", rules.phone)} className={inputClass} placeholder="777 123 456" />
+                      {errors.phone && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.phone.message}</p>}
+                    </div>
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Telefon <span className="normal-case text-text-muted">(volitelné)</span></label>
-                    <input id="phone" type="tel" autoComplete="tel" {...register("phone")} className={inputClass} placeholder="+420 123 456 789" />
+                    <label htmlFor="message" className={labelClass}>Pár slov <span className="normal-case text-text-muted">(nepovinné)</span></label>
+                    <textarea id="message" rows={2} maxLength={1500} {...register("message")} className={`${inputClass} resize-none`} placeholder={selected?.hint ?? DEFAULT_HINT} />
+                  </div>
+                  {/* Past na roboty: člověk pole nevidí ani na něj netabne. */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                    <label htmlFor="website">Web (nevyplňujte)</label>
+                    <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block font-inter font-normal text-[12px] uppercase tracking-[0.1em] text-text-secondary mb-2">Zpráva *</label>
-                    <textarea id="message" rows={5} {...register("message", rules.message)} className={`${inputClass} resize-none`} placeholder="Adresa vašeho webu, pokud ho máte, a co potřebujete…" />
-                    {errors.message && <p role="alert" className="mt-1 font-inter text-[12px] text-red-400">{errors.message.message}</p>}
+                    <button type="submit" disabled={sending}
+                      className="w-full flex items-center justify-center gap-2 font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-4 hover:bg-[#d4b968] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                      {sending ? <><Loader2 size={15} className="animate-spin" />Odesílání…</> : `${selected?.cta ?? DEFAULT_CTA} →`}
+                    </button>
+                    <p className="mt-3 text-center font-inter font-normal text-[12px] text-text-muted">
+                      Odpovíme do hodiny · nezávazně ·{" "}
+                      <Link href="/gdpr" className="underline underline-offset-2 hover:text-text-secondary transition-colors">údaje jen k vyřízení poptávky</Link>
+                    </p>
                   </div>
-                  <button type="submit" disabled={sending}
-                    className="w-full flex items-center justify-center gap-2 font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-4 hover:bg-[#d4b968] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2">
-                    {sending ? <><Loader2 size={15} className="animate-spin" />Odesílání…</> : "Odeslat zprávu →"}
-                  </button>
                 </div>
               </form>
             )}

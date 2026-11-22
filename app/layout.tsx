@@ -5,6 +5,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";
+import LeadSourceCapture from "@/components/LeadSourceCapture";
 
 const GA_ID = "G-J5FMJYTGCK";
 
@@ -218,6 +219,7 @@ export default function RootLayout({
           }}
         />
         <CookieBanner />
+        <LeadSourceCapture />
         {/* GA až po načtení stránky (lazyOnload). <GoogleAnalytics> z
             @next/third-parties ho vkládal jako afterInteractive i s <link
             rel="preload"> v <head>: 180 kB skriptu tak na pomalém mobilu

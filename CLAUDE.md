@@ -22,6 +22,23 @@ nikdy jako obyčejné slovo v písmu okolního textu.
   zůstává obyčejný text, nikdy logo. `brandText()` je přeskakuje sám (výskyt následovaný `.tld`). Admin (světlé
   pozadí) používá jen písmo loga, ne barvu.
 
+# Poptávky → ZakazIQ
+
+Kontaktní formulář (`components/Contact.tsx`) posílá přes `/api/contact` poptávku do **adminu** ZakazIQ
+(`lib/zakaziq.ts` → `POST https://www.zakaziq.cz/api/public/vizeon-leads`, repo ZakazIQ R-136), ne do
+Workspace. Admin ji uloží jako nepotvrzenou zakázku do Poptávek z webů a pošle upozornění do zvonku;
+e-mail zákazníkovi ani majiteli neposílá. Když ZakazIQ poptávku nepřevezme, jde záložní e-mail přes
+Resend (s kódem chyby, ať jde zapsat ručně).
+
+- **Env:** `ZAKAZIQ_LEAD_SECRET` = stejná hodnota jako `VIZEON_LEAD_WEBHOOK_SECRET` v ZakazIQ, posílá se
+  v hlavičce `x-vizeon-lead-signature`, jen na serveru. Adresa musí být s **www**: apex přesměrovává
+  a `fetch` hlavičku s klíčem zahodí. Mimo produkci (`VERCEL_ENV` ≠ `production`) se nic neposílá.
+- **Zájem a zdroj:** pilulky v `lib/lead.ts` (`INTERESTS`), předvýběr podle stránky, kde návštěvník klikl
+  na `CTAButton` (`interestFromPath`), nebo z `?zajem=eshop` v adrese (odkazy z reklam). UTM, gclid, fbclid
+  a vstupní stránku drží `LeadSourceCapture` v sessionStorage. Zájem, stránka a zdroj jdou na začátek zprávy.
+- **Konverze:** po odeslání GA4 událost `generate_lead` (`lead_interest`, `lead_page`).
+- **Test:** lokálně s klíčem v `.env.local` odešli formulář, v ZakazIQ › Napojený web se objeví zkušební poptávka.
+
 # taste-skill (`design-taste-frontend`)
 
 Projektově nainstalovaný v `.claude/skills/design-taste-frontend/` ([Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill),

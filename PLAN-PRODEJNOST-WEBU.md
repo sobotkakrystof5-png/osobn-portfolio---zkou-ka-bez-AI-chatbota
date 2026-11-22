@@ -87,8 +87,9 @@ a prodejnost webu. Cílem je, aby web víc prodával.
    v tmavých Dílkách. Přepsaná i /zakaziq/rezervacni-system a karty ZakazIQ
    ve „Víc než web". „Přístup na doživotí" z webu zmizel: podle R-134 platí
    klienti webu 249 Kč beze slevy, jen se 30 dny na vyzkoušení.
-3. Napojit kontaktní formulář na ZakazIQ. Rezervační okno posílalo poptávky do
-   Supabase a ZakazIQ, formulář je teď posílá jen e-mailem.
+3. ~~Napojit kontaktní formulář na ZakazIQ.~~ Hotovo v kódu 22. 11. 2026 (viz CLAUDE.md,
+   „Poptávky → ZakazIQ“): pilulky zájmu, povinný telefon, zdroj a UTM, GA4 `generate_lead`.
+   Poptávky jdou do adminu ZakazIQ (`/api/public/vizeon-leads`, klíč `ZAKAZIQ_LEAD_SECRET`).
 4. Doplnit screenshoty ZakazIQ do panelů v sekci „Víc než web"
    (`components/MoreThanWeb.tsx`).
 5. ~~Vymezit „na doživotí" v obchodních podmínkách.~~ Odpadá, slib „na doživotí" z webu zmizel (viz bod 2).
