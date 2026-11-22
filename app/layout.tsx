@@ -112,10 +112,23 @@ export const metadata: Metadata = {
     siteName: "VIZEON",
   },
   twitter: { card: "summary_large_image" },
+  // Bez limitu délky úryvku: vyhledávače a AI odpovědi můžou citovat celé pasáže.
   robots: {
     index: true,
     follow: true,
-    googleBot: { "max-image-preview": "large" },
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
+    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
+  },
+  // Ověření webu v Search Console, Bing Webmaster Tools a Seznam Webmaster.
+  // Kódy jsou ve Vercel env (viz .env.example); bez nich se značka nevypíše.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: {
+      ...(process.env.BING_SITE_VERIFICATION && { "msvalidate.01": process.env.BING_SITE_VERIFICATION }),
+      ...(process.env.SEZNAM_SITE_VERIFICATION && { "seznam-wmt": process.env.SEZNAM_SITE_VERIFICATION }),
+    },
   },
 };
 

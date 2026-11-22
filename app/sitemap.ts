@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getSortedPosts } from "@/lib/data/blog";
+import { getSortedPosts } from "@/lib/blog";
 import { projects } from "@/lib/data/portfolio";
 import { automationPages } from "@/lib/data/automation-pages";
 
@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const blogPosts: MetadataRoute.Sitemap = getSortedPosts().map((post) => ({
     url: `${base}/blog/${post.slug}`,
-    lastModified: post.date,
+    lastModified: post.updated ?? post.date,
     changeFrequency: "monthly",
     priority: 0.6,
   }));

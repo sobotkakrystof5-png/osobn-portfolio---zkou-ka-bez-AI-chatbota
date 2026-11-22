@@ -114,3 +114,22 @@ JSON ze stdin a při jakékoli chybě tiše selžou (exit 0) — nikdy neblokuj�
 
 Atribuce: `.claude/NOTICES-n8n-skills`, `.claude/NOTICES-APACHE-2.0.txt`, `.claude/LICENSE-n8n-skills`
 (MIT, autor Romuald Członkowski; část hooks adaptována z `n8n-io/skills`, Apache-2.0).
+
+# Blog: články, plán a automat
+
+Články jsou v `content/blog/<slug>.mdx` (frontmatter + Markdown), načítá je `lib/blog.ts`. Sitemapa,
+RSS (`/blog/rss.xml`), `/llms.txt`, `/llms-full.txt` a Markdown verze pro AI (`/blog/<slug>.md`) se
+skládají samy. VIZEON/ALTENO se v článcích píše prostě verzálkami, logo z nich udělá `lib/remark-brand.ts`.
+
+- **Plán** (s majitelem, Ahrefs jen tady): skill `blog-plan` → fronta `content/blog/_fronta.json`
+  (`navrh` → `schvaleno` s `publishAt`). Termíny: `npm run blog:queue -- slots`.
+- **Psaní:** skill `blog-clanek` (pravidla, struktura, fakta jen z `content/blog/_fakta.md` a dat webu).
+  GitHub Actions `blog-write.yml` (út, čt, so ráno) napíše téma na příštích 4 dny a otevře PR.
+- **Vydání:** ne/st/pá 14:00 Praha. Článek s budoucím `publishAt` je v produkci skrytý (náhled PR ho
+  ukazuje), `blog-publish.yml` v termín spustí Vercel deploy hook, `indexnow.yml` pak ohlásí změny.
+- **Kontrola:** `npm run blog:check` (hook po každé úpravě článku v Claude Code + CI na PR).
+- **Secrets v GitHubu:** `CLAUDE_CODE_OAUTH_TOKEN` nebo `ANTHROPIC_API_KEY`, `VERCEL_DEPLOY_HOOK_URL`;
+  volitelně proměnná `BLOG_AUTOMERGE=true`. Povolit Actions vytvářet PR (Settings → Actions → General).
+- **AI roboti:** `app/robots.ts` vyjmenovává vyhledávací, uživatelské i tréninkové roboty jednotlivých
+  firem (Google, Microsoft, Seznam, OpenAI, Anthropic, Perplexity, Apple, Meta, Amazon, Mistral,
+  DuckDuckGo, Common Crawl). Robot s vlastní skupinou ignoruje `*`, zákazy drž v obou skupinách stejné.

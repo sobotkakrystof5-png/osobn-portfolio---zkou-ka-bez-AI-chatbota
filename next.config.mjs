@@ -5,6 +5,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // next-mdx-remote (články blogu) se musí sestavit spolu s aplikací, jinak si
+  // vezme React 18 z node_modules místo Reactu, se kterým běží app router.
+  transpilePackages: ["next-mdx-remote"],
+
   // ── Dev server (Turbopack) ───────────────────────────────────────────────
   turbopack: {
     root: __dirname,
@@ -48,6 +52,12 @@ const nextConfig = {
         permanent: true,
       },
     ];
+  },
+
+  // ── Přepisy ──────────────────────────────────────────────────────────────
+  // Markdown verze článku pro AI agenty: /blog/<slug>.md → app/md/blog/[slug].
+  async rewrites() {
+    return [{ source: "/blog/:slug.md", destination: "/md/blog/:slug" }];
   },
 
   // ── HTTP hlavičky ────────────────────────────────────────────────────────

@@ -1,0 +1,31 @@
+name: Blog – kontrola
+
+# Každá změna článku nebo fronty projde npm run blog:check (struktura, odkazy,
+# značka VIZEON, klíčová slova). Chyba = PR se nemá slučovat.
+
+on:
+  pull_request:
+    paths:
+      - "content/blog/**"
+      - "scripts/blog-check.mjs"
+  push:
+    branches: [main]
+    paths:
+      - "content/blog/**"
+      - "scripts/blog-check.mjs"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run blog:check

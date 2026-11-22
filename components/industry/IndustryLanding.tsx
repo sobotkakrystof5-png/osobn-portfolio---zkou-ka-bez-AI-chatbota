@@ -33,6 +33,8 @@ import { INDUSTRY_PAGES, type IndustryPage } from "@/lib/data/industry-pages";
 import { projects, projectScreens } from "@/lib/data/portfolio";
 import { testimonials } from "@/lib/data/testimonials";
 import { PRICE_BY_NAME } from "@/lib/data/pricing";
+import { getPostsForPage } from "@/lib/blog";
+import { RelatedPosts } from "@/components/blog/ArticleParts";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -611,6 +613,14 @@ export function IndustryLanding({ page }: { page: IndustryPage }) {
           </RevealGroup>
         </div>
       </section>
+
+      {/* ─── Články k oboru (frontmatter targetPage = tahle stránka) ─── */}
+      <RelatedPosts
+        posts={getPostsForPage(`/${page.slug}`)}
+        heading="Články k tématu"
+        id="clanky"
+        className={cn(t.container.wide, "mt-0", sectionY)}
+      />
 
       {/* ─── 8. Časté otázky ─────────────────────────────── */}
       <section aria-labelledby="faq" className={cn(t.container.wide, sectionY)}>

@@ -1,5 +1,5 @@
 import { buildOgImage, ogImageSize } from "@/lib/ogImage";
-import { getPostBySlug, getSortedPosts } from "@/lib/data/blog";
+import { getPostBySlug, getSortedPosts } from "@/lib/blog";
 
 export const size = ogImageSize;
 export const contentType = "image/png";

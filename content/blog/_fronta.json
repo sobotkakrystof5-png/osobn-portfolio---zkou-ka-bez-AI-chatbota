@@ -1,0 +1,302 @@
+{
+  "_info": "Fronta témat blogu. Plní ji /blog-plan (s Ahrefs), schvaluje majitel (status schvaleno + publishAt), píše .github/workflows/blog-write.yml. Stavy: navrh | schvaleno | napsano | zamitnuto. Kontrola: npm run blog:check.",
+  "items": [
+    {
+      "slug": "jak-ziskat-zakazky-remeslnik",
+      "status": "navrh",
+      "keyword": "jak získat zakázky jako řemeslník",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "informační",
+      "serpFormat": null,
+      "workingTitle": "Jak získat zakázky jako řemeslník bez placené reklamy",
+      "category": "Weby pro řemeslníky",
+      "targetPage": "/web-pro-remeslniky",
+      "interest": "web",
+      "outline": [
+        "Odkud dnes řemeslníci berou zakázky?",
+        "Proč nestačí jen doporučení?",
+        "Co musí mít web, aby z něj chodily poptávky?",
+        "Jak pomůže Google a Firmy.cz?",
+        "Kolik to stojí a kdy se to vrátí?"
+      ],
+      "faq": [
+        "Potřebuji jako řemeslník web, když mám dost práce?",
+        "Jak rychle začne web přivádět poptávky?",
+        "Stačí profil na Firmy.cz?"
+      ],
+      "internalLinks": [
+        "/web-pro-remeslniky",
+        "/blog/lokalni-seo-pro-zivnostniky-v-cr",
+        "/cena-tvorby-webu"
+      ],
+      "facts": [
+        "ceník webů v lib/data/pricing.ts",
+        "reference řemeslníků v lib/data/portfolio.ts"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "webnode-nebo-web-na-miru",
+      "status": "navrh",
+      "keyword": "webnode nebo web na míru",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "srovnávací",
+      "serpFormat": null,
+      "workingTitle": "Webnode, Wix, nebo web na míru: co se vyplatí malé firmě",
+      "category": "Ceny webu",
+      "targetPage": "/sluzby/tvorba-webovych-stranek",
+      "interest": "web",
+      "outline": [
+        "Čím se liší stavitelnice od webu na míru?",
+        "Kolik stojí každá varianta za 3 roky?",
+        "Kdy stavitelnice stačí?",
+        "Kdy se vyplatí web na míru?",
+        "Jak přejít ze stavitelnice bez ztráty pozic?"
+      ],
+      "faq": [
+        "Je Webnode zdarma?",
+        "Dá se web z Wixu převést jinam?",
+        "Je web na míru horší na úpravy?"
+      ],
+      "internalLinks": [
+        "/sluzby/tvorba-webovych-stranek",
+        "/cena-tvorby-webu",
+        "/blog/kolik-stoji-tvorba-webu-2026"
+      ],
+      "facts": [
+        "ceník webů v lib/data/pricing.ts"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "kolik-stoji-e-shop",
+      "status": "navrh",
+      "keyword": "kolik stojí e-shop",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "cenový",
+      "serpFormat": null,
+      "workingTitle": "Kolik stojí e-shop v roce 2026 a za co se platí",
+      "category": "Ceny e-shopu",
+      "targetPage": "/sluzby/tvorba-e-shopu",
+      "interest": "eshop",
+      "outline": [
+        "Z čeho se skládá cena e-shopu?",
+        "Shopify, nebo vlastní kód?",
+        "Jaké jsou měsíční náklady po spuštění?",
+        "Kolik stojí e-shop u nás?",
+        "Na co si dát pozor v nabídkách?"
+      ],
+      "faq": [
+        "Kolik stojí malý e-shop?",
+        "Jak dlouho trvá spuštění e-shopu?",
+        "Platí se za e-shop měsíčně?"
+      ],
+      "internalLinks": [
+        "/sluzby/tvorba-e-shopu",
+        "/cena-tvorby-webu",
+        "/blog/kolik-stoji-tvorba-webu-2026"
+      ],
+      "facts": [
+        "E-shop na míru od 29 990 Kč (lib/data/pricing.ts)",
+        "rozsah na stránce /sluzby/tvorba-e-shopu"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "proc-web-neprivadi-zakazniky",
+      "status": "navrh",
+      "keyword": "proč web nepřivádí zákazníky",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "informační",
+      "serpFormat": null,
+      "workingTitle": "Proč web nepřivádí zákazníky: 7 nejčastějších příčin",
+      "category": "SEO",
+      "targetPage": "/sluzby/seo-optimalizace/audit",
+      "interest": "proverka",
+      "outline": [
+        "Jak poznat, že web nefunguje?",
+        "Najdou vás lidé v Googlu?",
+        "Je web rychlý na mobilu?",
+        "Ví návštěvník do 5 vteřin, co nabízíte?",
+        "Je kontakt na jedno kliknutí?"
+      ],
+      "faq": [
+        "Jak zjistit, kolik lidí chodí na můj web?",
+        "Co je prověrka webu?",
+        "Musím kvůli tomu dělat nový web?"
+      ],
+      "internalLinks": [
+        "/sluzby/seo-optimalizace/audit",
+        "/sluzby/seo-optimalizace/technicke-seo",
+        "/blog/jak-poznat-kvalitni-web-pro-remeslnika"
+      ],
+      "facts": [
+        "prověrka webu zdarma (lib/lead.ts INTERESTS proverka)"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "online-rezervace-kadernictvi",
+      "status": "navrh",
+      "keyword": "online rezervace kadeřnictví",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "informační",
+      "serpFormat": null,
+      "workingTitle": "Online rezervace pro kadeřnictví: jak je nastavit a kolik stojí",
+      "category": "Weby pro služby",
+      "targetPage": "/web-pro-kadernictvi",
+      "interest": "web",
+      "outline": [
+        "Proč klienti chtějí rezervovat online?",
+        "Rezervační systém, nebo formulář?",
+        "Jak omezit nedorazivší klienty?",
+        "Kolik stojí rezervační systém?",
+        "Jak ho propojit s webem?"
+      ],
+      "faq": [
+        "Je online rezervace zdarma?",
+        "Funguje rezervace i bez webu?",
+        "Jak poslat klientovi připomínku?"
+      ],
+      "internalLinks": [
+        "/web-pro-kadernictvi",
+        "/zakaziq/rezervacni-system",
+        "/zakaziq"
+      ],
+      "facts": [
+        "ZakazIQ 249 Kč měsíčně, co je v ceně (lib/data/zakaziq.ts)"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "automatizace-pro-male-firmy",
+      "status": "navrh",
+      "keyword": "automatizace pro malé firmy",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "informační",
+      "serpFormat": null,
+      "workingTitle": "Automatizace pro malé firmy: 6 příkladů, které ušetří hodiny týdně",
+      "category": "Automatizace",
+      "targetPage": "/automatizace",
+      "interest": "automatizace",
+      "outline": [
+        "Co se v malé firmě vyplatí automatizovat?",
+        "Faktury a doklady",
+        "Odpovědi zákazníkům",
+        "Poptávky z webu do jednoho místa",
+        "Kolik automatizace stojí?"
+      ],
+      "faq": [
+        "Potřebuji na automatizaci programátora?",
+        "Je automatizace bezpečná pro data?",
+        "Za jak dlouho se vrátí?"
+      ],
+      "internalLinks": [
+        "/automatizace",
+        "/automatizace/automatizace-procesu",
+        "/automatizace/ai-agenti"
+      ],
+      "facts": [
+        "Automatizace od 4 999 Kč (lib/data/pricing.ts)",
+        "případy použití v lib/data/automation-pages.ts"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "chatbot-na-web-cena",
+      "status": "navrh",
+      "keyword": "chatbot na web cena",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "cenový",
+      "serpFormat": null,
+      "workingTitle": "Chatbot na web: kolik stojí a kdy se vyplatí",
+      "category": "Automatizace",
+      "targetPage": "/sluzby/ai-chatbot",
+      "interest": "automatizace",
+      "outline": [
+        "Co umí AI chatbot na webu?",
+        "Chatbot z FAQ, nebo RAG?",
+        "Kolik stojí a co ovlivňuje cenu?",
+        "Kdy se chatbot nevyplatí?",
+        "Jak ho spustit?"
+      ],
+      "faq": [
+        "Odpovídá chatbot česky?",
+        "Může chatbot přijímat poptávky?",
+        "Co když chatbot odpoví špatně?"
+      ],
+      "internalLinks": [
+        "/sluzby/ai-chatbot",
+        "/automatizace/chatboti-rag",
+        "/automatizace"
+      ],
+      "facts": [
+        "popis chatbotů v lib/data/automation-pages.ts (chatboti-rag)"
+      ],
+      "publishAt": null,
+      "notes": ""
+    },
+    {
+      "slug": "jak-napsat-texty-na-web",
+      "status": "navrh",
+      "keyword": "jak napsat texty na web",
+      "secondaryKeywords": [],
+      "volume": null,
+      "kd": null,
+      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "intent": "návod",
+      "serpFormat": null,
+      "workingTitle": "Jak napsat texty na web, aby z nich chodily poptávky",
+      "category": "SEO",
+      "targetPage": "/sluzby/seo-optimalizace/obsahove-seo",
+      "interest": "marketing",
+      "outline": [
+        "Co musí být na úvodní stránce?",
+        "Jak psát, aby rozuměl Google i zákazník?",
+        "Kolik textu je dost?",
+        "Jak psát ceny a reference?",
+        "Jak text otestovat?"
+      ],
+      "faq": [
+        "Můžu texty napsat přes AI?",
+        "Jak dlouhý má být text na webu?",
+        "Kam dát klíčová slova?"
+      ],
+      "internalLinks": [
+        "/sluzby/seo-optimalizace/obsahove-seo",
+        "/blog/lokalni-seo-pro-zivnostniky-v-cr",
+        "/blog/jak-poznat-kvalitni-web-pro-remeslnika"
+      ],
+      "facts": [],
+      "publishAt": null,
+      "notes": ""
+    }
+  ]
+}

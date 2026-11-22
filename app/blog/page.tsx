@@ -4,17 +4,20 @@ import { ArrowUpRight } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
-import { getSortedPosts } from "@/lib/data/blog";
+import { getSortedPosts } from "@/lib/blog";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { Vizeon } from "@/components/brand/BrandName";
+import { Vizeon, brandText } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
     title: "Blog — tvorba webů, SEO a online prezentace",
     description:
       "Články o tvorbě webů na míru, SEO optimalizaci a online prezentaci pro živnostníky a malé firmy v ČR.",
-    alternates: { canonical: "https://vizeon.cz/blog" },
+    alternates: {
+      canonical: "https://vizeon.cz/blog",
+      types: { "application/rss+xml": "https://vizeon.cz/blog/rss.xml" },
+    },
     openGraph: {
       title: "Blog — tvorba webů, SEO a online prezentace | VIZEON",
       description:
@@ -62,9 +65,9 @@ export default function BlogPage() {
                   {post.category}
                 </p>
                 <h2 className={cn(t.h2Page, "mb-3 text-[22px] md:text-[26px] leading-snug")}>
-                  {post.title}
+                  {brandText(post.title, "cormorant")}
                 </h2>
-                <p className={cn(t.body, "mb-6 flex-1")}>{post.excerpt}</p>
+                <p className={cn(t.body, "mb-6 flex-1")}>{brandText(post.excerpt)}</p>
 
                 <div className="flex items-center justify-between gap-4 pt-5 border-t border-white/[0.06]">
                   <div className="flex items-center gap-2.5">

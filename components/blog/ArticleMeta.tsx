@@ -6,18 +6,19 @@ import { cn } from "@/lib/utils";
 
 export function ArticleMeta({
   date,
+  updated,
   readingMinutes,
   className,
 }: {
   date: string;
+  /** Datum poslední věcné úpravy, zobrazí se jen když se liší od vydání. */
+  updated?: string;
   readingMinutes: number;
   className?: string;
 }) {
-  const formatted = new Date(date).toLocaleDateString("cs-CZ", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString("cs-CZ", { day: "numeric", month: "long", year: "numeric" });
+  const formatted = fmt(date);
 
   return (
     <div
@@ -47,7 +48,14 @@ export function ArticleMeta({
       <span className="hidden xs:block h-8 w-px bg-white/10" aria-hidden="true" />
 
       <p className="font-inter font-medium text-[11px] uppercase tracking-[0.15em] text-text-secondary">
-        Vydáno {formatted} <span className="mx-1.5 text-white/20">·</span> {readingMinutes} min čtení
+        Vydáno <time dateTime={date}>{formatted}</time>
+        {updated && updated !== date && (
+          <>
+            <span className="mx-1.5 text-white/20">·</span>
+            Aktualizováno <time dateTime={updated}>{fmt(updated)}</time>
+          </>
+        )}
+        <span className="mx-1.5 text-white/20">·</span> {readingMinutes} min čtení
       </p>
     </div>
   );

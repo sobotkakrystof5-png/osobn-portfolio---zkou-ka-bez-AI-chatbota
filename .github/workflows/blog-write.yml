@@ -1,0 +1,134 @@
+name: Blog – napsat článek
+
+# V úterý, čtvrtek a sobotu ráno vezme z content/blog/_fronta.json schválené
+# téma, které vychází v příštích 4 dnech, Claude ho napíše podle skillu
+# .claude/skills/blog-clanek a workflow otevře PR. Do termínu (publishAt) se
+# článek na webu neukáže, v náhledu PR na Vercelu ano. Sloučení PR = schválení.
+# Ručně: Actions → Blog – napsat článek → Run workflow (volitelně slug).
+#
+# Nastavení repa:
+# - Secret CLAUDE_CODE_OAUTH_TOKEN (předplatné, `claude setup-token`)
+#   nebo ANTHROPIC_API_KEY (platba za použití API).
+# - Settings → Actions → General → „Allow GitHub Actions to create and
+#   approve pull requests“.
+# - Volitelně proměnná BLOG_AUTOMERGE=true: PR se sloučí hned bez kontroly.
+
+on:
+  schedule:
+    - cron: "0 6 * * 2,4,6"
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Slug tématu z fronty (prázdné = další na řadě)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: blog-write
+  cancel-in-progress: false
+
+jobs:
+  write:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Vybrat téma
+        id: next
+        env:
+          SLUG: ${{ inputs.slug }}
+        run: |
+          if [ -n "$SLUG" ]; then
+            node scripts/blog-queue.mjs next --id "$SLUG"
+          else
+            node scripts/blog-queue.mjs next --within 4
+          fi
+
+      - name: Napsat článek
+        if: steps.next.outputs.found == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Napiš článek na blog vizeon.cz přesně podle skillu blog-clanek
+            (.claude/skills/blog-clanek/SKILL.md).
+
+            Téma je položka se slugem "${{ steps.next.outputs.slug }}" v content/blog/_fronta.json
+            (hlavní klíčové slovo "${{ steps.next.outputs.keyword }}",
+            vychází ${{ steps.next.outputs.publishAt }}).
+
+            - Ulož článek do content/blog/${{ steps.next.outputs.slug }}.mdx.
+            - Fakta ber jen z content/blog/_fakta.md, datových souborů webu a ověřených zdrojů s odkazem.
+            - Doplň odkaz na nový článek do 1–2 starších souvisejících článků.
+            - Ve frontě nastav status položky na "napsano".
+            - Spusť `npm run blog:check` a oprav všechny chyby, dokud neprojde.
+            - Měň jen soubory v content/blog/. Necommituj, PR vytvoří workflow.
+            - Na konci vypiš krátké shrnutí pro PR: odkud jsou čísla, co ve frontě chybělo, otázky pro majitele.
+          claude_args: >-
+            --model claude-opus-5-5
+            --max-turns 80
+            --allowedTools "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(node scripts/blog-check.mjs*),Bash(npm run blog:queue*),Bash(node scripts/blog-queue.mjs*)"
+
+      - name: Kontrola článku
+        if: steps.next.outputs.found == 'true'
+        run: npm run blog:check
+
+      - name: Otevřít PR
+        if: steps.next.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLUG: ${{ steps.next.outputs.slug }}
+          KEYWORD: ${{ steps.next.outputs.keyword }}
+          BRANCH: ${{ steps.next.outputs.branch }}
+          PUBLISH_AT: ${{ steps.next.outputs.publishAt }}
+          AUTOMERGE: ${{ vars.BLOG_AUTOMERGE }}
+        run: |
+          FILE="content/blog/$SLUG.mdx"
+          test -f "$FILE" || { echo "::error::Článek $FILE nevznikl"; exit 1; }
+          TITLE=$(node -e "console.log(require('gray-matter').read(process.argv[1]).data.title)" "$FILE")
+          WHEN=$(TZ=Europe/Prague date -d "$PUBLISH_AT" "+%-d. %-m. %Y v %H:%M")
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git add content/blog          # do PR jde jen blog, nic jiného
+          git commit -m "blog: $TITLE"
+          git push -u origin "$BRANCH"
+
+          {
+            echo "Článek na klíčové slovo **$KEYWORD**, vyjde **$WHEN** (pražského času)."
+            echo
+            echo "Náhled je v odkazu od Vercelu níže. Na produkci se článek ukáže až v termínu,"
+            echo "i když PR sloučíš dřív. Úpravy můžeš napsat do komentáře nebo rovnou do souboru."
+            echo
+            echo "- [ ] Fakta a čísla sedí"
+            echo "- [ ] Osnova a nadpisy odpovídají tomu, co lidé hledají"
+            echo "- [ ] Tón a výzva k poptávce"
+            echo
+            echo "Kontrola \`npm run blog:check\` prošla."
+          } > "$RUNNER_TEMP/pr-body.md"
+
+          gh pr create --base main --head "$BRANCH" \
+            --title "Blog: $TITLE (vyjde $WHEN)" \
+            --body-file "$RUNNER_TEMP/pr-body.md"
+
+          if [ "$AUTOMERGE" = "true" ]; then
+            gh pr merge "$BRANCH" --squash --delete-branch
+          fi

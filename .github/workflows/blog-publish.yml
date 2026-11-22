@@ -1,0 +1,53 @@
+name: Blog – vydat článek
+
+# V neděli, ve středu a v pátek ve 14:00 (Praha) spustí nové nasazení na
+# Vercelu, aby se naplánovaný článek objevil na webu, v sitemapě, RSS a
+# llms.txt. Po nasazení ho workflow IndexNow ohlásí Bingu, Seznamu a dalším.
+#
+# Cron je v UTC a GitHub ho občas o pár minut zpozdí: 12:00 UTC = 14:00 v létě,
+# 13:00 UTC = 14:00 v zimě. Nasazuje se jen tehdy, když termín článku prošel
+# a článek na webu ještě není, takže druhý běh ani pozdní merge nic nezdvojí.
+#
+# Secret VERCEL_DEPLOY_HOOK_URL: Vercel → Project → Settings → Git →
+# Deploy Hooks → větev main.
+
+on:
+  schedule:
+    - cron: "0 12 * * 0,3,5"
+    - cron: "0 13 * * 0,3,5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blog-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Je co vydat?
+        id: due
+        run: node scripts/blog-queue.mjs due
+
+      - name: Spustit nasazení
+        if: steps.due.outputs.due == 'true'
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+          SLUGS: ${{ steps.due.outputs.slugs }}
+        run: |
+          test -n "$HOOK" || { echo "::error::Chybí secret VERCEL_DEPLOY_HOOK_URL"; exit 1; }
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Nasazení spuštěno, vychází: $SLUGS"
