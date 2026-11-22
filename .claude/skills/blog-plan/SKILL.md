@@ -5,9 +5,12 @@ description: Plánování článků na blog vizeon.cz s majitelem. Výzkum klí�
 
 # Plán článků na blog
 
-Interaktivní krok s majitelem. Automat (`.github/workflows/blog-write.yml`)
-píše jen témata, která tady majitel schválí. Ahrefs se volá jen odsud, ne
-z GitHub Actions (Ahrefs nepovoluje volat své MCP ze skriptů).
+Ruční plánování s majitelem. Na autopilotu frontu každé pondělí plní agenti
+(`.github/workflows/blog-research.yml`: seo-trend-scout → seo-competitor-analyst
+→ blog-strategist, pravidla v `.claude/agents/`). Tenhle skill použij, když chce
+majitel plán probrat, přeplánovat nebo doplnit hlubší data z Ahrefs. Ahrefs se
+volá jen odsud, ne z GitHub Actions (Ahrefs nepovoluje volat své MCP ze skriptů).
+Analýzy agentů jsou v soukromém repu `sobotkakrystof5-png/vizeon-seo-workspace`.
 
 ## 1. Stav
 

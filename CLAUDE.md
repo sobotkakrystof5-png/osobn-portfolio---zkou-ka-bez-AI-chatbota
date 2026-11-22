@@ -121,15 +121,20 @@ Atribuce: `.claude/NOTICES-n8n-skills`, `.claude/NOTICES-APACHE-2.0.txt`, `.clau
 RSS (`/blog/rss.xml`), `/llms.txt`, `/llms-full.txt` a Markdown verze pro AI (`/blog/<slug>.md`) se
 skládají samy. VIZEON/ALTENO se v článcích píše prostě verzálkami, logo z nich udělá `lib/remark-brand.ts`.
 
-- **Plán** (s majitelem, Ahrefs jen tady): skill `blog-plan` → fronta `content/blog/_fronta.json`
-  (`navrh` → `schvaleno` s `publishAt`). Termíny: `npm run blog:queue -- slots`.
-- **Psaní:** skill `blog-clanek` (pravidla, struktura, fakta jen z `content/blog/_fakta.md` a dat webu).
-  GitHub Actions `blog-write.yml` (út, čt, so ráno) napíše téma na příštích 4 dny a otevře PR.
+- **Autopilot:** `blog-research.yml` (po 4:00 UTC) pustí agenty z `.claude/agents/`: `seo-trend-scout`
+  (co se hledá a roste: DataForSEO MCP, bez něj našeptávač Googlu), `seo-competitor-analyst` (první
+  desítka a konkurence od A do Z, briefy) a `blog-strategist` (témata na 14 dní do fronty
+  `content/blog/_fronta.json` jako `schvaleno`). Analýzy ukládají do **soukromého** repa
+  `sobotkakrystof5-png/vizeon-seo-workspace` (repo webu je veřejné), v Actions je naklonované do `./workspace`.
+- **Psaní:** `blog-write.yml` (út, čt, so ráno): skill `blog-clanek` podle briefu, pak agent `blog-editor`
+  (fakta, styl, verdikt do `workspace/reviews/`). `SCHVÁLENO` + proměnná `BLOG_AUTOMERGE=true` = PR se
+  sloučí sám, `VRÁCENO` = PR čeká na majitele. Ruční plán: skill `blog-plan`. Fakta jen z `_fakta.md` a dat webu.
 - **Vydání:** ne/st/pá 14:00 Praha. Článek s budoucím `publishAt` je v produkci skrytý (náhled PR ho
   ukazuje), `blog-publish.yml` v termín spustí Vercel deploy hook, `indexnow.yml` pak ohlásí změny.
 - **Kontrola:** `npm run blog:check` (hook po každé úpravě článku v Claude Code + CI na PR).
-- **Secrets v GitHubu:** `CLAUDE_CODE_OAUTH_TOKEN` nebo `ANTHROPIC_API_KEY`, `VERCEL_DEPLOY_HOOK_URL`;
-  volitelně proměnná `BLOG_AUTOMERGE=true`. Povolit Actions vytvářet PR (Settings → Actions → General).
+- **Secrets v GitHubu:** `CLAUDE_CODE_OAUTH_TOKEN` (nebo `ANTHROPIC_API_KEY`), `VERCEL_DEPLOY_HOOK_URL`,
+  `WORKSPACE_SSH_KEY` (deploy klíč k zápisu do workspace), volitelně `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD`.
+  Proměnná `BLOG_AUTOMERGE=true`. Actions smí vytvářet PR (Settings → Actions → General).
 - **AI roboti:** `app/robots.ts` vyjmenovává vyhledávací, uživatelské i tréninkové roboty jednotlivých
   firem (Google, Microsoft, Seznam, OpenAI, Anthropic, Perplexity, Apple, Meta, Amazon, Mistral,
   DuckDuckGo, Common Crawl). Robot s vlastní skupinou ignoruje `*`, zákazy drž v obou skupinách stejné.

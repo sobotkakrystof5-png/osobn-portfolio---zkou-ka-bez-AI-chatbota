@@ -1,0 +1,138 @@
+name: Blog – průzkum a plán
+
+# Každé pondělí ráno tři agenti naplánují blog na další 2 týdny (autopilot):
+#   seo-trend-scout        co lidé v Česku hledají a co roste
+#   seo-competitor-analyst konkurence ve výsledcích od A do Z, briefy k tématům
+#   blog-strategist        vybere témata a zapíše je do fronty jako schválená
+# Pravidla agentů: .claude/agents/. Analýzy ukládají do soukromého repa
+# vizeon-seo-workspace (repo webu je veřejné), frontu do content/blog/_fronta.json.
+# Ručně: Actions → Blog – průzkum a plán → Run workflow.
+#
+# Secrets: CLAUDE_CODE_OAUTH_TOKEN (nebo ANTHROPIC_API_KEY), WORKSPACE_SSH_KEY.
+# Volitelně DATAFORSEO_LOGIN + DATAFORSEO_PASSWORD: hledanost, obtížnost, trendy
+# a první desítka z google.cz. Bez nich agenti berou našeptávač Googlu a vyhledávání.
+
+on:
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: blog-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      TOOLS: "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(npm run blog:queue*),Bash(node scripts/blog-check.mjs*),Bash(node scripts/blog-queue.mjs*),mcp__dataforseo"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Workspace agentů
+        uses: actions/checkout@v4
+        with:
+          repository: sobotkakrystof5-png/vizeon-seo-workspace
+          ssh-key: ${{ secrets.WORKSPACE_SSH_KEY }}
+          path: workspace
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Připojit DataForSEO
+        id: mcp
+        env:
+          DFS_LOGIN: ${{ secrets.DATAFORSEO_LOGIN }}
+          DFS_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
+        run: |
+          if [ -n "$DFS_LOGIN" ] && [ -n "$DFS_PASSWORD" ]; then
+            node -e '
+              const cfg = { mcpServers: { dataforseo: { command: "npx", args: ["-y", "dataforseo-mcp-server@3.1.3"],
+                env: { DATAFORSEO_LOGIN: process.env.DFS_LOGIN, DATAFORSEO_PASSWORD: process.env.DFS_PASSWORD } } } };
+              require("fs").writeFileSync(process.env.RUNNER_TEMP + "/mcp.json", JSON.stringify(cfg));'
+            echo "args=--mcp-config $RUNNER_TEMP/mcp.json" >> "$GITHUB_OUTPUT"
+            echo "data=DataForSEO MCP (nástroje mcp__dataforseo__*)" >> "$GITHUB_OUTPUT"
+          else
+            echo "args=" >> "$GITHUB_OUTPUT"
+            echo "data=bez DataForSEO: našeptávač Googlu přes WebFetch a WebSearch" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Agent – trendy a poptávka
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Jsi agent seo-trend-scout. Postupuj přesně podle .claude/agents/seo-trend-scout.md.
+            Workspace agentů je složka ./workspace. Zdroj dat: ${{ steps.mcp.outputs.data }}.
+            Měň jen soubory ve ./workspace. Necommituj, to udělá workflow.
+          claude_args: >-
+            --model claude-sonnet-5-5
+            --max-turns 80
+            ${{ steps.mcp.outputs.args }}
+            --allowedTools "${{ env.TOOLS }}"
+
+      - name: Agent – konkurence
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Jsi agent seo-competitor-analyst. Postupuj přesně podle .claude/agents/seo-competitor-analyst.md.
+            Workspace agentů je složka ./workspace. Zdroj dat: ${{ steps.mcp.outputs.data }}.
+            Měň jen soubory ve ./workspace. Necommituj, to udělá workflow.
+          claude_args: >-
+            --model claude-sonnet-5-5
+            --max-turns 120
+            ${{ steps.mcp.outputs.args }}
+            --allowedTools "${{ env.TOOLS }}"
+
+      - name: Agent – plán vydávání
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Jsi agent blog-strategist. Postupuj přesně podle .claude/agents/blog-strategist.md.
+            Workspace agentů je složka ./workspace. Naplň volné termíny na příštích 14 dní.
+            Měň jen content/blog/_fronta.json a soubory ve ./workspace. Necommituj, to udělá workflow.
+          claude_args: >-
+            --model claude-opus-5-5
+            --max-turns 60
+            --allowedTools "${{ env.TOOLS }}"
+
+      - name: Kontrola fronty
+        run: npm run blog:check
+
+      - name: Uložit workspace
+        run: |
+          cd workspace
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && { echo "Workspace beze změn"; exit 0; }
+          git commit -m "průzkum a plán $(date -u +%F)"
+          git push
+
+      - name: Uložit frontu
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/blog/_fronta.json
+          git diff --cached --quiet && { echo "Fronta beze změn"; exit 0; }
+          git commit -m "chore(blog): plán témat $(date -u +%F)"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          node scripts/blog-queue.mjs list

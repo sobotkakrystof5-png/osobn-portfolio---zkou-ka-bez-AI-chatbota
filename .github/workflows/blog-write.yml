@@ -1,17 +1,15 @@
 name: Blog – napsat článek
 
 # V úterý, čtvrtek a sobotu ráno vezme z content/blog/_fronta.json schválené
-# téma, které vychází v příštích 4 dnech, Claude ho napíše podle skillu
-# .claude/skills/blog-clanek a workflow otevře PR. Do termínu (publishAt) se
-# článek na webu neukáže, v náhledu PR na Vercelu ano. Sloučení PR = schválení.
+# téma, které vychází v příštích 4 dnech. Autor (skill blog-clanek) ho napíše
+# podle briefu konkurence z workspace, redaktor (agent blog-editor) ověří fakta,
+# opraví drobnosti a vydá verdikt. Při SCHVÁLENO a BLOG_AUTOMERGE=true se PR
+# sloučí sám (autopilot), jinak zůstane otevřený pro majitele. Na webu se
+# článek objeví až v termínu (publishAt), náhled PR na Vercelu ho ukazuje hned.
 # Ručně: Actions → Blog – napsat článek → Run workflow (volitelně slug).
 #
-# Nastavení repa:
-# - Secret CLAUDE_CODE_OAUTH_TOKEN (předplatné, `claude setup-token`)
-#   nebo ANTHROPIC_API_KEY (platba za použití API).
-# - Settings → Actions → General → „Allow GitHub Actions to create and
-#   approve pull requests“.
-# - Volitelně proměnná BLOG_AUTOMERGE=true: PR se sloučí hned bez kontroly.
+# Secrets: CLAUDE_CODE_OAUTH_TOKEN (nebo ANTHROPIC_API_KEY), WORKSPACE_SSH_KEY.
+# Proměnná BLOG_AUTOMERGE (true = autopilot). Actions musí smět vytvářet PR.
 
 on:
   schedule:
@@ -35,7 +33,9 @@ concurrency:
 jobs:
   write:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
+    env:
+      TOOLS: "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(node scripts/blog-check.mjs*),Bash(npm run blog:queue*),Bash(node scripts/blog-queue.mjs*)"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,7 +59,15 @@ jobs:
             node scripts/blog-queue.mjs next --within 4
           fi
 
-      - name: Napsat článek
+      - name: Workspace agentů
+        if: steps.next.outputs.found == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: sobotkakrystof5-png/vizeon-seo-workspace
+          ssh-key: ${{ secrets.WORKSPACE_SSH_KEY }}
+          path: workspace
+
+      - name: Autor – napsat článek
         if: steps.next.outputs.found == 'true'
         uses: anthropics/claude-code-action@v1
         with:
@@ -71,8 +79,9 @@ jobs:
             (.claude/skills/blog-clanek/SKILL.md).
 
             Téma je položka se slugem "${{ steps.next.outputs.slug }}" v content/blog/_fronta.json
-            (hlavní klíčové slovo "${{ steps.next.outputs.keyword }}",
-            vychází ${{ steps.next.outputs.publishAt }}).
+            (hlavní klíčové slovo "${{ steps.next.outputs.keyword }}", vychází ${{ steps.next.outputs.publishAt }}).
+            Brief konkurence: workspace/serp/${{ steps.next.outputs.slug }}.md (když existuje).
+            Článek musí pokrýt vše, co má první trojka, a využít mezery z briefu.
 
             - Ulož článek do content/blog/${{ steps.next.outputs.slug }}.mdx.
             - Fakta ber jen z content/blog/_fakta.md, datových souborů webu a ověřených zdrojů s odkazem.
@@ -80,17 +89,43 @@ jobs:
             - Ve frontě nastav status položky na "napsano".
             - Spusť `npm run blog:check` a oprav všechny chyby, dokud neprojde.
             - Měň jen soubory v content/blog/. Necommituj, PR vytvoří workflow.
-            - Na konci vypiš krátké shrnutí pro PR: odkud jsou čísla, co ve frontě chybělo, otázky pro majitele.
           claude_args: >-
             --model claude-opus-5-5
             --max-turns 80
-            --allowedTools "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(node scripts/blog-check.mjs*),Bash(npm run blog:queue*),Bash(node scripts/blog-queue.mjs*)"
+            --allowedTools "${{ env.TOOLS }}"
+
+      - name: Redaktor – kontrola a verdikt
+        if: steps.next.outputs.found == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Jsi agent blog-editor. Postupuj přesně podle .claude/agents/blog-editor.md.
+            Článek: content/blog/${{ steps.next.outputs.slug }}.mdx,
+            brief: workspace/serp/${{ steps.next.outputs.slug }}.md,
+            posudek zapiš do workspace/reviews/${{ steps.next.outputs.slug }}.md.
+            Měň jen content/blog/ a ./workspace. Necommituj, to udělá workflow.
+          claude_args: >-
+            --model claude-opus-5-5
+            --max-turns 60
+            --allowedTools "${{ env.TOOLS }}"
 
       - name: Kontrola článku
         if: steps.next.outputs.found == 'true'
         run: npm run blog:check
 
-      - name: Otevřít PR
+      - name: Uložit posudek do workspace
+        if: steps.next.outputs.found == 'true'
+        run: |
+          cd workspace
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || { git commit -m "posudek: ${{ steps.next.outputs.slug }}"; git push; }
+
+      - name: Otevřít PR a podle verdiktu sloučit
         if: steps.next.outputs.found == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,9 +136,12 @@ jobs:
           AUTOMERGE: ${{ vars.BLOG_AUTOMERGE }}
         run: |
           FILE="content/blog/$SLUG.mdx"
+          REVIEW="workspace/reviews/$SLUG.md"
           test -f "$FILE" || { echo "::error::Článek $FILE nevznikl"; exit 1; }
           TITLE=$(node -e "console.log(require('gray-matter').read(process.argv[1]).data.title)" "$FILE")
           WHEN=$(TZ=Europe/Prague date -d "$PUBLISH_AT" "+%-d. %-m. %Y v %H:%M")
+          VERDICT=$(head -1 "$REVIEW" 2>/dev/null | sed -E 's/^VERDIKT:[[:space:]]*//' || true)
+          [ -n "$VERDICT" ] || VERDICT="CHYBÍ"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -115,13 +153,10 @@ jobs:
           {
             echo "Článek na klíčové slovo **$KEYWORD**, vyjde **$WHEN** (pražského času)."
             echo
-            echo "Náhled je v odkazu od Vercelu níže. Na produkci se článek ukáže až v termínu,"
-            echo "i když PR sloučíš dřív. Úpravy můžeš napsat do komentáře nebo rovnou do souboru."
+            echo "**Verdikt redaktora: $VERDICT**"
             echo
-            echo "- [ ] Fakta a čísla sedí"
-            echo "- [ ] Osnova a nadpisy odpovídají tomu, co lidé hledají"
-            echo "- [ ] Tón a výzva k poptávce"
-            echo
+            if [ -f "$REVIEW" ]; then echo '<details><summary>Posudek</summary>'; echo; tail -n +2 "$REVIEW"; echo; echo '</details>'; echo; fi
+            echo "Náhled je v odkazu od Vercelu níže. Na produkci se článek ukáže až v termínu."
             echo "Kontrola \`npm run blog:check\` prošla."
           } > "$RUNNER_TEMP/pr-body.md"
 
@@ -129,6 +164,11 @@ jobs:
             --title "Blog: $TITLE (vyjde $WHEN)" \
             --body-file "$RUNNER_TEMP/pr-body.md"
 
-          if [ "$AUTOMERGE" = "true" ]; then
-            gh pr merge "$BRANCH" --squash --delete-branch
+          if [ "$AUTOMERGE" = "true" ] && [ "$VERDICT" = "SCHVÁLENO" ]; then
+            for i in 1 2 3 4 5 6; do
+              gh pr merge "$BRANCH" --squash --delete-branch && exit 0
+              sleep 10
+            done
+            echo "::error::PR se nepodařilo sloučit"; exit 1
           fi
+          echo "PR zůstává otevřený ke kontrole (verdikt: $VERDICT, autopilot: ${AUTOMERGE:-vypnutý})."

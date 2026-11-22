@@ -16,9 +16,13 @@ konkrétní fakta, přehledná struktura.
    Platí `slug`, `keyword`, `secondaryKeywords`, `targetPage`, `interest`,
    `publishAt`, `outline`, `faq`, `internalLinks`, `facts`, `notes`.
    Osnova je schválená, drž se jí. Odchylku zdůvodni v PR.
-2. Přečti cílovou stránku (`targetPage`), ať článek neříká nic jiného než ona.
-3. Přečti fakta: `content/blog/_fakta.md` a soubory, na které odkazuje.
-4. Zkontroluj ostatní články (`grep -h '^keyword:' content/blog/*.mdx`), ať
+2. Přečti brief konkurence `workspace/serp/<slug>.md` (v GitHub Actions je
+   workspace agentů naklonovaný do `./workspace`). Článek musí pokrýt vše, co
+   má první trojka výsledků, a využít aspoň dvě mezery z briefu. Lokálně
+   brief chybí, pak vycházej z osnovy ve frontě.
+3. Přečti cílovou stránku (`targetPage`), ať článek neříká nic jiného než ona.
+4. Přečti fakta: `content/blog/_fakta.md` a soubory, na které odkazuje.
+5. Zkontroluj ostatní články (`grep -h '^keyword:' content/blog/*.mdx`), ať
    nový článek nekonkuruje existujícímu.
 
 ## 2. Fakta (nepřekročitelné)

@@ -1,5 +1,5 @@
 {
-  "_info": "Fronta témat blogu. Plní ji /blog-plan (s Ahrefs), schvaluje majitel (status schvaleno + publishAt), píše .github/workflows/blog-write.yml. Stavy: navrh | schvaleno | napsano | zamitnuto. Kontrola: npm run blog:check.",
+  "_info": "Fronta témat blogu. Na autopilotu ji každé pondělí plní agenti (blog-research.yml: seo-trend-scout → seo-competitor-analyst → blog-strategist), schválená témata píše blog-write.yml. Ručně jde plánovat skillem blog-plan. Stavy: navrh | schvaleno | napsano | zamitnuto. Kontrola: npm run blog:check.",
   "items": [
     {
       "slug": "jak-ziskat-zakazky-remeslnik",
@@ -152,30 +152,31 @@
       "notes": ""
     },
     {
-      "slug": "online-rezervace-kadernictvi",
+      "slug": "nedorazivsi-klienti-salon",
       "status": "navrh",
-      "keyword": "online rezervace kadeřnictví",
+      "keyword": "nedorazivší klienti v salonu",
       "secondaryKeywords": [],
       "volume": null,
       "kd": null,
-      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "source": "návrh 22. 11. 2026, ověřit poptávku",
       "intent": "informační",
       "serpFormat": null,
-      "workingTitle": "Online rezervace pro kadeřnictví: jak je nastavit a kolik stojí",
+      "workingTitle": "Klienti, kteří nedorazí: jak je omezit rezervací, zálohou a připomínkou",
       "category": "Weby pro služby",
       "targetPage": "/web-pro-kadernictvi",
       "interest": "web",
       "outline": [
-        "Proč klienti chtějí rezervovat online?",
-        "Rezervační systém, nebo formulář?",
-        "Jak omezit nedorazivší klienty?",
-        "Kolik stojí rezervační systém?",
-        "Jak ho propojit s webem?"
+        "Kolik stojí salon klient, který nedorazí?",
+        "Proč klienti nechodí na termín?",
+        "Pomůže připomínka SMS nebo e-mailem?",
+        "Má smysl záloha při rezervaci?",
+        "Jak nastavit storno podmínky, aby neodradily?",
+        "Jak to vyřeší online rezervace?"
       ],
       "faq": [
-        "Je online rezervace zdarma?",
-        "Funguje rezervace i bez webu?",
-        "Jak poslat klientovi připomínku?"
+        "Můžu klientovi naúčtovat storno poplatek?",
+        "Kdy poslat připomínku termínu?",
+        "Neodradí záloha nové klienty?"
       ],
       "internalLinks": [
         "/web-pro-kadernictvi",
@@ -186,7 +187,7 @@
         "ZakazIQ 249 Kč měsíčně, co je v ceně (lib/data/zakaziq.ts)"
       ],
       "publishAt": null,
-      "notes": ""
+      "notes": "Přeformulováno 22. 11. 2026: výsledky pro „online rezervace kadeřnictví“ jsou jen prodejní stránky softwaru (Fresha, SumUp, Reservio), článek by neprorazil. Ověřit poptávku (trend-scout)."
     },
     {
       "slug": "automatizace-pro-male-firmy",

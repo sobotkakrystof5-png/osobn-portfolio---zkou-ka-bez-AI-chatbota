@@ -37,3 +37,6 @@ env.local
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Workspace SEO agentů (soukromé repo vizeon-seo-workspace, checkout v GitHub Actions)
+workspace/
