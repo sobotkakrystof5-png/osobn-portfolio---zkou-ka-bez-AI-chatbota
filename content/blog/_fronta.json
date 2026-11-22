@@ -78,29 +78,36 @@
     },
     {
       "slug": "kolik-stoji-e-shop",
-      "status": "navrh",
+      "status": "schvaleno",
       "keyword": "kolik stojí e-shop",
-      "secondaryKeywords": [],
+      "secondaryKeywords": [
+        "kolik stojí vytvoření e-shopu",
+        "kolik stojí zřízení e-shopu",
+        "kolik stojí provoz e-shopu"
+      ],
       "volume": null,
       "kd": null,
-      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "source": "našeptávač Googlu 22. 11. 2026 (seo-trend-scout), brief WebSearch + WebFetch 22. 11. 2026, bez DataForSEO: hledanost a obtížnost neznámé",
       "intent": "cenový",
-      "serpFormat": null,
+      "serpFormat": "cenový průvodce s rozpadem nákladů a variantami pronájem / open source / na míru, 2 800–3 400 slov",
       "workingTitle": "Kolik stojí e-shop v roce 2026 a za co se platí",
       "category": "Ceny e-shopu",
       "targetPage": "/sluzby/tvorba-e-shopu",
       "interest": "eshop",
       "outline": [
-        "Z čeho se skládá cena e-shopu?",
-        "Shopify, nebo vlastní kód?",
-        "Jaké jsou měsíční náklady po spuštění?",
-        "Kolik stojí e-shop u nás?",
-        "Na co si dát pozor v nabídkách?"
+        "Kolik stojí e-shop v kostce?",
+        "Z čeho se cena skládá?",
+        "Pronájem, open source, nebo na míru?",
+        "Kolik stojí provoz po spuštění?",
+        "Jaké náklady lidé přehlédnou?",
+        "Kolik stojí e-shop u nás (podle ceníku webu)?",
+        "Kdy se e-shop vrátí?"
       ],
       "faq": [
-        "Kolik stojí malý e-shop?",
-        "Jak dlouho trvá spuštění e-shopu?",
-        "Platí se za e-shop měsíčně?"
+        "Kolik stojí vytvoření e-shopu a kolik jeho provoz?",
+        "Jaké jsou měsíční náklady e-shopu?",
+        "Vyplatí se e-shop na míru, nebo pronájem?",
+        "Jaké jsou skryté náklady (platby, doplňky, marketing)?"
       ],
       "internalLinks": [
         "/sluzby/tvorba-e-shopu",
@@ -108,11 +115,12 @@
         "/blog/kolik-stoji-tvorba-webu-2026"
       ],
       "facts": [
-        "E-shop na míru od 29 990 Kč (lib/data/pricing.ts)",
-        "rozsah na stránce /sluzby/tvorba-e-shopu"
+        "E-shop na míru od 29 990 Kč: Shopify nebo vlastní kód, platby, doprava, sklad a spuštění (lib/data/pricing.ts, ESHOP_PACKAGE)",
+        "konečná cena podle počtu produktů, logistiky, skladu a náročnosti (komentář v lib/data/pricing.ts, stránka /sluzby/tvorba-e-shopu)",
+        "ceny platforem (Shopify, Shoptet) a bran (GoPay, Comgate) jen z oficiálních ceníků s datem ověření, čísla z blogů konkurence necitovat"
       ],
-      "publishAt": null,
-      "notes": ""
+      "publishAt": "2026-11-25T14:00:00+01:00",
+      "notes": "Vybráno 22. 11. 2026 jako první: nejblíž k poptávce (cenový dotaz, interest eshop, prodejní stránka s cenou od 29 990 Kč), 4 varianty v našeptávači, konkurence jsou blogy platforem (Shopify) a zastaralý návod money.cz bez cen a bez českých reálií. Mezery z briefu: kalkulace prvního roku pro 3 typy e-shopu, Shoptet, brány, doprava, DPH."
     },
     {
       "slug": "proc-web-neprivadi-zakazniky",
@@ -191,67 +199,83 @@
     },
     {
       "slug": "automatizace-pro-male-firmy",
-      "status": "navrh",
+      "status": "schvaleno",
       "keyword": "automatizace pro malé firmy",
-      "secondaryKeywords": [],
+      "secondaryKeywords": [
+        "automatizace pro firmy",
+        "automatizace firmy"
+      ],
       "volume": null,
       "kd": null,
-      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "source": "našeptávač Googlu 22. 11. 2026 (seo-trend-scout), brief WebSearch + WebFetch 22. 11. 2026, bez DataForSEO: hledanost a obtížnost neznámé",
       "intent": "informační",
-      "serpFormat": null,
+      "serpFormat": "úvodní průvodce „kde začít“ s konkrétními procesy, nástroji, cenami a příkladem úspory, 2 600–3 300 slov",
       "workingTitle": "Automatizace pro malé firmy: 6 příkladů, které ušetří hodiny týdně",
       "category": "Automatizace",
       "targetPage": "/automatizace",
       "interest": "automatizace",
       "outline": [
-        "Co se v malé firmě vyplatí automatizovat?",
-        "Faktury a doklady",
-        "Odpovědi zákazníkům",
-        "Poptávky z webu do jednoho místa",
-        "Kolik automatizace stojí?"
+        "Co může malá firma automatizovat?",
+        "Které procesy se vyplatí automatizovat první?",
+        "Jaké nástroje existují a kolik stojí?",
+        "Jak vypadá automatizace krok za krokem?",
+        "Kolik času a peněz ušetří?",
+        "Na co si dát pozor?"
       ],
       "faq": [
-        "Potřebuji na automatizaci programátora?",
-        "Je automatizace bezpečná pro data?",
-        "Za jak dlouho se vrátí?"
+        "Co může malá firma automatizovat jako první?",
+        "Kolik automatizace stojí?",
+        "Dá se automatizace dělat bez programátora?",
+        "Zapier, Make, nebo n8n?",
+        "Je automatizace v souladu s GDPR?"
       ],
       "internalLinks": [
         "/automatizace",
         "/automatizace/automatizace-procesu",
-        "/automatizace/ai-agenti"
+        "/automatizace/ai-agenti",
+        "/blog/chatbot-na-web-cena"
       ],
       "facts": [
-        "Automatizace od 4 999 Kč (lib/data/pricing.ts)",
-        "případy použití v lib/data/automation-pages.ts"
+        "Automatizace od 4 999 Kč, pevná cena předem, 14 dní podpory po spuštění zdarma (lib/data/pricing.ts, AUTOMATION_PACKAGE)",
+        "realizace pod sesterskou značkou ALTENO (lib/data/pricing.ts, kategorie Automatizace a AI)",
+        "případy použití v lib/data/automation-pages.ts (automatizace-procesu, ai-agenti)",
+        "ceny Make, Zapier, n8n jen z oficiálních ceníků s datem ověření; dotace pro MSP zmínit jen po ověření na oficiálním webu ministerstva"
       ],
-      "publishAt": null,
-      "notes": ""
+      "publishAt": "2026-11-29T14:00:00+01:00",
+      "notes": "Vybráno 22. 11. 2026: „automatizace pro firmy“ v našeptávači, české zdroje řídké (vendor FlowHunt v USD, chybný výpočet návratnosti), mezera v příkladech z řemesel a služeb a v českých nástrojích (Fakturoid, iDoklad, Pohoda). Prodejní stránka s cenou od 4 999 Kč. Slovo „automatizace fakturace“ nechávám na samostatný článek."
     },
     {
       "slug": "chatbot-na-web-cena",
-      "status": "navrh",
+      "status": "schvaleno",
       "keyword": "chatbot na web cena",
-      "secondaryKeywords": [],
+      "secondaryKeywords": [
+        "chatbot na web",
+        "chatbot na web zdarma"
+      ],
       "volume": null,
       "kd": null,
-      "source": "návrh 22. 11. 2026, ověřit v Ahrefs",
+      "source": "našeptávač Googlu 22. 11. 2026 (seo-trend-scout), brief WebSearch + WebFetch 22. 11. 2026, bez DataForSEO: hledanost a obtížnost neznámé",
       "intent": "cenový",
-      "serpFormat": null,
+      "serpFormat": "srovnání cen typů řešení (hotový widget, vlastní na API, na míru) s rozpadem, co je v ceně, 2 500–3 300 slov",
       "workingTitle": "Chatbot na web: kolik stojí a kdy se vyplatí",
       "category": "Automatizace",
       "targetPage": "/sluzby/ai-chatbot",
       "interest": "automatizace",
       "outline": [
-        "Co umí AI chatbot na webu?",
-        "Chatbot z FAQ, nebo RAG?",
-        "Kolik stojí a co ovlivňuje cenu?",
-        "Kdy se chatbot nevyplatí?",
-        "Jak ho spustit?"
+        "Kolik stojí chatbot na web v kostce?",
+        "Jaké typy chatbotů existují?",
+        "Z čeho se cena skládá?",
+        "Kolik stojí provoz každý měsíc?",
+        "Kdy se chatbot vyplatí a kdy ne?",
+        "Co s GDPR?",
+        "Jak nasazení probíhá u nás?"
       ],
       "faq": [
-        "Odpovídá chatbot česky?",
-        "Může chatbot přijímat poptávky?",
-        "Co když chatbot odpoví špatně?"
+        "Kolik stojí chatbot na web a kolik jeho měsíční provoz?",
+        "Dá se chatbot dělat zdarma?",
+        "Vyplatí se chatbot pro malou firmu?",
+        "Je chatbot v souladu s GDPR?",
+        "Jak dlouho trvá nasazení?"
       ],
       "internalLinks": [
         "/sluzby/ai-chatbot",
@@ -259,10 +283,12 @@
         "/automatizace"
       ],
       "facts": [
-        "popis chatbotů v lib/data/automation-pages.ts (chatboti-rag)"
+        "AI Chatbot Starter a AI Chatbot Pro: cena individuální podle rozsahu (lib/data/pricing.ts), na stránce /sluzby/ai-chatbot „cena je vždy na dotaz“, žádnou naši částku nevymýšlet",
+        "Chatboti a RAG pod značkou ALTENO: odpovídá z vlastních podkladů, uvádí zdroj, co nevyřeší, předá s kontextem (lib/data/automation-pages.ts, slug chatboti-rag)",
+        "ceny nástrojů (OpenAI API, n8n) jen z oficiálních ceníků s datem ověření"
       ],
-      "publishAt": null,
-      "notes": ""
+      "publishAt": "2026-11-27T14:00:00+01:00",
+      "notes": "Vybráno 22. 11. 2026: cenový dotaz, „chatbot na web“ i „zdarma“ v našeptávači, výsledky jsou hlavně katalogy aplikací a vendor stránky (FlowHunt s protichůdnými čísly). Pozor: naše cena je individuální, článek proto dá rozpětí jen z oficiálních ceníků nástrojů a vysvětlí, co cenu určuje. Hlavní slovo „chatbot na web cena“ nekoliduje se stránkou /sluzby/ai-chatbot (cílí na „AI chatbot na míru“)."
     },
     {
       "slug": "jak-napsat-texty-na-web",
