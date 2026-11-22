@@ -20,6 +20,47 @@ export const ZAKAZIQ_PRICE_INCLUDES = [
   "Jeden byznys a neomezeně pracovníků",
 ] as const;
 
+/** Obory s připravenými službami a kolonkami (ProjectIQ content.ts → OBORY,
+ *  šablony v lib/ws/templates). Neznamená, že v těch oborech už někdo platí. */
+export const ZAKAZIQ_OBORY = [
+  "Kadeřnictví",
+  "Kosmetika",
+  "Zámečnictví",
+  "Studnařství",
+  "Likvidace azbestu",
+  "Autoservis",
+  "Úklid",
+  "Stavba a řemesla",
+] as const;
+
+/**
+ * Doložitelná čísla o produktu, žádné výsledky zákazníků (ty nemáme).
+ * Zdroje v repu ProjectIQ: 9 = content.ts MODULES, 8 = OBORY, 20 =
+ * lib/ws/email/catalog.ts MESSAGE_TYPES, 1 500+ = `npx vitest run`
+ * 21. 11. 2026 (1 572 prošlých testů, KONVERZE-PLAN.md § 1.1).
+ * Při změně v ProjectIQ přepočítat.
+ */
+export const ZAKAZIQ_PROOF = [
+  { value: "9", label: "funkcí v jedné aplikaci" },
+  { value: "8", label: "oborů s připravenými službami" },
+  { value: "20", label: "hotových e-mailů zákazníkům i vám" },
+  { value: "1 500+", label: "automatických testů hlídá každou změnu" },
+] as const;
+
+/**
+ * Hlavní důkaz na /zakaziq: Kryštofova vlastní zkušenost s ZakazIQ ve VIZEON
+ * (zadání 22. 11. 2026: „efektivita se mi zvýšila o 63 % díky přehledu,
+ * efektivitě, stabilitě a hlubší perspektivě a pohledu na mé podnikání").
+ * Není to výsledek zákazníků ZakazIQ, stránka ho tak ani nepodává.
+ */
+export const ZAKAZIQ_OWN_RESULT = {
+  value: "+63",
+  label: "vyšší efektivita v našem podnikání",
+  context: "Díky ZakazIQ ve vlastním provozu",
+  quote:
+    "„Díky ZakazIQ se mi efektivita zvýšila o 63 %. Mám přehled, stabilitu a hlubší pohled na celé své podnikání.“",
+} as const;
+
 export const ZAKAZIQ_FAQ: { question: string; answer: string }[] = [
   {
     question: "Je klientský prostor totéž co aplikace pro moji firmu?",
