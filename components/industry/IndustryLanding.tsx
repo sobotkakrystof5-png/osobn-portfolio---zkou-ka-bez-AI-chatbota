@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -131,7 +132,7 @@ function jsonLdFor(page: IndustryPage, faqs: { q: string; a: string }[]) {
         name: `Web pro ${page.forWhom}`,
         description: page.meta.description,
         url,
-        provider: { "@type": "ProfessionalService", name: "VIZEON", url: BASE },
+        provider: ORG_REF,
         areaServed: { "@type": "Country", name: "Česká republika" },
         audience: { "@type": "BusinessAudience", name: page.name },
         offers: PACKAGES.map((pkg) => ({

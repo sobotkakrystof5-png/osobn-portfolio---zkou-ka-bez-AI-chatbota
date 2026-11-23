@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -38,7 +39,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Správa webu",
       name: "Měsíční správa webu",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/sprava-webu",
       description:
@@ -49,6 +50,7 @@ const jsonLd = {
           "@type": "UnitPriceSpecification",
           minPrice: 480,
           priceCurrency: "CZK",
+          unitCode: "MON",
           unitText: "měsíc",
         },
       },

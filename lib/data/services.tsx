@@ -73,6 +73,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     ),
     badge: "Nejoblíbenější",
     pricing: ["Weby"],
+    links: [{ label: "Weby pro firmy", href: "/sluzby/tvorba-webu-pro-firmy" }],
     href: "/sluzby/tvorba-webovych-stranek",
   },
   // E-shop je jeden balíček v ceníku (kategorie „E-shopy“ v pricing.ts).
@@ -107,10 +108,13 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     ),
     badge: "ALTENO",
     pricing: ["AI Chatbot", "Automatizace a AI (ALTENO)"],
-    links: automationIndex.map((page) => ({
-      label: page.title,
-      href: `/automatizace/${page.slug}`,
-    })),
+    links: [
+      ...automationIndex.map((page) => ({
+        label: page.title,
+        href: `/automatizace/${page.slug}`,
+      })),
+      { label: "AI chatbot na web", href: "/sluzby/ai-chatbot" },
+    ],
     href: "/automatizace",
   },
   {
@@ -206,6 +210,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
       </>
     ),
     pricing: ["Systémy na míru"],
+    links: [{ label: "Rezervační systém ZakazIQ", href: "/zakaziq/rezervacni-system" }],
     href: "/sluzby/systemy-na-miru",
   },
   {

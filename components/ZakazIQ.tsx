@@ -396,7 +396,13 @@ export default function ZakazIQ() {
           {/* ─── Průběh projektu ─── */}
           <Reveal className={cn(sectionGap, "glass-panel p-7 md:p-10")}>
             <h2 className={h2}>Jak probíhá projekt u nás</h2>
-            <p className={cn(t.body, "mt-3")}>Od první konzultace po spuštění v jednom prostoru.</p>
+            <p className={cn(t.body, "mt-3")}>
+              Od první konzultace po spuštění v jednom prostoru. Konzultaci si domluvíte sami přes{" "}
+              <Link href="/zakaziq/rezervacni-system" className={t.link}>
+                rezervační systém ZakazIQ
+              </Link>
+              .
+            </p>
             <ZakazIqSteps steps={PROJECT_STEPS} />
           </Reveal>
 

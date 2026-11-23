@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Contact from "@/components/Contact";
+import { WhoYouTalkTo } from "@/components/contact/WhoYouTalkTo";
+import { FOUNDER_REF, ORG_REF } from "@/lib/schema";
 import { PageShell } from "@/components/layout/PageShell";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
@@ -26,6 +28,15 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "ContactPage",
+      "@id": "https://vizeon.cz/kontakt",
+      url: "https://vizeon.cz/kontakt",
+      name: "Kontakt",
+      inLanguage: "cs-CZ",
+      about: ORG_REF,
+      mainEntity: FOUNDER_REF,
+    },
+    {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Domů", item: "https://vizeon.cz" },
@@ -42,7 +53,8 @@ export default function KontaktPage() {
       <Contact />
 
       <div className={cn(t.container.page, "pb-16 md:pb-24")}>
-        <Link href="/" className={t.backLink}>
+        <WhoYouTalkTo />
+        <Link href="/" className={cn(t.backLink, "mt-12 inline-block")}>
           ← Zpět na hlavní stránku
         </Link>
       </div>

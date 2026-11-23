@@ -21,6 +21,9 @@ export type PricingCategory = {
   items: PricingItem[];
 };
 
+/** Kdy se naposledy změnily ceny. Ukazuje se u srovnávací tabulky a v článku o cenách. */
+export const PRICING_UPDATED = "2026-11-02";
+
 /** Název jediného balíčku e-shopu (stránka /sluzby/tvorba-e-shopu bere cenu podle něj). */
 export const ESHOP_PACKAGE = "E-shop na míru";
 

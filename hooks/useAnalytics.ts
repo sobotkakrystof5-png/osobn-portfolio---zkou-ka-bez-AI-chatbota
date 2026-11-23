@@ -3,13 +3,26 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { safeStorageGet, safeStorageSet } from '@/lib/utils'
 
-// supabase-js (~57 kB gzip) se stáhne až s prvním eventem, ne v hlavním JS
-// každé stránky. Na mobilu to zdržovalo načtení i hydrataci. Import se
-// cachuje, další eventy už čekají jen na síť.
-let supabaseClient: Promise<typeof import('@/lib/supabase')['supabase']> | null = null
-function getSupabase() {
-  supabaseClient ??= import('@/lib/supabase').then((m) => m.supabase)
-  return supabaseClient
+// Event se zapisuje přímo přes REST API Supabase (PostgREST), stejný požadavek,
+// jaký posílá supabase-js `.insert()` s anon klíčem a RLS. Dřív se kvůli jedinému
+// INSERTu stahovalo supabase-js (~59 kB gzip) hned při načtení každé stránky
+// a soupeřilo s hydratací (TBT). `keepalive` doručí event i při odchodu.
+type AnalyticsRow = Record<string, unknown>
+function insertEvent(row: AnalyticsRow) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return Promise.resolve()
+  return fetch(`${url}/rest/v1/analytics_events`, {
+    method: 'POST',
+    keepalive: true,
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+  }).then(() => {}, () => {})
 }
 
 // ── Session ID (unikátní per návštěva, ne per tab) ──────
@@ -41,8 +54,7 @@ export function useAnalytics(page: string) {
   ) => {
     if (typeof window === 'undefined') return
     try {
-      const supabase = await getSupabase()
-      await supabase.from('analytics_events').insert({
+      await insertEvent({
         session_id: sid.current,
         event_type: eventType,
         page,
@@ -105,7 +117,7 @@ export function useAnalytics(page: string) {
 export function useTrackClick(page: string) {
   const sid = useRef(getSessionId())
   return useCallback((element: string, section?: string, value?: string) => {
-    getSupabase().then((supabase) => supabase.from('analytics_events').insert({
+    void insertEvent({
       session_id: sid.current,
       event_type: 'click',
       page,
@@ -113,6 +125,6 @@ export function useTrackClick(page: string) {
       section: section ?? null,
       value: value ?? null,
       user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
-    })).then(() => {}, () => {})
+    })
   }, [page])
 }

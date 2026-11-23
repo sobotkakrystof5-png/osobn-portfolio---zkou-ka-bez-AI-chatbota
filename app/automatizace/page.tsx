@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
@@ -67,7 +68,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Automatizace a AI pro majitele webu",
       name: "Automatizace a AI",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/automatizace",
       description:

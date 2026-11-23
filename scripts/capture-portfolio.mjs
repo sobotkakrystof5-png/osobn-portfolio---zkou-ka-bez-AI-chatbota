@@ -7,7 +7,7 @@
 // Potřebuje nainstalovaný Google Chrome (cesta jde přepsat přes CHROME_PATH).
 // Pro každý projekt vznikne v public/portfolio/screens:
 //   {slug}-desktop.jpg       první obrazovka na MacBooku Pro 14" (1512×982, @2x)
-//   {slug}-desktop-full.jpg  celá stránka pro posouvání v detailu projektu
+//   {slug}-desktop-full.webp celá stránka pro posouvání v detailu projektu (WebP: o třetinu menší než JPG)
 //   {slug}-mobile-{n}.jpg    1 až 3 obrazovky na iPhonu 16 Pro (402×874, @3x)
 import { chromium } from "playwright-core";
 import sharp from "sharp";
@@ -84,8 +84,8 @@ for (const { slug, url } of projects) {
   const full = await page.screenshot({ fullPage: true, clip: { x: 0, y: 0, width: DESKTOP.viewport.width, height } });
   await sharp(full, { limitInputPixels: false })
     .resize({ width: FULL_WIDTH })
-    .jpeg({ quality: 74, mozjpeg: true, progressive: true })
-    .toFile(path.join(outDir, `${slug}-desktop-full.jpg`));
+    .webp({ quality: 72, effort: 5 })
+    .toFile(path.join(outDir, `${slug}-desktop-full.webp`));
   await desktop.close();
 
   const mobile = await browser.newContext({ ...MOBILE, locale: "cs-CZ" });
@@ -107,7 +107,7 @@ await browser.close();
 // projekty, které mají screenshoty na disku (i ty, co se tentokrát nefotily).
 const meta = {};
 for (const { slug } of projects) {
-  const fullFile = path.join(outDir, `${slug}-desktop-full.jpg`);
+  const fullFile = path.join(outDir, `${slug}-desktop-full.webp`);
   if (!fs.existsSync(fullFile)) continue;
   const { width, height } = await sharp(fullFile).metadata();
   let mobile = 0;

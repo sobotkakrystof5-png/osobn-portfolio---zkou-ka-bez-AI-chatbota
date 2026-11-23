@@ -1,9 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
-import { fadeUp, viewport } from "@/lib/animations";
+import { Reveal } from "@/components/Reveal";
 import { FOOTER_LINKS, FOOTER_AUTOMATION_LINKS } from "@/lib/nav";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { altenoUrl } from "@/lib/alteno";
@@ -30,7 +27,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
           {/* Brand */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
+          <Reveal>
             <Link
               href="/"
               className="group inline-flex flex-col leading-none mb-4"
@@ -44,7 +41,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="font-inter font-normal text-[13px] text-text-secondary leading-[1.7] max-w-xs mt-4">
-              Tvoříme webové stránky a grafiku na míru, které mají smysl pro váš byznys. Přímá komunikace a důraz na výsledek.
+              <Vizeon /> je české studio, které tvoří weby, e-shopy, rezervační systémy a webové aplikace na míru pro živnostníky a malé firmy. Komunikujete přímo s tím, kdo web staví.
             </p>
 
             {/* Rodina značek sedí pod Brand sloupcem, ne v navigaci: lišta má
@@ -62,10 +59,10 @@ export default function Footer() {
                 dodává sesterská značka <Alteno />.
               </p>
             </div>
-          </motion.div>
+          </Reveal>
 
           {/* Navigation */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
+          <Reveal>
             <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-5">Navigace</p>
             <nav className="flex flex-col gap-3" aria-label="Patičková navigace">
               {FOOTER_LINKS.map((link) => (
@@ -99,10 +96,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </Reveal>
 
           {/* Contact */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
+          <Reveal>
             <p className="font-inter font-normal text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] mb-5">Kontakt</p>
             <div className="flex flex-col gap-4">
               <a href="mailto:info@vizeon.cz" className="flex items-center gap-3 group" aria-label="Email">
@@ -128,7 +125,7 @@ export default function Footer() {
                 IČO: 29977231
               </p>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
 
         {/* Divider */}

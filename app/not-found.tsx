@@ -4,7 +4,8 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Stránka nenalezena",
   description: "Tato stránka neexistuje.",
-  robots: { index: false, follow: false },
+  // robots tu záměrně není: Next.js u 404 přidává `noindex` sám a vlastní
+  // hodnota vedla ke dvěma meta robots tagům v HTML.
 };
 
 export default function NotFound() {

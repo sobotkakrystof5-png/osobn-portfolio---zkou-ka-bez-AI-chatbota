@@ -236,7 +236,7 @@ export const automationPages: Service[] = [
     title: "Automatizace procesů",
     summary:
       "Doklady, e-maily, přepisy i pravidelné rozesílky proběhnou samy, v n8n i vlastním kódem.",
-    seoTitle: "Automatizace firemních procesů (n8n i na míru kódem)",
+    seoTitle: "Automatizace firemních procesů: n8n i kód na míru",
     lead: "Opakující se práce, která dnes zabírá čas týmu, proběhne sama. Stavíme ji v n8n, nebo rovnou kódem v Pythonu, podle toho, co se pro váš případ vyplatí víc.",
     pain: [
       {
@@ -344,8 +344,8 @@ export const automationPages: Service[] = [
     title: "Chatboti a RAG",
     summary:
       "Odpovídá zákazníkům z vašich dat 24/7, od jednoduchého chatbota po vyhledávání ve velkém množství podkladů.",
-    seoTitle: "AI chatbot a RAG (vyhledávání ve vlastních datech) pro firmy",
-    lead: "Chatbot, který odpovídá z vašich vlastních podkladů, kdykoliv se zákazník zeptá. Jednoduchý pro pár stránek FAQ, nebo RAG, tedy chatbot, který si odpověď sám dohledá i ve stovkách dokumentů.",
+    seoTitle: "AI chatbot nad vlastními daty (RAG) pro firmy",
+    lead: "Chatbot, který zákazníkům odpovídá z vašich podkladů. Jednoduchý pro pár stránek FAQ, nebo RAG, který si odpověď dohledá i ve stovkách dokumentů.",
     pain: [
       {
         text: "Pořád dokola se odpovídá na stejných pět otázek.",

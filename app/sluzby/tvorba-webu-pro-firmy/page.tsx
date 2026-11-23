@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -37,7 +38,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Tvorba webu pro firmy",
       name: "Tvorba webu pro firmy na míru",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/tvorba-webu-pro-firmy",
       description:

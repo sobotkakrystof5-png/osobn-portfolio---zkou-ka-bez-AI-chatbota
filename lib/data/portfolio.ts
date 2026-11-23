@@ -23,6 +23,10 @@ export type Project = {
   tags: string[];
   stack: string[];
   description: string;
+  /** Meta description pro vyhledávače (120–155 znaků), když je `description` delší. */
+  metaDescription?: string;
+  /** Poslední obsahová změna projektu (YYYY-MM-DD) pro lastmod v sitemapě. Bez něj platí datum šablony. */
+  updated?: string;
   highlights: string[];
   url: string;
   image: string;
@@ -42,6 +46,7 @@ export const projects: Project[] = [
     tags: ["Web na míru", "Galerie realizací", "Reference"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Prezentační web pro studnařskou firmu, která po celé ČR realizuje kopané studny, pečuje o vrtané i kopané studny a vyhledává prameny vody. Cílem bylo přehledně ukázat služby a skutečné realizace a usnadnit zákazníkům přímý kontakt s majitelem firmy.",
+    metaDescription: "Ukázka webu pro Studnářství Petráň: kopané studny po celé ČR, přehled služeb, skutečné realizace a přímý kontakt na majitele.",
     highlights: [
       "Přehled služeb — kopané studny, servis vrtaných studní a vyhledávání pramene",
       "Galerie skutečných realizací a reference zákazníků",
@@ -64,6 +69,7 @@ export const projects: Project[] = [
     tags: ["Web na míru", "Galerie realizací", "Poptávkový formulář"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Firemní web pro zámečnickou firmu z Března u Mladé Boleslavi, která od roku 1999 vyrábí ocelové konstrukce, brány, ploty, schodiště a zábradlí na míru. Cílem bylo ukázat přesnou kovovýrobu a kompletní servis od návrhu po montáž a přivést nové poptávky.",
+    metaDescription: "Ukázka webu pro Zámečnictví MB z Března u Mladé Boleslavi: kovovýroba na míru od roku 1999, brány, ploty, schodiště i zábradlí.",
     highlights: [
       "Přehled služeb — ocelové konstrukce, brány a ploty, schodiště, zábradlí i atypická výroba",
       "Galerie realizací rozdělená podle kategorií",
@@ -86,6 +92,7 @@ export const projects: Project[] = [
     tags: ["Web na míru", "Produkty na grilování", "Next.js"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Firemní web pro zakázkovou kovovýrobu pod vedením pana Schovánka: zámečnictví, svařování a broušení, to vše s 40letou rodinnou zkušeností. Cílem bylo lépe prezentovat firmu a prodávat vlastní produkty na grilování.",
+    metaDescription: "Ukázka webu pro Schovinox: zakázková kovovýroba se 40letou rodinnou tradicí a prodej vlastních produktů na grilování.",
     highlights: [
       "Přehledná prezentace služeb — zámečnictví, svařování, broušení",
       "Samostatná sekce s vlastními produkty pro grilování",
@@ -108,6 +115,7 @@ export const projects: Project[] = [
     tags: ["Landing page", "Fotogalerie", "Poptávky svateb"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Landing page pro statek v Kněžmostě. Cílem bylo získat více zakázek na svatby a ubytování v Českém ráji.",
+    metaDescription: "Ukázka landing page pro statek U Cerhů v Kněžmostě: svatby a ubytování v Českém ráji, postavená tak, aby přiváděla poptávky.",
     highlights: [
       "Prezentace prostor pro svatby i krátkodobé ubytování",
       "Fotogalerie areálu statku",
@@ -129,6 +137,7 @@ export const projects: Project[] = [
     tags: ["Osobní brand", "Ceník služeb", "Objednávky"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Prezentační web pro maséra s 20 lety praxe, 7 z toho u profesionálního fotbalu FK Mladá Boleslav. Cílem bylo vybudovat důvěru a přivést nové klienty na objednávku.",
+    metaDescription: "Ukázka webu pro maséra Tomáše Kestnera: 20 let praxe, z toho 7 u FK Mladá Boleslav. Web buduje důvěru a přivádí klienty.",
     highlights: [
       "Prezentace zkušeností a specializace na sportovní masáže",
       "Přehledný výpis nabízených služeb a ceníku",
@@ -151,6 +160,7 @@ export const projects: Project[] = [
     tags: ["Web na míru", "Galerie realizací", "Pronájem lešení"],
     stack: ["HTML5", "CSS3", "JavaScript"],
     description: "Firemní web pro malíře a lakýrníka s 20 lety praxe v Litoměřicích a okolí. Prezentuje malby interiérů, fasádní nátěry, renovace dřevěných fasád i pronájem lešení, s galerií rozdělenou podle typu zakázky.",
+    metaDescription: "Ukázka webu pro malíře a lakýrníka z Litoměřic: malby interiérů, fasády, renovace dřevěných fasád a galerie zakázek.",
     highlights: [
       "Přehledný výpis služeb — malby, lakýrnické práce, fasádní nátěry i renovace dřeva",
       "Galerie realizací rozdělená do 5 kategorií podle typu práce",
@@ -173,6 +183,8 @@ export const projects: Project[] = [
     tags: ["Web na míru", "Postup v 8 krocích", "Galerie realizací"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Druhý web pro Michala Varchola z Litoměřic, tentokrát na demontáž eternitových střech a likvidaci azbestového odpadu v Ústeckém, Libereckém a Středočeském kraji. Cílem bylo srozumitelně vysvětlit službu, kterou hlídá hygienická stanice a zákon, a přivést poptávky i na pronájem lešení.",
+    metaDescription: "Ukázka webu na demontáž eternitových střech a likvidaci azbestu ve třech krajích, se službou vysvětlenou krok za krokem.",
+    updated: "2026-11-07",
     highlights: [
       "Postup likvidace v osmi krocích — od zaměření střechy po předání odpadu oprávněnému zařízení",
       "Mapa krajů, kam firma za zakázkami vyjíždí",
@@ -195,6 +207,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "Oborové stránky", "Blog"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Firemní web pro studio, které automatizuje rutinní firemní procesy pomocí AI agentů, chatbotů a propojování systémů. Cílem bylo srozumitelně vysvětlit automatizaci a přivést firmy na nezávaznou konzultaci.",
+    metaDescription: "Ukázka webu pro ALTENO, studio pro automatizaci procesů, AI agenty a chatboty. Srozumitelný výklad a cesta ke konzultaci.",
     highlights: [
       "Přehled služeb — AI agenti na míru, automatizace procesů, chatboti a RAG",
       "Samostatné sekce pro jednotlivé obory od e-shopů po realitní kanceláře",
@@ -216,6 +229,7 @@ export const projects: Project[] = [
     tags: ["Vlastní startup", "Kalkulačka úspor", "Next.js"],
     stack: ["Next.js", "React", "Tailwind CSS"],
     description: "Vlastní startup pro účetní kanceláře: aplikace na míru, která převádí faktury z PDF, skenů i fotek do formátu ISDOC pro účetní program. Web má srozumitelně vysvětlit úsporu času a přivést kanceláře na úvodní hovor.",
+    metaDescription: "Ukázka webu pro Prvotku: aplikace, která převádí faktury z PDF, skenů i fotek do ISDOC pro účetní programy kanceláří.",
     highlights: [
       "Kalkulačka úspor pro rychlý odhad ušetřeného času",
       "Ukázky zpracování faktury krok po kroku",
@@ -258,6 +272,7 @@ export const projects: Project[] = [
     tags: ["Osobní brand", "Next.js", "Animace"],
     stack: ["Next.js", "TypeScript", "Framer Motion"],
     description: "Osobní brand web pro lektora němčiny. Zaměřeno na důvěru a první kontakt.",
+    metaDescription: "Ukázka osobního webu pro lektora němčiny Auf Gehts. Web stojí na důvěře, představení lektora a snadném prvním kontaktu.",
     highlights: [
       "Osobní prezentace lektora a jeho přístupu k výuce",
       "Přehled nabízených kurzů a lekcí",
@@ -287,7 +302,7 @@ export function projectScreens(project: Project): ProjectScreens {
   const base = `/portfolio/screens/${project.slug}`;
   return {
     desktop: `${base}-desktop.jpg`,
-    full: { src: `${base}-desktop-full.jpg`, ...meta.full },
+    full: { src: `${base}-desktop-full.webp`, ...meta.full },
     mobile: Array.from({ length: meta.mobile }, (_, i) => `${base}-mobile-${i + 1}.jpg`),
   };
 }

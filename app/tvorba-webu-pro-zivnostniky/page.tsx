@@ -8,7 +8,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "Jak probíhá tvorba webu pro živnostníky",
     description:
-      "Krok za krokem, jak probíhá tvorba webu na míru pro živnostníky a malé firmy. Konzultace, návrh, tvorba a předání do 10 dní, bez šablon. Weby pro řemeslníky, kadeřnictví, účetní i masérky.",
+      "Jak probíhá tvorba webu na míru pro živnostníky: konzultace, návrh, tvorba a předání do 10 pracovních dní, bez šablon. Pro řemeslníky, salony i účetní.",
     alternates: { canonical: "https://vizeon.cz/tvorba-webu-pro-zivnostniky" },
     openGraph: {
       title: "Jak probíhá tvorba webu pro živnostníky | VIZEON",

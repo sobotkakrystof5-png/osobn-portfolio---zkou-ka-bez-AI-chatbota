@@ -1,6 +1,7 @@
 import { buildOgImage, ogImageSize } from "@/lib/ogImage";
 import { getAllSlugs, getAnyPostBySlug } from "@/lib/blog";
 
+export const alt = "Náhled článku z blogu VIZEON";
 export const size = ogImageSize;
 export const contentType = "image/png";
 

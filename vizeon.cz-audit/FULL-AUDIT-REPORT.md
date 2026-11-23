@@ -1,108 +1,152 @@
-# Full SEO Audit — vizeon.cz
+# SEO audit: vizeon.cz
 
-**Audit date:** 2026-09-05
-**Domain age:** ~14 weeks (registered 2026-05-26)
-**Business type:** Solo freelance web-dev/SEO agency ("Professional Service"), remote-first — no physical storefront, contact via phone/WhatsApp/email
-**Scope:** 48 pages (full sitemap), live production checks + local repo source review
-**Method:** 10 parallel specialist audits (technical, content, schema, sitemap, performance, visual/mobile, GEO/AI search, SXO, internal-linking/cluster, backlinks) — full findings in `findings/*.md`
+**Datum:** 21. 11. 2026
+**Rozsah:** 67 stránek (63 v sitemapě, 3 noindex, 1 duplicitní homepage), živá produkce a dohledání oprav ve zdrojovém kódu
+**Typ webu:** Professional Service, studio pro weby, e-shopy, SEO a automatizace. Působí online po celé ČR a nemá kamennou provozovnu.
+**Předchozí audit:** 5. 9. 2026, skóre 66/100 (starší verze souborů je v gitu)
 
----
+## SEO Health Score: 71/100 (v září 66)
 
-## Core SEO Health Score: 66/100
+| Kategorie | Skóre | Září | Váha | Vážené |
+|---|---|---|---|---|
+| Technické SEO | 86 | 76 | 22 % | 18,9 |
+| Kvalita obsahu | 66 | 44 | 23 % | 15,2 |
+| On-page SEO | 68 | 78 | 20 % | 13,6 |
+| Schema / strukturovaná data | 68 | 78 | 10 % | 6,8 |
+| Výkon (CWV, laboratoř) | 72 | 60 | 10 % | 7,2 |
+| Připravenost na AI vyhledávání | 60 | 57 | 10 % | 6,0 |
+| Obrázky | 72 | 78 | 5 % | 3,6 |
+| **Celkem** | | | | **71,3** |
 
-Weighted per the standard 7-category rubric (Technical 22%, Content 23%, On-Page 20%, Schema 10%, Performance 10%, AI Search Readiness 10%, Images 5%):
+Doplňkově, mimo vzorec: SXO (sedí stránky na záměr hledání a persony) 53–62/100.
 
-| Category | Score | Weight | Weighted |
-|---|---|---|---|
-| Technical SEO | 76 | 22% | 16.7 |
-| Content Quality | 44 | 23% | 10.1 |
-| On-Page SEO | 78 | 20% | 15.6 |
-| Schema / Structured Data | 78 | 10% | 7.8 |
-| Performance (CWV, lab-only) | 60 | 10% | 6.0 |
-| AI Search Readiness (GEO) | 57 | 10% | 5.7 |
-| Images | 78 | 5% | 3.9 |
-| **Total** | | | **65.8 ≈ 66** |
+**Jak číst srovnání se zářím:** Skóre dávali jiní hodnotitelé s jinými daty, takže pokles on-page a schema je hlavně přísnější hodnocení, ne zhoršení webu. Skutečné zlepšení je změřené:
+- oborové stránky narostly z ~340 na ~1 000 slov a mají vlastní scénáře;
+- FAQ je vidět v HTML, ne jen v JSON-LD;
+- LCP homepage kleslo z 5,9 s na 1,5–2,5 s;
+- intro se na mobilu nepouští;
+- interní prolinkování oborových stránek funguje (18–34 odkazů na každou).
 
-**Important caveat:** this formula doesn't include two specialist audits that scored far lower and arguably matter more for actual business outcomes:
+## Co funguje
 
-| Supplementary audit | Score | Why it's not in the formula |
-|---|---|---|
-| SXO / conversion readiness | **33/100** | Not part of the standard weighting, but measures whether pages actually convert visitors — the site's real job |
-| Internal linking / cluster architecture | **42/100** | Measures link-equity flow, not on-page content itself |
-| Sitemap hygiene | 78/100 | Narrow technical subset, mostly overlaps Technical |
-| Visual / mobile rendering | 62/100 | UX-layer, partially overlaps Performance/Technical |
-| Backlinks (foundation-readiness) | 34/100 | Expected for domain age; not a quality defect |
+- Všech 63 URL ze sitemapy vrací 200 a mají vlastní canonical. Nikde nejsou řetězce přesměrování ani duplicitní title nebo description, každá stránka má jeden H1. JSON-LD neobsahuje chyby.
+- Obsah se renderuje na serveru a AI crawleři (GPTBot, ClaudeBot, PerplexityBot a další) dostávají stejné HTML jako prohlížeč. Vercel nic neblokuje.
+- Bezpečnostní hlavičky jsou silné (HSTS preload, X-Frame-Options DENY, CSP s `frame-ancestors 'none'`) a 404 vrací skutečný stav 404.
+- Text obsahuje konkrétní ceny a termíny (4 999 / 9 999 / 14 999 / 29 990 Kč, 10 pracovních dnů, záloha 30/70 %), takže je dobře citovatelný.
+- Oborové stránky nejsou kopie s prohozeným slovem. Průměrná podobnost je 0,35 (4gramový Jaccard), nejvyšší dvojice 0,48.
+- Na mobilu nikde nevzniká vodorovný posun, CLS je 0 a H1 je v prvním výřezu.
 
-**Read the number as 66/100 on paper, but the two lowest-scoring, most business-relevant audits — SXO (33) and internal linking (42) — say the site's biggest problems aren't technical, they're that the highest-volume page type (`/web-pro-*`, 19 of 48 pages) can't convert a visitor once they arrive, and the internal link structure meant to connect them is largely broken.**
+## Top 5 kritických problémů
 
----
+1. **Značka nemá vnější otisk ani autoritu (Authoritativeness 38–40).** Existuje jen profil na Firmy.cz s 0 recenzemi a Instagram. Chybí Google Business Profile, LinkedIn a recenze. Popis se navíc rozchází: web říká „nejsme agentura“, Firmy.cz „digitální agentura“, blog „startup“.
+2. **Oborové stránky jsou z poloviny šablona a mají stejné důkazy.** Unikátní je asi 38 % textu, sdílená šablona 52 %. Deset z 19 stránek ukazuje stejné 1–3 reference (Zámečnictví MB je na 8 z nich) a 3 stránky nemají žádného klienta. Hrozí, že je Google vyhodnotí jako hromadně generovaný obsah.
+3. **Cenový záměr se tříští mezi několik stránek.** O „kolik stojí web“ soupeří /cena-tvorby-webu, blog /blog/kolik-stoji-tvorba-webu-2026, /sluzby a asi 25 FAQ. Žádná z nich nedává tržní čísla, která ukazují výsledky vyhledávání, a SEO stránka cenu nemá vůbec.
+4. **Entitní graf ve schema je rozbitý.** `Organization` a `ProfessionalService` sdílejí `@id` `#organization` s rozdílnými daty. `provider`, `publisher` a `creator` jsou anonymní kopie bez `@id`. Logo je `favicon.ico` 32×32 px (Google chce aspoň 112 px) a chybí adresa i IČO, i když IČO je v patičce.
+5. **Dvě osiřelé stránky a slabé LCP na /ukazky-webu.** Na /sluzby/ai-chatbot a /zakaziq/rezervacni-system neodkazuje žádná jiná stránka. /ukazky-webu má na mobilu LCP 4,5–5,4 s, jako jediná stránka v pásmu „Poor“.
 
-## Top 5 Findings (by real-world impact, not raw severity label)
+## Top 5 rychlých výher
 
-1. **CRITICAL — The 19 `/web-pro-*` trade pages have zero images and no way to contact you.** They promise a "gallery that shows your work" and deliver none — confirmed even after forced JS rendering. There's no `tel:`, WhatsApp, email, or contact form anywhere on them, no site navigation either. A ready-to-buy visitor hits a dead end. *(SXO findings 1–2)*
+1. Odkázat osiřelé stránky z /sluzby, případně z /automatizace (15 min, `app/sluzby/page.tsx`).
+2. Opravit schema v `app/layout.tsx`: smazat duplicitní uzel `Organization`, dát logo jako PNG 512 px, doplnit `identifier` s IČO a ve všech šablonách nahradit `provider` odkazem `{"@id":"https://vizeon.cz/#organization"}` (1–2 h).
+3. Opravit gramatiku v H1 /tvorba-webu-pro-zivnostniky („který“ → „která“), zkrátit 8–12 titlů nad 60 znaků a doplnit portfoliu vlastní `metaDescription` (dnes 200–285 znaků, auf-gehts jen 73).
+4. Odstranit `alternates.canonical` z `app/layout.tsx`. Dnes stránka 404, /admin a /admin-setup dědí canonical homepage.
+5. Sjednotit čísla a popis: „10+ klientů“ na homepage proti „15+ projektů“ na /o-mne a odpověď „do 24 h“ proti „do 1 h“.
 
-2. **HIGH — Today's "internal prolinkování" commit is mostly broken.** The shared page template's default hub-link points to a sibling page instead of the intended pillar page; only 4 of 19 trade pages link to the real pillar, the pillar itself only links to 4 of 19 spokes, and `/web-pro-autoservisy` has zero inbound links from anywhere but the sitemap. *(Cluster findings 1–3)*
+## Technické SEO (86)
 
-3. **CRITICAL — Homepage LCP is 5.9s (Poor), driven by one ~500KB JS chunk that's 64-82% unused.** This is a lab-only estimate (no CrUX data available yet) but the root cause is unambiguous and fixable without a redesign. *(Performance finding 1)*
+Nálezy viz `findings/technical.md`:
+- [High] Osiřelé stránky.
+- [Medium] Canonical homepage v layoutu.
+- [Medium] CSP s `unsafe-inline` a `unsafe-eval`.
+- [Medium] Dlouhé title a description.
+- [Low] Dva skoky z http://www, chybí manifest a security.txt, duplicitní robots meta na 404 a /navrh-hero.
 
-4. **HIGH — FAQ page: 8 of 9 answers are invisible to any crawler that reads visible text**, including most AI-answer-engine pipelines — they exist only inside the JSON-LD, not the rendered page, because the accordion uses conditional React rendering instead of CSS collapse. *(GEO finding 3)*
+Sitemap (`findings/sitemap.md`):
+- [Medium] Zastaralé `lastmod`: homepage 2026-07-09 proti gitu 11-03 a všech 11 projektů má 09-06.
+- [Low] Oborové URL jsou natvrdo a mohou se rozejít s `lib/data/industries.ts`.
+- `changefreq` a `priority` Google ignoruje.
 
-5. **HIGH — Content expansion from today's commit is real but incomplete.** Only 3 of 18 trade pages + the hub got a genuine rewrite (500-800+ words); the other 15 are still 323-345 words on the shared template — differentiated (not spun/duplicate, confirmed via low word-overlap similarity) but thin relative to the 800-word service-page floor. *(Content finding 1, cross-verified by Technical)*
+## Kvalita obsahu (66) a on-page (68)
 
-**Also worth knowing:** the homepage's mobile above-the-fold shows only a splash/logo animation with no H1/CTA/nav for several seconds (Visual finding 1); `www.vizeon.cz` still serves a duplicate 200 response instead of redirecting despite `vercel.json` defining the redirect — likely a Vercel dashboard domain-alias override, not a code bug (Technical + Sitemap); and the homepage H1 renders with no spaces between words due to an animated per-word span component (SXO finding 5, independently reproduced during initial audit setup).
+E-E-A-T zhruba 58: zkušenost 62, odbornost 58, autorita 40, důvěryhodnost 72. Nálezy viz `findings/content.md`:
+- [High] Šablona oborových stránek a sdílené reference.
+- [High] Chybí identita autora (blog podepisuje „V VIZEON Vydavatel“, v JSON-LD je jen „Kryštof“).
+- [High] Blog má 4 obecné články z 1. a 2. 9. bez čísel, zdrojů a obrázků.
+- [High] Kanibalizace cenového dotazu.
+- [Medium] /kontakt má 159 slov.
+- [Medium] Servisní stránky mají 300–400 slov a chybí jim konkrétní data.
+- [Medium] Slabé H1.
+- [Medium] Portfolio nemá měřitelné výsledky.
 
----
+## Schema (68)
 
-## Category Summaries
+Nálezy viz `findings/schema.md` (obsahuje opravené JSON-LD):
+- [High] Duplicitní entita, anonymní `provider`, chybějící adresa a IČO, logo favicon.
+- [Medium] BlogPosting nemá `image`, `dateModified` ani autora s URL.
+- [Medium] Chybí `Person` zakladatele.
+- [Medium] `sameAs` obsahuje jen Instagram.
+- [Medium] /zakaziq nemá `SoftwareApplication`.
 
-### Technical SEO — 76/100
-Crawlability, indexability, and structured data are fundamentally sound: robots.txt/sitemap valid, SSR/SSG confirmed sitewide (no JS-rendering risk for crawlers), zero duplicate titles across 48 pages, single H1 everywhere, no accidental noindex. Real issues: `www` host serving duplicate content instead of redirecting (High — dashboard fix, not code); no Content-Security-Policy header (Medium); hero heading visually gated behind JS/hydration before paint (Medium-High); portfolio images entirely client-rendered on `/ukazky-webu` (Medium); noindex'd `/gdpr`/`/podminky` still listed in sitemap (Medium); no IndexNow support (Low). Full detail: `findings/technical.md`.
+FAQ odpovídá viditelnému textu (176 otázek na 40 stránkách). Ceny v Offer sedí. Nikde nejsou vymyšlené recenze.
 
-### Content Quality — 44/100
-**Verdict on the thin-content problem: partially fixed, not resolved.** 15 of 18 trade pages remain at 323-345 words (vs. 800-word floor) despite today's content-expansion commit; the 3 that were rewritten (kadeřnictví, masáže, účetní) prove the team can do it well when they invest the time. All 4 blog posts run 240-333 words against a 1,500-word target — accurate and Czech-market-specific, but reads as extended FAQ, not blog depth. A repetitive "not X, but Y" rhetorical construction appears 30x across sampled pages — a subtle AI-writing tic worth editing out. The founder is anonymized on `/o-mne` ("Zakladatel VIZEON," no name) despite the site's "one named person, not a faceless agency" pitch, and despite the real name appearing in blog schema. Three named, linked homepage testimonials are flagged for owner consent/authenticity verification — not assumed fake, format is stronger than typical fabricated-review patterns. Full detail: `findings/content.md`.
+## Výkon (72) a obrázky (72)
 
-### Schema / Structured Data — 78/100
-Better than initially assumed — all 19 trade pages and all 12 service pages carry appropriate `Service`/`BreadcrumbList`/`FAQPage` schema (generated via the shared component, easy to miss on a grep-only pass). Real gaps: `Organization.logo` points at a 32×32 favicon (needs ≥112×112px real asset — design task); `BlogPosting` missing `image`/`mainEntityOfPage` (can use the existing per-post OG image, zero new assets needed); `Organization`/`ProfessionalService` are disconnected nodes in the same graph (should share one `@id`). The missing `AggregateRating`/GBP `sameAs` is correctly deferred in code TODOs — not a defect, don't add until a real GBP exists. Note: Google retired FAQ rich results site-wide as of 2026-05-07, so the FAQPage markup (while correctly implemented) has no remaining SERP payoff — don't prioritize more FAQ schema work expecting a rich result. Full detail: `findings/schema.md`.
+Laboratorní měření mobilu (Slow 4G, 4× zpomalené CPU; PSI bylo nedostupné kvůli vyčerpané kvótě):
 
-### Sitemap — 78/100
-All 48 URLs return 200, valid XML, no orphaned pages. One real defect: `/gdpr` and `/podminky` correctly serve `noindex` but are still listed in the sitemap — a contradictory signal Google explicitly advises against. `/admin` and `/admin-setup` already do this correctly (noindex + omitted) — use them as the template for the fix. Full detail: `findings/sitemap.md`.
+| Stránka | LCP | CLS | TBT | JS |
+|---|---|---|---|---|
+| / | 1,5–2,5 s | 0 | 257–375 ms | 414 kB |
+| /web-pro-remeslniky | 1,5–3,2 s | 0 | 198–361 ms | 400 kB |
+| /sluzby | 1,3 s | 0,008 | ~190 ms | 410 kB |
+| /ukazky-webu | **4,5–5,4 s** | 0 | ~200 ms | 407 kB |
+| blog | 1,3–2,4 s | 0 | ~180 ms | 369 kB |
 
-### Performance (lab-only, no CrUX yet) — 60/100
-Structural fundamentals are good (next/image, next/font/google, near-zero CLS, fast TTFB 140-409ms). The dominant problem is JavaScript weight: one shared ~500KB chunk, 64-82% unused depending on route, concentrated on the homepage (LCP 5.9s Poor) but present sitewide. Two render-blocking CSS chunks add ~150ms each; two non-composited animations (shimmer text, glow-pulse button) risk main-thread jank. This is a code-splitting fix, not a redesign. Full detail: `findings/performance.md`.
+Polní data z CrUX nejsou k dispozici (PSI neodpovědělo a Search Console není napojená).
 
-### AI Search Readiness (GEO) — 57/100
-Technical accessibility for AI crawlers is excellent (90/100) — nothing blocks GPTBot/ClaudeBot/PerplexityBot, content is fully SSR. The FAQ accordion bug (Finding 3 above) is the single highest-leverage fix available anywhere in this audit — hours of effort, unlocks 8 already-written, already-schema-marked answers. Blog articles have genuine authority signals (named author, visible byline, real Article schema) but sections run 60-120 words, under the 134-167 word citation-optimal window. Brand-mention/authority signals are near-zero, which is expected and unfixable on-page — realistic expectation is no measurable AI-citation visibility for 6-12 months regardless of on-page work; off-site brand-building (Reddit, YouTube) matters more here than any technical GEO fix. Full detail: `findings/geo.md`.
+Nálezy viz `findings/performance.md`:
+- [High] LCP na /ukazky-webu.
+- [Medium] TBT na homepage a ~400 kB JS na každé stránce (framer-motion v `app/template.tsx`).
+- [Medium] RSC payload tvoří 47 % HTML oborových stránek.
+- [Medium] Celostránkové screenshoty `*-desktop-full.jpg` mimo next/image (až 1,68 MB).
+- [Low] 35 ze 148 obrázků má prázdný alt, včetně 7 karet portfolia na homepage.
 
-### Visual / Mobile Rendering — 62/100
-Interior pages (`/kontakt`, `/web-pro-truhlare`) render cleanly and immediately on both viewports. The homepage has a mobile-specific regression: above-the-fold shows only a splash/logo animation with no H1, CTA, or nav for multiple seconds, reproduced consistently across captures — desktop shows the real hero at the same load point. Secondary: cookie-consent banner overlaps the contact form's submit button on mobile. Full detail: `findings/visual.md`.
+## Připravenost na AI vyhledávání (60)
 
-### SXO / Conversion Readiness — 33/100 (lowest score in this audit)
-The most consequential finding in this entire audit: the 19 `/web-pro-*` trade pages — the single largest page-type footprint on the site — read as content-marketing descriptions of a good craftsman website rather than actual examples of one. Zero images despite explicitly promising a gallery; zero conversion mechanism (no nav, no tel/WhatsApp/form). Weakest persona (a craftsman searching "web pro truhláře"): 47/100 — promised visual proof and instant contact, gets neither. Full detail: `findings/sxo.md`.
+Nálezy viz `findings/geo.md` (obsahuje návrh llms.txt):
+- Přístup crawlerů je bez problémů.
+- [Medium] Nekonzistentní popis entity.
+- [Medium] Stránka „kdo za tím stojí“ není indexovatelná.
+- [Medium] Pasáže nemají ideální délku (žádná v pásmu 134–167 slov) a nikde není `<table>` (ceník je v kartách).
+- [Medium] Značka nemá vnější otisk.
+- [Low] Chybí llms.txt: levné doplnit, ale Google ho ignoruje.
 
-### Internal Linking / Content Architecture — 42/100
-The recent "interní prolinkování" commit only partially delivered: a component default (`hubHref`) points at the wrong page, so most of the 19-page trade cluster doesn't actually connect to its intended pillar page in either direction. One page (`web-pro-autoservisy`) is a true orphan. This is the concrete, fixable reason the site's content architecture isn't yet functioning as the hub-and-spoke model it was clearly designed to be. Full detail: `findings/cluster.md`.
+## SXO
 
-### Backlinks — 34/100 (foundation-readiness grade, not an authority score)
-Expected zero-authority state for a 14-week-old domain — not a crisis. Genuinely positive: 3 real, verified, dofollow backlinks already exist from delivered client sites. The one concrete gap: zero local citations (no Google Business Profile, no Firmy.cz) despite VIZEON literally selling this exact service to clients. This is correctly identified as an off-site task, not a code fix. Full detail: `findings/backlinks.md`.
+Nálezy viz `findings/sxo.md`:
+- „Tvorba webových stránek“: ve výsledcích převládají návody a stavebnice, homepage s nimi nesedí.
+- „Web pro řemeslníky/instalatéry“: sedí, jsou to nejlepší stránky webu (69–75/100).
+- „SEO optimalizace cena“: výsledky chtějí čísla, stránka nabízí „individuálně“.
+- WebSearch není živý český Google, takže pozice nejsou ověřené.
 
----
+## Vizuál a mobil
 
-## What was verified as already correct (don't touch)
+Nálezy viz `findings/visual.md`: bez vodorovného posunu, H1 nad ohybem, intro opravené. [Low] Malé dotykové cíle a 24 textů menších než 12 px. Telefon není v HTML (vědomé rozhodnutí, viz trade-off v souboru).
 
-- robots.txt / sitemap.xml — valid, correctly linked, no accidental blocks
-- SSR/SSG sitewide — no JS-rendering risk for any crawler
-- HTTPS + HSTS enforced consistently
-- Zero duplicate titles across 48 pages; single H1 everywhere
-- `next/image` + `next/font/google` used correctly — near-zero CLS
-- Schema coverage (Service/FAQPage/BreadcrumbList/BlogPosting) broader than initially assumed
-- `AggregateRating`/GBP `sameAs` correctly deferred in code with TODO comments — no fabricated ratings
-- 3 real client backlinks verified live and dofollow
-- AI crawlers (GPTBot, ClaudeBot, PerplexityBot, etc.) fully allowed, no blocking anywhere
+## Respektovaná rozhodnutí vlastníka
 
-## Screenshots
-Desktop + mobile captures for homepage, `/kontakt`, `/web-pro-truhlare`: `screenshots/` (9 files)
+Audit nedoporučuje měnit tato rozhodnutí. Uvádí jen jejich SEO cenu:
+- web mluví v „my“;
+- reference bez fotek a hvězdiček;
+- telefon není na webu;
+- /o-mne je noindex;
+- na webu je jen křestní jméno „Kryštof“.
 
-## Full specialist reports
-`findings/technical.md` · `findings/content.md` · `findings/schema.md` · `findings/sitemap.md` · `findings/performance.md` · `findings/visual.md` · `findings/geo.md` · `findings/sxo.md` · `findings/cluster.md` · `findings/backlinks.md`
+Pro E-E-A-T stačí doplnit autora (křestní jméno, krátké bio) na indexovatelné místo, třeba do patičky článků nebo na /kontakt, a `Person` do schema.
 
-See `ACTION-PLAN.md` for prioritized next steps (code fixes vs. manual/off-site tasks).
+## Co audit nepokryl
+
+- **Zpětné odkazy:** chybí API (Moz/Bing) i lokální runtime pro Common Crawl. `findings/backlinks.md` je ještě ze září.
+- **Shlukování témat:** tento běh ho vynechal. `findings/cluster.md` je ze září.
+- **Search Console, CrUX, GA4:** nejsou napojené, takže chybí data o skutečné indexaci, kliknutích a polním výkonu.
+- **DataForSEO, Maps, lokální SEO:** MCP nepřipojeno. Lokální SEO navíc neplatí, web nemá provozovnu.
+- **Screenshoty:** nástroj je neukládá do složky.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
@@ -26,9 +27,9 @@ const PRICE = PRICE_BY_NAME[ESHOP_PACKAGE];
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Tvorba e-shopu na míru od 29 990 Kč: Shopify i vlastní kód",
+    title: "Tvorba e-shopu na míru od 29 990 Kč (Shopify i kód)",
     description:
-      "Tvorba e-shopu na míru od 29 990 Kč. Shopify nebo vlastní kód, platební brána, dopravci a výdejní místa, napojení skladu, automatické faktury a reklamy po spuštění.",
+      "Tvorba e-shopu na míru od 29 990 Kč: Shopify nebo vlastní kód, platební brána, dopravci a výdejní místa, napojení skladu a automatické faktury.",
     alternates: { canonical: "https://vizeon.cz/sluzby/tvorba-e-shopu" },
     openGraph: {
       title: "Tvorba e-shopu na míru | VIZEON",
@@ -54,11 +55,11 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Tvorba e-shopu na míru",
       name: "Tvorba e-shopu na míru",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/tvorba-e-shopu",
       description:
-        "E-shopy na míru na Shopify nebo ve vlastním kódu s platební bránou, dopravci a výdejními místy, napojením skladu, automatickými fakturami a reklamou po spuštění.",
+        "E-shopy na míru na Shopify nebo ve vlastním kódu: platební brána, dopravci, výdejní místa, napojení skladu a automatické faktury.",
       offers: {
         "@type": "Offer",
         name: ESHOP_PACKAGE,

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
@@ -25,11 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   return {
     title: `${project.title} — ukázka webu`,
-    description: project.description,
+    description: project.metaDescription ?? project.description,
     alternates: { canonical: `https://vizeon.cz/ukazky-webu/${project.slug}` },
     openGraph: {
       title: `${project.title} — ukázka webu | VIZEON`,
-      description: project.description,
+      description: project.metaDescription ?? project.description,
       url: `https://vizeon.cz/ukazky-webu/${project.slug}`,
       type: "website",
       images: [{ url: project.image }],
@@ -76,7 +77,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         description: project.description,
         url: `https://vizeon.cz/ukazky-webu/${project.slug}`,
         image: `https://vizeon.cz${project.image}`,
-        creator: { "@type": "Organization", name: "VIZEON", url: "https://vizeon.cz" },
+        creator: ORG_REF,
       },
     ],
   };
