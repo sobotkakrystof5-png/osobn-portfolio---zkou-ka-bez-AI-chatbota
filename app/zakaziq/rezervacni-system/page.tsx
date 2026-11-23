@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
@@ -36,7 +37,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "Rezervační systém pro malé firmy — ZakazIQ",
     description:
-      "Rezervační systém ZakazIQ: zákazník si vybere termín na webu, přes odkaz nebo QR kód, vy ho jedním klikem potvrdíte. Potvrzení i připomínky jdou e-mailem samy. 249 Kč měsíčně.",
+      "Rezervační systém ZakazIQ: zákazník si vybere termín na webu, přes odkaz nebo QR kód, vy ho potvrdíte jedním klikem. Připomínky jdou samy. 249 Kč měsíčně.",
     alternates: { canonical: "https://vizeon.cz/zakaziq/rezervacni-system" },
     openGraph: {
       title: "Rezervační systém ZakazIQ | VIZEON",
@@ -62,7 +63,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Rezervační systém",
       name: "Rezervační systém ZakazIQ",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/zakaziq/rezervacni-system",
       description:

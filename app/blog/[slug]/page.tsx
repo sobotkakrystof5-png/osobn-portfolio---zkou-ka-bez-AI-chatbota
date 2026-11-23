@@ -10,6 +10,7 @@ import { AnswerBox, ArticleFaq, AuthorNote, RelatedPosts, Takeaways } from "@/co
 import { brandText } from "@/components/brand/BrandName";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { getAllSlugs, getPostBySlug, getRelatedPosts, isLive } from "@/lib/blog";
+import { FOUNDER_REF, ORG_REF } from "@/lib/schema";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -90,14 +91,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         wordCount: post.wordCount,
         image: `${url}/opengraph-image`,
         ...(post.answer && { abstract: post.answer }),
-        author: {
-          "@type": "Person",
-          name: "Kryštof",
-          jobTitle: "Zakladatel VIZEON a ALTENO",
-          url: `${BASE}/o-mne`,
-          worksFor: { "@id": `${BASE}/#organization` },
-        },
-        publisher: { "@id": `${BASE}/#organization` },
+        // Autor je jedna entita Person #founder z layoutu (url na blok „S kým
+        // mluvíte“ na /kontakt, protože /o-mne je noindex).
+        author: FOUNDER_REF,
+        publisher: ORG_REF,
       },
       ...(post.faq.length > 0
         ? [

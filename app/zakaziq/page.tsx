@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ZakazIQ from "@/components/ZakazIQ";
 import { PageShell } from "@/components/layout/PageShell";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { ORG_REF } from "@/lib/schema";
 import { ZAKAZIQ_FAQ, ZAKAZIQ_PRICE, ZAKAZIQ_URL } from "@/lib/data/zakaziq";
 
 const DESCRIPTION =
@@ -9,8 +10,10 @@ const DESCRIPTION =
 
 export function generateMetadata(): Metadata {
   return {
-    title: "ZakazIQ — klientský prostor a aplikace pro malé firmy",
-    description: DESCRIPTION,
+    title: "ZakazIQ: klientský prostor a aplikace pro firmy",
+    // Meta popis do 160 znaků; plný DESCRIPTION zůstává ve schema.
+    description:
+      "ZakazIQ je náš systém: klientský prostor k projektu pro klienty VIZEON a aplikace na poptávky, kalendář, zakázky a faktury za 249 Kč měsíčně.",
     alternates: { canonical: "https://vizeon.cz/zakaziq" },
     openGraph: {
       title: "ZakazIQ — rychlejší projekty, spokojenější klienti | VIZEON",
@@ -34,13 +37,14 @@ const jsonLd = {
     },
     {
       "@type": "SoftwareApplication",
+      "@id": "https://vizeon.cz/zakaziq#app",
       name: "ZakazIQ",
       url: ZAKAZIQ_URL,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       inLanguage: "cs",
       description: DESCRIPTION,
-      creator: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      creator: ORG_REF,
       offers: {
         "@type": "Offer",
         price: String(ZAKAZIQ_PRICE),

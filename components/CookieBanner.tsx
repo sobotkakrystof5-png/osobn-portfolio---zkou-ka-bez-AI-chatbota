@@ -1,19 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { safeStorageGet, safeStorageSet } from "@/lib/utils";
-import { loadClarity } from "@/lib/analytics";
+import { cn, safeStorageGet, safeStorageSet } from "@/lib/utils";
+import { loadClarity, loadGa } from "@/lib/analytics";
 
 const STORAGE_KEY = "vizeon-cookie-consent";
 
+// Vjezd a odjezd lišty běží v CSS (.cookie-in / .cookie-out v globals.css),
+// ne přes framer-motion: lišta je v layoutu každé stránky a nemusí kvůli ní
+// při hydrataci startovat animační engine.
+const EXIT_MS = 400;
+
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
+  const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
     const stored = safeStorageGet(localStorage, STORAGE_KEY);
-    // Clarity nahrává relace, proto jen se souhlasem (viz lib/analytics.ts).
-    if (stored === "accepted") loadClarity();
+    // Clarity i GA jen se souhlasem (viz lib/analytics.ts).
+    if (stored === "accepted") {
+      loadClarity();
+      loadGa();
+    }
     if (!stored) {
       const t = setTimeout(() => setVisible(true), 2500);
       return () => clearTimeout(t);
@@ -26,18 +34,29 @@ export default function CookieBanner() {
     return () => document.body.classList.remove("cookie-banner-visible");
   }, [visible]);
 
-  const accept = () => { safeStorageSet(localStorage, STORAGE_KEY, "accepted"); setVisible(false); loadClarity(); };
-  const reject = () => { safeStorageSet(localStorage, STORAGE_KEY, "rejected"); setVisible(false); };
+  const close = () => {
+    setLeaving(true);
+    window.setTimeout(() => {
+      setVisible(false);
+      setLeaving(false);
+    }, EXIT_MS);
+  };
+  const accept = () => {
+    safeStorageSet(localStorage, STORAGE_KEY, "accepted");
+    close();
+    loadClarity();
+    loadGa();
+  };
+  const reject = () => {
+    safeStorageSet(localStorage, STORAGE_KEY, "rejected");
+    close();
+  };
+
+  if (!visible) return null;
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ y: "100%", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: "100%", opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] bg-[#111111] border-t border-white/[0.07] shadow-[0_-16px_40px_-12px_rgba(0,0,0,0.6)]"
+        <div
+          className={cn(leaving ? "cookie-out" : "cookie-in", "fixed bottom-0 left-0 right-0 z-[var(--z-cookie-banner)] bg-[#111111] border-t border-white/[0.07] shadow-[0_-16px_40px_-12px_rgba(0,0,0,0.6)]")}
           role="dialog"
           aria-label="Nastavení cookies"
           aria-live="polite"
@@ -67,8 +86,6 @@ export default function CookieBanner() {
               </button>
             </div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </div>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -37,7 +38,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Webová aplikace na míru",
       name: "Systémy na míru",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/systemy-na-miru",
       description:
@@ -61,7 +62,7 @@ export default function SystemyNaMiruPage() {
       <div className={cn(t.container.page, "pt-16 md:pt-24 pb-16 md:pb-24")}>
         <PageHeader
           eyebrow="Systémy na míru"
-          h1="Nástroje, které vám ušetří telefonáty a papírování"
+          h1="Systémy na míru, které vám ušetří telefonáty a papírování"
           lead="Postavím vám rezervační systém, kalkulačku nebo vlastní dashboard přesně na míru tomu, jak u vás vznikají zakázky, ne obecné univerzální řešení."
         />
 

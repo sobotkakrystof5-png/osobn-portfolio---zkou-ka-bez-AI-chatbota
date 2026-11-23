@@ -4,6 +4,8 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
+import { projects } from "@/lib/data/portfolio";
+import { ORG_REF } from "@/lib/schema";
 
 export function generateMetadata(): Metadata {
   return {
@@ -24,6 +26,24 @@ export function generateMetadata(): Metadata {
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://vizeon.cz/ukazky-webu",
+      url: "https://vizeon.cz/ukazky-webu",
+      name: "Ukázky webů a reference od klientů",
+      inLanguage: "cs-CZ",
+      about: ORG_REF,
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: projects.length,
+        itemListElement: projects.map((project, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: project.title,
+          url: `https://vizeon.cz/ukazky-webu/${project.slug}`,
+        })),
+      },
+    },
     {
       "@type": "BreadcrumbList",
       itemListElement: [

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { PriceTable } from "@/components/services/PriceTable";
+import { PackageCompareTable } from "@/components/services/PackageCompareTable";
+import { ESHOP_PACKAGE, PRICE_BY_NAME, PRICING_UPDATED } from "@/lib/data/pricing";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -13,7 +16,7 @@ import { Alteno, Vizeon } from "@/components/brand/BrandName";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Cena tvorby webu na míru",
+    title: "Cena tvorby webu na míru od 4 999 Kč",
     description:
       "Cena tvorby webu na míru pro živnostníky a malé firmy. Transparentní ceník od 4 999 Kč bez skrytých poplatků, co je v ceně a co ne.",
     alternates: { canonical: "https://vizeon.cz/cena-tvorby-webu" },
@@ -40,7 +43,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Tvorba webu na míru",
       name: "Tvorba webu na míru — ceník",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/cena-tvorby-webu",
       description:
@@ -96,8 +99,35 @@ export default function CenaTvorbyWebuPage() {
           h1="Cena webu na míru."
           lead={
             <>
-              Ceník je veřejný a stejný pro každého klienta, cena se odvíjí jen od rozsahu práce.
-              Pokud řešíte konkrétní obor, mrkněte i na{" "}
+              {/* Nad ohybem záměrně krátce: při výměně písma Inter za náhradní se
+                  dlouhý odstavec přezalomil o řádek a všechno pod ním poskočilo
+                  (CLS 0,17 na mobilu). Odkazy jsou proto až pod ceníkem. */}
+              Web na míru stojí {PRICE_BY_NAME["Micro Page"]} (Micro Page), {PRICE_BY_NAME["Promo Page"]}{" "}
+              (Promo Page) nebo {PRICE_BY_NAME["Pro Web"]} (Pro Web). E-shop začíná na{" "}
+              {PRICE_BY_NAME[ESHOP_PACKAGE].replace(/^od /, "")}.
+            </>
+          }
+        />
+
+
+        <div className="space-y-14">
+          <section aria-labelledby="cenik-webu">
+            <h2 id="cenik-webu" className={cn(t.h2Page, "mb-6")}>
+              Ceník webů
+            </h2>
+            <PriceTable categories={["Weby"]} />
+            <h3 className={cn(t.h3, "mt-10 mb-4")}>Srovnání variant: cena, typ a termín</h3>
+            <PackageCompareTable caption="Srovnání variant webu a e-shopu VIZEON: cena, typ, použití a termín dodání" />
+            <p className="mt-3 font-inter text-[12px] text-text-muted">
+              Ceny platí od{" "}
+              <time dateTime={PRICING_UPDATED}>
+                {new Date(PRICING_UPDATED).toLocaleDateString("cs-CZ", { day: "numeric", month: "long", year: "numeric" })}
+              </time>
+              .
+            </p>
+            <p className={cn(t.body, "mt-6")}>
+              Cenu i termín znáte před začátkem práce, platí se 30 % záloha a 70 % po schválení.
+              Ceník je stejný pro každého klienta. Pokud řešíte konkrétní obor, mrkněte i na{" "}
               <Link href="/tvorba-webu-pro-zivnostniky" className={t.link}>
                 tvorbu webu pro živnostníky
               </Link>
@@ -106,17 +136,8 @@ export default function CenaTvorbyWebuPage() {
                 Kolik stojí tvorba webových stránek v roce 2026
               </Link>
               .
-            </>
-          }
-        />
-
-        <div className="space-y-14">
-          <section aria-labelledby="cenik-webu">
-            <h2 id="cenik-webu" className={cn(t.h2Page, "mb-6")}>
-              Ceník webů
-            </h2>
-            <PriceTable categories={["Weby"]} />
-            <p className={cn(t.body, "mt-6")}>
+            </p>
+            <p className={cn(t.body, "mt-4")}>
               Ceny e-shopů, aplikací, automatizací, grafiky a dalších služeb najdete v přehledu{" "}
               <Link href="/sluzby" className={t.link}>
                 služby a ceník

@@ -1,0 +1,4 @@
+Contact: mailto:info@vizeon.cz
+Expires: 2027-11-21T00:00:00.000Z
+Preferred-Languages: cs, en
+Canonical: https://vizeon.cz/.well-known/security.txt

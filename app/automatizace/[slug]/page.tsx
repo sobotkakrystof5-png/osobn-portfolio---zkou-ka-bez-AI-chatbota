@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ORG_REF } from "@/lib/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -166,7 +167,7 @@ export default async function AutomationServicePage({ params }: Props) {
         "@type": "Service",
         serviceType: page.title,
         name: page.title,
-        provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+        provider: ORG_REF,
         areaServed: { "@type": "Country", name: "Česká republika" },
         url,
         description: page.lead,

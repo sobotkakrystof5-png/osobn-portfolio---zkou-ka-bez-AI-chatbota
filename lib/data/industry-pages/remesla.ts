@@ -133,7 +133,7 @@ export const REMESLA: IndustryPage[] = [
     meta: {
       title: "Webové stránky pro zámečníky od 9 999 Kč",
       description:
-        "Web pro zámečnictví s nonstop tlačítkem na odemčení, ceníkem úkonů, galerií kovovýroby a poptávkou z mobilu. Promo Page od 9 999 Kč, hotovo do 10 pracovních dní.",
+        "Web pro zámečnictví s nonstop tlačítkem na odemčení, ceníkem úkonů, galerií kovovýroby a poptávkou z mobilu. Od 9 999 Kč, hotovo do 10 pracovních dní.",
     },
     serviceType: "Tvorba webových stránek pro zámečníky a zámečnictví",
     h1: { lead: "Web pro zámečníky,", accent: "který otevře dveře zakázkám." },
@@ -265,7 +265,7 @@ export const REMESLA: IndustryPage[] = [
     meta: {
       title: "Webové stránky pro řezbáře od 9 999 Kč",
       description:
-        "Web pro řezbáře a dřevořezbu: galerie podle stylu a materiálu, příběh každé práce a poptávka podle inspirace zákazníka. Od 9 999 Kč, hotovo do 10 pracovních dní.",
+        "Web pro řezbáře: galerie podle stylu a materiálu, příběh každé práce a poptávka podle inspirace zákazníka. Od 9 999 Kč, hotovo do 10 pracovních dní.",
     },
     serviceType: "Tvorba webových stránek pro řezbáře",
     h1: { lead: "Web pro řezbáře,", accent: "kde má každá řezba příběh." },
@@ -331,7 +331,7 @@ export const REMESLA: IndustryPage[] = [
     meta: {
       title: "Web pro studnaře a studnařství od 9 999 Kč",
       description:
-        "Tvorba webu pro studnaře: typy studní a povolení srozumitelně, oblast působnosti, reference a poptávka s lokalitou pozemku. Od 9 999 Kč, hotovo do 10 pracovních dní.",
+        "Web pro studnaře: typy studní a povolení srozumitelně, oblast působnosti, reference a poptávka s lokalitou pozemku. Od 9 999 Kč, hotovo do 10 dní.",
     },
     serviceType: "Tvorba webových stránek pro studnaře a studnařské firmy",
     h1: { lead: "Web pro studnaře,", accent: "který ukáže práci pod zemí." },
@@ -731,7 +731,7 @@ export const REMESLA: IndustryPage[] = [
     meta: {
       title: "Webové stránky pro elektrikáře od 9 999 Kč",
       description:
-        "Tvorba webu pro elektrikáře: nonstop kontakt na havárie, objednávka revize, oprávnění na očích a fotovoltaika. Promo Page od 9 999 Kč, hotovo do 10 pracovních dní.",
+        "Web pro elektrikáře: nonstop kontakt na havárie, objednávka revize, oprávnění na očích a fotovoltaika. Od 9 999 Kč, hotovo do 10 pracovních dní.",
     },
     serviceType: "Tvorba webových stránek pro elektrikáře",
     h1: { lead: "Web pro elektrikáře,", accent: "na který se dovolá i ve tmě." },

@@ -396,6 +396,44 @@ body {
   animation-delay: var(--hero-delay, 0ms);
 }
 
+/* Animace, které dřív dělal framer-motion v komponentách nad ohybem a v
+   layoutu (hero, cookie lišta, přechod stránek, pruh čísel, patička). V CSS
+   běží na compositoru a nemusí kvůli nim při hydrataci startovat JS engine. */
+@keyframes orb-float-a {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-14px) scale(1.05); opacity: 0.5; }
+}
+@keyframes orb-float-b {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.25; }
+  50% { transform: translateY(14px) scale(1.04); opacity: 0.42; }
+}
+.orb-float-a { animation: orb-float-a 14s ease-in-out infinite; }
+.orb-float-b { animation: orb-float-b 18s ease-in-out 3s infinite; }
+
+@keyframes cookie-in { from { transform: translateY(100%); opacity: 0; } }
+@keyframes cookie-out { to { transform: translateY(100%); opacity: 0; } }
+.cookie-in { animation: cookie-in 0.4s ease-out both; }
+.cookie-out { animation: cookie-out 0.4s ease-out both; }
+
+@keyframes page-in { from { opacity: 0; } }
+.page-in { animation: page-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Vstup při najetí do obrazovky (components/Reveal.tsx). Bez JS a před
+   hydratací je obsah vidět (data-reveal chybí), skryje se až klientem
+   a ukáže se, jakmile ho IntersectionObserver uvidí. */
+[data-reveal="hidden"] > .reveal-item,
+[data-reveal="hidden"].reveal-item {
+  opacity: 0;
+  transform: translateY(45px);
+}
+[data-reveal="shown"] > .reveal-item,
+[data-reveal="shown"].reveal-item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 100ms);
+}
+
 /* Černé pozadí intra na homepage už v serverovém HTML, ať se hero neukáže
    na zlomek vteřiny dřív, než intro po hydrataci naběhne. Jen desktop:
    na mobilu se intro nepouští (components/IntroAnimation.tsx). Atribut
@@ -417,8 +455,19 @@ body {
   .animate-nav-panel-in,
   .text-gleam,
   .group:hover .pain-jolt,
-  .hero-in {
+  .hero-in,
+  .orb-float-a,
+  .orb-float-b,
+  .cookie-in,
+  .cookie-out,
+  .page-in {
     animation: none;
+  }
+  [data-reveal] > .reveal-item,
+  [data-reveal].reveal-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   .benefit-lift {
     transition: none;

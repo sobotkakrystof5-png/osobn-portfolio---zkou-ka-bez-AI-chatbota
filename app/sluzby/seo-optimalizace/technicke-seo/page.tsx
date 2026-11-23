@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Technické SEO — rychlost, strukturovaná data a indexovatelnost",
+    title: "Technické SEO: rychlost, schema a indexace webu",
     description:
       "Technické SEO: Core Web Vitals, strukturovaná data a indexovatelnost webu — základ, bez kterého žádné jiné SEO nefunguje.",
     alternates: { canonical: "https://vizeon.cz/sluzby/seo-optimalizace/technicke-seo" },
@@ -38,7 +39,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Technické SEO",
       name: "Technické SEO",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/seo-optimalizace/technicke-seo",
       description: "Optimalizace rychlosti, strukturovaných dat a indexovatelnosti webu pro vyhledávače.",

@@ -161,6 +161,11 @@ function ProjectFeature({ project, index, flip }: { project: Project; index: num
 
 export default function Portfolio() {
   const [group, setGroup] = useState<ProjectGroup | "vse">("vse");
+  // Seznam se animuje až po změně filtru. Při prvním načtení by framer-motion
+  // vyrenderoval na serveru opacity 0 a první projekt (LCP prvek stránky) by se
+  // ukázal až po hydrataci JS: LCP na mobilu 4,5 s, i když byl obrázek stažený
+  // za 0,9 s (audit 11/2026).
+  const [filterChanged, setFilterChanged] = useState(false);
   const list = group === "vse" ? projects : projects.filter((p) => p.group === group);
   const filters = [
     { id: "vse" as const, label: "Vše", count: projects.length },
@@ -200,7 +205,10 @@ export default function Portfolio() {
                     key={f.id}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => setGroup(f.id)}
+                    onClick={() => {
+                      setGroup(f.id);
+                      setFilterChanged(true);
+                    }}
                     className={cn(
                       "flex items-center gap-2.5 whitespace-nowrap px-4 py-3 font-inter font-medium text-[12px] uppercase tracking-[0.1em] transition-colors duration-300",
                       active ? "bg-[#151515] text-[#f0ece6]" : "bg-[#080808] text-text-muted hover:text-[#f0ece6]",
@@ -217,7 +225,7 @@ export default function Portfolio() {
 
         <motion.div
           key={group}
-          initial={{ opacity: 0, y: 24 }}
+          initial={filterChanged ? { opacity: 0, y: 24 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col gap-20 md:gap-28"
@@ -226,6 +234,15 @@ export default function Portfolio() {
             if ("feature" in row) {
               const i = index++;
               const flip = featureCount++ % 2 === 1;
+              // První projekt je nad ohybem: vstup v CSS (.hero-in), ne přes
+              // whileInView, ať nečeká na hydrataci (viz filterChanged výše).
+              if (i === 0) {
+                return (
+                  <div key={row.feature.slug} style={heroIn(240, 45)} className="hero-in">
+                    <ProjectFeature project={row.feature} index={i} flip={flip} />
+                  </div>
+                );
+              }
               return (
                 <motion.div key={row.feature.slug} variants={fadeUp} initial="hidden" whileInView="visible" viewport={viewport}>
                   <ProjectFeature project={row.feature} index={i} flip={flip} />

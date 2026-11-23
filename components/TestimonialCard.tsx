@@ -10,7 +10,9 @@ export function TestimonialCard({ quote, name, url, urlLabel, image }: Testimoni
   return (
     <article className="group flex flex-col h-full border border-[#c9a84c]/20 bg-[#141414] overflow-hidden hover:border-[#c9a84c]/45 transition-colors duration-300">
       {image ? (
-        // Stejný cíl jako odkaz pod citací, proto mimo Tab a čtečky.
+        // Stejný cíl jako odkaz pod citací, proto mimo Tab a čtečky. Alt
+        // čtečky kvůli aria-hidden nepřečtou (nevznikne duplicita), ale
+        // vyhledávač ho u obrázku vidí.
         <a
           href={url}
           target="_blank"
@@ -21,7 +23,7 @@ export function TestimonialCard({ quote, name, url, urlLabel, image }: Testimoni
         >
           <Image
             src={image}
-            alt=""
+            alt={`Náhled webu ${urlLabel}`}
             fill
             sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 88vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"

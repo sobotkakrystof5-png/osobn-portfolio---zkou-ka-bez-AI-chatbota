@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Jak probíhá spolupráce — 4 kroky od nápadu ke spuštění",
+    title: "Jak probíhá spolupráce: 4 kroky ke spuštění webu",
     description:
       "Čtyři kroky od první konzultace po spuštění a předání webu. Víte přesně, co se děje a kdy. Žádné černé skříňky, žádné čekání bez informací.",
     alternates: { canonical: "https://vizeon.cz/spoluprace" },

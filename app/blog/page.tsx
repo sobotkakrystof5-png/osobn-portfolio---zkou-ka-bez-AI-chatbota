@@ -5,6 +5,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { getSortedPosts } from "@/lib/blog";
+import { FOUNDER_REF, ORG_REF } from "@/lib/schema";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { Vizeon, brandText } from "@/components/brand/BrandName";
@@ -17,7 +18,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "Blog — tvorba webů, SEO a online prezentace",
     description:
-      "Články o tvorbě webů na míru, SEO optimalizaci a online prezentaci pro živnostníky a malé firmy v ČR.",
+      "Články o tvorbě webů na míru, cenách, SEO a lokálním SEO pro živnostníky a malé firmy v ČR. Konkrétní čísla, postupy a zkušenosti z projektů.",
     alternates: {
       canonical: "https://vizeon.cz/blog",
       types: { "application/rss+xml": "https://vizeon.cz/blog/rss.xml" },
@@ -32,28 +33,47 @@ export function generateMetadata(): Metadata {
   };
 }
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Domů", item: "https://vizeon.cz" },
-        { "@type": "ListItem", position: 2, name: "Blog", item: "https://vizeon.cz/blog" },
-      ],
-    },
-  ],
-};
+// Skládá se při každém renderu (ne na úrovni modulu), ať seznam článků v
+// `blogPost` sedí i po obnově stránky (revalidate), když vyjde nový článek.
+function buildJsonLd(slugs: string[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": "https://vizeon.cz/blog#blog",
+        url: "https://vizeon.cz/blog",
+        name: "Blog VIZEON: tvorba webů, SEO a online prezentace",
+        inLanguage: "cs-CZ",
+        publisher: ORG_REF,
+        author: FOUNDER_REF,
+        blogPost: slugs.map((slug) => ({ "@id": `https://vizeon.cz/blog/${slug}#article` })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Domů", item: "https://vizeon.cz" },
+          { "@type": "ListItem", position: 2, name: "Blog", item: "https://vizeon.cz/blog" },
+        ],
+      },
+    ],
+  };
+}
 
 export default function BlogPage() {
   const posts = getSortedPosts();
+  const jsonLd = buildJsonLd(posts.map((p) => p.slug));
 
   return (
     <PageShell jsonLd={jsonLd}>
       <AnalyticsTracker page="/blog" />
 
       <div className={cn(t.container.page, "pt-16 md:pt-24 pb-16 md:pb-24")}>
-        <PageHeader eyebrow="Blog" h1="Blog" />
+        <PageHeader
+          eyebrow="Blog"
+          h1="Blog o tvorbě webů, SEO a online prezentaci"
+          lead="Ceny, postupy a zkušenosti z projektů pro živnostníky a malé firmy."
+        />
 
         {posts.length === 0 ? (
           <p className={t.body}>Tato sekce se připravuje.</p>

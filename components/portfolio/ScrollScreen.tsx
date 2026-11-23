@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { MousePointer2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,19 @@ export function ScrollScreen({
 }) {
   const [playing, setPlaying] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  // Celostránkový screenshot má stovky kB až 1 MB. Dřív se stahoval hned s
+  // první obrazovkou a na mobilu soupeřil s LCP. Teď se připojí až při záměru
+  // (najetí myší, fokus, klepnutí), na zařízení s myší navíc v klidu po načtení
+  // stránky, aby byl při prvním najetí většinou už stažený.
+  const [armed, setArmed] = useState(false);
+
+  useEffect(() => {
+    if (armed || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const arm = () => setArmed(true);
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1));
+    const timer = window.setTimeout(() => idle(arm), 2500);
+    return () => window.clearTimeout(timer);
+  }, [armed]);
 
   // Kolik obrazovek je pod první, podle toho délka jízdy (cca 1,5 s na obrazovku).
   const screensBelow = full.height / full.width / MACBOOK_SCREEN_RATIO - 1;
@@ -34,13 +47,20 @@ export function ScrollScreen({
       type="button"
       aria-pressed={playing}
       aria-label={playing ? "Zastavit projíždění webu" : "Projet celý web"}
-      onPointerEnter={(e) => e.pointerType === "mouse" && setPlaying(true)}
+      onPointerEnter={(e) => {
+        setArmed(true);
+        if (e.pointerType === "mouse") setPlaying(true);
+      }}
       onPointerLeave={(e) => e.pointerType === "mouse" && setPlaying(false)}
-      onClick={() => setPlaying((v) => !v)}
+      onFocus={() => setArmed(true)}
+      onClick={() => {
+        setArmed(true);
+        setPlaying((v) => !v);
+      }}
       className="group/screen absolute inset-0 block h-full w-full cursor-ns-resize overflow-hidden text-left"
     >
       <Image src={fold} alt={alt} fill sizes={sizes} priority className="object-cover object-top" />
-      {screensBelow > 0.05 && (
+      {screensBelow > 0.05 && armed && (
         <Image
           src={full.src}
           alt=""

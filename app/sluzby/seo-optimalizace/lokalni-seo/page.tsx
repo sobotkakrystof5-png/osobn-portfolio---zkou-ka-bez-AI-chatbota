@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -38,7 +39,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Lokální SEO",
       name: "Lokální SEO pro Google i Seznam",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/seo-optimalizace/lokalni-seo",
       description: "Optimalizace Google Business Profile a Seznam Firmy.cz, ať firmu najdou zákazníci z okolí na obou vyhledávačích.",
@@ -140,7 +141,7 @@ export default function LokalniSeoPage() {
               </Link>{" "}
               a{" "}
               <Link href="/blog/google-business-profile-vs-firmy-cz" className="text-[#c9a84c] hover:underline">
-                Google Business Profile vs. Firmy.cz — co nastavit jako první
+                Google Business Profile vs. Firmy.cz: co nastavit jako první
               </Link>
               .
             </p>

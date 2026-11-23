@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -11,7 +12,7 @@ import { PriceLabel } from "@/components/PriceLabel";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Technické služby — doména, přesměrování a údržba webu",
+    title: "Technické služby: doména, přesměrování, údržba",
     description:
       "Přesměrování a přelinkování domény, správa DNS, bezpečnostní aktualizace a průběžná údržba webu. Technické zázemí pro váš web bez starostí.",
     alternates: { canonical: "https://vizeon.cz/sluzby/technicke-sluzby" },
@@ -39,7 +40,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Technická správa webu",
       name: "Technické služby",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/technicke-sluzby",
       description:

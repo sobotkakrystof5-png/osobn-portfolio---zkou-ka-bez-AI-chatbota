@@ -33,7 +33,7 @@ type FontData = { name: string; data: Buffer; weight: 300 | 400; style: "normal"
 
 let fontsPromise: Promise<FontData[]> | null = null;
 
-function loadFonts(): Promise<FontData[]> {
+export function loadFonts(): Promise<FontData[]> {
   // Jedno čtení na proces, ne na každý obrázek — při buildu se generuje 45+ OG.
   fontsPromise ??= Promise.all([
     readFile(new URL("./fonts/CormorantGaramond-Light.ttf", import.meta.url)),

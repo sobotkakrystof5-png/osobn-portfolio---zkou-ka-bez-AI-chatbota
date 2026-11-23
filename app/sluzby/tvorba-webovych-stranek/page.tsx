@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
-import { PageHeader } from "@/components/layout/PageHeader";
 import { ClosingCTA } from "@/components/layout/ClosingCTA";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { ArrowUpRight } from "lucide-react";
@@ -15,9 +15,9 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Tvorba webových stránek na míru: Micro Page, Promo Page i Pro Web",
+    title: "Tvorba webových stránek na míru ve 3 variantách",
     description:
-      "Tvorba webových stránek na míru pro živnostníky a malé firmy. Tři varianty: Micro Page od 4 999 Kč, landing page Promo Page od 9 999 Kč a vícestránkový Pro Web od 14 999 Kč.",
+      "Tvorba webových stránek na míru pro živnostníky a firmy: Micro Page od 4 999 Kč, landing page od 9 999 Kč a vícestránkový Pro Web od 14 999 Kč.",
     alternates: { canonical: "https://vizeon.cz/sluzby/tvorba-webovych-stranek" },
     openGraph: {
       title: "Tvorba webových stránek na míru | VIZEON",
@@ -49,7 +49,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Tvorba webových stránek na míru",
       name: "Tvorba webových stránek na míru",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/tvorba-webovych-stranek",
       description:
@@ -87,15 +87,17 @@ export default function TvorbaWebovychStranekPage() {
       <AnalyticsTracker page="/sluzby/tvorba-webovych-stranek" />
 
       <div className={cn(t.container.wide, "pt-16 md:pt-24")}>
-        <PageHeader
-          eyebrow="Tvorba webových stránek na míru"
-          h1={
-            <>
-              Nekupujete si web. Kupujete si <span className="text-shimmer">výsledky.</span>
-            </>
-          }
-          lead="Web, který vám přivádí zákazníky, ne jen existuje. Na míru vašemu oboru, s cenou i termínem předem."
-        />
+        {/* Vzhled jako PageHeader, ale H1 nese hledanou frázi (dřív byla jen
+            v eyebrow) a motto je velký odstavec. Na obrazovce se nic nemění. */}
+        <div>
+          <h1 className={cn(t.eyebrow, "mb-4")}>— Tvorba webových stránek na míru</h1>
+          <p className={cn(t.h1, "mb-6 max-w-2xl")}>
+            Nekupujete si web. Kupujete si <span className="text-shimmer">výsledky.</span>
+          </p>
+          <p className={cn(t.lead, "max-w-2xl mb-16")}>
+            Web, který vám přivádí zákazníky, ne jen existuje. Na míru vašemu oboru, s cenou i termínem předem.
+          </p>
+        </div>
 
         <section aria-labelledby="varianty">
           <h2 id="varianty" className={cn(t.h2Page, "mb-8")}>Tři varianty webu</h2>

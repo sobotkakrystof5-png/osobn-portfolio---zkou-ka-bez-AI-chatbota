@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "SEO audit webu — zjistěte, proč vás Google i Seznam nenajdou",
+    title: "SEO audit webu: proč vás Google a Seznam nenajdou",
     description:
       "SEO audit webu odhalí technické chyby, chybějící klíčová slova a mezery vůči konkurenci. Přehledný report s prioritizovanými doporučeními.",
     alternates: { canonical: "https://vizeon.cz/sluzby/seo-optimalizace/audit" },
@@ -38,7 +39,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "SEO audit webu",
       name: "SEO audit webu",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/seo-optimalizace/audit",
       description: "Technická kontrola webu, analýza klíčových slov a srovnání s konkurencí s přehledným reportem doporučení.",

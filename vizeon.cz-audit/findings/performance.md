@@ -1,129 +1,94 @@
-# Performance / Core Web Vitals Audit — vizeon.cz
+# Výkon a Core Web Vitals: vizeon.cz
 
-> **LAB-ONLY ESTIMATES.** No Google API credentials are configured (`google_auth.py --check`
-> confirms tier -1, PageSpeed Insights v5 and CrUX API both `[MISSING]`), so no field (CrUX,
-> 75th-percentile real-user) data exists for this domain. All metrics below come from local
-> **Lighthouse 13.4.1** runs (Node v24.15, headless Chromium, default mobile emulation +
-> simulated throttling) against the live production site. Lighthouse 13 uses **insight-based**
-> performance audits (no more `first-meaningful-paint`/legacy audit names); the `pwa` category no
-> longer exists and was not requested. Treat all pass/fail calls here as directional lab signals,
-> not confirmed Core Web Vitals ranking status — re-verify against CrUX/PSI once the domain has a
-> Google API key configured or accrues enough Chrome UX Report traffic.
+Datum auditu: 2026-11-21
 
-## Pages tested
+## Stav měření (důležité)
 
-| Page | Role |
-|---|---|
-| `https://vizeon.cz/` | Homepage |
-| `https://vizeon.cz/web-pro-elektrikare` | `/web-pro-*` service landing page |
-| `https://vizeon.cz/blog/kolik-stoji-tvorba-webu-2026` | Blog article |
+**PageSpeed Insights se nepodařilo získat.** Všech 6 plánovaných běhů (5x mobil, 1x desktop) selhalo, protože bezklíčové PSI API v5 vrací opakovaně `429 Quota exceeded ... Queries per day` (sdílená denní kvóta projektu bez API klíče; zkoušeno 4x, i po čekání). Uložená odpověď `.../scratchpad/psi/home_m.json` obsahuje jen chybu. Lokální Lighthouse přes `npx` byl zablokován oprávněním a nebyl obcházen. Skript `claude-seo` hlásí nenastavený runtime.
 
-## Headline lab metrics (mobile, Lighthouse 13.4.1, performance category only)
+Důsledek:
+- **Žádná nová labová čísla (LCP, CLS, TBT, FCP, SI) ani LCP element z PSI nejsou.** Nic neodhaduji.
+- **CrUX polní data (`loadingExperience`, `originLoadingExperience`) nejsou k dispozici**: PSI neodpovědělo, takže není známo, zda origin má dost provozu. Předchozí verze auditu uváděla, že CrUX/PSI nebyly nakonfigurované.
+- Skóre níže je **kvalitativní, ze statické analýzy** (crawl, hlavičky, zdroják), ne naměřené.
 
-| Metric | Homepage | /web-pro-elektrikare | Blog article | Good threshold |
+Starší labová data (Lighthouse 13.4.1, mobil, předchozí verze tohoto auditu, před pozdějšími úpravami hero, dynamic importů a GA): homepage 59/100 (LCP 5,9 s, TBT 370 ms, CLS ~0), /web-pro-elektrikare 86 (LCP 3,5 s), blog 80 (LCP 4,0 s). Od té doby se v kódu změnilo hero (CSS `.hero-in`, `template.tsx` bez počáteční průhlednosti, GA `lazyOnload`, `next/dynamic`), takže jde jen o orientační údaje; nutné přeměřit.
+
+## Skóre (nenaměřené, kvalitativní)
+
+| Oblast | Skóre | Poznámka |
+|---|---|---|
+| Performance (CWV) | **70/100** (odhad ze statiky, ne měření) | Ověřit PSI s API klíčem nebo lokálním Lighthouse |
+| Obrázky | **72/100** | Crawl: 148 `<img>`, 76 % s alt, 81 % přes next/image (AVIF/WebP), ale 17 MB zdrojů a nekomprimované `-full.jpg` |
+
+## Metriky podle URL
+
+| URL | Lab (PSI) | Field (CrUX) | HTML kB raw / brotli | TTFB (curl) |
 |---|---|---|---|---|
-| Lighthouse Performance score | **59/100** | 86/100 | 80/100 | — |
-| LCP | **5.9 s (Poor)** | 3.5 s (Needs Improvement) | 4.0 s (borderline Poor) | ≤2.5 s |
-| CLS | 0.00001 (Good) | 0 (Good) | 0 (Good) | ≤0.1 |
-| TBT (INP proxy) | 370 ms (Needs Improvement) | 147 ms (Good) | 163 ms (Good) | — |
-| Max Potential FID (legacy proxy, lab-only) | 430 ms | 174 ms | 177 ms | — |
-| FCP | 3.2 s | 1.4 s | 1.7 s | — |
-| TTI | 9.9 s | 8.4 s | 9.6 s | — |
-| Server response (TTFB) | 409 ms | 236 ms | 140 ms | — |
+| / (mobil) | selhalo (429) | neznámé | 198,9 / 28,4 | 0,27 s |
+| /web-pro-remeslniky (mobil) | selhalo (429) | neznámé | 249,2 / 32,6 | 0,26 s |
+| /sluzby (mobil) | selhalo (429) | neznámé | 125,0 / 17,8 | 0,23 s |
+| /ukazky-webu (mobil) | selhalo (429) | neznámé | 140,6 / 16,3 | 0,28 s |
+| /blog/kolik-stoji-tvorba-webu-2026 (mobil) | selhalo (429) | neznámé | 74,4 / 15,5 | 0,25 s |
+| / (desktop) | selhalo (429) | neznámé | | |
 
-Note: INP itself cannot be measured in a lab run (it requires a real user interaction). Total
-Blocking Time and Max Potential FID are used here only as **lab proxies** for interactivity risk,
-per standard Lighthouse guidance — do not report these as INP.
+TTFB je jedno měření z mé lokality, `x-vercel-cache: HIT`, region fra1. Crawl `ms`: většina 200 až 450 ms; outliery /blog/kolik-stoji-tvorba-webu-2026 1010 ms, /web-pro-kosmeticky 1318 ms, /sluzby/seo-optimalizace/lokalni-seo 603 ms (pravděpodobně studený start, ověřit opakováním).
 
----
+## Laboratorní měření (doplněno po selhání PSI)
 
-## Finding 1 — Homepage LCP is in the "Poor" range, driven by a large blocking JS chunk
+PageSpeed Insights vracelo `429 Quota exceeded`, proto jsem výkon změřil lokálně. Použil jsem headless Chrome (Playwright) s profilem podobným mobilnímu Lighthouse: Slow 4G (150 ms RTT, 1,6 Mb/s), 4× zpomalené CPU, 412×823 a studenou cache, 2 běhy na URL. Lighthouse počítá jinak (simulované škrcení), takže čísla ber jako orientační. INP v laboratoři změřit nejde.
 
-**Severity:** Critical
+| URL (mobil) | FCP | LCP | CLS | TBT | Přeneseno / z toho JS | LCP prvek |
+|---|---|---|---|---|---|---|
+| / | 1,5–2,5 s | 1,5–2,5 s | 0 | 257–375 ms | 759 / 414 kB | podtitulek hero (`components/Hero.tsx`) |
+| /web-pro-remeslniky | 1,5–3,2 s | 1,5–3,2 s | 0 | 198–361 ms | 720 / 400 kB | úvodní odstavec |
+| /sluzby | 1,3 s | 1,3 s | 0,008 | 180–195 ms | 762 / 410 kB | úvodní odstavec |
+| /ukazky-webu | 1,4–1,7 s | **4,5–5,4 s** | 0 | 191–206 ms | 752 / 407 kB | screenshot projektu přes `/_next/image` (`/portfolio/s…`) |
+| /blog/kolik-stoji-tvorba-webu-2026 | 1,3–2,4 s | 1,3–2,4 s | 0 | 173–188 ms | 647 / 369 kB | úvodní odstavec |
 
-**Evidence:**
-- Lighthouse lab run: homepage LCP = **5.9 s** (`>4.0s` = Poor bucket), Performance score 59/100.
-- LCP element is a **text node**, not an image: `main#main-content > section#hero > div.relative > h2.font-cormorant` (homepage has zero `<img>`/raster image requests in `resource-summary` — it's a text-only hero).
-- `lcp-breakdown-insight`: Time to First Byte 802 ms + Element Render Delay 1,260 ms reported as named subparts; the remaining gap to the 5.9 s total metric is consistent with main-thread contention shown in `mainthread-work-breakdown`: Script Evaluation 881 ms, Script Parse/Compile 241 ms occurring before paint.
-- `unused-javascript` flags a single chunk `_next/static/chunks/0tvp1gn28not7.js` at **497 KB transferred, 320 KB (64%) unused** on the homepage — this is the single largest contributor to blocking main-thread work ahead of the hero paint.
-- `network-dependency-tree-insight`: longest critical-path chain measured at 1,270 ms, driven by two render-blocking CSS chunks loaded in the document head.
+Výkyvy mezi běhy (FCP 1,5 vs. 2,5 s) dělá TTFB, které občas skočí na 1,0–1,4 s (studený start funkce nebo cache miss na edge). Raw data: `scratchpad/lab.jsonl` (mimo repo).
 
-**Recommendation:**
-1. Identify what's inside `0tvp1gn28not7.js` (bundle analyzer / `next build` stats) and move anything not needed for the hero/above-the-fold render into a `next/dynamic` import with `ssr: false` and lazy-loading (e.g., chat widget, carousel/animation libraries, below-fold interactive sections).
-2. Preload/prioritize only the CSS and JS the hero actually needs; defer everything else until after first paint.
-3. Re-run Lighthouse after splitting to confirm LCP drops toward the ≤2.5 s "Good" threshold — expected impact: largest single win available on this site (potentially 2-3+ s off LCP).
+**Shrnutí:** Oproti září (LCP 5,9 s) je homepage výrazně lepší, LCP je teď text. Jedinou stránkou s LCP v pásmu „Poor“ je /ukazky-webu. TBT je na homepage a oborových stránkách hraniční (cíl je pod 200 ms) a na každé stránce se stahuje kolem 400 kB JS.
 
----
+## Nálezy
 
-## Finding 2 — Site-wide oversized shared JS bundle, 30-82% unused per page
+### 1. [Low, sníženo z High] HTML s `Cache-Control: public, max-age=0, must-revalidate` na všech 66 stránkách
+Pozn. hlavního auditu: stránky jsou předrenderované (`x-nextjs-prerender: 1`) a Vercel je servíruje z edge cache (`x-vercel-cache: HIT`). `max-age=0` platí jen pro cache prohlížeče, což je u HTML běžné a správné. Opravdový problém jsou občasné studené odpovědi s TTFB 1–1,4 s (viz tabulka), ne tahle hlavička.
+Evidence: crawl, všechny stránky; TTFB 230 až 420 ms i při HIT (cíl pod 200 ms).
+Fix: ověřit ISR/`revalidate` a `s-maxage` + `stale-while-revalidate`; hlavičky přes `headers()` v `next.config.mjs` (u statických stránek na Vercelu ověřit po nasazení).
 
-**Severity:** High
+### 2. [High] /ukazky-webu: LCP 4,5–5,4 s (Poor), na ostatních stránkách 1,3–3,2 s
+Doplněno měřením: LCP prvek je screenshot projektu přes `/_next/image`. První projekt má `priority` (`components/Portfolio.tsx:112`), přesto se LCP ukáže pozdě. Ověř, jestli je LCP prvek opravdu ten s `priority`, a zmenši `sizes`/kvalitu desktopového screenu v `components/portfolio/ProjectStage.tsx:66`.
 
-**Evidence:**
-- `unused-javascript` estimated savings are consistent and large across **all three** tested templates: Homepage 531 KiB, `/web-pro-elektrikare` 559 KiB, blog article 548 KiB — indicating this is a shared/global bundle problem, not a page-specific one.
-- Same dominant chunk (`0tvp1gn28not7.js` family) appears on every page at ~470-500 KB transferred with 64-82% flagged unused depending on route.
-- Third-party GTM script (`googletagmanager.com/gtag/js`) adds another 174 KB with 43-53% unused on every page (not fixable directly, but a known fixed cost worth measuring against value).
-- Source check: 23 client components (`"use client"`) in `app/`+`components/` — a reasonable count, but confirms a non-trivial amount of client-side JS is shipped by default rather than being route-scoped.
+### 2b. [Medium] TBT na homepage 257–375 ms, rizika v hero
+Evidence: dřívější LCP 5,9 s, TBT 370 ms; LCP element je text (H1/H2 v `components/Hero.tsx`), hero na CSS `.hero-in` (`app/globals.css`). Po hydrataci běží canvas s 35 až 70 částicemi v `requestAnimationFrame` a dva nekonečné framer-motion orby; na desktopu `components/IntroAnimation.tsx`.
+Fix: přeměřit; při TBT nad 200 ms spouštět canvas v `requestIdleCallback` a orby převést na CSS `@keyframes` (`components/Hero.tsx`).
 
-**Recommendation:**
-1. Run `next build` with the bundle analyzer to attribute the ~500 KB chunk to specific modules/components.
-2. Convert non-critical, below-the-fold, or interaction-only components to `next/dynamic` lazy imports so they don't ship in the initial route bundle.
-3. Audit whether the same heavy bundle is genuinely needed on the blog and service-landing templates, or whether it's a homepage-only dependency being bundled globally.
+### 3. [Medium] Velká sdílená JS vrstva (13 až 17 async skriptů na každé stránce)
+Evidence: crawl `scripts`: 13 až 15 chunků všude, 17 na homepage; dřívější audit uváděl chunk 497 kB (320 kB nevyužito). framer-motion je v klientském `app/template.tsx` (každá stránka) i v `Hero.tsx`.
+Fix: v `app/template.tsx` nahradit `motion.div` CSS přechodem, jinde `LazyMotion` + `m`; změřit `@next/bundle-analyzer`.
 
----
+### 4. [Medium] Inline RSC payload tvoří téměř polovinu HTML u /web-pro-* (~220 až 250 kB raw)
+Evidence: v `/web-pro-remeslniky` 37 inline `self.__next_f.push` skriptů = 119 kB z 253 kB (47 %); viditelné HTML bez skriptů a SVG 78 kB (43 kB z toho třídy Tailwindu); 116 inline SVG ikon (lucide) = 49 kB. Není to duplicitní datový blok: každá sekce je v HTML a zároveň v RSC, protože prochází klientskými wrappery (`$L35/$L36`, pravděpodobně Reveal) přijímajícími celé podstromy jako `children`. Po brotli jen 32,6 kB, dopad je tedy hlavně na parsování a hydrataci, ne na síť. Homepage (199 kB) a /automatizace/* (~200 až 220 kB) mají stejný vzorec; /sluzby/* (~60 kB) wrappery nemají.
+Fix: omezit klientské wrappery kolem celých sekcí (reveal přes CSS nebo malý IntersectionObserver na listech), `app/web-pro-*/page.tsx` a komponenta Reveal v `components/`.
 
-## Finding 3 — Render-blocking CSS delays first paint on every page
+### 5. [Medium] Těžké screenshoty `*-desktop-full.jpg` mimo next/image
+Evidence: `/web-pro-remeslniky` načítá `/portfolio/screens/zamecnictvi-mb-desktop-full.jpg` 1800x7429, 537 kB, přímý `<img loading="lazy">` s `alt=""`; `public/portfolio/screens` = 17 MB, největší `u-cerhu-desktop-full.jpg` 1,68 MB, `likvidace-eternitu-litomerice-desktop-full.jpg` 1,59 MB. Bez AVIF/WebP.
+Fix: převést na AVIF/WebP (cca -60 %) nebo `next/image` s `sizes` (`app/ukazky-webu/[slug]/page.tsx`, stránky `/web-pro-*`).
 
-**Severity:** Medium
+### 6. [Low] Rozměry a priorita obrázků
+Evidence: width/height v HTML má 28 ze 148 `<img>` (jen přímé `-full.jpg`); 120 `next/image` používá `fill` (rozměry z kontejneru, dřívější lab CLS ~0). Žádný obrázek nemá `fetchpriority`; hero obrázky na /web-pro-*, /ukazky-webu, /o-mne mají `<link rel=preload as=image>` a nejsou lazy (správně). Homepage nemá žádný LCP obrázek.
+Fix: ověřit `fetchpriority="high"` u prvního hero obrázku (`priority` v `next/image`).
 
-**Evidence:**
-- `render-blocking-insight` flags two Next.js CSS chunks (~14 KB + ~12.7 KB) as render-blocking on **all three** tested URLs, each contributing ~150 ms of estimated blocking time (homepage: 150 ms/chunk; `/web-pro-elektrikare`: same two files; blog: same two files).
-- These two CSS files form the longest link in the critical request chain (`network-dependency-tree-insight`), measured at 1.27 s under Lighthouse's simulated network throttling on the homepage.
+### 7. [Low] Prázdný alt u 35 ze 148 obrázků (24 %)
+Evidence: homepage všech 7 karet portfolia (`/portfolio/*.jpg`, lazy) s `alt=""`, dále `-full.jpg`. Prázdný alt je legitimní jen u dekorace.
+Fix: smysluplný alt (`components/ReferencesSection.tsx`, `components/Portfolio.tsx`), pokud karty nesou obsah.
 
-**Recommendation:** Inline critical above-the-fold CSS for the hero/first viewport and defer/async-load the remainder; consider further splitting the global CSS chunk so route-specific pages don't wait on styles they don't use.
+### 8. [Low] Třetí strany a fonty jsou ošetřené
+Evidence: GA přes `next/script` `lazyOnload` (`app/layout.tsx`); `components/N8nChatWidget.tsx` v této větvi neexistuje (zmínka jen v komentáři v `layout.tsx`), chat widget v crawlu nepozorován jako skript; 4 preloadované woff2 s `display: swap` (Cormorant 300/400, Inter variabilní).
+Fix: ponechat, ověřit INP v poli po sběru dat.
 
----
-
-## Finding 4 — Non-composited CSS animations risk main-thread jank
-
-**Severity:** Medium
-
-**Evidence:**
-- `non-composited-animations` audit flags a repeated `.text-shimmer` effect (hero heading, testimonials section, contact section — multiple `<span>` instances) animating `background-position-x`, which Chrome cannot run on the compositor thread ("Unsupported CSS Property: background-position-x").
-- The homepage hero CTA (`button.glow-pulse`, "NEZÁVAZNÁ KONZULTACE ZDARMA →") animates `box-shadow`, also compositor-unsupported.
-- Both force main-thread paint work on every animation frame, adding to the interactivity risk already visible in the homepage's elevated TBT (370 ms) and Max Potential FID (430 ms).
-
-**Recommendation:** Re-implement the shimmer effect with a `transform`/`opacity`-driven approach (e.g., animating a masked gradient layer via `transform: translateX`) and replace the pulsing `box-shadow` with a `transform`/`opacity` glow or a pre-rendered layered background — both are GPU-compositable and won't block the main thread.
-
----
-
-## Finding 5 — Homepage interactivity risk (INP proxy) is borderline; other templates are fine
-
-**Severity:** Medium
-
-**Evidence:**
-- Homepage: TBT 370 ms, Max Potential FID 430 ms — both in "Needs Improvement" territory (INP itself needs a real 75th-percentile field sample to confirm, which is unavailable — see disclaimer).
-- `/web-pro-elektrikare` (147 ms TBT) and the blog article (163 ms TBT) are comfortably in "Good" lab territory.
-- Root cause overlaps with Finding 1/2: the ~500 KB JS chunk's Script Evaluation time (881 ms in `mainthread-work-breakdown`) is concentrated on the homepage load.
-
-**Recommendation:** Same as Findings 1-2 — code-split and lazy-load non-critical JS; break remaining long tasks into <50 ms chunks; defer non-essential init work with `requestIdleCallback`/`scheduler.yield`.
-
----
-
-## Finding 6 — CLS is excellent across all templates (pass)
-
-**Severity:** Info / Pass
-
-**Evidence:** CLS measured at ~0.00001 (homepage) and 0 (service page, blog article) — all comfortably under the ≤0.1 "Good" threshold. `cls-culprits-insight` reports no meaningful shift contributors. Source check confirms `next/image` is used for the handful of raster images in the codebase (3 files reference it; no bare `<img>` tags found outside `next/image` usage) and fonts are loaded via `next/font/google` (self-hosted, avoids FOIT/FOUT layout jumps and passed the `font-display-insight` audit with zero flagged files) — both good practices that should be preserved as new pages/templates are added.
-
-**Recommendation:** No action required. Maintain `next/image` + `next/font` discipline going forward; this is the one CWV pillar already solidly in "Good" territory lab-side.
-
----
-
-## Summary
-
-The site's structural fundamentals are sound (next/image, next/font/google, low DOM sizes of 127-472 elements, near-zero CLS, fast TTFB of 140-409 ms on Vercel fra1). The dominant, recurring problem is **JavaScript weight**: one oversized shared chunk (~500 KB, 30-82% unused depending on route) that both delays the homepage's text-based LCP well past the "Poor" threshold and pushes homepage interactivity metrics (TBT/Max Potential FID) into "Needs Improvement." The two `/web-pro-*` and blog templates tested are meaningfully lighter and closer to passing thresholds, so this is fixable without a redesign — it is a bundling/code-splitting problem concentrated on (but not exclusive to) the homepage.
-
-**Priority order:** (1) split/lazy-load the ~500 KB shared JS chunk, especially on the homepage — highest LCP + INP-proxy impact; (2) defer the two render-blocking CSS chunks; (3) fix the two non-composited animation patterns (shimmer text, glow-pulse button) to remove main-thread paint pressure.
-
-SCORE: 60
+## Doporučené kroky
+1. Přeměřit PSI/Lighthouse s API klíčem (nebo lokálně): LCP element, TBT, CrUX.
+2. Nálezy 3 a 2 (JS, hero animace): největší očekávaný dopad na mobilní TBT/LCP.
+3. Cache-Control a TTFB (nález 1).
+4. Obrázky `-full.jpg` a alt (nálezy 5, 7).

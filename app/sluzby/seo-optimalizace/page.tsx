@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "SEO optimalizace webu — audit, lokální, obsahové i technické SEO",
+    title: "SEO optimalizace webu: audit, obsah i technika",
     description:
       "SEO optimalizace webu pro Google i Seznam. Audit, lokální SEO přes Google Business Profile a Firmy.cz, obsahová strategie a technické SEO na jednom místě.",
     alternates: { canonical: "https://vizeon.cz/sluzby/seo-optimalizace" },
@@ -37,7 +38,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "SEO optimalizace webu",
       name: "SEO optimalizace webu",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/seo-optimalizace",
       description:

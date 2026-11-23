@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_REF } from "@/lib/schema";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -10,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "Grafické designy — logo, vizitky, bannery a tiskoviny",
+    title: "Grafické designy: logo, vizitky a tiskoviny",
     description:
       "Grafický design na míru pro živnostníky a malé firmy zahrnuje logo, vizitky, sociální vizuály i tiskové materiály. Jednotný vizuál zvyšuje důvěru zákazníků.",
     alternates: { canonical: "https://vizeon.cz/sluzby/graficke-designy" },
@@ -38,7 +39,7 @@ const jsonLd = {
       "@type": "Service",
       serviceType: "Grafický design",
       name: "Grafické designy na míru",
-      provider: { "@type": "ProfessionalService", name: "VIZEON", url: "https://vizeon.cz" },
+      provider: ORG_REF,
       areaServed: { "@type": "Country", name: "Česká republika" },
       url: "https://vizeon.cz/sluzby/graficke-designy",
       description: "Logo, vizitky, sociální vizuály a tiskové materiály na míru.",
@@ -61,7 +62,7 @@ export default function GrafickeDesignyPage() {
       <div className={cn(t.container.page, "pt-16 md:pt-24 pb-16 md:pb-24")}>
         <PageHeader
           eyebrow="Grafické designy"
-          h1="Vizuál, kterému zákazníci uvěří na první pohled"
+          h1="Grafický design: logo a vizuál, kterému zákazníci uvěří"
           lead="Grafiku navrhuju od loga pro začínajícího živnostníka až po jednotný vizuál pro celou firmu tak, aby zvyšovala důvěru a bylo poznat, že za ní stojí profesionál."
         />
 

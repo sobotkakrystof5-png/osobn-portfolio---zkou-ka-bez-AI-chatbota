@@ -1,7 +1,6 @@
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { heroIn } from "@/lib/animations";
 import { CTAButton } from "@/components/CTAButton";
@@ -16,7 +15,14 @@ export default function Hero() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let id: number;
+    // Částice se rozjedou až po načtení stránky a v klidu, ne hned při
+    // hydrataci (soupeřily s ní o hlavní vlákno, TBT). Mimo obrazovku se
+    // smyčka zastaví a pod prefers-reduced-motion se vykreslí jen jednou.
+    let id = 0;
+    let running = false;
+    let started = false;
+    let visible = true;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pts: { x: number; y: number; vx: number; vy: number; r: number; o: number }[] = [];
     const n = window.innerWidth < 768 ? 35 : 70;
 
@@ -33,7 +39,7 @@ export default function Hero() {
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const p of pts) {
-        p.x += p.vx; p.y += p.vy;
+        if (!reduced) { p.x += p.vx; p.y += p.vy; }
         if (p.x < 0) p.x = canvas.width;
         if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
@@ -43,10 +49,39 @@ export default function Hero() {
         ctx.fillStyle = `rgba(201,168,76,${p.o})`;
         ctx.fill();
       }
+      if (running) id = requestAnimationFrame(draw);
+    };
+    const play = () => {
+      if (!started || running || !visible) return;
+      if (reduced) { draw(); return; }
+      running = true;
       id = requestAnimationFrame(draw);
     };
-    draw();
-    return () => { window.removeEventListener("resize", resize); cancelAnimationFrame(id); };
+    const pause = () => { running = false; cancelAnimationFrame(id); };
+
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) play(); else pause();
+    });
+    io.observe(canvas);
+
+    let idleId = 0;
+    const start = () => {
+      const go = () => { started = true; play(); };
+      if (typeof window.requestIdleCallback === "function") idleId = window.requestIdleCallback(go, { timeout: 2000 });
+      else idleId = window.setTimeout(go, 300);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("load", start);
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
+      io.disconnect();
+      pause();
+    };
   }, []);
 
   const words = ["Weby", "a", "e-shopy,", "které", "spojují", "moderní", "design,", "SEO", "a", "automatizaci", "procesů."];
@@ -58,20 +93,15 @@ export default function Hero() {
       {/* Mřížka v pozadí */}
       <div className="grid-overlay z-0" aria-hidden="true" />
 
-      {/* FloatGlow orb — zlatý vlevo */}
-      <motion.div
-        className="glow-orb absolute -left-16 md:-left-40 top-1/3 w-[200px] h-[200px] md:w-[480px] md:h-[480px] rounded-full bg-[#c9a84c] z-0"
-        animate={{ y: [0, -14, 0], opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      {/* FloatGlow orby: vznášení v CSS (.orb-float-a/b v globals.css), dřív
+          framer-motion, který y/scale počítal v JS v každém snímku. */}
+      <div
+        className="glow-orb orb-float-a absolute -left-16 md:-left-40 top-1/3 w-[200px] h-[200px] md:w-[480px] md:h-[480px] rounded-full bg-[#c9a84c] z-0"
         aria-hidden="true"
       />
-
-      {/* FloatGlow orb — teplý vpravo */}
-      <motion.div
-        className="glow-orb absolute -right-16 md:-right-48 bottom-[10%] w-[180px] h-[180px] md:w-[420px] md:h-[420px] rounded-full z-0"
+      <div
+        className="glow-orb orb-float-b absolute -right-16 md:-right-48 bottom-[10%] w-[180px] h-[180px] md:w-[420px] md:h-[420px] rounded-full z-0"
         style={{ background: "#6b4f1a" }}
-        animate={{ y: [0, 14, 0], opacity: [0.25, 0.42, 0.25], scale: [1, 1.04, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         aria-hidden="true"
       />
 
@@ -110,10 +140,12 @@ export default function Hero() {
           ))}
         </h1>
 
-        <h2 style={heroIn(200, 0)}
+        {/* Podtitulek je <p>, ne <h2>: celá věta jako nadpis rozbíjela osnovu
+            stránky (audit on-page). Text a vzhled zůstávají stejné. */}
+        <p style={heroIn(200, 0)}
           className="hero-in font-inter font-normal text-[15px] md:text-[17px] leading-[1.7] text-text-secondary max-w-lg mx-auto mb-8 md:mb-10 text-left">
           Pro živnostníky a malé i střední firmy stavím komplexní řešení na míru: weby a e-shopy, automatizaci procesů a AI chatboty. Komunikujete přímo se mnou, od první konzultace až po spuštění.
-        </h2>
+        </p>
 
         <div style={heroIn(350, 0)}
           className="hero-in flex flex-col sm:flex-row items-center justify-center gap-4 mb-7">

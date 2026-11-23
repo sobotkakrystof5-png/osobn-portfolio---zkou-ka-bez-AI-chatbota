@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
 import CookieBanner from "@/components/CookieBanner";
 import LeadSourceCapture from "@/components/LeadSourceCapture";
+import { FOUNDER_ID, FOUNDER_REF, ORG_ID, ORG_REF } from "@/lib/schema";
 
-const GA_ID = "G-J5FMJYTGCK";
 
 // Safari s vypnutým "Block All Cookies" hodí synchronní SecurityError na
 // KAŽDÝ přístup k localStorage/sessionStorage — nejen náš vlastní kód (ten
@@ -100,7 +100,9 @@ export const metadata: Metadata = {
     "VIZEON",
   ],
   metadataBase: new URL("https://vizeon.cz"),
-  alternates: { canonical: "https://vizeon.cz" },
+  // Canonical tu záměrně není: layout ho dědí každá stránka bez vlastního
+  // (404, /admin, budoucí stránky) a ty by se pak tiše kanonizovaly na
+  // homepage. Každá indexovatelná stránka si ho nastavuje sama.
   authors: [{ name: "VIZEON", url: "https://vizeon.cz" }],
   openGraph: {
     type: "website",
@@ -113,13 +115,13 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   // Bez limitu délky úryvku: vyhledávače a AI odpovědi můžou citovat celé pasáže.
+  // Bez `index, follow`: to je výchozí chování a dědila by ho i 404, kde Next.js
+  // přidává vlastní `noindex` (dva protichůdné meta robots tagy hlásí audit jako chybu).
   robots: {
-    index: true,
-    follow: true,
     "max-snippet": -1,
     "max-image-preview": "large",
     "max-video-preview": -1,
-    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
+    googleBot: { "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
   },
   // Ověření webu v Search Console, Bing Webmaster Tools a Seznam Webmaster.
   // Kódy jsou ve Vercel env (viz .env.example); bez nich se značka nevypíše.
@@ -144,26 +146,58 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
+    // Jediná entita firmy na webu. Ostatní schema (provider, publisher,
+    // creator) na ni odkazuje přes ORG_REF, ne vlastní kopií. Dřív tu byl
+    // ještě samostatný uzel Organization se stejným @id a jinými daty, což
+    // parsery čtou jako konflikt. ProfessionalService je podtyp Organization.
     {
       "@type": "ProfessionalService",
-      "@id": "https://vizeon.cz/#organization",
+      "@id": ORG_ID,
       name: "VIZEON",
       url: "https://vizeon.cz",
       email: "info@vizeon.cz",
-      // TODO: nahradit reálným logem ≥112×112px, až vznikne design asset —
-      // aktuální favicon.ico je 32×32 a nesplňuje Google minimum pro Organization.logo.
-      logo: "https://vizeon.cz/favicon.ico",
+      // app/logo.png/route.tsx: 512×512 PNG (Google chce ≥112 px a rastr).
+      logo: {
+        "@type": "ImageObject",
+        "@id": "https://vizeon.cz/#logo",
+        url: "https://vizeon.cz/logo.png",
+        width: 512,
+        height: 512,
+        caption: "VIZEON",
+      },
+      image: { "@id": "https://vizeon.cz/#logo" },
+      identifier: {
+        "@type": "PropertyValue",
+        propertyID: "IČO",
+        value: "29977231",
+      },
       areaServed: { "@type": "Country", name: "Česká republika" },
+      founder: FOUNDER_REF,
+      foundingDate: "2026",
+      knowsAbout: [
+        "Tvorba webových stránek",
+        "Tvorba e-shopů",
+        "Shopify",
+        "Next.js",
+        "SEO optimalizace",
+        "Lokální SEO",
+        "Automatizace procesů",
+        "n8n",
+        "AI chatboti",
+        "Rezervační systémy",
+      ],
+      slogan: "Nekupujete si web. Kupujete si výsledky.",
       description:
-        "Tvorba webů na míru, AI chatboti, systémy na míru, grafický design a technické služby. Weby a grafika, které zvyšují tržby a konverze.",
+        "Weby a e-shopy na míru pro firmy a živnostníky. Moderní design, SEO a navíc automatizace procesů a AI chatboti. Přímá komunikace, konzultace zdarma.",
       serviceType: [
         "Tvorba webů na míru",
-        "AI Chatbot",
-        "Systémy na míru",
-        "Grafický design",
-        "Technické služby",
+        "Tvorba e-shopů",
+        "Automatizace procesů a AI agenti",
+        "Webové aplikace a systémy na míru",
+        "Rezervační systémy",
         "SEO optimalizace",
-        "Zvýšení tržeb a konverzí",
+        "Správa sociálních sítí",
+        "Reklama Google a Meta",
       ],
       sameAs: [
         "https://www.instagram.com/vizeon_official/",
@@ -177,14 +211,14 @@ const jsonLd = {
       // fabrikovanými/odhadnutými čísly — viz omezení v SEO-backlinkchecker-prompt.md.
     },
     {
-      "@type": "Organization",
-      "@id": "https://vizeon.cz/#organization",
-      name: "VIZEON",
-      url: "https://vizeon.cz",
-      logo: "https://vizeon.cz/favicon.ico",
-      sameAs: [
-        "https://www.instagram.com/vizeon_official/",
-      ],
+      "@type": "Person",
+      "@id": FOUNDER_ID,
+      name: "Kryštof",
+      jobTitle: "Zakladatel VIZEON a ALTENO",
+      worksFor: ORG_REF,
+      url: "https://vizeon.cz/kontakt#s-kym-mluvite",
+      image: "https://vizeon.cz/avatar.jpg",
+      knowsAbout: ["Tvorba webů", "SEO", "Automatizace procesů", "AI chatboti"],
     },
     {
       "@type": "WebSite",
@@ -192,7 +226,7 @@ const jsonLd = {
       url: "https://vizeon.cz",
       name: "VIZEON",
       inLanguage: "cs-CZ",
-      publisher: { "@id": "https://vizeon.cz/#organization" },
+      publisher: ORG_REF,
     },
   ],
 };
@@ -233,15 +267,8 @@ export default function RootLayout({
         />
         <CookieBanner />
         <LeadSourceCapture />
-        {/* GA až po načtení stránky (lazyOnload). <GoogleAnalytics> z
-            @next/third-parties ho vkládal jako afterInteractive i s <link
-            rel="preload"> v <head>: 180 kB skriptu tak na pomalém mobilu
-            soupeřilo o linku s CSS a fonty a posouvalo LCP. Init je stejný
-            jako v @next/third-parties. */}
-        <Script id="ga-init" strategy="lazyOnload">
-          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
-        </Script>
-        <Script id="ga" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
+        {/* Google Analytics i Clarity načítá CookieBanner, jen po souhlasu
+            a až v klidu po načtení stránky (lib/analytics.ts). */}
       </body>
     </html>
   );
