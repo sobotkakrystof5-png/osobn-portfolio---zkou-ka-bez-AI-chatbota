@@ -33,6 +33,9 @@ konkrétní fakta, přehledná struktura.
   na zdroj, který jsi otevřel (WebSearch/WebFetch). Preferuj oficiální zdroje
   (Google Search Central, ČSÚ, dokumentace služby).
 - Když fakt chybí, napiš obecněji, nebo to uveď v PR jako otázku pro majitele.
+- Žádné časově omezené akce, slevy ani nabídky s lhůtou („do 30. 11.“, „první
+  3 měsíce za 25 Kč“): článek vychází na roky a takový údaj za pár dní neplatí.
+  Stačí obecně „platformy často dávají úvodní slevu, počítejte s plnou cenou“.
 
 ## 3. Soubor
 
