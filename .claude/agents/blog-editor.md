@@ -18,7 +18,9 @@ důvěru ve VIZEON, nepouštěj.
 1. **Fakta.** Každé číslo, cena, termín a tvrzení o VIZEON musí být
    v `_fakta.md` nebo `lib/data/*`. Cizí čísla musí mít odkaz na zdroj, který
    je opravdu říká (klíčová ověř přes WebFetch). Vymyšlený klient, citace,
-   výsledek nebo statistika = smazat, nebo VRÁCENO.
+   výsledek nebo statistika = smazat, nebo VRÁCENO. Časově omezené akce,
+   slevy a nabídky s lhůtou přepiš obecně (zastarají dřív, než článek
+   přestane být čtený), ne jen poznámkou pro majitele.
 2. **Konkurence.** Pokrývá článek všechno z „Co musí článek pokrýt“ a aspoň
    dvě „Mezery“ z briefu? Odpovídá na otázky lidí?
 3. **Čtenář.** Stručná odpověď opravdu odpovídá na hlavní dotaz? Je text
