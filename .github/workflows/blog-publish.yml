@@ -1,12 +1,15 @@
 name: Blog – vydat článek
 
-# V neděli, ve středu a v pátek ve 14:00 (Praha) spustí nové nasazení na
-# Vercelu, aby se naplánovaný článek objevil na webu, v sitemapě, RSS a
-# llms.txt. Po nasazení ho workflow IndexNow ohlásí Bingu, Seznamu a dalším.
+# Pojistka k vydání v neděli, ve středu a v pátek ve 14:00 (Praha). Samotný
+# článek se na blogu, v sitemapě, RSS a llms.txt ukáže sám: stránky se obnovují
+# každých 5 minut (revalidate), takže na tomhle cronu nezávisí. GitHub cron
+# umí zpozdit i o hodiny (23. 11. 2026 skoro o 10 h).
+# Tenhle workflow po vydání spustí nové nasazení: obnoví oborové stránky
+# (blok Články k tématu) a nasazení spustí IndexNow (Bing, Seznam a další).
 #
-# Cron je v UTC a GitHub ho občas o pár minut zpozdí: 12:00 UTC = 14:00 v létě,
-# 13:00 UTC = 14:00 v zimě. Nasazuje se jen tehdy, když termín článku prošel
-# a článek na webu ještě není, takže druhý běh ani pozdní merge nic nezdvojí.
+# 12:00 UTC = 14:00 v létě, 13:00 UTC = 14:00 v zimě. Nasazuje se jen tehdy,
+# když termín článku prošel a od té doby nasazení neproběhlo, takže druhý běh
+# nic nezdvojí.
 #
 # Secret VERCEL_DEPLOY_HOOK_URL: Vercel → Project → Settings → Git →
 # Deploy Hooks → větev main.
@@ -19,6 +22,7 @@ on:
 
 permissions:
   contents: read
+  deployments: read
 
 concurrency:
   group: blog-publish
@@ -40,7 +44,12 @@ jobs:
 
       - name: Je co vydat?
         id: due
-        run: node scripts/blog-queue.mjs due
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SINCE=$(gh api "repos/${{ github.repository }}/deployments?environment=Production&per_page=1" --jq '.[0].created_at // ""')
+          echo "Poslední produkční nasazení: ${SINCE:-žádné}"
+          node scripts/blog-queue.mjs due --since "$SINCE"
 
       - name: Spustit nasazení
         if: steps.due.outputs.due == 'true'

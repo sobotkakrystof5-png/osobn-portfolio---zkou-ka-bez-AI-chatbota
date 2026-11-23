@@ -130,7 +130,9 @@ skládají samy. VIZEON/ALTENO se v článcích píše prostě verzálkami, logo
   (fakta, styl, verdikt do `workspace/reviews/`). `SCHVÁLENO` + proměnná `BLOG_AUTOMERGE=true` = PR se
   sloučí sám, `VRÁCENO` = PR čeká na majitele. Ruční plán: skill `blog-plan`. Fakta jen z `_fakta.md` a dat webu.
 - **Vydání:** ne/st/pá 14:00 Praha. Článek s budoucím `publishAt` je v produkci skrytý (náhled PR ho
-  ukazuje), `blog-publish.yml` v termín spustí Vercel deploy hook, `indexnow.yml` pak ohlásí změny.
+  ukazuje). Blog, sitemapa, RSS, llms a `.md` mají `revalidate = 300`, takže se článek ukáže sám do pár
+  minut po termínu, bez nasazení (GitHub cron umí zpozdit o hodiny). `blog-publish.yml` je pojistka: po
+  termínu spustí Vercel deploy hook (obnoví oborové stránky) a nasazení spustí `indexnow.yml`.
 - **Kontrola:** `npm run blog:check` (hook po každé úpravě článku v Claude Code + CI na PR).
 - **Secrets v GitHubu:** `CLAUDE_CODE_OAUTH_TOKEN` (nebo `ANTHROPIC_API_KEY`), `VERCEL_DEPLOY_HOOK_URL`,
   `WORKSPACE_SSH_KEY` (deploy klíč k zápisu do workspace), volitelně `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD`.

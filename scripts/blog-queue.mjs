@@ -5,7 +5,8 @@
 //   npm run blog:queue -- slots [n]          další volné termíny (ne, st, pá 14:00 Praha)
 //   npm run blog:queue -- next [--id slug] [--within dní]
 //                                            další schválené téma k napsání (pro blog-write.yml)
-//   npm run blog:queue -- due                je teď co vydat? (pro blog-publish.yml)
+//   npm run blog:queue -- due [--since ISO]  je teď co vydat? (pro blog-publish.yml)
+//                                            --since = čas posledního produkčního nasazení
 //
 // next a due zapisují výsledek i do $GITHUB_OUTPUT, když běží v GitHub Actions.
 
@@ -101,8 +102,12 @@ if (cmd === "list") {
     output({ found: "true", slug: pick.slug, keyword: pick.keyword, publishAt: pick.publishAt, branch: `blog/${pick.slug}` });
   }
 } else if (cmd === "due") {
-  // Vydat = článek je na main, jeho publishAt už prošel (nejvýš před 2 dny) a na webu ještě není.
+  // Vydat = článek je na main, jeho publishAt už prošel (nejvýš před 2 dny) a od té
+  // doby neproběhlo nasazení, nebo článek na webu pořád chybí. Samotný článek
+  // ukáže obnova stránek (revalidate) i bez nasazení; nasazení obnoví oborové
+  // stránky a spustí IndexNow.
   const now = Date.now();
+  const since = Date.parse(opt("--since", "")) || 0;
   const candidates = postFiles()
     .map((f) => ({ slug: f.replace(/\.mdx$/, ""), publishAt: matter(fs.readFileSync(path.join(DIR, f), "utf8")).data.publishAt }))
     .map((p) => ({ ...p, t: p.publishAt instanceof Date ? p.publishAt.getTime() : Date.parse(p.publishAt) }))
@@ -110,7 +115,7 @@ if (cmd === "list") {
   const missing = [];
   for (const p of candidates) {
     const res = await fetch(`${SITE}/blog/${p.slug}`, { method: "HEAD", redirect: "manual" });
-    if (res.status === 404) missing.push(p.slug);
+    if (res.status === 404 || p.t > since) missing.push(p.slug);
   }
   output({ due: missing.length ? "true" : "false", slugs: missing.join(",") });
 } else {

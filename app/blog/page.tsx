@@ -9,6 +9,10 @@ import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { Vizeon, brandText } from "@/components/brand/BrandName";
 
+// Obnova každých 5 minut: naplánovaný článek se ukáže nejpozději pár minut po
+// svém publishAt, i když GitHub cron (blog-publish.yml) nasazení zpozdí.
+export const revalidate = 300;
+
 export function generateMetadata(): Metadata {
   return {
     title: "Blog — tvorba webů, SEO a online prezentace",

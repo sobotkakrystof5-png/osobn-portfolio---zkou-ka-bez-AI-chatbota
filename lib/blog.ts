@@ -133,6 +133,20 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   return loadAll().find((p) => p.slug === slug && visible(p));
 }
 
+/**
+ * Slugy všech článků včetně naplánovaných. Pro generateStaticParams: stránka
+ * naplánovaného článku existuje od buildu (zatím jako 404) a po publishAt ji
+ * obnova (revalidate) přepne na článek bez nového nasazení.
+ */
+export function getAllSlugs(): string[] {
+  return loadAll().map((p) => p.slug);
+}
+
+/** Článek bez ohledu na datum vydání (OG obrázek se má vygenerovat se správným titulkem předem). */
+export function getAnyPostBySlug(slug: string): BlogPost | undefined {
+  return loadAll().find((p) => p.slug === slug);
+}
+
 /** Články, které vedou na danou stránku (např. "/web-pro-instalatery"). */
 export function getPostsForPage(pagePath: string, limit = 3): BlogPost[] {
   return getSortedPosts()

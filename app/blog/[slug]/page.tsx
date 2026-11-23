@@ -9,18 +9,21 @@ import { ArticleBody } from "@/components/blog/ArticleBody";
 import { AnswerBox, ArticleFaq, AuthorNote, RelatedPosts, Takeaways } from "@/components/blog/ArticleParts";
 import { brandText } from "@/components/brand/BrandName";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
-import { getPostBySlug, getRelatedPosts, getSortedPosts, isLive } from "@/lib/blog";
+import { getAllSlugs, getPostBySlug, getRelatedPosts, isLive } from "@/lib/blog";
 import { t } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 const BASE = "https://vizeon.cz";
 
-// Články se generují při buildu. Naplánovaný článek se v produkci objeví po
-// buildu, který spustí .github/workflows/blog-publish.yml v čas vydání.
+// Stránky všech článků (i naplánovaných) vznikají při buildu. Naplánovaný je
+// do publishAt 404 a obnova ho pak přepne na článek.
 export const dynamicParams = false;
+// Obnova každých 5 minut: naplánovaný článek se ukáže nejpozději pár minut po
+// svém publishAt, i když GitHub cron (blog-publish.yml) nasazení zpozdí.
+export const revalidate = 300;
 
 export function generateStaticParams() {
-  return getSortedPosts().map((post) => ({ slug: post.slug }));
+  return getAllSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

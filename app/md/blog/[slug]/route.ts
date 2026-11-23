@@ -1,4 +1,4 @@
-import { getPostBySlug, getSortedPosts } from "@/lib/blog";
+import { getAllSlugs, getPostBySlug } from "@/lib/blog";
 import { postToMarkdown } from "@/lib/blog-markdown";
 
 // Markdown verze článku pro AI agenty a modely. Veřejná adresa je
@@ -8,9 +8,12 @@ import { postToMarkdown } from "@/lib/blog-markdown";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
+// Obnova každých 5 minut: naplánovaný článek se ukáže nejpozději pár minut po
+// svém publishAt, i když GitHub cron (blog-publish.yml) nasazení zpozdí.
+export const revalidate = 300;
 
 export function generateStaticParams() {
-  return getSortedPosts().map((post) => ({ slug: post.slug }));
+  return getAllSlugs().map((slug) => ({ slug }));
 }
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {

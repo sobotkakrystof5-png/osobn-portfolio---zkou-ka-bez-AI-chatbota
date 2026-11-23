@@ -5,6 +5,10 @@ import { automationPages } from "@/lib/data/automation-pages";
 
 // lastModified je zadané ručně (ne new Date()), aby se neměnilo při každém
 // requestu — při publikaci obsahové změny na dané stránce datum aktualizuj.
+// Obnova každých 5 minut: naplánovaný článek se ukáže nejpozději pár minut po
+// svém publishAt, i když GitHub cron (blog-publish.yml) nasazení zpozdí.
+export const revalidate = 300;
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://vizeon.cz";
   const launchDate = "2026-08-27";

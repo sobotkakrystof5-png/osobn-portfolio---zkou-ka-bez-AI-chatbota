@@ -6,6 +6,9 @@ import { getSortedPosts } from "@/lib/blog";
 // neměnil při každém buildu.
 
 export const dynamic = "force-static";
+// Obnova každých 5 minut: naplánovaný článek se ukáže nejpozději pár minut po
+// svém publishAt, i když GitHub cron (blog-publish.yml) nasazení zpozdí.
+export const revalidate = 300;
 
 const BASE = "https://vizeon.cz";
 
