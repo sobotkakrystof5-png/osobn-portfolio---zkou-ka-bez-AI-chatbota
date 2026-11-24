@@ -2,8 +2,8 @@ name: Blog – napsat článek
 
 # Každé ráno vezme z content/blog/_fronta.json nejbližší schválené téma, které
 # vychází v příštích 4 dnech a ještě není napsané ani v PR (jinak nic nedělá).
-# Denní běh je pojistka: GitHub plánovaný běh občas vynechá (24. 11. 2026),
-# další den téma dožene. Autor (skill blog-clanek) ho napíše podle briefu
+# Denní běh je pojistka: GitHub plánovaný běh umí zpozdit o celé hodiny
+# (24. 11. 2026 o 11 h) nebo vynechat, další den téma dožene. Autor (skill blog-clanek) ho napíše podle briefu
 # konkurence z workspace, redaktor (agent blog-editor) ověří fakta, opraví
 # drobnosti a vydá verdikt. Když článek vrátí, autor ho jednou přepracuje podle
 # posudku a redaktor ho čte znovu. Při SCHVÁLENO a BLOG_AUTOMERGE=true se PR
@@ -16,7 +16,7 @@ name: Blog – napsat článek
 
 on:
   schedule:
-    # 6:23 / 7:23 Praha, mimo celou hodinu, kdy GitHub běhy nejčastěji zahazuje.
+    # 6:23 / 7:23 Praha, mimo celou hodinu, kdy GitHub běhy nejvíc zdržuje a zahazuje.
     - cron: "23 5 * * *"
   workflow_dispatch:
     inputs:

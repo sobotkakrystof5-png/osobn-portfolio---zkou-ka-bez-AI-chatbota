@@ -18,7 +18,7 @@ on:
     # Job „Termín“ pustí jen ten z nich, který v Praze odpovídá 15:00.
     - cron: "0 13 * * 0"
     - cron: "0 14 * * 0"
-    # Pojistka: GitHub plánovaný běh občas vůbec nespustí (24. 11. 2026). V pondělí
+    # Pojistka: GitHub plánovaný běh umí zpozdit o hodiny nebo vynechat. V pondělí
     # ráno průzkum doběhne, jen když nedělní plán chybí (volný termín do 12 dní).
     - cron: "37 5 * * 1"
   workflow_dispatch:
