@@ -1,6 +1,6 @@
 name: Blog – průzkum a plán
 
-# Každé pondělí ráno tři agenti naplánují blog na další 2 týdny (autopilot):
+# Každou neděli v 15:00 (Praha) tři agenti naplánují blog na další 2 týdny (autopilot):
 #   seo-trend-scout        co lidé v Česku hledají a co roste
 #   seo-competitor-analyst konkurence ve výsledcích od A do Z, briefy k tématům
 #   blog-strategist        vybere témata a zapíše je do fronty jako schválená
@@ -14,7 +14,13 @@ name: Blog – průzkum a plán
 
 on:
   schedule:
-    - cron: "0 4 * * 1"
+    # Neděle 15:00 Praha = 13:00 UTC v létě, 14:00 UTC v zimě (GitHub zná jen UTC).
+    # Job „Termín“ pustí jen ten z nich, který v Praze odpovídá 15:00.
+    - cron: "0 13 * * 0"
+    - cron: "0 14 * * 0"
+    # Pojistka: GitHub plánovaný běh občas vůbec nespustí (24. 11. 2026). V pondělí
+    # ráno průzkum doběhne, jen když nedělní plán chybí (volný termín do 12 dní).
+    - cron: "37 5 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -26,7 +32,43 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  gate:
+    name: Termín
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      run: ${{ steps.when.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Pustit průzkum?
+        id: when
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          OFFSET=$(TZ=Europe/Prague date +%z)   # +0100 v zimě, +0200 v létě
+          RUN=true
+          case "$SCHEDULE" in
+            "0 13 * * 0") [ "$OFFSET" = "+0200" ] || RUN=false ;;
+            "0 14 * * 0") [ "$OFFSET" = "+0100" ] || RUN=false ;;
+            "37 5 * * 1")
+              # Po úspěšném nedělním plánu je první volný termín za víc než 2 týdny.
+              FIRST=$(node scripts/blog-queue.mjs slots 1 | awk '{print $1}')
+              if [ -n "$FIRST" ] && [ "$(date -d "$FIRST" +%s)" -gt "$(date -d '+12 days' +%s)" ]; then RUN=false; fi ;;
+          esac
+          echo "run=$RUN" >> "$GITHUB_OUTPUT"
+          echo "Průzkum: $RUN (${SCHEDULE:-ruční spuštění}, Praha $OFFSET)"
+
   research:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:

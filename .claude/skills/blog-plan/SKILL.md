@@ -5,7 +5,7 @@ description: Plánování článků na blog vizeon.cz s majitelem. Výzkum klí�
 
 # Plán článků na blog
 
-Ruční plánování s majitelem. Na autopilotu frontu každé pondělí plní agenti
+Ruční plánování s majitelem. Na autopilotu frontu každou neděli v 15:00 plní agenti
 (`.github/workflows/blog-research.yml`: seo-trend-scout → seo-competitor-analyst
 → blog-strategist, pravidla v `.claude/agents/`). Tenhle skill použij, když chce
 majitel plán probrat, přeplánovat nebo doplnit hlubší data z Ahrefs. Ahrefs se
@@ -66,6 +66,6 @@ položky): `status: "schvaleno"`, `publishAt` z `npm run blog:queue -- slots`,
 čísla z Ahrefs do `volume`, `kd`, `source` (s datem). Zamítnutá témata nech
 se `status: "zamitnuto"`, ať se nenavrhují znovu. Pak `npm run blog:check`.
 
-Automat píše vždy v úterý, čtvrtek a sobotu ráno témata, která vycházejí
-v příštích 4 dnech, a otevře PR. Fronta by měla mít schválené termíny
+Automat každé ráno napíše nejbližší téma, které vychází v příštích 4 dnech
+a ještě není napsané, a otevře PR. Fronta by měla mít schválené termíny
 aspoň na 2 týdny dopředu.

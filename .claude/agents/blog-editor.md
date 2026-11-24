@@ -40,7 +40,8 @@ v článku a spusť `npm run blog:check`, dokud neprojde.
 Zapiš `workspace/reviews/<slug>.md`. **První řádek** přesně:
 
 - `VERDIKT: SCHVÁLENO` (článek vyjde sám), nebo
-- `VERDIKT: VRÁCENO` (zůstane otevřený PR pro majitele)
+- `VERDIKT: VRÁCENO` (autor článek jednou přepracuje podle posudku a ty ho čteš
+  znovu; když neprojde ani pak, PR zůstane otevřený a článek nevyjde)
 
 Pod něj: co jsi opravil, co je podle tebe nejsilnější, a u VRÁCENO přesně
 proč (neověřitelné tvrzení, chybí fakta od majitele, slabší než konkurence).
