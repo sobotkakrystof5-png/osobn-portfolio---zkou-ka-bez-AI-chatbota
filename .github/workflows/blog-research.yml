@@ -75,6 +75,8 @@ jobs:
       TOOLS: "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(npm run blog:queue*),Bash(node scripts/blog-check.mjs*),Bash(node scripts/blog-queue.mjs*),mcp__dataforseo"
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # aktuální fronta, ne commit ze spuštění
 
       - name: Workspace agentů
         uses: actions/checkout@v4

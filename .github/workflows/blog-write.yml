@@ -41,8 +41,12 @@ jobs:
     env:
       TOOLS: "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(node scripts/blog-check.mjs*),Bash(npm run blog:queue*),Bash(node scripts/blog-queue.mjs*)"
     steps:
+      # Vždy aktuální main, ne commit ze spuštění: běh může čekat ve frontě
+      # (concurrency) za jiným, který mezitím článek sloučil. Se starým main by
+      # téma vypadalo nenapsané a vznikl by duplicitní PR (24. 11. 2026, PR #6).
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
