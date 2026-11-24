@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import PhoneReveal from "@/components/PhoneReveal";
+import Turnstile, { type TurnstileHandle } from "@/components/Turnstile";
 import { safeStorageGet, safeStorageSet } from "@/lib/utils";
 import {
   asksForUrl, DEFAULT_CTA, DEFAULT_HINT, EMAIL_RE, findInterest, findTimeline, INTERESTS, LEAD_INTENT_EVENT,
@@ -112,6 +113,9 @@ export default function LeadForm() {
   const rootRef = useRef<HTMLDivElement>(null);
   // Opakované odeslání stejných údajů po chybě nese stejný klíč.
   const lastAttempt = useRef<{ body: string; key: string } | null>(null);
+  // Kdy se formulář objevil: server pozná robota, který odešle hned po načtení.
+  const mountedAt = useRef(0);
+  const turnstile = useRef<TurnstileHandle>(null);
   const reduce = useReducedMotion();
   const { register, handleSubmit, formState: { errors, touchedFields }, reset, setError, getValues, watch } =
     useForm<FormData>({ mode: "onTouched", defaultValues: { name: "", email: "", phone: "", message: "", website: "" } });
@@ -121,6 +125,7 @@ export default function LeadForm() {
 
   // Obnova: ?zajem= z reklamy > rozpracovaná poptávka > poslední kliknutí na CTA.
   useEffect(() => {
+    mountedAt.current = performance.now();
     const draft = readDraft();
     const fromQuery = findInterest(new URLSearchParams(window.location.search).get("zajem"))?.id ?? null;
     const intent = readLeadIntent();
@@ -208,7 +213,7 @@ export default function LeadForm() {
     setSending(true);
     const page = fromPage ?? window.location.pathname;
     try {
-      const body = JSON.stringify({
+      const payload = {
         name: data.name.trim(),
         email: data.email.trim(),
         phone: data.phone.trim(),
@@ -219,15 +224,24 @@ export default function LeadForm() {
         page,
         source: readLeadSource(),
         website: data.website || undefined,
-      });
+      };
+      const body = JSON.stringify(payload);
       const key = lastAttempt.current?.body === body ? lastAttempt.current.key : newKey();
       lastAttempt.current = { body, key };
 
+      // Ochrana proti robotům: čas vyplnění a token Turnstile (ten je na každý
+      // pokus nový, proto mimo `body`, podle kterého se drží klíč).
+      const captcha = await turnstile.current?.token();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Idempotency-Key": key },
-        body,
+        body: JSON.stringify({
+          ...payload,
+          elapsed: Math.round(performance.now() - mountedAt.current),
+          turnstileToken: captcha ?? undefined,
+        }),
       });
+      turnstile.current?.reset();
       if (!res.ok) {
         const j = (await res.json().catch(() => ({}))) as { error?: string; issues?: Issue[] };
         for (const issue of j.issues ?? []) {
@@ -414,6 +428,7 @@ export default function LeadForm() {
                   <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
                 </div>
                 <div>
+                  <Turnstile ref={turnstile} />
                   <button type="submit" disabled={sending}
                     className="w-full flex items-center justify-center gap-2 font-inter font-medium text-[13px] tracking-[0.1em] uppercase text-[#080808] bg-[#c9a84c] px-6 py-4 hover:bg-[#d4b968] active:scale-[0.99] transition-[background-color,transform] duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
                     {sending ? <><Loader2 size={15} className="animate-spin" />Odesílání…</> : `${selected?.cta ?? DEFAULT_CTA} →`}

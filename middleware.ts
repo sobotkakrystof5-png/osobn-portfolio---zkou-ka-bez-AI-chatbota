@@ -44,12 +44,17 @@ const ALLOWED_ORIGINS = [
   'https://vizeon.cz',
 ];
 
+const IS_PRODUCTION = process.env.VERCEL_ENV === 'production';
+
+// Prohlížeč posílá Origin u každého POST, i na stejnou doménu. Bez něj chodí
+// jen skripty robotů (curl, spamovací nástroje), proto v produkci neprojde.
+// Náhledy *.vercel.app a localhost jen mimo produkci: na vercel.app si může
+// stránku postavit kdokoli.
 function isAllowedOrigin(origin: string | null): boolean {
-  if (!origin) return true; // same-origin requesty nemají Origin header → pustit
-  if (ALLOWED_ORIGINS.includes(origin)) return true;
-  if (/^https:\/\/.+\.vercel\.app$/.test(origin)) return true;
-  if (origin.startsWith('http://localhost')) return true;
-  return false;
+  if (origin && ALLOWED_ORIGINS.includes(origin)) return true;
+  if (IS_PRODUCTION) return false;
+  if (!origin) return true;
+  return /^https:\/\/.+\.vercel\.app$/.test(origin) || origin.startsWith('http://localhost');
 }
 
 /* ─── Middleware ────────────────────────────────────────────────────────── */
@@ -83,8 +88,10 @@ export function middleware(req: NextRequest) {
     return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
-  // 2. Origin check — blokuje přímé API volání zvenčí
-  if (!isDev && !isAllowedOrigin(origin)) {
+  // 2. Origin check — blokuje přímé API volání zvenčí. Sec-Fetch-Site posílá
+  //    prohlížeč sám a stránka ho nepřepíše; z cizího webu by byl cross-site.
+  const fetchSite = req.headers.get('sec-fetch-site');
+  if (!isDev && (!isAllowedOrigin(origin) || (fetchSite && fetchSite !== 'same-origin'))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

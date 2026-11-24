@@ -169,6 +169,11 @@ export default function GdprPage() {
                 <span className="text-[#f0ece6]">Vercel</span> — hosting webu; data zpracovávána v rámci EU
                 nebo v zemích se standardními smluvními doložkami
               </li>
+              <li>
+                <span className="text-[#f0ece6]">Cloudflare</span> (služba Turnstile) — u formuláře poptávky
+                ověří, že ho vyplňuje člověk, a ne robot. Pracuje jen s IP adresou a technickými údaji
+                o prohlížeči a jen k tomuto ověření.
+              </li>
             </ul>
             <p className="mt-4">
               Osobní údaje nepředáváme do třetích zemí mimo EU/EEA, s výjimkou

@@ -42,6 +42,14 @@ Resend (s kódem chyby, ať jde zapsat ručně).
 - **Konverze:** GA4 `form_start` a `form_step` (kde lidé odpadají), po odeslání `generate_lead`
   (`lead_interest`, `lead_page`).
 - **Test:** lokálně s klíčem v `.env.local` odešli formulář, v ZakazIQ › Napojený web se objeví zkušební poptávka.
+- **Ochrana proti robotům:** (1) `middleware.ts` v produkci pustí jen POST s `Origin: https://vizeon.cz`
+  (skript bez Origin dostane 403), limit 10 za 10 min na IP; (2) skrytá past `website`; (3) `lib/spam.ts`:
+  odkaz ve jméně, HTML odkaz nebo odeslání do 0,8 s od načtení = robot, falešný úspěch; podezřelé (víc odkazů,
+  angličtina, cizí písmo, fráze z nabídek, rychlé nebo bez času vyplnění) jde **jen e-mailem „Možná spam"**,
+  ne do adminu, ať skutečná poptávka nepropadne; (4) Cloudflare Turnstile (`components/Turnstile.tsx`,
+  `lib/turnstile.ts`), zapne se s `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`. CSP povoluje
+  `challenges.cloudflare.com` ve `script-src` a `frame-src`. `components/FirstClientModal.tsx` se nikde
+  nevykresluje (Testimonials nikdo neimportuje) a ochranu nemá.
 
 # taste-skill (`design-taste-frontend`)
 

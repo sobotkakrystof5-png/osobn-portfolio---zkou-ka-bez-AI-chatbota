@@ -95,7 +95,9 @@ const nextConfig = {
               "default-src 'self'",
               // Microsoft Clarity: tag z www.clarity.ms, skript ze scripts.clarity.ms, data na
               // *.clarity.ms + c.bing.com (learn.microsoft.com/clarity/setup-and-installation/clarity-csp).
-              `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"} https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com`,
+              // Cloudflare Turnstile (ochrana formuláře poptávky): skript a jeho okénko
+              // z challenges.cloudflare.com (developers.cloudflare.com/turnstile/reference/content-security-policy).
+              `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"} https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com https://challenges.cloudflare.com`,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: https:",
@@ -104,7 +106,7 @@ const nextConfig = {
               // CSP hity zablokuje a analytika tiše přijde o data. Sada dle
               // developers.google.com/tag-platform/security/guides/csp.
               "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co wss://*.supabase.co https://*.clarity.ms https://c.bing.com",
-              "frame-src 'self'",
+              "frame-src 'self' https://challenges.cloudflare.com",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",

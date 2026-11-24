@@ -68,6 +68,9 @@ export function interestFromPath(path: string): InterestId | null {
   return PATH_INTERESTS.find(([re]) => re.test(path))?.[1] ?? null;
 }
 
+/** Akce Cloudflare Turnstile u formuláře poptávky. Server ji kontroluje (lib/turnstile.ts). */
+export const TURNSTILE_ACTION = "poptavka";
+
 // Stejný regex jako z.string().email() v zod 4 (zod/v4/core/regexes.js).
 // Sdílí ho formulář i server, aby se validace nerozešly.
 export const EMAIL_RE = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;

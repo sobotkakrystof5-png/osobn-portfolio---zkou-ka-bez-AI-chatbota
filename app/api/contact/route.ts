@@ -14,6 +14,8 @@ import {
   SOURCE_KEYS,
   TIMELINE_IDS,
 } from "@/lib/lead";
+import { checkSpam } from "@/lib/spam";
+import { verifyTurnstile } from "@/lib/turnstile";
 import { sendRequest, type ZakazIqIssue } from "@/lib/zakaziq";
 
 // Hláška v `error` platí i pro chybějící pole, ne jen pro neplatné.
@@ -31,6 +33,10 @@ const schema = z.object({
   page: text(200).optional().catch(undefined),
   source: z.partialRecord(z.enum(SOURCE_KEYS), text(200)).optional().catch(undefined),
   website: z.string().max(500).optional(),
+  // Ochrana proti robotům (LeadForm). Chybějící nebo nesmyslná hodnota poptávku
+  // nezablokuje, jen ji pošle k ruční kontrole e-mailem.
+  elapsed: z.number().int().min(0).max(30 * 24 * 60 * 60 * 1000).optional().catch(undefined),
+  turnstileToken: z.string().max(2048).optional().catch(undefined),
 });
 
 type Lead = z.infer<typeof schema>;
@@ -41,6 +47,12 @@ const IDEMPOTENCY_KEY_RE = /^\S{1,200}$/;
 /**
  * Same-origin brána mezi formulářem v prohlížeči a doručením poptávky.
  * Prohlížeč zná jen `/api/contact`, klíč k ZakazIQ zůstává na serveru.
+ *
+ * Ochrana proti robotům (před doručením):
+ *   - middleware.ts: v produkci jen s hlavičkou Origin https://vizeon.cz, limit na IP
+ *   - skrytá past `website` a lib/spam.ts → jistý robot dostane falešný úspěch
+ *   - Cloudflare Turnstile (lib/turnstile.ts), když jsou nastavené klíče
+ *   - podezřelá poptávka (lib/spam.ts) jde jen e-mailem „Možná spam“, ne do adminu
  *
  * Doručení:
  *   1. Admin ZakazIQ (lib/zakaziq.ts): nepotvrzená poptávka v Poptávkách
@@ -76,6 +88,30 @@ export async function POST(req: NextRequest) {
     return acceptedResponse();
   }
 
+  const spam = checkSpam(lead);
+  if (spam.drop) {
+    console.info(`[Contact API] Robot (${spam.drop}), poptávka zahozena`);
+    return acceptedResponse();
+  }
+
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null;
+  const human = await verifyTurnstile(lead.turnstileToken, ip);
+  if (human === "invalid") {
+    return NextResponse.json(
+      { error: "Nepodařilo se ověřit, že formulář vyplňuje člověk. Zkuste ho prosím odeslat znovu.", code: "CAPTCHA" },
+      { status: 422 },
+    );
+  }
+  if (human === "unavailable") spam.review.push("ověření Cloudflare Turnstile neodpovědělo");
+
+  // Podezřelé jde jen e-mailem. Když e-mail selže, radši do adminu než ztratit poptávku.
+  if (spam.review.length) {
+    console.info(`[Contact API] Možná spam (${spam.review.join("; ")}), posílám jen e-mailem`);
+    // Mimo produkci se nic neposílá, stejně jako do ZakazIQ (lib/zakaziq.ts).
+    if (process.env.VERCEL_ENV !== "production") return acceptedResponse();
+    if (await sendFallbackEmail(lead, { kind: "review", reasons: spam.review })) return acceptedResponse();
+  }
+
   const headerKey = req.headers.get("idempotency-key");
   const idempotencyKey = headerKey && IDEMPOTENCY_KEY_RE.test(headerKey) ? headerKey : randomUUID();
 
@@ -101,7 +137,7 @@ export async function POST(req: NextRequest) {
   }
 
   console.warn(`[Contact API] ZakazIQ poptávku nepřevzal (${result.code}), zkouším Resend`);
-  if (await sendFallbackEmail(lead, result.code)) return acceptedResponse();
+  if (await sendFallbackEmail(lead, { kind: "fallback", code: result.code })) return acceptedResponse();
 
   console.error("[Contact API] KRITICKÉ: poptávku se nepodařilo doručit žádnou cestou");
   return NextResponse.json(
@@ -126,8 +162,11 @@ function composeMessage(lead: Lead): string | undefined {
   return [head.join("\n"), lead.message].filter(Boolean).join("\n\n") || undefined;
 }
 
-/** Záchranná síť: prostý e-mail přes Resend s důvodem, proč neprošel ZakazIQ. */
-async function sendFallbackEmail(lead: Lead, zakazIqCode: string): Promise<boolean> {
+/** Proč poptávka jde e-mailem: ZakazIQ ji nepřevzal, nebo vypadá jako spam. */
+type EmailReason = { kind: "fallback"; code: string } | { kind: "review"; reasons: string[] };
+
+/** Prostý e-mail přes Resend: záchranná síť, nebo poptávka ke kontrole, jestli není spam. */
+async function sendFallbackEmail(lead: Lead, why: EmailReason): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("[Contact API] RESEND_API_KEY chybí v environment variables");
@@ -152,6 +191,13 @@ async function sendFallbackEmail(lead: Lead, zakazIqCode: string): Promise<boole
     ] as [string, string | undefined][]
   ).filter((d): d is [string, string] => Boolean(d[1]));
 
+  const review = why.kind === "review";
+  const heading = review ? "Možná spam z webu VIZEON" : "Nová poptávka z webu VIZEON";
+  const note = review
+    ? `Do ZakazIQ jsem ji neposlal, vypadá jako spam: ${why.reasons.join("; ")}. Jestli je skutečná, zapiš ji ručně.`
+    : `Do ZakazIQ se nepropsala (${why.code}). Zapiš ji prosím ručně.`;
+  const subject = `${review ? "Mozna spam: poptavka" : "Nova poptavka"}${interest ? ` (${interest})` : ""} od ${lead.name} - VIZEON`;
+
   const htmlValue = (label: string, value: string) => {
     const v = escapeHtml(value);
     if (label === "E-mail") return `<a href="mailto:${v}" style="color: #c9a84c;">${v}</a>`;
@@ -165,11 +211,11 @@ async function sendFallbackEmail(lead: Lead, zakazIqCode: string): Promise<boole
       from: contactFrom(),
       to: [toEmail],
       replyTo: lead.email,
-      subject: asciiSafe(`Nova poptavka${interest ? ` (${interest})` : ""} od ${lead.name} - VIZEON`),
+      subject: asciiSafe(subject),
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #0a0a0a; color: #f5f5f5; border-radius: 4px;">
-          <h2 style="margin: 0 0 8px; font-weight: 300; font-size: 28px; color: #c9a84c;">Nová poptávka z webu VIZEON</h2>
-          <p style="margin: 0 0 24px; color: #888; font-size: 13px;">Do ZakazIQ se nepropsala (${escapeHtml(zakazIqCode)}). Zapiš ji prosím ručně.</p>
+          <h2 style="margin: 0 0 8px; font-weight: 300; font-size: 28px; color: #c9a84c;">${heading}</h2>
+          <p style="margin: 0 0 24px; color: #888; font-size: 13px;">${escapeHtml(note)}</p>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
             ${details
               .map(
@@ -196,8 +242,8 @@ async function sendFallbackEmail(lead: Lead, zakazIqCode: string): Promise<boole
         </div>
       `,
       text: [
-        "Nová poptávka z webu VIZEON",
-        `Do ZakazIQ se nepropsala (${zakazIqCode}). Zapiš ji prosím ručně.`,
+        heading,
+        note,
         "",
         ...details.map(([label, value]) => `${label}: ${value}`),
         ...(lead.message ? ["", "Zpráva:", lead.message] : []),
