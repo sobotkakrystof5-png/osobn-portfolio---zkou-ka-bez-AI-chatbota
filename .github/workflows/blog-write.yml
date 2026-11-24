@@ -1,10 +1,13 @@
 name: Blog – napsat článek
 
-# V úterý, čtvrtek a sobotu ráno vezme z content/blog/_fronta.json schválené
-# téma, které vychází v příštích 4 dnech. Autor (skill blog-clanek) ho napíše
-# podle briefu konkurence z workspace, redaktor (agent blog-editor) ověří fakta,
-# opraví drobnosti a vydá verdikt. Při SCHVÁLENO a BLOG_AUTOMERGE=true se PR
-# sloučí sám (autopilot), jinak zůstane otevřený pro majitele. Na webu se
+# Každé ráno vezme z content/blog/_fronta.json nejbližší schválené téma, které
+# vychází v příštích 4 dnech a ještě není napsané ani v PR (jinak nic nedělá).
+# Denní běh je pojistka: GitHub plánovaný běh umí zpozdit o celé hodiny
+# (24. 11. 2026 o 11 h) nebo vynechat, další den téma dožene. Autor (skill blog-clanek) ho napíše podle briefu
+# konkurence z workspace, redaktor (agent blog-editor) ověří fakta, opraví
+# drobnosti a vydá verdikt. Když článek vrátí, autor ho jednou přepracuje podle
+# posudku a redaktor ho čte znovu. Při SCHVÁLENO a BLOG_AUTOMERGE=true se PR
+# sloučí sám (autopilot), jinak zůstane otevřený a článek nevyjde. Na webu se
 # článek objeví až v termínu (publishAt), náhled PR na Vercelu ho ukazuje hned.
 # Ručně: Actions → Blog – napsat článek → Run workflow (volitelně slug).
 #
@@ -13,7 +16,8 @@ name: Blog – napsat článek
 
 on:
   schedule:
-    - cron: "0 6 * * 2,4,6"
+    # 6:23 / 7:23 Praha, mimo celou hodinu, kdy GitHub běhy nejvíc zdržuje a zahazuje.
+    - cron: "23 5 * * *"
   workflow_dispatch:
     inputs:
       slug:
@@ -37,8 +41,12 @@ jobs:
     env:
       TOOLS: "Read,Write,Edit,MultiEdit,Glob,Grep,WebSearch,WebFetch,Bash(npm run blog:check*),Bash(node scripts/blog-check.mjs*),Bash(npm run blog:queue*),Bash(node scripts/blog-queue.mjs*)"
     steps:
+      # Vždy aktuální main, ne commit ze spuštění: běh může čekat ve frontě
+      # (concurrency) za jiným, který mezitím článek sloučil. Se starým main by
+      # téma vypadalo nenapsané a vznikl by duplicitní PR (24. 11. 2026, PR #6).
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -106,6 +114,54 @@ jobs:
             Článek: content/blog/${{ steps.next.outputs.slug }}.mdx,
             brief: workspace/serp/${{ steps.next.outputs.slug }}.md,
             posudek zapiš do workspace/reviews/${{ steps.next.outputs.slug }}.md.
+            Měň jen content/blog/ a ./workspace. Necommituj, to udělá workflow.
+          claude_args: >-
+            --model claude-opus-5-5
+            --max-turns 60
+            --allowedTools "${{ env.TOOLS }}"
+
+      - name: Verdikt redaktora
+        id: verdict
+        if: steps.next.outputs.found == 'true'
+        run: |
+          V=$(head -1 "workspace/reviews/${{ steps.next.outputs.slug }}.md" 2>/dev/null | sed -E 's/^VERDIKT:[[:space:]]*//' || true)
+          echo "verdict=${V:-CHYBÍ}" >> "$GITHUB_OUTPUT"
+          echo "Verdikt: ${V:-CHYBÍ}"
+
+      - name: Autor – oprava podle posudku
+        if: steps.next.outputs.found == 'true' && steps.verdict.outputs.verdict == 'VRÁCENO'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Redaktor vrátil článek content/blog/${{ steps.next.outputs.slug }}.mdx,
+            posudek je ve workspace/reviews/${{ steps.next.outputs.slug }}.md.
+            Přepracuj ho podle posudku a skillu blog-clanek (.claude/skills/blog-clanek/SKILL.md).
+            Blog běží na autopilotu, majitele se nikdo ptát nebude: tvrzení, které nejde
+            doložit z content/blog/_fakta.md, dat webu nebo ověřeného zdroje s odkazem,
+            smaž nebo napiš bez čísla. Nic nevymýšlej. Když je článek slabší než
+            konkurence, doplň chybějící části z briefu workspace/serp/${{ steps.next.outputs.slug }}.md.
+            Spusť `npm run blog:check` a oprav všechny chyby, dokud neprojde.
+            Měň jen soubory v content/blog/. Necommituj, PR vytvoří workflow.
+          claude_args: >-
+            --model claude-opus-5-5
+            --max-turns 60
+            --allowedTools "${{ env.TOOLS }}"
+
+      - name: Redaktor – druhé čtení
+        if: steps.next.outputs.found == 'true' && steps.verdict.outputs.verdict == 'VRÁCENO'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Jsi agent blog-editor. Postupuj přesně podle .claude/agents/blog-editor.md.
+            Druhé čtení: autor článek content/blog/${{ steps.next.outputs.slug }}.mdx přepracoval
+            podle tvého posudku ve workspace/reviews/${{ steps.next.outputs.slug }}.md.
+            Zkontroluj ho znovu celý a posudek přepiš novým verdiktem (první řádek VERDIKT: ...).
             Měň jen content/blog/ a ./workspace. Necommituj, to udělá workflow.
           claude_args: >-
             --model claude-opus-5-5

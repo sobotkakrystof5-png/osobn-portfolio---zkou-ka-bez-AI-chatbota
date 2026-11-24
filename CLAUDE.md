@@ -129,14 +129,15 @@ Atribuce: `.claude/NOTICES-n8n-skills`, `.claude/NOTICES-APACHE-2.0.txt`, `.clau
 RSS (`/blog/rss.xml`), `/llms.txt`, `/llms-full.txt` a Markdown verze pro AI (`/blog/<slug>.md`) se
 skládají samy. VIZEON/ALTENO se v článcích píše prostě verzálkami, logo z nich udělá `lib/remark-brand.ts`.
 
-- **Autopilot:** `blog-research.yml` (po 4:00 UTC) pustí agenty z `.claude/agents/`: `seo-trend-scout`
+- **Autopilot:** `blog-research.yml` (každou neděli 15:00 Praha, pojistka v pondělí ráno) pustí agenty z `.claude/agents/`: `seo-trend-scout`
   (co se hledá a roste: DataForSEO MCP, bez něj našeptávač Googlu), `seo-competitor-analyst` (první
   desítka a konkurence od A do Z, briefy) a `blog-strategist` (témata na 14 dní do fronty
   `content/blog/_fronta.json` jako `schvaleno`). Analýzy ukládají do **soukromého** repa
   `sobotkakrystof5-png/vizeon-seo-workspace` (repo webu je veřejné), v Actions je naklonované do `./workspace`.
-- **Psaní:** `blog-write.yml` (út, čt, so ráno): skill `blog-clanek` podle briefu, pak agent `blog-editor`
-  (fakta, styl, verdikt do `workspace/reviews/`). `SCHVÁLENO` + proměnná `BLOG_AUTOMERGE=true` = PR se
-  sloučí sám, `VRÁCENO` = PR čeká na majitele. Ruční plán: skill `blog-plan`. Fakta jen z `_fakta.md` a dat webu.
+- **Psaní:** `blog-write.yml` (každé ráno, téma s termínem do 4 dnů): skill `blog-clanek` podle briefu, pak
+  agent `blog-editor` (fakta, styl, verdikt do `workspace/reviews/`). `VRÁCENO` = autor jednou přepracuje
+  a redaktor čte znovu. `SCHVÁLENO` + proměnná `BLOG_AUTOMERGE=true` = PR se sloučí sám, jinak PR zůstane
+  otevřený a článek nevyjde. Majitel do blogu nezasahuje, vše běží samo. Ruční plán: skill `blog-plan`. Fakta jen z `_fakta.md` a dat webu.
 - **Vydání:** ne/st/pá 14:00 Praha. Článek s budoucím `publishAt` je v produkci skrytý (náhled PR ho
   ukazuje). Blog, sitemapa, RSS, llms a `.md` mají `revalidate = 300`, takže se článek ukáže sám do pár
   minut po termínu, bez nasazení (GitHub cron umí zpozdit o hodiny). `blog-publish.yml` je pojistka: po

@@ -1,5 +1,5 @@
 {
-  "_info": "Fronta témat blogu. Na autopilotu ji každé pondělí plní agenti (blog-research.yml: seo-trend-scout → seo-competitor-analyst → blog-strategist), schválená témata píše blog-write.yml. Ručně jde plánovat skillem blog-plan. Stavy: navrh | schvaleno | napsano | zamitnuto. Kontrola: npm run blog:check.",
+  "_info": "Fronta témat blogu. Na autopilotu ji každou neděli v 15:00 plní agenti (blog-research.yml: seo-trend-scout → seo-competitor-analyst → blog-strategist), schválená témata píše blog-write.yml. Ručně jde plánovat skillem blog-plan. Stavy: navrh | schvaleno | napsano | zamitnuto. Kontrola: npm run blog:check.",
   "items": [
     {
       "slug": "jak-ziskat-zakazky-remeslnik",
