@@ -47,7 +47,9 @@ Resend (s kódem chyby, ať jde zapsat ručně).
   odkaz ve jméně, HTML odkaz nebo odeslání do 0,8 s od načtení = robot, falešný úspěch; podezřelé (víc odkazů,
   angličtina, cizí písmo, fráze z nabídek, rychlé nebo bez času vyplnění) jde **jen e-mailem „Možná spam"**,
   ne do adminu, ať skutečná poptávka nepropadne; (4) Cloudflare Turnstile (`components/Turnstile.tsx`,
-  `lib/turnstile.ts`), zapne se s `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`. CSP povoluje
+  `lib/turnstile.ts`), zapne se s `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`. Token, který
+  Cloudflare odmítne, = 422; **chybějící token** (skript se nenačetl kvůli blokátoru nebo síti, nestihl se
+  vydat) jde jen e-mailem „Možná spam", ne do adminu, a formulář na skript nečeká. CSP povoluje
   `challenges.cloudflare.com` ve `script-src` a `frame-src`. `components/FirstClientModal.tsx` se nikde
   nevykresluje (Testimonials nikdo neimportuje) a ochranu nemá.
 

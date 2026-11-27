@@ -11,14 +11,19 @@ import { TURNSTILE_ACTION } from "@/lib/lead";
 // Výsledky:
 //   skipped     klíče nejsou, ochrana vypnutá
 //   ok          člověk
-//   invalid     chybí token nebo ho Cloudflare odmítl → poptávka se nepřijme
+//   missing     token chybí → poptávka jde jen e-mailem ke kontrole. Skript
+//               Cloudflare se u člověka nemusí načíst (blokátor reklam, Brave,
+//               firemní síť) nebo token nestihne vydat; odmítnout ho by znamenalo
+//               ztratit skutečnou poptávku. Do adminu bez tokenu nejde nic.
+//   invalid     Cloudflare token odmítl (podvržený, cizí doména, jiná akce)
+//               → poptávka se nepřijme
 //   unavailable Cloudflare neodpověděl → poptávka jde jen e-mailem, ať nepropadne
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const TIMEOUT_MS = 5_000;
 const PRODUCTION_HOSTS = new Set(["vizeon.cz", "www.vizeon.cz"]);
 
-export type TurnstileResult = "skipped" | "ok" | "invalid" | "unavailable";
+export type TurnstileResult = "skipped" | "ok" | "missing" | "invalid" | "unavailable";
 
 type SiteverifyResponse = {
   success: boolean;
@@ -30,7 +35,7 @@ type SiteverifyResponse = {
 export async function verifyTurnstile(token: string | undefined, ip: string | null): Promise<TurnstileResult> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) return "skipped";
-  if (!token) return "invalid";
+  if (!token) return "missing";
 
   const form = new URLSearchParams({ secret, response: token });
   if (ip) form.set("remoteip", ip);

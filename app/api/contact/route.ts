@@ -51,7 +51,8 @@ const IDEMPOTENCY_KEY_RE = /^\S{1,200}$/;
  * Ochrana proti robotům (před doručením):
  *   - middleware.ts: v produkci jen s hlavičkou Origin https://vizeon.cz, limit na IP
  *   - skrytá past `website` a lib/spam.ts → jistý robot dostane falešný úspěch
- *   - Cloudflare Turnstile (lib/turnstile.ts), když jsou nastavené klíče
+ *   - Cloudflare Turnstile (lib/turnstile.ts), když jsou nastavené klíče;
+ *     odmítnutý token = 422, chybějící token = jen e-mailem ke kontrole
  *   - podezřelá poptávka (lib/spam.ts) jde jen e-mailem „Možná spam“, ne do adminu
  *
  * Doručení:
@@ -98,10 +99,14 @@ export async function POST(req: NextRequest) {
   const human = await verifyTurnstile(lead.turnstileToken, ip);
   if (human === "invalid") {
     return NextResponse.json(
-      { error: "Nepodařilo se ověřit, že formulář vyplňuje člověk. Zkuste ho prosím odeslat znovu.", code: "CAPTCHA" },
+      {
+        error: "Nepodařilo se ověřit, že formulář vyplňuje člověk. Zkuste ho prosím odeslat znovu, nebo napište na info@vizeon.cz.",
+        code: "CAPTCHA",
+      },
       { status: 422 },
     );
   }
+  if (human === "missing") spam.review.push("chybí ověření Cloudflare Turnstile (v prohlížeči se nenačetlo nebo nestihlo)");
   if (human === "unavailable") spam.review.push("ověření Cloudflare Turnstile neodpovědělo");
 
   // Podezřelé jde jen e-mailem. Když e-mail selže, radši do adminu než ztratit poptávku.

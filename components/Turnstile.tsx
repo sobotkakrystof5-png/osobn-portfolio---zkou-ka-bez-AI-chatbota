@@ -60,6 +60,9 @@ const Turnstile = forwardRef<TurnstileHandle>(function Turnstile(_props, ref) {
   const widget = useRef<string | null>(null);
   const current = useRef<string | null>(null);
   const waiting = useRef<((token: string | null) => void)[]>([]);
+  // Skript se nenačetl (blokátor, síť): token nepřijde, odeslání nemá na co čekat.
+  // Server poptávku bez tokenu pošle e-mailem ke kontrole (lib/turnstile.ts).
+  const failed = useRef(false);
   // Okénko je většinou neviditelné; mezeru pod ním jen když ho Cloudflare ukáže.
   const [shown, setShown] = useState(false);
 
@@ -94,7 +97,10 @@ const Turnstile = forwardRef<TurnstileHandle>(function Turnstile(_props, ref) {
           },
         });
       })
-      .catch(() => settle(null));
+      .catch(() => {
+        failed.current = true;
+        settle(null);
+      });
 
     return () => {
       cancelled = true;
@@ -108,6 +114,7 @@ const Turnstile = forwardRef<TurnstileHandle>(function Turnstile(_props, ref) {
     token: () => {
       if (!SITE_KEY) return Promise.resolve(null);
       if (current.current) return Promise.resolve(current.current);
+      if (failed.current) return Promise.resolve(null);
       return new Promise<string | null>((resolve) => {
         waiting.current.push(resolve);
         setTimeout(() => resolve(current.current), WAIT_MS);
