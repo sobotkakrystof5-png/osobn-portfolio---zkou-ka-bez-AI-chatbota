@@ -28,7 +28,9 @@ Kontaktní formulář (`components/Contact.tsx`) posílá přes `/api/contact` p
 (`lib/zakaziq.ts` → `POST https://www.zakaziq.cz/api/public/vizeon-leads`, repo ZakazIQ R-136), ne do
 Workspace. Admin ji uloží jako nepotvrzenou zakázku do Poptávek z webů a pošle upozornění do zvonku;
 e-mail zákazníkovi ani majiteli neposílá. Když ZakazIQ poptávku nepřevezme, jde záložní e-mail přes
-Resend (s kódem chyby, ať jde zapsat ručně).
+Resend (s kódem chyby, ať jde zapsat ručně). Odesílatel je `RESEND_CONTACT_FROM` (v produkci
+`VIZEON Kontakt <info@vizeon.cz>`, doména ověřená v Resendu); bez ní `onboarding@resend.dev`, který
+doručí jen na e-mail majitele účtu Resend. Příjemce je `CONTACT_EMAIL`.
 
 - **Env:** `ZAKAZIQ_LEAD_SECRET` = stejná hodnota jako `VIZEON_LEAD_WEBHOOK_SECRET` v ZakazIQ, posílá se
   v hlavičce `x-vizeon-lead-signature`, jen na serveru. Adresa musí být s **www**: apex přesměrovává
